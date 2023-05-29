@@ -8,7 +8,7 @@
     enable = true;
     settings = {
       passwordAuthentication = false;
-      kbdInteractiveAuthentication = false; # Change to false to disable s/key passwords
+      kbdInteractiveAuthentication = false; # Change to false to disable passwords entirely
       permitRootLogin = "no";
     };
     ports = [ 22001 ];
