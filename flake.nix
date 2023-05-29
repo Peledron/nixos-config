@@ -37,7 +37,7 @@
             import ./hosts { 
                  # inherit passes the variables in the flake to the packages in ./hosts (they can )
                 inherit (nixpkgs) lib;
-                inherit inputs nixpkgs nur dotfiles;
+                inherit inputs self nixpkgs nur dotfiles;
             }
         );
     };

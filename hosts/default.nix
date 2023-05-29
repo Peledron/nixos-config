@@ -1,5 +1,5 @@
 # declare the hosts for the flake, default.nix will always be used when importing a directory
-{ lib, inputs, nixpkgs, nur, dotfiles, ... }:
+{ lib, inputs, nixpkgs, nur, dotfiles, self, ... }:
 let
   system = "x86_64-linux"; # System architecture
   lib = nixpkgs.lib;
@@ -71,12 +71,12 @@ in
   # ---
 
   #==================#
-  # hardware-desktop:
+  # hardware:
   #==================#
   nixos-macbook = lib.nixosSystem {
     inherit system pkgs;
     specialArgs = {
-      inherit inputs dotfiles;
+      inherit inputs dotfiles self;
     };
     modules = [
         hyprland
