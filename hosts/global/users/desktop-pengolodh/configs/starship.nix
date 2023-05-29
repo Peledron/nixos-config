@@ -3,90 +3,146 @@
     home.sessionVariables.STARSHIP_CACHE = "${config.xdg.cacheHome}/starship";
 
     # [starship]
+    # dot from https://github.com/ChrisTitusTech/mybash/blob/main/starship.toml
     programs.starship = {
         enable = true;
         enableBashIntegration = true;
         enableFishIntegration = true; # if you have fish enabled 
         #enableZshIntegration = true; # if you have zsh enabled 
         settings = {
-            # See https://starship.rs/config/ for the full list of options.
-            # converted from https://github.com/linuxmobile/hyprland-dots/blob/main/.config/starship/starship.toml
-
-            scan_timeout = 10;
-
-            format = "$all";
-            right_format = """$git_branch$git_status$cmd_duration$directory""";
-
+            format = lib.concatStrings [
+                "[](#3B4252)"
+                "$username"
+                "[](bg:#434C5E fg:#3B4252)"
+                "$directory"
+                "[](fg:#434C5E bg:#4C566A)"
+                "$git_branch"
+                "$git_status"
+                "[](fg:#4C566A bg:#86BBD8)"
+                "$c"
+                "$elixir"
+                "$elm"
+                "$golang"
+                "$haskell"
+                "$java"
+                "$julia"
+                "$nodejs"
+                "$nim"
+                "$rust"
+                "[](fg:#86BBD8 bg:#06969A)"
+                "$docker_context"
+                "[](fg:#06969A bg:#33658A)"
+                "$time"
+                "[ ](fg:#33658A)"
+            ];
+            command_timeout = 5000;
             # Disable the blank line at the start of the prompt
             add_newline = false;
 
-            line_break = {
-                disabled = true;
+            # You can also replace your username with a neat symbol like  to save some space
+            username = {
+                show_always = true;
+                style_user = "bg:#3B4252";
+                style_root = "bg:#3B4252";
+                format = "[$user ]($style)";
             };
-
-            character = {
-                success_symbol = " [](#6791c9)";
-                error_symbol = " [](#df5b61)";
-                vicmd_symbol = "[  ](#78b892)";
-            };
-
-            hostname = {
-                ssh_only = true;
-                format = "[$hostname](bold blue) ";
-                disabled = false;
-            };
-
-            cmd_duration = {
-                min_time = 1;
-                format = "[](fg:#232526 bg:none)[$duration]($style)[](fg:#232526 bg:#232526)[](fg:#bc83e3 bg:#232526)[](fg:#232526 bg:#bc83e3)[](fg:#bc83e3 bg:none) ";
-                disabled = false;
-                style = "fg:#edeff0 bg:#232526";
-            };
-
             directory = {
-                format = "[](fg:#232526 bg:none)[$path]($style)[](fg:#232526 bg:#232526)[](fg:#6791c9 bg:#232526)[](fg:#232526 bg:#6791c9)[](fg:#6791c9 bg:none)";
-                style = "fg:#edeff0 bg:#232526";
+                style = "bg:#434C5E";
+                format = "[ $path ]($style)";
                 truncation_length = 3;
-                truncate_to_repo = false;
+                truncation_symbol = "…/";
             };
-
-            # [git]
+            # Here is how you can shorten some long paths by text replacement
+            # similar to mapped_locations in Oh My Posh:
+            directory.substitutions = {
+                "Documents" = " ";
+                "Downloads" = " ";
+                "Music" = " ";
+                "Pictures" = " ";
+                # Keep in mind that the order matters. For example:
+                # "Important Documents" = "  "
+                # will not be replaced, because "Documents" was already substituted before.
+                # So either put "Important Documents" before "Documents" or use the substituted version:
+                # "Important  " = "  "
+            };
+            c = {
+                symbol = " ";
+                style = "bg:#86BBD8";
+                format = "[ $symbol ($version) ]($style)";
+            };
+            docker_context = {
+                symbol = " ";
+                style = "bg:#06969A";
+                format = "[ $symbol $context ]($style) $path";
+            };
+            elixir = {
+                symbol = " ";
+                style = "bg:#86BBD8";
+                format = "[ $symbol ($version) ]($style)";
+            };
+            elm = {
+                symbol = " ";
+                style = "bg:#86BBD8";
+                format = "[ $symbol ($version) ]($style)";
+            };
             git_branch = {
-                format = "[](fg:#232526 bg:none)[$branch]($style)[](fg:#232526 bg:#232526)[](fg:#78b892 bg:#232526)[](fg:#282c34 bg:#78b892)[](fg:#78b892 bg:none) ";
-                style = "fg:#edeff0 bg:#232526";
+                symbol = "";
+                style = "bg:#4C566A";
+                format = "[ $symbol $branch ]($style)";
             };
-
             git_status = {
-                format="[](fg:#232526 bg:none)[$all_status$ahead_behind]($style)[](fg:#232526 bg:#232526)[](fg:#67afc1 bg:#232526)[](fg:#232526 bg:#67afc1)[](fg:#67afc1 bg:none) ";
-                style = "fg:#edeff0 bg:#232526";
-                conflicted = "=";
-                ahead =	"⇡ ";
-                behind = "⇣ ";
-                diverged = "⇕⇡ ⇣ ";
-                up_to_date = "";
-                untracked = "? ";
-                stashed = "";
-                modified = "! ";
-                staged = "+ ";
-                renamed = "» ";
-                deleted = " ";
+                style = "bg:#4C566A";
+                format = "[$all_status$ahead_behind ]($style)";
             };
-
-            git_commit = {
-                format = "[\\($hash\\)]($style) [\\($tag\\)]($style)";
-                style = "green";
+            golang
+                symbol = " ";
+                style = "bg:#86BBD8";
+                format = "[ $symbol ($version) ]($style)";
             };
-
-            git_state = {
-                rebase = "REBASING";
-                merge =	"MERGING";
-                revert = "REVERTING";
-                cherry_pick = "CHERRY-PICKING";
-                bisect = "BISECTING";
-                am = "AM";
-                am_or_rebase = "AM/REBASE";
-                style =	"yellow";
-                format = "\([$state( $progress_current/$progress_total)]($style)\) ";
+            haskell = {
+                symbol = " ";
+                style = "bg:#86BBD8";
+                format = "[ $symbol ($version) ]($style)";
+            };
+            java = {
+                symbol = " ";
+                style = "bg:#86BBD8";
+                format = "[ $symbol ($version) ]($style)";
+            };
+            julia = {
+                symbol = " ";
+                style = "bg:#86BBD8";
+                format = "[ $symbol ($version) ]($style)";
+            };
+            nodejs = {
+                symbol = "";
+                style = "bg:#86BBD8";
+                format = "[ $symbol ($version) ]($style)";
+            };
+            nim = {
+                symbol = " ";
+                style = "bg:#86BBD8";
+                format = "[ $symbol ($version) ]($style)";
+            };
+            rust = {
+                symbol = "";
+                style = "bg:#86BBD8";
+                format = "[ $symbol ($version) ]($style)";
+            };
+            time = {
+                disabled = false;
+                time_format = "%R"; # Hour:Minute Format
+                style = "bg:#33658A";
+                format = "[ $time ]($style)";
+            };
+            nix_shell = {
+                disabled = false;
+                symbol="󱄅";
+                style = "bg:#86BBD8";
+                impure_msg = "[impure shell](bold red)";
+                pure_msg = "[pure shell](bold green)";
+                unknown_msg = "[unknown shell](bold yellow)";
+                format = "[ $symbol ($state) ($name) ]($style)";
             };
         };
     };
