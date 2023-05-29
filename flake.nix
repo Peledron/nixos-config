@@ -24,8 +24,8 @@
         };
         hyprland.url = "github:hyprwm/Hyprland"; 
         dotfiles = {
-        #    url = "gitlab:pengolodh/dotfiles";
-        #    flake = false;
+            url = "gitlab:pengolodh/dotfiles";
+            flake = false;
         };
     };
 
