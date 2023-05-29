@@ -25,6 +25,7 @@
         sansSerif = [ "Ubuntu Nerd Font" ];
       };
     };
+  };
 
     # font packages
     fonts = with pkgs; [
