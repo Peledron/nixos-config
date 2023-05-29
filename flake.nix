@@ -24,7 +24,7 @@
         };
         hyprland.url = "github:hyprwm/Hyprland"; 
         dotfiles = {
-            url = "gitlab:pengolodh/nixos-config";
+            url = "gitlab:pengolodh/dotfiles";
             flake = false;
         };
     };
