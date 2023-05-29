@@ -31,11 +31,11 @@
   services.avahi = {                                   # Needed to find wireless printer
     enable = true;
     nssmdns = true;
-      publish = {                               # Needed for detecting the scanner
+    publish = {                               # Needed for detecting the scanner
         enable = true;
         addresses = true;
         userServices = true;
-      };
+    };
   };
   # --> CUPS:
   services.printing = {
@@ -96,7 +96,7 @@
 
       # 100 being the maximum, limit the speed of my CPU to reduce
       # heat and increase battery usage:
-      CPU_MAX_PERF_ON_AC=75;
+      CPU_MAX_PERF_ON_AC=75; # limited to 75 to reduce fan noise
       CPU_MAX_PERF_ON_BAT=50;
     };
   };
