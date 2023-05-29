@@ -49,7 +49,7 @@
     # ---
 
     # set wireguard config
-    networking.wireguard.interfaces = {
+    wireguard.interfaces = {
       wg0 = {
         # Determines the IP address and subnet of the client's end of the tunnel interface.
         ips = [ "172.16.0.4/32" ];
@@ -83,4 +83,5 @@
         ];
       };
     };
+  };
 }
