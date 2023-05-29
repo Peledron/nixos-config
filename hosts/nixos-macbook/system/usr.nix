@@ -23,17 +23,15 @@
             initialPassword = "changeme"; # change this with passwd on login
             extraGroups = [ "wheel" "docker" "kvm" "libvirtd" ]; # add user to groups for extra permissions like sudo access
 
-            /*
             # ssh user specific settings:
             openssh = {
                # set ssh authorized keys
                authorizedKeys = {
                   keys = [
-
+                     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBS/f7ZYBZ0hZMepOtO8Hb4MCdqqFdbz61oe6mgXCmJH"
                   ];
                };
             };
-            */
             # sddm autologin
 
          };
