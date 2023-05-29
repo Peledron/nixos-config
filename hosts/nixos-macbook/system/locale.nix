@@ -19,10 +19,11 @@
       enable = true;
       # the defaults seem to fine, https://search.nixos.org/options?channel=22.11&show=fonts.fontconfig.hinting.enable&from=0&size=50&sort=relevance&type=packages&query=fonts
 
-      defaultFonts ={
+      defaultFonts = {
         monospace = [ "Ubuntu Nerd Font" ];
         serif = [ "Ubuntu Nerd Font" ];
         sansSerif = [ "Ubuntu Nerd Font" ];
+      };
     };
 
     # font packages
