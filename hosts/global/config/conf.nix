@@ -45,7 +45,6 @@
     # ---
 
     # enable autoupgrade (runs every day)
-    /*
     system.autoUpgrade = {
         enable = true;
         #allowReboot = true;
@@ -58,5 +57,4 @@
         ];
         dates = "daily";
     };
-    */
 }
