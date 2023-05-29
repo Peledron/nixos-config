@@ -23,10 +23,10 @@
             inputs.home-manager.follows = "homeMan";
         };
         hyprland.url = "github:hyprwm/Hyprland"; 
-        #dotfiles = {
+        dotfiles = {
         #    url = "gitlab:pengolodh/dotfiles";
         #    flake = false;
-        #};
+        };
     };
 
     outputs = inputs @ { self, nixpkgs, nur, dotfiles, ... }: # the @ declares the names of the variables that can be used (instead of input.nixpkgs we can just do nixpkgs), the only one that is truly needed is self
