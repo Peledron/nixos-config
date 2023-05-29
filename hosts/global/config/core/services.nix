@@ -6,11 +6,10 @@
   # ssh
   services.openssh = {
     enable = true;
-    settings = {
-      passwordAuthentication = false;
-      kbdInteractiveAuthentication = false; # Change to false to disable passwords entirely
-      permitRootLogin = "no";
-    };
+
+    passwordAuthentication = false;
+    kbdInteractiveAuthentication = false; # Change to false to disable passwords entirely
+    permitRootLogin = "no";
     ports = [ 22001 ];
   };
   # ----
