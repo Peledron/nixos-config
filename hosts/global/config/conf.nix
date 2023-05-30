@@ -47,7 +47,7 @@
     system.autoUpgrade = {
         enable = true;
         #allowReboot = true;
-        #channel = "https://nixos.org/channels/nixos-unstable"; # --> not needed with flakes?
+        #channel = "https://nixos.org/channels/nixos-unstable"; # --> not needed with flakes channels are declared as input
         flake = self.outPath;
         flags = [
             "--recreate-lock-file"
