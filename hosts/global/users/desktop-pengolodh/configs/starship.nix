@@ -1,4 +1,4 @@
-{ config, ... }:
+{ config, lib, ... }:
 {   
     home.sessionVariables.STARSHIP_CACHE = "${config.xdg.cacheHome}/starship";
 
@@ -94,7 +94,7 @@
                 style = "bg:#4C566A";
                 format = "[$all_status$ahead_behind ]($style)";
             };
-            golang
+            golang = {
                 symbol = " ";
                 style = "bg:#86BBD8";
                 format = "[ $symbol ($version) ]($style)";
