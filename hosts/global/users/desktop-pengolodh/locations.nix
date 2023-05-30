@@ -12,7 +12,7 @@
         publicShare = "${config.home.homeDirectory}/Data/Public";
 
         extraConfig = {
-            XDG_SCREENSHOTS_DIR = "${config.home.homeDirectory}/Data/${XDG_PICTURES_DIR}/screenshots/linux";
+            XDG_SCREENSHOTS_DIR = "${config.home.homeDirectory}/Data/$XDG_PICTURES_DIR/screenshots/linux";
         };
 
     };
