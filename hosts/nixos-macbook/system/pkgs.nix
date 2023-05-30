@@ -6,10 +6,11 @@
     # add packages here:
     environment.systemPackages = with pkgs; [
         # utils
-            
             # [system]
             pciutils
             powertop
+            # [cli]
+            helix
         
         # filesystem related
             # [btrfs]

@@ -2,6 +2,7 @@
 
 { config, lib, pkgs, ... }:
 {
+   # sddm autologin (or gdm i think)
    services.xserver.displayManager = {
          autoLogin.enable = true;
          autoLogin.user = "pengolodh";
@@ -17,7 +18,7 @@
          # user pengolodh
          pengolodh = {
             isNormalUser = true;
-            home = "/home/pengolodh" ; # you can define a different home, /home/$USER is used by default
+            home = "/home/pengolodh"; # you can define a different home, /home/$USER is used by default
             # passwordFile = "/path/to/password.txt"; # you can store a password hash in $flakedir/.secrets and encrypt/decrypt it with git-crypt 
             # hashedPassword = ""; # password hash generated via mkpasswd
             initialPassword = "changeme"; # change this with passwd on login
@@ -32,7 +33,7 @@
                   ];
                };
             };
-            # sddm autologin
+
 
          };
          # add new users here:

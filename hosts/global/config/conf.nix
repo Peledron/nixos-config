@@ -20,11 +20,10 @@
 
         # enable garbage collection on the nix-store (cleans old system versions)
         gc = {
-        
-        automatic = true; # enabling automatic without the lines below will run it daily by default (not really safe unless snapshots are used)
-        dates = "weekly";
-        options = "--delete-older-than 7d";
-        # set gc to delete nix-store generations of the previous week once a week as a compromise
+            automatic = true; # enabling automatic without the lines below will run it daily by default (not really safe unless snapshots are used)
+            dates = "weekly";
+            options = "--delete-older-than 7d";
+            # set gc to delete nix-store generations of the previous week once a week as a compromise
         };
         # ---
 
