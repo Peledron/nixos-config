@@ -25,8 +25,8 @@
                 meld
 
             # cli tools
-		# [dotfiles management] # I should define all config in nix but...
-		stow	
+                # [dotfiles management] # I should define all config in nix but...
+                stow
                 # [shells]
                 fish
                 # [shell prompts]
@@ -37,6 +37,8 @@
                 # [utils]
                 #steam-run # allows you to run commands in the steam runtime env, usefull for running binaries that need FSH compatibility (not pure tho)
                 # --> steam-run will keep steam installed
+                # [editors]
+                helix
         ];
 
         #==================#
