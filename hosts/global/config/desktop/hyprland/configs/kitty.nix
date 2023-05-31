@@ -6,7 +6,7 @@
         theme = "Nord"; # can be any from https://github.com/kovidgoyal/kitty-themes/tree/master/themes
 
         font = {
-            name = "FiraCode Nerd Font Mono";
+            name = "Ubuntu Nerd Font Mono";
             size = 11.0;
         };
 
