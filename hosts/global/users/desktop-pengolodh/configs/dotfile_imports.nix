@@ -1,6 +1,6 @@
 {dotfiles, config,...}:
 {
     # .aliases file for zsh, fish, ... aliases
-    home.file.".aliases".source = ${dotfiles}/shells/nixos_aliases;
-
+    #home.file.".aliases".source = "${dotfiles}/shells/nixos_aliases/.aliases";
+    # -> migrated to aliases.nix
 }
