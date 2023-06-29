@@ -6,11 +6,11 @@
   services.zfs.trim.enable = true;
   # nice daemon
   # --> need to see if there is an easy way to input large rulesets like https://github.com/CachyOS/ananicy-rules
-  services.ananicy = {
-    package = pkgs.ananicy-cpp;
-    enable = true;
+ # services.ananicy = {
+    #package = pkgs.ananicy-cpp;
+    #enable = true;
     #extraRules = {}; # for extra rules --> list would be too large to import things like community rulesets, the default ruleset from ananicy is imported
-  };
+  #};
   # ---
 
   # sound
