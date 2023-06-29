@@ -1,9 +1,13 @@
 { config, pkgs, callPackage, lib, ... }:
 {
     # enable the xserver:
-    services.xserver.enable = true;
-    # Enable touchpad support (enabled default in most desktopManager).
-    services.xserver.libinput.enable = true;
+    services.xserver = {
+        enable = true;
+        # Enable touchpad support (enabled default in most desktopManager).
+        libinput.enable = true;
+        #set de default login session to plasma-wayland
+        defaultSession = "plasmawayland";
+    };
     programs.dconf.enable = true; # better compatiblity for costum setups (gnome apps)
     
     # kde:
@@ -21,14 +25,14 @@
     environment.systemPackages = with pkgs.libsForQt5; [
         # desktop specific
             # [kde]
-            bismuth # tiling 
+            #bismuth # tiling
             sddm-kcm
     ];
     environment.variables = {
         # kde specific
         XDG_CURRENT_DESKTOP = "KDE";
         KWIN_OPENGL_INTERFACE = "egl";
-        KWIN_X11_REFRESH_RATE = "144000";
+        KWIN_X11_REFRESH_RATE = "120000";
         KWIN_X11_NO_SYNC_TO_VBLANK = "1";
         KWIN_X11_FORCE_SOFTWARE_VSYNC = "1";
 

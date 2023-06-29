@@ -2,11 +2,7 @@
 
 { config, lib, pkgs, ... }:
 {
-   # sddm autologin (or gdm i think)
-   services.xserver.displayManager = {
-         autoLogin.enable = true;
-         autoLogin.user = "pengolodh";
-   };
+
    users = {
       #users.mutableUsers = false;
       # --> false makes it so that nix manages users entirely, users are no longer addable with useradd and passwords are stored on a per user basis instead of /etc/passwd ==> if a user is deleted from the config it is gone entirely from that itteration
