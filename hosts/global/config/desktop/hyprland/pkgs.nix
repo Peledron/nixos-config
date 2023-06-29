@@ -75,7 +75,6 @@ in
 
         # [configured tools]
         # --> see ./hyprland/hm-conf.nix and ./hyprland/configs/*
-        waybar
         dunst # notifications
         fuzzel # rofi alternative
         wlogout
