@@ -113,6 +113,45 @@ in
       ];
   };
   # ---
+   nixos-laptop-asus = lib.nixosSystem {
+    inherit system pkgs;
+    specialArgs = {
+      inherit inputs dotfiles self;
+    };
+    modules = [
+        hyprland
+        ./global/config/conf.nix
+        ./global/config/desktop/hyprland.nix
+        #./global/config/desktop/kde.nix
+        ./nixos-laptop-asus
+        
+        #==================#
+        # system home-man:
+        inputs.homeMan.nixosModules.home-manager {
+          home-manager.useGlobalPkgs = true; # sets home-manager to use the nix-package-manager packages instead of its own internal ones
+          home-manager.useUserPackages = true; # packages will be installed per user;
+          home-manager.extraSpecialArgs = {
+            inherit (inputs) dotfiles;
+          };
+          home-manager.users.pengolodh = {
+            imports = 
+              #[inputs.plasmaMan.homeManagerModules.plasma-manager]  # add plasma-manager to home-man user imports as per https://github.com/pjones/plasma-manager/issues/5
+              [hyprlandHM]
+              ++ [(import ./global/users/desktop-pengolodh/home.nix)]
+              #++ (import ./global/config/desktop/kde)
+              ++ [(import ./global/config/desktop/hyprland/pkgs.nix)]
+              ++ [(import ./global/config/desktop/hyprland/conf.nix)]
+            ; # add more inports via ++ (import folder) or ++ [(import file)]
+            
+          };
+          # ---
+          # add more users here:
+        }
+	
+        
+        
+      ];
+  };
 
   #==================#
   # hardware-server:
