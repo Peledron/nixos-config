@@ -9,25 +9,25 @@
   fileSystems = {
     #==================#
     # root:
-      fileSystems."/" =
+      "/" =
     { device = "rpool/root";
       fsType = "zfs";
     };
-    fileSystems."/nix" =
+    "/nix" =
     { device = "rpool/nix";
       fsType = "zfs";
     };
-    fileSystems."/var" =
+    "/var" =
     { device = "rpool/var";
       fsType = "zfs";
     };
-    fileSystems."/tmp" =
+    "/tmp" =
     { device = "rpool/tmp";
       fsType = "zfs";
     };
     #==================#
     # home:
-    fileSystems."/home" =
+    "/home" =
     { device = "rpool/home";
       fsType = "zfs";
     };
@@ -45,6 +45,6 @@
   # ---
 
   # add swap:
-  swapDevices = [ { device = "/swap/swapfile"; } ];
+  #swapDevices = [ { device = "/swap/swapfile"; } ];
   # --- 
 }
