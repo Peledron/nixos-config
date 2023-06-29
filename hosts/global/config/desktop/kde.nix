@@ -5,22 +5,29 @@
         enable = true;
         # Enable touchpad support (enabled default in most desktopManager).
         libinput.enable = true;
-        #set de default login session to plasma-wayland
-        defaultSession = "plasmawayland";
+        # kde:
+        desktopManager = {
+            plasma5 = {
+                enable = true;
+                # --> disable kde specific packages:
+                /*
+                excludePackages = with pkgs.libsForQt5; [
+                    # package
+                ];
+                */
+                # --> see https://github.com/pjones/plasma-manager for a way to declare plasma config in home-manager
+            };
+        };
+        #set de default login session to sddm and tell it to use plasma-wayland
+        displayManager = {
+            defaultSession = "plasmawayland";
+            sddm = {
+                enable = true;
+            };
+        };
     };
     programs.dconf.enable = true; # better compatiblity for costum setups (gnome apps)
-    
-    # kde:
-    services.xserver.displayManager.sddm.enable = true;
-    services.xserver.desktopManager.plasma5.enable = true;
-    # --> see https://github.com/pjones/plasma-manager for a way to declare plasma config in home-manager
 
-    # --> disable kde specific packages:
-    /*
-    services.xserver.desktopManager.plasma5.excludePackages = with pkgs.libsForQt5; [
-        # package
-    ];
-    */
     # --> install kde specific packages:
     environment.systemPackages = with pkgs.libsForQt5; [
         # desktop specific
