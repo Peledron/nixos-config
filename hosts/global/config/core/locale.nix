@@ -26,7 +26,6 @@
   # ---
   console = { # was moved from i18n to its own function
     earlySetup = true
-    packages = with pkgs; [ terminus_font ];
     font = "${pkgs.terminus_font}/share/consolefonts/ter-132n.psf.gz"; # tty font
     keyMap = "us"; # tty keymap (us-qwerty in this case) override this with console.useXkbConfig = true; to use the same as xorg in your host locale.nix
   };
