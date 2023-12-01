@@ -15,9 +15,8 @@
             usbutils
             # [shell]
             fish
-            eza
+            exa
             bat
-            
             # [editor]
             neovim
             # [git+related]
