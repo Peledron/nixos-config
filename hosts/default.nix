@@ -1,5 +1,5 @@
 # declare the hosts for the flake, default.nix will always be used when importing a directory
-{ lib, inputs, nixpkgs, nur, self, ... }:
+{ lib, inputs, nixpkgs, nur, hyprland, self, ... }:
 let
   system = "x86_64-linux"; # System architecture
   lib = nixpkgs.lib;
