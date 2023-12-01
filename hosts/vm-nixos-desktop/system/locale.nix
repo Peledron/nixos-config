@@ -11,8 +11,7 @@
   #   "caps:escape" # map caps to escape.
   #};
   # ---
-
-  
+    
   # fonts:
   fonts.fonts = with pkgs; [
     carlito                                 

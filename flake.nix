@@ -23,14 +23,14 @@
             inputs.nixpkgs.follows = "nixpkgs";
             inputs.home-manager.follows = "homeMan";
         };
-      /*   hyprland.url = "github:hyprwm/Hyprland"; 
+        /*
         dotfiles = {
             url = "gitlab:pengolodh/dotfiles";
             flake = false;
         }; */
     };
 
-    outputs = inputs @ { self, nixpkgs, hyprland , nur, ... }: # the @ declares the names of the variables that can be used (instead of input.nixpkgs we can just do nixpkgs), the only one that is truly needed is self
+    outputs = inputs @ { self, nixpkgs, hyprland , homeMan, nur, ... }: # the @ declares the names of the variables that can be used (instead of input.nixpkgs we can just do nixpkgs), the only one that is truly needed is self
     {
         # declare nixos configs here:
         nixosConfigurations = (
@@ -38,7 +38,7 @@
             import ./hosts { 
                  # inherit passes the variables in the flake to the packages in ./hosts (they can )
                 inherit (nixpkgs) lib;
-                inherit inputs self nixpkgs nur hyprland;
+                inherit inputs nixpkgs nur hyprland self;
             }
         );
     };

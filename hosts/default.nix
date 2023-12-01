@@ -26,7 +26,7 @@ in
   vm-nixos-desktop = lib.nixosSystem {
     inherit system pkgs;
     specialArgs = {
-      inherit inputs; 
+      inherit inputs self; 
     };
       modules = [
         #/etc/nixos/hardware-configuration.nix # remove this as it is impure, only for configurations that are used between a lot of systems (or just add more hosts in this file for different systems)
