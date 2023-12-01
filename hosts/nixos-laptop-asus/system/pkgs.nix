@@ -10,7 +10,7 @@
             pciutils
             powertop
             # [cli]
-            helix
+            neovim
         
         # filesystem related
             # [btrfs]

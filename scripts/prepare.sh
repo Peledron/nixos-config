@@ -2,7 +2,7 @@
 #==============================#
 # variables:
 # => swapsize in MB
-swapsize=4086
+swapsize=4G
 # => set mountdir to whatever you want
 mountdir=/mnt
 # => define the drive (is sometimes vda)
@@ -55,31 +55,20 @@ sleep 2
 # create the subvolumes
 mount /dev/mapper/$luksmap $mountdir
 # you only really need a root, nix and home subvolume, but I will use the standard layout from [opensuse](https://en$mountdiropensuse$mountdirorg/SDB:BTRFS) and add a @nix to it
-btrfs subvolume create $mountdir/@
-btrfs subvolume create $mountdir/@nix
-btrfs subvolume create $mountdir/@home
-# btrfs subvolume create $mountdir/@var
-# btrfs subvolume create $mountdir/@tmp
-# btrfs subvolume create $mountdir/@opt
-# btrfs subvolume create $mountdir/@srv
-# btrfs subvolume create $mountdir/@usr-local
-btrfs subvolume create $mountdir/@swap
+btrfs subvolume create $mountdir/root
+btrfs subvolume create $mountdir/nix
+btrfs subvolume create $mountdir/home
+btrfs subvolume create $mountdir/swap
 # optional, see below\
 sleep 2
 # unmount $mountdir, create the subvol locations and mount the subvols with compress=zstd (so all installed data will be compressed)
 umount -l $mountdir
-mount -o compress=zstd,subvol=@ /dev/mapper/$luksmap $mountdir
+mount -o compress=zstd,subvol=root /dev/mapper/$luksmap $mountdir
 mkdir -p $mountdir/{nix,home,var,tmp,opt,srv,usr/local,swap}
 ls $mountdir
-mount -o compress=zstd,subvol=@nix,noatime /dev/mapper/$luksmap $mountdir/nix
-mount -o compress=zstd,subvol=@home /dev/mapper/$luksmap $mountdir/home
-mount -o compress=zstd,subvol=@var,noatime /dev/mapper/$luksmap $mountdir/var
-mount -o compress=zstd,subvol=@tmp,noatime,commit=120 /dev/mapper/$luksmap $mountdir/tmp
-# commit=120 reduces writes to drive, you may want to enable it on /var depending on how often you write logs or if you are using an sd-card as root or something (though logging to ram would be better for that, see [log2ram](https://github.com/azlux/log2ram))
-mount -o compress=zstd,subvol=@opt,noatime /dev/mapper/$luksmap $mountdir/opt
-mount -o compress=zstd,subvol=@srv /dev/mapper/$luksmap $mountdir/srv
-mount -o compress=zstd,subvol=@usr-local /dev/mapper/$luksmap $mountdir/usr/local
-mount -o subvol=@swap /dev/mapper/$luksmap $mountdir/swap 
+mount -o compress=zstd,subvol=nix,noatime /dev/mapper/$luksmap $mountdir/nix
+mount -o compress=zstd,subvol=home /dev/mapper/$luksmap $mountdir/home
+mount -o subvol=swap /dev/mapper/$luksmap $mountdir/swap 
 # optional, see below
 sleep 1
 # make the boot location and mount it (I recommend using /boot for better compatibility)
@@ -91,6 +80,5 @@ sleep 2
 # swapfile creation:
 # optionally use a swapfile:
 btrfs filesystem mkswapfile --size ${swapsize} swapfile
-
 
 
