@@ -28,8 +28,14 @@ mkdir -p $mountdir
 # if you are using a fresh drive do do the following, otherwise skip to encrypted btrfs root part (just make sure you have an efi partition)
 # change sdX to your drive
 # --> sfdisk will read the printf command line by line (\n) each line represents a new parition (exept the first)
-# ,550M,L means a 550M LINUX_NATIVE partition
-printf "label: gpt\n,550M,U\n,%s,L\n,%s,L" | sfdisk $drive
+printf "label: gpt\n,550M,U\n,%s,L" | sfdisk $drive
+# printf will do the following line by line 
+#label: gpt
+#n,550M, U -> n means new partition> 550M size > U that the partiton will be of the type EFI System partition 
+#n,%s,L ->  n means new partition> variable 1 size (after the printf command you can specify by for example "64G"), if left empty it will fill the drive > L is linux partition type
+# -> you can add more partitions by repeating the second line and defining the size in its variable slot 
+# ==> see https://man7.org/linux/man-pages/man8/sfdisk.8.html for more info about sfdisk
+
 # change $drive to your drive
 # --> this **FORMATS(!)** the drive as gpt and gives it 2 partitions, sdX1 will be a 550MB efi partition (for boot) and sdX2 will be your btrfs root partion (see fdisk for more options), if you are using a GUI tool to make your partitions, remember to flag your efi partition as esp (and make it a fat partion)
 mkfs.fat -F 32 ${drive}1
@@ -50,26 +56,25 @@ sleep 2
 mkfs.btrfs /dev/mapper/$luksmap
 # this creates the btrfs partition on top of the luks2 partition
 sleep 2
+
 #==============================#
 # subvolume creation + mounting:
 # create the subvolumes
 mount /dev/mapper/$luksmap $mountdir
-# you only really need a root, nix and home subvolume, but I will use the standard layout from [opensuse](https://en$mountdiropensuse$mountdirorg/SDB:BTRFS) and add a @nix to it
+# you only really need a root, nix and home subvolume, you could also use the standard layout from [opensuse](https://en$mountdiropensuse$mountdirorg/SDB:BTRFS) and add a @nix to it
 btrfs subvolume create $mountdir/root
 btrfs subvolume create $mountdir/nix
 btrfs subvolume create $mountdir/home
-btrfs subvolume create $mountdir/swap
-# optional, see below\
+btrfs subvolume create $mountdir/swap # optional, see below
 sleep 2
 # unmount $mountdir, create the subvol locations and mount the subvols with compress=zstd (so all installed data will be compressed)
 umount -l $mountdir
-mount -o compress=zstd,subvol=root /dev/mapper/$luksmap $mountdir
+mount -o compress=zstd,noatime,subvol=root /dev/mapper/$luksmap $mountdir
 mkdir -p $mountdir/{nix,home,var,tmp,opt,srv,usr/local,swap}
 ls $mountdir
-mount -o compress=zstd,subvol=nix,noatime /dev/mapper/$luksmap $mountdir/nix
-mount -o compress=zstd,subvol=home /dev/mapper/$luksmap $mountdir/home
-mount -o subvol=swap /dev/mapper/$luksmap $mountdir/swap 
-# optional, see below
+mount -o compress=zstd,noatime,subvol=nix/dev/mapper/$luksmap $mountdir/nix
+mount -o compress=zstd,,noatime,subvol=home /dev/mapper/$luksmap $mountdir/home
+mount -o subvol=swap /dev/mapper/$luksmap $mountdir/swap # optional, see below
 sleep 1
 # make the boot location and mount it (I recommend using /boot for better compatibility)
 mkdir $mountdir/boot
@@ -79,6 +84,6 @@ sleep 2
 #==============================#
 # swapfile creation:
 # optionally use a swapfile:
-btrfs filesystem mkswapfile --size ${swapsize} swapfile
+btrfs filesystem mkswapfile --size ${swapsize} --uuid clear $mountdir/swapfile
 
 

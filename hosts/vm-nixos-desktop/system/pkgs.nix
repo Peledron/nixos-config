@@ -6,10 +6,6 @@
     # add packages here:
     environment.systemPackages = with pkgs; [
         # utils
-            
-            # [system]
-            pciutils
-        
         # filesystem related
             # [btrfs]
             btrfs-progs
@@ -21,5 +17,4 @@
      # in order to use a program with sudo you should do: program.$program.enable = true;
     # --> nix takes over management of the package, it also imports a configured module for the program
     # (see all using nixos-option programs)
-    programs.fish.vendor.completions.enable = true; # autoload completions provided by other nix packages
 }

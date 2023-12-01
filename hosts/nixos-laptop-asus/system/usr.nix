@@ -25,7 +25,7 @@
                # set ssh authorized keys
                authorizedKeys = {
                   keys = [
-                     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBS/f7ZYBZ0hZMepOtO8Hb4MCdqqFdbz61oe6mgXCmJH"
+                     #"ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBS/f7ZYBZ0hZMepOtO8Hb4MCdqqFdbz61oe6mgXCmJH"
                   ];
                };
             };

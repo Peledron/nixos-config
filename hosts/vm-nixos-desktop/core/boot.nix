@@ -1,7 +1,7 @@
 { config, lib, pkgs, system, inputs, ... }:   
 {
     boot = {
-        kernelPackages = pkgs.linuxKernel.packages.linux_xanmod_latest; # kernel to be used --> i get a message saying: "extend" missing so ill ignore it for now ==> fixed by using  pkgs.linuxKernel.**packages**.linux_xanmod_latest instead of  pkgs.linuxKernel.kernels.linux_xanmod_latest (even if it was listed this way in nixos packages)
+        kernelPackages = pkgs.linuxPackages_latest; # pkgs.linuxKernel.packages.linux_xanmod_latest; # kernel to be used --> i get a message saying: "extend" missing so ill ignore it for now ==> fixed by using  pkgs.linuxKernel.**packages**.linux_xanmod_latest instead of  pkgs.linuxKernel.kernels.linux_xanmod_latest (even if it was listed this way in nixos packages)
         kernelParams = [ "quiet" "splash" ]; # kernel parameters used at boot
         loader = {
             systemd-boot = {

@@ -16,44 +16,13 @@
       device = "/dev/mapper/nixos-main";
       fsType = "btrfs";
 
-      options = [ "subvol=@" "compress=zstd" ];
-    };
-    "/usr/local" = {
-      device = "/dev/mapper/nixos-main";
-      fsType = "btrfs";
-
-      options = [ "subvol=@usr-local" "compress=zstd" ];
-    };
-    "/var" = {
-      device = "/dev/mapper/nixos-main";
-      fsType = "btrfs";
-
-      options = [ "subvol=@var" "compress=zstd" "noatime" ];
-    };
-    "/tmp" = {
-      device = "/dev/mapper/nixos-main";
-      fsType = "btrfs";
-
-      options = [ "subvol=@tmp" "compress=zstd" "noatime" "commit=120" ];
-    };
-    "/srv" = {
-      device = "/dev/mapper/nixos-main";
-      fsType = "btrfs";
-
-      options = [ "subvol=@srv" "compress=zstd" ];
-    };
-    "/opt" = {
-      device = "/dev/mapper/nixos-main";
-      fsType = "btrfs";
-
-      options = [ "subvol=@opt" "compress=zstd" "noatime" ];
-     
+      options = [ "subvol=root" "compress=zstd" ];
     };
     "/nix" = {
       device = "/dev/mapper/nixos-main";
       fsType = "btrfs";
 
-      options = [ "subvol=@nix" "compress=zstd" "noatime" ];
+      options = [ "subvol=nix" "compress=zstd" "noatime" ];
     };
     #==================#
     # home:
@@ -61,7 +30,7 @@
       device = "/dev/mapper/nixos-main";
       fsType = "btrfs";
 
-      options = [ "subvol=@home" "compress=zstd" "noatime" ];
+      options = [ "subvol=home" "compress=zstd" "noatime" ];
     };
     #==================#
     # swap:
@@ -70,7 +39,7 @@
       device = "/dev/mapper/nixos-main";
       fsType = "btrfs";
 
-      options = [ "subvol=@swap" ];
+      options = [ "subvol=swap" ];
     };
     #==================#
     # boot:
