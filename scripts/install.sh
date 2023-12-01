@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 # make sure you use the same mountdir as in prepare.sh
-host=nixos-macbook
+echo "host?"
+read host
+
 mountdir=/mnt
 user=pengolodh
 gituser=pengolodh
