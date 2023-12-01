@@ -3,13 +3,13 @@
 { config, pkgs, lib, ... }:
 
 {
+  nix.settings = {
+    substituters = ["https://hyprland.cachix.org"];
+    trusted-public-keys = ["hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="];
+  };
   # hyprland:
   programs.hyprland = { # see https://wiki.hyprland.org/Nix/Options-Overrides/
     enable = true;
-    xwayland = { # add xwayland support
-      enable = true;
-      hidpi = true; # allow for hidpi scaling on xwayland 
-    };
   };
   # ---
 
