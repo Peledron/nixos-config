@@ -1,5 +1,5 @@
 # declare the hosts for the flake, default.nix will always be used when importing a directory
-{ lib, inputs, nixpkgs, nur, dotfiles, self, ... }:
+{ lib, inputs, nixpkgs, nur, self, ... }:
 let
   system = "x86_64-linux"; # System architecture
   lib = nixpkgs.lib;
@@ -76,7 +76,7 @@ in
   nixos-macbook = lib.nixosSystem {
     inherit system pkgs;
     specialArgs = {
-      inherit inputs dotfiles self;
+      inherit inputs self;
     };
     modules = [
         hyprland
@@ -91,7 +91,7 @@ in
           home-manager.useGlobalPkgs = true; # sets home-manager to use the nix-package-manager packages instead of its own internal ones
           home-manager.useUserPackages = true; # packages will be installed per user;
           home-manager.extraSpecialArgs = {
-            inherit (inputs) dotfiles;
+            inherit (inputs);
           };
           home-manager.users.pengolodh = {
             imports = 
@@ -116,7 +116,7 @@ in
    nixos-laptop-asus = lib.nixosSystem {
     inherit system pkgs;
     specialArgs = {
-      inherit inputs dotfiles self;
+      inherit inputs self;
     };
     modules = [
         hyprland
@@ -130,7 +130,7 @@ in
           home-manager.useGlobalPkgs = true; # sets home-manager to use the nix-package-manager packages instead of its own internal ones
           home-manager.useUserPackages = true; # packages will be installed per user;
           home-manager.extraSpecialArgs = {
-            inherit (inputs) dotfiles;
+            inherit (inputs);
           };
           home-manager.users.pengolodh = {
             imports = 
