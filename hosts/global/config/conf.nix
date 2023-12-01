@@ -5,7 +5,7 @@
     ; # --> the [(import file.nix)] ++ (import ./folder) imports the things seperatly, this prevents errors related to nested imports
     
     #nixpkgs.config.allowunfree = true; # allow propietary software --> not needed when inheriting pkgs with allowfree = true; in flake
-    
+    system.stateVersion = "23.11"; # initial system state
     # nix specific settings:
     nix = {
     # enable flakes so we can easily update the nixos config from a github repo
