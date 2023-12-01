@@ -17,7 +17,7 @@
             fish
             eza
             bat
-            terminus_font 
+            
             # [editor]
             neovim
             # [git+related]
