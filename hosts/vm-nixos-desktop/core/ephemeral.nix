@@ -1,7 +1,29 @@
 { config, lib, pkgs, system, inputs, ... }:   
 {
-    # clear root subvolume on each boot as per https://grahamc.com/blog/erase-your-darlings/ and https://nixos.wiki/wiki/Btrfs 
+    # define the persistent filesystems
     # (see scripts/prepare.sh under ephemeral option)
+    fileSystems = {
+        "/persist" = {
+            device = "/dev/mapper/nixos-main";
+            fsType = "btrfs";
+
+            options = [ "subvol=persist" "compress=zstd" "noatime" ];
+        };
+         "/log" = {
+            device = "/dev/mapper/nixos-main";
+            fsType = "btrfs";
+
+            options = [ "subvol=log" "compress=zstd" "noatime" ];
+        };
+        "/var/lib/libvirt/images" = {
+            device = "/dev/mapper/nixos-main";
+            fsType = "btrfs";
+
+            options = ["subvol=persist/vm_default-images" "noatime" "commit=120" ];
+        };
+    };
+
+    # clear root subvolume on each boot as per https://grahamc.com/blog/erase-your-darlings/ and https://nixos.wiki/wiki/Btrfs
     boot.initrd.postDeviceCommands = lib.mkAfter ''
         mkdir /mnt
         mount -t btrfs /dev/mapper/enc /mnt
@@ -19,6 +41,7 @@
             source = "/persist/etc/libvirt";
         };
     };
+
     systemd.tmpfiles.rules = [
         "L /var/lib/bluetooth - - - - /persist/var/lib/bluetooth"
     ]; # -> you can use systemd tempfiles to create symlinks to pernament directories, needed cuz the etc module only allows for files in etc (duh)

@@ -102,18 +102,19 @@ if [ "$ephemeral" = "y" ]; then
     btrfs subvolume snapshot -r $mountdir/root $mountdir/root-blank
 
     # mount the subvolumes
+    mkdir -p $mountdir/{persist,log}
+    mkdir -p $mountdir/var/lib/libvirt/images
+
     mount -o compress=zstd,noatime,subvol=persist /dev/mapper/$luksmap $mountdir/persist
     mount -o compress=zstd,noatime,subvol=log /dev/mapper/$luksmap $mountdir/var/log
     
-    mount -o noatime,commit=120,subvol=persist/vm_default-images,x-mount.mkdir /dev/mapper/$luksmap $mountdir/var/lib/libvirt/images # x-mount.mkdir creates the directory to which the subvol will be mounted
+    mount -o noatime,commit=120,subvol=persist/vm_default-images /dev/mapper/$luksmap $mountdir/var/lib/libvirt/images
 
     # create directories in persist to make bluetooth and networking devices save across restarts
     # see https://grahamc.com/blog/erase-your-darlings/ "opting in" to see the needed nix config surrounding these
     # networking
-    mkdir -p /persist/etc/wireguard/
+    mkdir -p /persist/etc/{wireguard,libvirt,ssh}
     mkdir -p /persist/etc/NetworkManager/system-connections
-    # see host keys
-    mkdir -p /persist/etc/ssh
     # bluetooth device pairs
     mkdir -p /persist/var/lib/bluetooth
 fi
