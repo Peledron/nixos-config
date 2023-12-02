@@ -70,9 +70,9 @@ sleep 2
 # unmount $mountdir, create the subvol locations and mount the subvols with compress=zstd (so all installed data will be compressed)
 umount -l $mountdir
 mount -o compress=zstd,noatime,subvol=root /dev/mapper/$luksmap $mountdir
-mkdir -p $mountdir/{nix,home,var,tmp,opt,srv,usr/local,swap}
+mkdir -p $mountdir/{nix,home,swap}
 ls $mountdir
-mount -o compress=zstd,noatime,subvol=nix/dev/mapper/$luksmap $mountdir/nix
+mount -o compress=zstd,noatime,subvol=nix /dev/mapper/$luksmap $mountdir/nix
 mount -o compress=zstd,,noatime,subvol=home /dev/mapper/$luksmap $mountdir/home
 mount -o subvol=swap /dev/mapper/$luksmap $mountdir/swap # optional, see below
 sleep 1
@@ -84,6 +84,6 @@ sleep 2
 #==============================#
 # swapfile creation:
 # optionally use a swapfile:
-btrfs filesystem mkswapfile --size ${swapsize} --uuid clear $mountdir/swapfile
+btrfs filesystem mkswapfile --size ${swapsize} --uuid clear $mountdir/swap/swapfile
 
 
