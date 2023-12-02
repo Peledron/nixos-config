@@ -96,9 +96,7 @@ if [ "$ephemeral" = "y" ]; then
     # create additional subvolumes in which data separate from root will be stored so that it will be persistent
     btrfs subvolume create $mountdir/persist # The subvolume for /persist, containing system state which should be persistent across reboots and possibly backed up (etc config that is not able to be done via nixos and such)
     btrfs subvolume create $mountdir/log # The subvolume for /var/log so that logs persist across boots
-    mkdir -p $mountdir/persist/vm-default
-    btrfs subvolume create $mountdir/persist/vm-default/images # /var/lib/libvirt/images 
-    btrfs subvolume create $mountdir/persist/vm-default/config # /etc/libvirt
+    btrfs subvolume create $mountdir/persist/vm_default-images # /var/lib/libvirt/images 
         
     # Take an empty *readonly* snapshot of the root subvolume, which can be rollback to on every boot.
     btrfs subvolume snapshot -r $mountdir/root $mountdir/root-blank
@@ -107,7 +105,16 @@ if [ "$ephemeral" = "y" ]; then
     mount -o compress=zstd,noatime,subvol=persist /dev/mapper/$luksmap $mountdir/persist
     mount -o compress=zstd,noatime,subvol=log /dev/mapper/$luksmap $mountdir/var/log
     
-    mount -o noatime,commit=120,subvol=persist/images,x-mount.mkdir /dev/mapper/$luksmap $mountdir/var/lib/libvirt/images # x-mount.mkdir creates the directory to which the subvol will be mounted to
-    mount -o compress=zstd,noatime,subvol=persist/config,x-mount.mkdir /dev/mapper/$luksmap $mountdir/etc/libvirt
+    mount -o noatime,commit=120,subvol=persist/vm_default-images,x-mount.mkdir /dev/mapper/$luksmap $mountdir/var/lib/libvirt/images # x-mount.mkdir creates the directory to which the subvol will be mounted
+
+    # create directories in persist to make bluetooth and networking devices save across restarts
+    # see https://grahamc.com/blog/erase-your-darlings/ "opting in" to see the needed nix config surrounding these
+    # networking
+    mkdir -p /persist/etc/wireguard/
+    mkdir -p /persist/etc/NetworkManager/system-connections
+    # see host keys
+    mkdir -p /persist/etc/ssh
+    # bluetooth device pairs
+    mkdir -p /persist/var/lib/bluetooth
 fi
 
