@@ -9,6 +9,10 @@
             begin
                 set fish_greeting
                 set VIRTUAL_ENV_DISABLE_PROMPT "1"
+
+                fish_add_path ~/.local/bin
+                fish_add_path ~/.cargo/bin
+
                 source ~/.aliases
             end
         '';
