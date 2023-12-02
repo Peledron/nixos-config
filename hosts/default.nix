@@ -32,10 +32,7 @@ in
         #/etc/nixos/hardware-configuration.nix # remove this as it is impure, only for configurations that are used between a lot of systems (or just add more hosts in this file for different systems)
         # --> changed it to use partitionlabels instead, all hardware configuration is defined in $host/core/hardware.nix
         ./global/config/conf.nix 
-
-        #./global/config/desktop/hyprland.nix
-
-        ./global/config/desktop/kde.nix
+        ./global/config/desktop/xfce.nix
         ./vm-nixos-desktop
 
         #==================#
@@ -46,12 +43,7 @@ in
           home-manager.extraSpecialArgs = {  };
           home-manager.users.pengolodh = {
             imports = 
-              #[hyprlandHM]
-              [inputs.plasmaMan.homeManagerModules.plasma-manager]  # add plasma-manager to home-man user imports as per https://github.com/pjones/plasma-manager/issues/5
               ++ [(import ./global/users/desktop-pengolodh/home.nix)]
-              ++ (import ./global/config/desktop/kde)
-             # ++ [(import ./global/config/desktop/hyprland/pkgs.nix)]
-             # ++ [(import ./global/config/desktop/hyprland/conf.nix)]
             ; # add more inports via ++ (import folder) or ++ [(import file)]
             
           };
