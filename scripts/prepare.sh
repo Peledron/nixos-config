@@ -13,6 +13,9 @@ rootlabel=crypted-main-nixos # change to whatever you want
 # => name that luks will map $rootlabel to after it is opened
 luksmap=nixos-main
 
+# flags
+ephemeral=n # change to y to set persistance on, this clears root on every reboot and regenerates it, the host needs to be configured to support this, see the bottom of https://nixos.wiki/wiki/Btrfs
+
 #==============================#
 # setup:
 umount -l /dev/mapper/$luksmap
@@ -86,4 +89,25 @@ sleep 2
 # optionally use a swapfile:
 btrfs filesystem mkswapfile --size ${swapsize} --uuid clear $mountdir/swap/swapfile
 
+sleep 1
+#==============================#
+# ephemeral root
+if [ "$ephemeral" = "y" ]; then
+    # create additional subvolumes in which data separate from root will be stored so that it will be persistent
+    btrfs subvolume create $mountdir/persist # The subvolume for /persist, containing system state which should be persistent across reboots and possibly backed up (etc config that is not able to be done via nixos and such)
+    btrfs subvolume create $mountdir/log # The subvolume for /var/log so that logs persist across boots
+    mkdir -p $mountdir/persist/vm-default
+    btrfs subvolume create $mountdir/persist/vm-default/images # /var/lib/libvirt/images 
+    btrfs subvolume create $mountdir/persist/vm-default/config # /etc/libvirt
+        
+    # Take an empty *readonly* snapshot of the root subvolume, which can be rollback to on every boot.
+    btrfs subvolume snapshot -r $mountdir/root $mountdir/root-blank
+
+    # mount the subvolumes
+    mount -o compress=zstd,noatime,subvol=persist /dev/mapper/$luksmap $mountdir/persist
+    mount -o compress=zstd,noatime,subvol=log /dev/mapper/$luksmap $mountdir/var/log
+    
+    mount -o noatime,commit=120,subvol=persist/images,x-mount.mkdir /dev/mapper/$luksmap $mountdir/var/lib/libvirt/images # x-mount.mkdir creates the directory to which the subvol will be mounted to
+    mount -o compress=zstd,noatime,subvol=persist/config,x-mount.mkdir /dev/mapper/$luksmap $mountdir/etc/libvirt
+fi
 

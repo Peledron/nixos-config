@@ -48,6 +48,12 @@
       fsType = "vfat";
     };
   };
+  # we are using btrfs so we can enable the scrub service here, as it is filesystem dependant
+  services.btrfs.autoScrub = {
+    enable = true;
+    interval = "weekly";
+    fileSystems = [ "/" ]; # if home is on a separate drive or not a subvolume of another location then you can add it to the list (unlike above where /nix and /home are nested subvolumes under / you only need to scrub / -> scrub is per drive or whole partition)
+  };
   # ---
 
   # add swap:

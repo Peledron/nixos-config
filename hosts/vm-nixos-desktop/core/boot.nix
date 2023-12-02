@@ -12,6 +12,13 @@
             efi.canTouchEfiVariables = true; # makes it so we can edit boot entrie kernel command line
             timeout = 1; # amount of time before default option is chosen
         };
+        # clear root subvolume on each boot as per https://grahamc.com/blog/erase-your-darlings/ and https://nixos.wiki/wiki/Btrfs (see scripts/prepare.sh under persistence option)
+        initrd.postDeviceCommands = lib.mkAfter ''
+            mkdir /mnt
+            mount -t btrfs /dev/mapper/enc /mnt
+            btrfs subvolume delete /mnt/root
+            btrfs subvolume snapshot /mnt/root-blank /mnt/root
+        '';
     };
     # for secure boot see: https://github.com/nix-community/lanzaboote/blob/master/docs/QUICK_START.md
 }
