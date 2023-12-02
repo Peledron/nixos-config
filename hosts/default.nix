@@ -46,7 +46,7 @@ in
           home-manager.extraSpecialArgs = {  };
           home-manager.users.pengolodh = {
             imports = 
-              [hyprlandHM]
+              #[hyprlandHM]
               [inputs.plasmaMan.homeManagerModules.plasma-manager]  # add plasma-manager to home-man user imports as per https://github.com/pjones/plasma-manager/issues/5
               ++ [(import ./global/users/desktop-pengolodh/home.nix)]
               ++ (import ./global/config/desktop/kde)
