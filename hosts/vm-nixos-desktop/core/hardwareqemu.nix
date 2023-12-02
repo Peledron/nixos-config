@@ -40,7 +40,6 @@
   ];
   #services.xserver.videoDrivers = [ "qxl" ]; # enable qxl video driver, warning do not enable it fucks up the entire vm
   services.spice-vdagentd.enable = true;
-  programs.spice-vdagent.enable = true;
   # ----
 
   # power settings:

@@ -1,4 +1,3 @@
 [
-    #./plasma-generated.nix
-    ./plasma.nix
+    #./plasma.nix
 ]

@@ -84,6 +84,6 @@ sleep 2
 #==============================#
 # swapfile creation:
 # optionally use a swapfile:
-btrfs filesystem mkswapfile --size ${swapsize} --uuid clear $mountdir/swapfile
+btrfs filesystem mkswapfile --size ${swapsize} --uuid clear $mountdir/swap/swapfile
 
 
