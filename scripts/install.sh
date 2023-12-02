@@ -6,8 +6,9 @@ read host
 mountdir=/mnt
 user=pengolodh
 gituser=pengolodh
-giturl=https://$gituser@gitlab.com/pengolodh/nixos-config.git
+giturlnixos=https://$gituser@gitlab.com/pengolodh/nixos-config.git
 repodir=$mountdir/home/$user/nixos-config
+
 
 #==============================#
 # nixos installation:
@@ -19,7 +20,7 @@ nix-env -iA nixos.git
 # delete repodir so we can rerun
 rm -r $repodir
 # you will be prompted for password
-git clone $giturl $repodir
+git clone $giturlnixos $repodir
 # genrate hardware-configuration.nix and configuration.nix
 nixos-generate-config --root $mountdir
 # cleanup generated configuration.nix to avoid problems
@@ -29,3 +30,5 @@ rm $mountdir/etc/nixos/configuration.nix
 cd $repodir
 nixos-install --flake .#$host 
 # install nixos. added impure flag so we can use the /etc/nixos/hardware-configuration.nix file
+
+
