@@ -69,8 +69,6 @@ btrfs subvolume create $mountdir/root
 btrfs subvolume create $mountdir/nix
 btrfs subvolume create $mountdir/home
 btrfs subvolume create $mountdir/swap # optional, see below
-# unmount $mountdir, create the subvol locations and mount the subvols with compress=zstd (so all installed data will be compressed)
-umount -l $mountdir
 
 # ephemeral root
 if [ "$ephemeral" = "y" ]; then
@@ -84,6 +82,9 @@ if [ "$ephemeral" = "y" ]; then
 fi
 sleep 1
 btrfs subvolume list $mountdir
+
+# unmount $mountdir, create the subvol locations and mount the subvols with compress=zstd (so all installed data will be compressed)
+umount -l $mountdir
 
 mount -o compress=zstd,noatime,subvol=root /dev/mapper/$luksmap $mountdir
 
