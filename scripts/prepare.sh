@@ -72,8 +72,45 @@ btrfs subvolume create $mountdir/swap # optional, see below
 sleep 2
 # unmount $mountdir, create the subvol locations and mount the subvols with compress=zstd (so all installed data will be compressed)
 umount -l $mountdir
+
+# ephemeral root
+if [ "$ephemeral" = "y" ]; then
+    # create additional subvolumes in which data separate from root will be stored so that it will be persistent
+    btrfs subvolume create $mountdir/persist # The subvolume for /persist, containing system state which should be persistent across reboots and possibly backed up (etc config that is not able to be done via nixos and such)
+    btrfs subvolume create $mountdir/log # The subvolume for /var/log so that logs persist across boots
+    btrfs subvolume create $mountdir/persist/vm_default-images # /var/lib/libvirt/images
+
+    # Take an empty *readonly* snapshot of the root subvolume, which can be rollback to on every boot.
+    btrfs subvolume snapshot -r $mountdir/root $mountdir/root-blank
+fi
+
 mount -o compress=zstd,noatime,subvol=root /dev/mapper/$luksmap $mountdir
+
+
+# ephemeral root
+if [ "$ephemeral" = "y" ]; then
+    mkdir -p $mountdir/{persist,log}
+    mkdir -p $mountdir/var/lib/libvirt/images
+
+    mount -o compress=zstd,noatime,subvol=persist /dev/mapper/$luksmap $mountdir/persist
+    mount -o compress=zstd,noatime,subvol=log /dev/mapper/$luksmap $mountdir/var/log
+
+    mount -o noatime,commit=120,subvol=persist/vm_default-images /dev/mapper/$luksmap $mountdir/var/lib/libvirt/images
+
+    # create directories in persist to make bluetooth and networking devices save across restarts
+    # see https://grahamc.com/blog/erase-your-darlings/ "opting in" to see the needed nix config surrounding these
+    # networking
+    mkdir -p /persist/etc/{wireguard,libvirt,ssh}
+    mkdir -p /persist/etc/NetworkManager/system-connections
+    # bluetooth device pairs
+    mkdir -p /persist/var/lib/bluetooth
+
+    ls $mountdir
+    ls $mountdir/persist
+fi
+
 mkdir -p $mountdir/{nix,home,swap}
+
 ls $mountdir
 mount -o compress=zstd,noatime,subvol=nix /dev/mapper/$luksmap $mountdir/nix
 mount -o compress=zstd,,noatime,subvol=home /dev/mapper/$luksmap $mountdir/home
@@ -90,33 +127,5 @@ sleep 2
 btrfs filesystem mkswapfile --size ${swapsize} --uuid clear $mountdir/swap/swapfile
 
 sleep 1
-#==============================#
-# ephemeral root
-if [ "$ephemeral" = "y" ]; then
-    # create additional subvolumes in which data separate from root will be stored so that it will be persistent
-    btrfs subvolume create $mountdir/persist # The subvolume for /persist, containing system state which should be persistent across reboots and possibly backed up (etc config that is not able to be done via nixos and such)
-    btrfs subvolume create $mountdir/log # The subvolume for /var/log so that logs persist across boots
-    btrfs subvolume create $mountdir/persist/vm_default-images # /var/lib/libvirt/images 
-        
-    # Take an empty *readonly* snapshot of the root subvolume, which can be rollback to on every boot.
-    btrfs subvolume snapshot -r $mountdir/root $mountdir/root-blank
 
-    mkdir -p $mountdir/var/lib/libvirt/images
-
-    mount -o compress=zstd,noatime,subvol=persist /dev/mapper/$luksmap $mountdir/persist
-    mount -o compress=zstd,noatime,subvol=log /dev/mapper/$luksmap $mountdir/var/log
-    
-    mount -o noatime,commit=120,subvol=persist/vm_default-images /dev/mapper/$luksmap $mountdir/var/lib/libvirt/images
-
-    # create directories in persist to make bluetooth and networking devices save across restarts
-    # see https://grahamc.com/blog/erase-your-darlings/ "opting in" to see the needed nix config surrounding these
-    # networking
-    mkdir -p /persist/etc/{wireguard,libvirt,ssh}
-    mkdir -p /persist/etc/NetworkManager/system-connections
-    # bluetooth device pairs
-    mkdir -p /persist/var/lib/bluetooth
-
-    ls $mountdir
-    ls $mountdir/persist
-fi
 
