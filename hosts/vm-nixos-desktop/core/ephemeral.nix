@@ -31,7 +31,7 @@
         btrfs subvolume snapshot /mnt/root-blank /mnt/root
     '';
     # set persistence to certain configs
-    etc = {
+    environment.etc = {
         # network connections
         "NetworkManager/system-connections" = {
             source = "/persist/etc/NetworkManager/system-connections/";
