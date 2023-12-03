@@ -1,6 +1,6 @@
 { config, lib, pkgs, ... }:
 {
-    environment.variables = {
+    environment.variables = lib.mkDefault {
         EDITOR="nvim";
     };
 }
