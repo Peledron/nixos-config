@@ -91,8 +91,9 @@ mount -o compress=zstd,noatime,subvol=root /dev/mapper/$luksmap $mountdir
 
 # ephemeral root
 if [ "$ephemeral" = "y" ]; then
-    mkdir -p $mountdir/{persist,log}
+    mkdir -p $mountdir/persist
     mkdir -p $mountdir/var/lib/libvirt/images
+    mkdir -p $mountdir/var/log
 
     mount -o compress=zstd,noatime,subvol=persist /dev/mapper/$luksmap $mountdir/persist
     mount -o compress=zstd,noatime,subvol=log /dev/mapper/$luksmap $mountdir/var/log
