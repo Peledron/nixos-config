@@ -26,7 +26,7 @@
     # clear root subvolume on each boot as per https://grahamc.com/blog/erase-your-darlings/ and https://nixos.wiki/wiki/Btrfs
     boot.initrd.postDeviceCommands = lib.mkAfter ''
         mkdir /mnt
-        mount -t btrfs /dev/mapper/enc /mnt
+        mount -t btrfs /dev/mapper/nixos-main /mnt
         btrfs subvolume delete /mnt/root
         btrfs subvolume snapshot /mnt/root-blank /mnt/root
     '';
