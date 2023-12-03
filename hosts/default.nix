@@ -32,7 +32,7 @@ in
         #/etc/nixos/hardware-configuration.nix # remove this as it is impure, only for configurations that are used between a lot of systems (or just add more hosts in this file for different systems)
         # --> changed it to use partitionlabels instead, all hardware configuration is defined in $host/core/hardware.nix
         ./global/config/conf.nix 
-        ./global/config/desktop/xfce.nix
+        ./global/config/desktop/gnome.nix
         ./vm-nixos-desktop
 
         #==================#
