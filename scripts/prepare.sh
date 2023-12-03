@@ -14,7 +14,7 @@ rootlabel=crypted-main-nixos # change to whatever you want
 luksmap=nixos-main
 
 # flags
-ephemeral=n # change to y to set persistance on, this clears root on every reboot and regenerates it, the host needs to be configured to support this, see the bottom of https://nixos.wiki/wiki/Btrfs
+ephemeral=y # change to y to set persistance on, this clears root on every reboot and regenerates it, the host needs to be configured to support this, see the bottom of https://nixos.wiki/wiki/Btrfs
 
 #==============================#
 # setup:
@@ -69,7 +69,6 @@ btrfs subvolume create $mountdir/root
 btrfs subvolume create $mountdir/nix
 btrfs subvolume create $mountdir/home
 btrfs subvolume create $mountdir/swap # optional, see below
-sleep 2
 # unmount $mountdir, create the subvol locations and mount the subvols with compress=zstd (so all installed data will be compressed)
 umount -l $mountdir
 
@@ -83,6 +82,8 @@ if [ "$ephemeral" = "y" ]; then
     # Take an empty *readonly* snapshot of the root subvolume, which can be rollback to on every boot.
     btrfs subvolume snapshot -r $mountdir/root $mountdir/root-blank
 fi
+sleep 1
+btrfs subvolume list $mountdir
 
 mount -o compress=zstd,noatime,subvol=root /dev/mapper/$luksmap $mountdir
 
