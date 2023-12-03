@@ -43,7 +43,7 @@ in
           home-manager.extraSpecialArgs = {  };
           home-manager.users.pengolodh = {
             imports = 
-              ++ [(import ./global/users/desktop-pengolodh/home.nix)]
+              [(import ./global/users/desktop-pengolodh/home.nix)]
             ; # add more inports via ++ (import folder) or ++ [(import file)]
             
           };
