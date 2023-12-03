@@ -19,7 +19,6 @@
     environment.gnome.excludePackages = (with pkgs; [
         gnome-photos
         gnome-tour
-        gnome-help
     ]) ++ (with pkgs.gnome; [
         epiphany # web browser
         evince # document viewer
