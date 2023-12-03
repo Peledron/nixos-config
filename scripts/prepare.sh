@@ -101,8 +101,6 @@ if [ "$ephemeral" = "y" ]; then
     # Take an empty *readonly* snapshot of the root subvolume, which can be rollback to on every boot.
     btrfs subvolume snapshot -r $mountdir/root $mountdir/root-blank
 
-    # mount the subvolumes
-    mkdir -p $mountdir/{persist,log}
     mkdir -p $mountdir/var/lib/libvirt/images
 
     mount -o compress=zstd,noatime,subvol=persist /dev/mapper/$luksmap $mountdir/persist
@@ -117,5 +115,8 @@ if [ "$ephemeral" = "y" ]; then
     mkdir -p /persist/etc/NetworkManager/system-connections
     # bluetooth device pairs
     mkdir -p /persist/var/lib/bluetooth
+
+    ls $mountdir
+    ls $mountdir/persist
 fi
 
