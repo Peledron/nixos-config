@@ -15,8 +15,8 @@
             usbutils
             # [shell]
             fish
-            exa
-            bat
+            bat # cat replacement with syntax highlighting, etc
+            eza # colorfull ls, easier to read
             # [editor]
             neovim
             # [git+related]

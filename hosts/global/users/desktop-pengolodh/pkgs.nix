@@ -27,18 +27,11 @@
             # cli tools
                 # [dotfiles management] # I should define all config in nix but...
                 stow
-                # [shells]
-                fish
                 # [shell prompts]
                 starship
-                # [util replacements]
-                bat # cat replacement with syntax highlighting, etc
-                exa # colorfull ls, easier to read
                 # [utils]
                 #steam-run # allows you to run commands in the steam runtime env, usefull for running binaries that need FSH compatibility (not pure tho)
                 # --> steam-run will keep steam installed
-                # [editors]
-                helix
         ];
 
         #==================#
