@@ -13,7 +13,7 @@
   # ---
     
   # fonts:
-  fonts.fonts = with pkgs; [
+  fonts.packages = with pkgs; [
     carlito                                 
     vegur                                  
     source-code-pro # mono-space font 
@@ -23,6 +23,8 @@
     (nerdfonts.override{
       fonts = [
         "FiraCode" # https://github.com/tonsky/FiraCode
+        "Ubuntu"
+        "UbuntuMono"
       ]; # adds specific programming ligatures
     })
   ];

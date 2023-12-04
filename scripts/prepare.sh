@@ -103,10 +103,10 @@ if [ "$ephemeral" = "y" ]; then
     # create directories in persist to make bluetooth and networking devices save across restarts
     # see https://grahamc.com/blog/erase-your-darlings/ "opting in" to see the needed nix config surrounding these
     # networking
-    mkdir -p /persist/etc/{wireguard,libvirt,ssh}
+    mkdir -p /persist/etc/{wireguard,libvirt,NetworkManager}
     mkdir -p /persist/etc/NetworkManager/system-connections
     # bluetooth device pairs
-    mkdir -p /persist/var/lib/bluetooth
+    mkdir -p /persist/var/lib/{NetworkManager,bluetooth,docker}
 
     ls $mountdir
     ls $mountdir/persist
