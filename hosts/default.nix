@@ -16,6 +16,9 @@ let
     nurpkgs = import inputs.nixpkgs {inherit system; };
   };
 
+  home-manager = inputs.homeMan.nixosModules.home-manager;
+
+  plasma-manager = inputs.plasmaMan.homeManagerModules.plasma-manager;
   hyprland = inputs.hyprland.nixosModules.default;
   hyprlandHM = inputs.hyprland.homeManagerModules.default;
 
@@ -39,7 +42,7 @@ in
 
         #==================#
         # system home-man:
-        inputs.homeMan.nixosModules.home-manager {
+        home-manager {
           home-manager.useGlobalPkgs = true; # sets home-manager to use the nix-package-manager packages instead of its own internal ones
           home-manager.useUserPackages = true; # packages will be installed per user;
           home-manager.extraSpecialArgs = {  };
@@ -81,7 +84,7 @@ in
         
         #==================#
         # system home-man:
-        inputs.homeMan.nixosModules.home-manager {
+        home-manager {
           home-manager.useGlobalPkgs = true; # sets home-manager to use the nix-package-manager packages instead of its own internal ones
           home-manager.useUserPackages = true; # packages will be installed per user;
           home-manager.extraSpecialArgs = {
@@ -120,7 +123,7 @@ in
         
         #==================#
         # system home-man:
-        inputs.homeMan.nixosModules.home-manager {
+        home-manager {
           home-manager.useGlobalPkgs = true; # sets home-manager to use the nix-package-manager packages instead of its own internal ones
           home-manager.useUserPackages = true; # packages will be installed per user;
           home-manager.extraSpecialArgs = {
@@ -128,7 +131,7 @@ in
           };
           home-manager.users.pengolodh = {
             imports = 
-              [inputs.plasmaMan.homeManagerModules.plasma-manager]  # add plasma-manager to home-man user imports as per https://github.com/pjones/plasma-manager/issues/5
+              [plasma-manager]  # add plasma-manager to home-man user imports as per https://github.com/pjones/plasma-manager/issues/5
               ++ [(import ./global/users/desktop-pengolodh/home.nix)]
               ++ (import ./global/config/desktop/kde)
 
@@ -160,7 +163,7 @@ in
 
         #==================#
         # system home-man:
-        inputs.homeMan.nixosModules.home-manager {
+        home-manager {
           home-manager.useGlobalPkgs = true; # sets home-manager to use the nix-package-manager packages instead of its own internal ones
           home-manager.useUserPackages = true; # packages will be installed per user;
           home-manager.extraSpecialArgs = {  };
