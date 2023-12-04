@@ -34,12 +34,20 @@
 
   # virtualisation guest tools:
   # guest agent for spice:
-  environment.systemPackages = with pkgs; [
-    # xorg.xf86videoqxl # qxl video driver for xorg
-    spice-vdagent # for clipboard sharing with host
-  ];
-  #services.xserver.videoDrivers = [ "qxl" ]; # enable qxl video driver, warning do not enable it fucks up the entire vm
+  # create the service https://github.com/chewblacka/nixos/blob/main/etc/nixos/configuration.nix
+  systemd.user.services.spice-agent = {
+      enable = true;
+      wantedBy = ["graphical-session.target"];
+      serviceConfig = { ExecStart = "${pkgs.spice-vdagent}/bin/spice-vdagent -x"; };
+      unitConfig = { ConditionVirtualization = "vm";
+        Description = "Spice guest session agent";
+        After = ["graphical-session-pre.target"];
+        PartOf = ["graphical-session.target"];
+      };
+  };
+
   services.spice-vdagentd.enable = true;
+
   # ----
 
   # power settings:
