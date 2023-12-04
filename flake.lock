@@ -1,21 +1,5 @@
 {
   "nodes": {
-    "dotfiles": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1688045172,
-        "narHash": "sha256-jSBDx7Mv4lfk7I0TGkTc3TRloCt4BSENsvnfwd50vIY=",
-        "owner": "pengolodh",
-        "repo": "dotfiles",
-        "rev": "e4a9fced74da50384a03f945d0ec5548a9b635aa",
-        "type": "gitlab"
-      },
-      "original": {
-        "owner": "pengolodh",
-        "repo": "dotfiles",
-        "type": "gitlab"
-      }
-    },
     "homeMan": {
       "inputs": {
         "nixpkgs": [
@@ -150,7 +134,6 @@
     },
     "root": {
       "inputs": {
-        "dotfiles": "dotfiles",
         "homeMan": "homeMan",
         "hyprland": "hyprland",
         "nixpkgs": "nixpkgs_2",
