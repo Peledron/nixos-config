@@ -50,14 +50,14 @@ in
         # package modules
         impermanence
         # global modules
-        ${global-confdir}/conf.nix
-        ${global-confdir}/desktop/gnome.nix
+        "${global-confdir}/conf.nix"
+        "${global-confdir}/desktop/gnome.nix"
 
         # host module
-        ${hostdir}/vm-nixos-desktop
+        "${hostdir}/vm-nixos-desktop"
 
         # user modules
-        ${pengolodh-basemodule}
+        pengolodh-basemodule
 
         #==================#
         # system home-man:
@@ -96,13 +96,13 @@ in
     };
     modules = [
         hyprland
-        ${global-confdir}/conf.nix
-        ${global-confdir}/desktop/hyprland.nix
+        "${global-confdir}/conf.nix"
+        "${global-confdir}/desktop/hyprland.nix"
         #./global/config/desktop/kde.nix
-        ${hostdir}/nixos-macbook
+        "${hostdir}/nixos-macbook"
 
          # user modules
-        ${pengolodh-basemodule}
+        pengolodh-basemodule
         
         #==================#
         # system home-man:
@@ -139,12 +139,12 @@ in
     };
     modules = [
         hyprland
-        ${global-confdir}/conf.nix
-        ${global-confdir}/desktop/kde.nix
-        ${hostdir}/nixos-laptop-asus
+        "${global-confdir}/conf.nix"
+        "${global-confdir}/desktop/kde.nix"
+        "${hostdir}/nixos-laptop-asus"
 
          # user modules
-        ${pengolodh-basemodule}
+        pengolodh-basemodule
         
         #==================#
         # system home-man:
@@ -183,10 +183,10 @@ in
       modules = [
         #/etc/nixos/hardware-configuration.nix # remove this as it is impure, only for configurations that are used between a lot of systems (or just add more hosts in this file for different systems)
         # --> changed it to use partitionlabels instead, all hardware configuration is defined in $host/core/hardware.nix
-        ./global/config/conf.nix
-        ./nixos-server-dns
+        "${global-confdir}/conf.nix"
+        "${hostdir}/nixos-server-dns"
         # user modules
-        ${pengolodh-basemodule}
+        pengolodh-basemodule
 
         #==================#
         # system home-man:
