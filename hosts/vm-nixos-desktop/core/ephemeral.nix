@@ -1,4 +1,4 @@
-{ config, lib, pkgs, system, inputs, ... }:   
+{ config, lib, pkgs, system, inputs, impermanence, ... }:
 {
     # define the persistent filesystems
     # (see scripts/prepare.sh under ephemeral option)
@@ -65,6 +65,7 @@
     ''; # from https://mt-caret.github.io/blog/posts/2020-06-29-optin-state.html
 
     # set persistence to certain configs
+    /* old method:
     environment.etc = {
         # network connections
         "NetworkManager/system-connections".source = "/persist/etc/NetworkManager/system-connections/";
@@ -82,11 +83,29 @@
         "L /var/lib/NetworkManager/timestamps - - - - /persist/var/lib/NetworkManager/timestamps"
         "L /var/lib/docker - - - - /persist/var/lib/docker"
     ]; # -> you can use systemd tempfiles to create symlinks to pernament directories, needed cuz the etc module only allows for files in etc (duh)
+    */
 
-    /*networking.wireguard.interfaces.wg0 = {
-        generatePrivateKeyFile = true;
-        privateKeyFile = "/persist/etc/wireguard/wg0";
-    };*/ # uncomment if wireguard is used
+    environment.persistence."/persist" = {
+        directories = [
+            "/etc/libvirt"
+            "/etc/NetworkManager/system-connections"
+            "/var/lib/bluetooth"
+            "/var/lib/docker"
+        ];
+        files = [
+            "/etc/machine-id"
+            "/etc/adjtime"
+            "/var/lib/NetworkManager/secret_key"
+            "/var/lib/NetworkManager/seen-bssids"
+            "/var/lib/NetworkManager/timestamps"
+        ];
+    };
+
+    # disable sudo lecture, it is the warning message that displays the first time you use the sudo command
+    security.sudo.extraConfig = ''
+        # rollback results in sudo lectures after each reboot
+        Defaults lecture = never
+    '';
     services.openssh = {
         enable = true;
         # sets nix to use the host keys in the given directory
@@ -101,5 +120,9 @@
                 bits = 4096;
             }
         ];
-  };
+    };
+    /*networking.wireguard.interfaces.wg0 = {
+            generatePrivateKeyFile = true;
+            privateKeyFile = "/persist/etc/wireguard/wg0";
+    };*/ # uncomment if wireguard is used
 }

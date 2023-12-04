@@ -1,5 +1,5 @@
 # declare the hosts for the flake, default.nix will always be used when importing a directory
-{ lib, inputs, nixpkgs, nur, hyprland, self, ... }:
+{ lib, self, ... }:
 let
   system = "x86_64-linux"; # System architecture
   lib = nixpkgs.lib;
@@ -18,6 +18,8 @@ let
 
   hyprland = inputs.hyprland.nixosModules.default;
   hyprlandHM = inputs.hyprland.homeManagerModules.default;
+
+  impermanence = impermanence.nixosModules.impermanence;
 in
 {
   #==================#
@@ -28,9 +30,9 @@ in
     specialArgs = {
       inherit inputs self; 
     };
-      modules = [
-        #/etc/nixos/hardware-configuration.nix # remove this as it is impure, only for configurations that are used between a lot of systems (or just add more hosts in this file for different systems)
-        # --> changed it to use partitionlabels instead, all hardware configuration is defined in $host/core/hardware.nix
+    modules = [
+        impermanence
+
         ./global/config/conf.nix 
         ./global/config/desktop/gnome.nix
         ./vm-nixos-desktop
