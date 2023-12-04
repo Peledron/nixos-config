@@ -8,12 +8,14 @@
             fsType = "btrfs";
 
             options = [ "subvol=persist" "compress=zstd" "noatime" ];
+            neededForBoot = true;
         };
-         "/log" = {
+         "/var/log" = {
             device = "/dev/mapper/nixos-main";
             fsType = "btrfs";
 
             options = [ "subvol=log" "compress=zstd" "noatime" ];
+            neededForBoot = true;
         };
         "/var/lib/libvirt/images" = {
             device = "/dev/mapper/nixos-main";
@@ -22,6 +24,7 @@
             options = ["subvol=persist/vm_default-images" "noatime" "commit=120" ];
         };
     };
+
 
     # clear root subvolume on each boot as per https://grahamc.com/blog/erase-your-darlings/ and https://nixos.wiki/wiki/Btrfs
     # Note `lib.mkBefore` is used instead of `lib.mkAfter` here.
