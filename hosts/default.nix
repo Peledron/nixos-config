@@ -67,7 +67,7 @@ in
           home-manager.extraSpecialArgs = {  };
           home-manager.users.pengolodh = {
             imports = 
-              [(import ${pengolodh_desktop-homemodule})]
+              [pengolodh_desktop-homemodule]
             ; # add more inports via ++ (import folder) or ++ [(import file)]
             
           };
@@ -116,10 +116,10 @@ in
             imports = 
               #[inputs.plasmaMan.homeManagerModules.plasma-manager]  # add plasma-manager to home-man user imports as per https://github.com/pjones/plasma-manager/issues/5
               [hyprlandHM]
-              ++ [(import ${pengolodh_desktop-homemodule})]
+              [pengolodh_desktop-homemodule]
               #++ (import ./global/config/desktop/kde)
-              ++ [(import ${global-confdir}/desktop/hyprland/pkgs.nix)]
-              ++ [(import ${global-confdir}/desktop/hyprland/conf.nix)]
+              ++ [(import "${global-confdir}/desktop/hyprland/pkgs.nix")]
+              ++ [(import "${global-confdir}/desktop/hyprland/conf.nix)"]
             ; # add more inports via ++ (import folder) or ++ [(import file)]
             
           };
@@ -157,7 +157,7 @@ in
           home-manager.users.pengolodh = {
             imports = 
               [plasma-manager]  # add plasma-manager to home-man user imports as per https://github.com/pjones/plasma-manager/issues/5
-              ++ [(import ${pengolodh_desktop-homemodule})]
+              ++ [pengolodh_desktop-homemodule]
               ++ (import ${global-confdir}/desktop/kde)
 
             ; # add more inports via ++ (import folder) or ++ [(import file)]
@@ -196,7 +196,7 @@ in
           home-manager.extraSpecialArgs = {  };
           home-manager.users.pengolodh = {
             imports =
-              [(import ${pengolodh_server-homemodule})]
+              [pengolodh_server-homemodule]
             ; # add more inports via ++ (import folder) or ++ [(import file)]
 
           };
