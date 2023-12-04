@@ -2,24 +2,24 @@
 { lib, self, inputs, ... }:
 let
   system = "x86_64-linux"; # System architecture
-  lib = nixpkgs.lib;
+  lib = inputs.nixpkgs.lib;
 
-  pkgs = import nixpkgs {
+  pkgs = import inputs.nixpkgs {
     inherit system;
     config.allowUnfree = true;  # Allow proprietary software
     overlays = [
-      nur.overlay # overlay nixpkgs with nur, meant that you add nur packages to the nixpkgs module (I think)
+      inputs.nur.overlay # overlay nixpkgs with nur, meant that you add nur packages to the nixpkgs module (I think)
     ];
   };
 
-  nur-no-pkgs = import nur { # so we can import overlapping modules
-    nurpkgs = import nixpkgs {inherit system; }; 
+  nur-no-pkgs = import inputs.nur { # so we can import overlapping modules
+    nurpkgs = import inputs.nixpkgs {inherit system; };
   };
 
   hyprland = inputs.hyprland.nixosModules.default;
   hyprlandHM = inputs.hyprland.homeManagerModules.default;
 
-  impermanence = impermanence.nixosModules.impermanence;
+  impermanence = inputs.impermanence.nixosModules.impermanence;
 in
 {
   #==================#
