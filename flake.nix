@@ -17,7 +17,7 @@
             inputs.nixpkgs.follows = "nixpkgs"; # sets home-manager to use the nix-package-manager packages instead of its own internal ones
         };
         hyprland.url = "github:hyprwm/Hyprland";
-        impermanence.url = "github:nix-community/impermanence"
+        impermanence.url = "github:nix-community/impermanence";
         # plasma-manager
         plasmaMan = {
             url = "github:pjones/plasma-manager"; # plasma manager so we can manage kde settings with home-manager
