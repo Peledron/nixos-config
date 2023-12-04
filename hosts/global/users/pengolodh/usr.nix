@@ -1,0 +1,39 @@
+# user-specific config
+
+{ config, lib, pkgs, self, ... }:
+/*let
+   passwd-dir = "${self}/.secrets/passwd" # self refers to the base directory of the flake
+in*/
+{
+
+   users = {
+      users = {
+         # Define a user account. Don't forget to set a password with ‘passwd’. or run mkpasswd and copy the hash in hashedPassword = "";
+         # place new users here:
+         # user pengolodh
+         pengolodh = {
+            isNormalUser = true;
+            home = "/home/pengolodh" ; # you can define a different home, /home/$USER is used by default
+            #passwordFile = "${passwd-dir}/pengolodh/passwd"; # you can store a password hash in $flakedir/.secrets and encrypt/decrypt it with git-crypt
+            hashedPassword = "$6$iloR4OWTUPzS1jPM$OsIp0yHs9IT.NB1PKfVvC8WlJqv5EuHPGq/czcaBh05bJael9Qc5e1OM2
+  oUrE11/2spcdaIfUv9rZNVrbZzTY."; # password hash generated via mkpasswd -m sha-512
+            #initialPassword = "changeme"; # change this with passwd on login
+            extraGroups = [ "wheel" "docker" "kvm" "libvirtd" ]; # add user to groups for extra permissions like sudo access
+
+            /*
+            # ssh user specific settings:
+            openssh = {
+               # set ssh authorized keys
+               authorizedKeys = {
+                  keys = [
+
+                  ];
+               };
+            };
+            */
+         };
+         # add new users here:
+      };
+   };
+
+}

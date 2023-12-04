@@ -1,6 +1,7 @@
 # declare the hosts for the flake, default.nix will always be used when importing a directory
 { lib, self, inputs, ... }:
 let
+  # modules
   system = "x86_64-linux"; # System architecture
   lib = inputs.nixpkgs.lib;
 
@@ -16,14 +17,26 @@ let
     nurpkgs = import inputs.nixpkgs {inherit system; };
   };
 
-  home-manager = inputs.homeMan.nixosModules.home-manager;
-
-  plasma-manager = inputs.plasmaMan.homeManagerModules.plasma-manager;
   hyprland = inputs.hyprland.nixosModules.default;
+
+  home-manager = inputs.homeMan.nixosModules.home-manager;
+  plasma-manager = inputs.plasmaMan.homeManagerModules.plasma-manager;
   hyprlandHM = inputs.hyprland.homeManagerModules.default;
 
   impermanence = inputs.impermanence.nixosModules.impermanence;
+
+  # paths
+  hostdir = "${self}/hosts";
+  global-confdir = "${hostdir}/global/config";
+  global-usrdir = "${hostdir}/global/users";
+
+  # user specific modules
+  pengolodh-basemodule = "${global-usrdir}/pengolodh/usr.nix";
+  pengolodh_desktop-homemodule = "${global-usrdir}/pengolodh/home/desktop/home.nix";
+  pengolodh_server-homemodule = "${global-usrdir}/pengolodh/home/server/home.nix";
+
 in
+
 {
   #==================#
   # vm-desktop:
@@ -34,11 +47,17 @@ in
       inherit inputs self; 
     };
     modules = [
+        # package modules
         impermanence
+        # global modules
+        ${global-confdir}/conf.nix
+        ${global-confdir}/desktop/gnome.nix
 
-        ./global/config/conf.nix 
-        ./global/config/desktop/gnome.nix
-        ./vm-nixos-desktop
+        # host module
+        ${hostdir}/vm-nixos-desktop
+
+        # user modules
+        ${pengolodh-basemodule}
 
         #==================#
         # system home-man:
@@ -48,7 +67,7 @@ in
           home-manager.extraSpecialArgs = {  };
           home-manager.users.pengolodh = {
             imports = 
-              [(import ./global/users/desktop-pengolodh/home.nix)]
+              [(import ${pengolodh_desktop-homemodule})]
             ; # add more inports via ++ (import folder) or ++ [(import file)]
             
           };
@@ -77,10 +96,13 @@ in
     };
     modules = [
         hyprland
-        ./global/config/conf.nix
-        ./global/config/desktop/hyprland.nix
+        ${global-confdir}/conf.nix
+        ${global-confdir}/desktop/hyprland.nix
         #./global/config/desktop/kde.nix
-        ./nixos-macbook
+        ${hostdir}/nixos-macbook
+
+         # user modules
+        ${pengolodh-basemodule}
         
         #==================#
         # system home-man:
@@ -94,10 +116,10 @@ in
             imports = 
               #[inputs.plasmaMan.homeManagerModules.plasma-manager]  # add plasma-manager to home-man user imports as per https://github.com/pjones/plasma-manager/issues/5
               [hyprlandHM]
-              ++ [(import ./global/users/desktop-pengolodh/home.nix)]
+              ++ [(import ${pengolodh_desktop-homemodule})]
               #++ (import ./global/config/desktop/kde)
-              ++ [(import ./global/config/desktop/hyprland/pkgs.nix)]
-              ++ [(import ./global/config/desktop/hyprland/conf.nix)]
+              ++ [(import ${global-confdir}/desktop/hyprland/pkgs.nix)]
+              ++ [(import ${global-confdir}/desktop/hyprland/conf.nix)]
             ; # add more inports via ++ (import folder) or ++ [(import file)]
             
           };
@@ -117,9 +139,12 @@ in
     };
     modules = [
         hyprland
-        ./global/config/conf.nix
-        ./global/config/desktop/kde.nix
-        ./nixos-laptop-asus
+        ${global-confdir}/conf.nix
+        ${global-confdir}/desktop/kde.nix
+        ${hostdir}/nixos-laptop-asus
+
+         # user modules
+        ${pengolodh-basemodule}
         
         #==================#
         # system home-man:
@@ -132,8 +157,8 @@ in
           home-manager.users.pengolodh = {
             imports = 
               [plasma-manager]  # add plasma-manager to home-man user imports as per https://github.com/pjones/plasma-manager/issues/5
-              ++ [(import ./global/users/desktop-pengolodh/home.nix)]
-              ++ (import ./global/config/desktop/kde)
+              ++ [(import ${pengolodh_desktop-homemodule})]
+              ++ (import ${global-confdir}/desktop/kde)
 
             ; # add more inports via ++ (import folder) or ++ [(import file)]
             
@@ -160,6 +185,8 @@ in
         # --> changed it to use partitionlabels instead, all hardware configuration is defined in $host/core/hardware.nix
         ./global/config/conf.nix
         ./nixos-server-dns
+        # user modules
+        ${pengolodh-basemodule}
 
         #==================#
         # system home-man:
@@ -169,7 +196,7 @@ in
           home-manager.extraSpecialArgs = {  };
           home-manager.users.pengolodh = {
             imports =
-              [(import ./global/users/server-pengolodh/home.nix)]
+              [(import ${pengolodh_server-homemodule})]
             ; # add more inports via ++ (import folder) or ++ [(import file)]
 
           };
