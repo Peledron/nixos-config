@@ -1,7 +1,11 @@
 {config, pkgs, dotfiles, ... }:
 {
     # [import declared configs]
-    imports = (import ./configs);
+    imports =
+        [(import ./pkgs.nix)]
+        #++ [(import ./nvidia.nix)]
+        ++ (import ./configs)
+    ;
     # ---
 
     # ================ #

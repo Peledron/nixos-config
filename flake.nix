@@ -16,6 +16,11 @@
             url = "github:nix-community/home-manager";
             inputs.nixpkgs.follows = "nixpkgs"; # sets home-manager to use the nix-package-manager packages instead of its own internal ones
         };
+        # disko, auto disk partitioning tool using nix config... its perfect to replace scripts/prepare.sh (most of it at least)
+        disko = {
+            url = "github:nix-community/disko";
+            inputs.nixpkgs.follows = "nixpkgs";
+        };
         hyprland.url = "github:hyprwm/Hyprland";
         impermanence.url = "github:nix-community/impermanence";
         # plasma-manager

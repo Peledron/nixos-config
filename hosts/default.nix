@@ -1,7 +1,7 @@
 # declare the hosts for the flake, default.nix will always be used when importing a directory
 { lib, self, inputs, ... }:
 let
-  # modules
+  # package modules
   system = "x86_64-linux"; # System architecture
   lib = inputs.nixpkgs.lib;
 
@@ -17,23 +17,31 @@ let
     nurpkgs = import inputs.nixpkgs {inherit system; };
   };
 
-  hyprland = inputs.hyprland.nixosModules.default;
-
+  # aditional functionality
   home-manager = inputs.homeMan.nixosModules.home-manager;
-  plasma-manager = inputs.plasmaMan.homeManagerModules.plasma-manager;
-  hyprlandHM = inputs.hyprland.homeManagerModules.default;
-
   impermanence = inputs.impermanence.nixosModules.impermanence;
+  disko = inputs.disko.nixosModules.disko;
+
+  # DE related inputs
+  plasma-manager = inputs.plasmaMan.homeManagerModules.plasma-manager;
+
+  hyprland-coremod = inputs.hyprland.nixosModules.default;
+  hyprland-homemod = inputs.hyprland.homeManagerModules.default;
 
   # paths
+  # -> main
   hostdir = "${self}/hosts";
   global-confdir = "${hostdir}/global/config";
   global-usrdir = "${hostdir}/global/users";
+  # -> Desktops
+  desktopdir = "${global-confdir}/desktop";
+  hyprland-coreconf  = "${desktopdir}/hyprland.nix";
+  hyprland-homeconf = "${desktopdir}/hyprland"
 
   # user specific modules
-  pengolodh-basemodule = "${global-usrdir}/pengolodh/usr.nix";
-  pengolodh_desktop-homemodule = "${global-usrdir}/pengolodh/home/desktop/home.nix";
-  pengolodh_server-homemodule = "${global-usrdir}/pengolodh/home/server/home.nix";
+  pengolodh-baseconf = "${global-usrdir}/pengolodh/usr.nix";
+  pengolodh_desktop-homeconf = "${global-usrdir}/pengolodh/home/desktop/home.nix";
+  pengolodh_server-homeconf = "${global-usrdir}/pengolodh/home/server/home.nix";
 
 in
 
@@ -48,7 +56,9 @@ in
     };
     modules = [
         # package modules
+        disko
         impermanence
+
         # global modules
         "${global-confdir}/conf.nix"
         "${global-confdir}/desktop/gnome.nix"
@@ -57,7 +67,7 @@ in
         "${hostdir}/vm-nixos-desktop"
 
         # user modules
-        pengolodh-basemodule
+        pengolodh-baseconf
 
         #==================#
         # system home-man:
@@ -67,7 +77,7 @@ in
           home-manager.extraSpecialArgs = {  };
           home-manager.users.pengolodh = {
             imports = 
-              [pengolodh_desktop-homemodule]
+              [pengolodh_desktop-homeconf]
             ; # add more inports via ++ (import folder) or ++ [(import file)]
             
           };
@@ -102,7 +112,7 @@ in
         "${hostdir}/nixos-macbook"
 
          # user modules
-        pengolodh-basemodule
+        pengolodh-baseconf
         
         #==================#
         # system home-man:
@@ -116,7 +126,7 @@ in
             imports = 
               #[inputs.plasmaMan.homeManagerModules.plasma-manager]  # add plasma-manager to home-man user imports as per https://github.com/pjones/plasma-manager/issues/5
               [hyprlandHM]
-              [pengolodh_desktop-homemodule]
+              ++ [pengolodh_desktop-homeconf]
               #++ (import ./global/config/desktop/kde)
               ++ [(import "${global-confdir}/desktop/hyprland/pkgs.nix")]
               ++ [(import "${global-confdir}/desktop/hyprland/conf.nix")]
@@ -144,7 +154,7 @@ in
         "${hostdir}/nixos-laptop-asus"
 
          # user modules
-        pengolodh-basemodule
+        pengolodh-baseconf
         
         #==================#
         # system home-man:
@@ -157,7 +167,7 @@ in
           home-manager.users.pengolodh = {
             imports = 
               [plasma-manager]  # add plasma-manager to home-man user imports as per https://github.com/pjones/plasma-manager/issues/5
-              ++ [pengolodh_desktop-homemodule]
+              ++ [pengolodh_desktop-homeconf]
               ++ (import "${global-confdir}/desktop/kde")
 
             ; # add more inports via ++ (import folder) or ++ [(import file)]
@@ -186,7 +196,7 @@ in
         "${global-confdir}/conf.nix"
         "${hostdir}/nixos-server-dns"
         # user modules
-        pengolodh-basemodule
+        pengolodh-baseconf
 
         #==================#
         # system home-man:
@@ -196,7 +206,7 @@ in
           home-manager.extraSpecialArgs = {  };
           home-manager.users.pengolodh = {
             imports =
-              [pengolodh_server-homemodule]
+              [pengolodh_server-homeconf]
             ; # add more inports via ++ (import folder) or ++ [(import file)]
 
           };
