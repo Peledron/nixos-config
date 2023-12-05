@@ -23,6 +23,10 @@
                 obsidian
                 vscodium-fhs # fhs version allows for extention installion
                 meld
+                # [pdf]
+                libsForQt5.okular
+                # [vm]
+                virt-manager
 
             # cli tools
                 # [dotfiles management] # I should define all config in nix but...
@@ -38,4 +42,5 @@
         # set programs to be managed by home-manager:
         # --> program configs are within ./configs
         #programs.firefox.enable = true;
+        programs.virt-manager.enable
 }

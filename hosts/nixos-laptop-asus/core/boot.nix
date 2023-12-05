@@ -16,5 +16,5 @@
             enable = true;
         };
     };
-    # for secure boot see: https://github.com/nix-community/lanzaboote/blob/master/docs/QUICK_START.md
+#     # for secure boot see: https://github.com/nix-community/lanzaboote/blob/master/docs/QUICK_START.md and https://nixos.wiki/wiki/Secure_Boot
 }

@@ -49,6 +49,7 @@
     # ---
 
     # set wireguard config
+    /*
     wg-quick.interfaces = {
       wg0 = {
         address = [ "172.16.0.4/32" ];
@@ -66,5 +67,6 @@
         ];
       };
     };
+    */
   };
 }

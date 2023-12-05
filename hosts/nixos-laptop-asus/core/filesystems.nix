@@ -47,4 +47,7 @@
   # add swap:
   #swapDevices = [ { device = "/swap/swapfile"; } ];
   # --- 
+
+  # zfs autotrim
+  services.zfs.trim.enable = true;
 }

@@ -3,4 +3,5 @@
     ./locale.nix
     ./services.nix
     ./env.nix
+    ./usr.nix
 ]

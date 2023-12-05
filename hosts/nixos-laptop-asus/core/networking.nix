@@ -50,6 +50,7 @@
     # ---
 
     # set wireguard config
+    /*
     wg-quick.interfaces = {
       wg0 = {
         address = [ "172.16.0.6/32" ];
@@ -61,11 +62,12 @@
             publicKey = "TiW1dNArzZIudtHrtIYXHtogDNRZY4lGjfeNw1qJ9jk=";
             #presharedKeyFile = "/root/wireguard-keys/preshared_from_peer0_key";
             allowedIPs = [ "0.0.0.0/0"];
-            endpoint = "78.22.99.166:13231";
+            endpoint = ":13231";
             persistentKeepalive = 25;
           }
         ];
       };
     };
+    */
   };
 }

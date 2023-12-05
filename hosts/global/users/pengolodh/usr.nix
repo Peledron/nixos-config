@@ -17,7 +17,7 @@ in*/
             #passwordFile = "${passwd-dir}/pengolodh/passwd"; # you can store a password hash in $flakedir/.secrets and encrypt/decrypt it with git-crypt
             hashedPassword = "$6$iloR4OWTUPzS1jPM$OsIp0yHs9IT.NB1PKfVvC8WlJqv5EuHPGq/czcaBh05bJael9Qc5e1OM2oUrE11/2spcdaIfUv9rZNVrbZzTY."; # password hash generated via mkpasswd -m sha-512
             #initialPassword = "changeme"; # change this with passwd on login
-            extraGroups = [ "wheel" "docker" "kvm" "libvirtd" ]; # add user to groups for extra permissions like sudo access
+            extraGroups = [ "wheel" "docker" "kvm" "libvirtd" "video" ]; # add user to groups for extra permissions like sudo access
 
             /*
             # ssh user specific settings:

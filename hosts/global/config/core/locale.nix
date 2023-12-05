@@ -31,4 +31,14 @@
     keyMap = "us"; # tty keymap (us-qwerty in this case) override this with console.useXkbConfig = true; to use the same as xorg in your host locale.nix
   };
   # ---
+   # change keyboard layout
+  # --> unsure if this affects DE
+  #console.useXkbConfig = true; # overrides console settings set in global/locale.nix
+  #services.xserver.layout = "us";
+  # --> change other xkb settings:
+  #services.xserver.xkbOptions = {
+  #   "eurosign:e";
+  #   "caps:escape" # map caps to escape.
+  #};
+  # ---
 }

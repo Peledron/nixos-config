@@ -2,77 +2,14 @@
 
 { config, lib, pkgs, ... }:
 {
-  # nice daemon
-  # --> need to see if there is an easy way to input large rulesets like https://github.com/CachyOS/ananicy-rules
-  services.ananicy = {
-    package = pkgs.ananicy-cpp;
+  powerManagement = {
     enable = true;
-    #extraRules = {}; # for extra rules --> list would be too large to import things like community rulesets, the default ruleset from ananicy is imported
+    #powertop.enable = true; # enable powertop auto-optimize of tunetables (not needed with tlp enabled)
   };
-  # ---
-
-  # sound
-  # --> pipewire:
-  hardware.pulseaudio.enable = false;
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-  };
-  # --> pulseaudio:
-  # sound.enable = true;
-  # hardware.pulseaudio.enable = true;
-  # ----
-
-  # printing
-  # --> printer discovery:
-  services.avahi = {                                   # Needed to find wireless printer
-    enable = true;
-    nssmdns = true;
-    publish = {                               # Needed for detecting the scanner
-        enable = true;
-        addresses = true;
-        userServices = true;
-    };
-  };
-  # --> CUPS:
-  services.printing = {
-    enable = true;
-    drivers = [ pkgs.hplip pkgs.hplipWithPlugin ]; # hplip == hp printer drivers; hplipWithPlugin == additional hp drivers
-  }; 
-  # --> scanning:
-  hardware.sane = {
-    enable = true;
-    extraBackends = [ pkgs.hplipWithPlugin ]; # see above
-  };
-  # ----
-
-  # flatpak 
-  # --> best used for non-native or closed sourced apps like discord, obsidian, ... (better isolation than nixos packages)
-  services.flatpak.enable = true;
-  xdg.portal.enable = true;
-  #xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-kde ];
-  # --> see ./desktop.nix for xdg portal as it is dependant on de (kde and gnome auto-install their respective portals)
-  # ---
-
-  # virtualisation
-  virtualisation = {
-    #  --> libvirt:
-    libvirtd = {
-      enable = true;
-    };
-    #  --> docker:
-    docker ={
-      enable = true;
-    };
-  };
-  # ----
-
   # power management
   # -> enables suspend to ram and such (is this needed?)
   #services.auto-cpufreq.enable = true;
+  services.auto-cpufreq.enable = false; # if tlp is enabled this should be disabled to prevent conflicts
   services.tlp = {
     enable = true;
     settings = {
@@ -84,7 +21,6 @@
       CPU_BOOST_ON_BAT=0; # disallows turbo on battery
       SCHED_POWERSAVE_ON_AC=0;
       SCHED_POWERSAVE_ON_BAT=1;
-
 
       DEVICES_TO_DISABLE_ON_BAT_NOT_IN_USE="bluetooth wifi wwan";
       # The following prevents the battery from charging fully to
@@ -100,9 +36,4 @@
       CPU_MAX_PERF_ON_BAT=50;
     };
   };
-  powerManagement = {
-    enable = true;
-    #powertop.enable = true; # enable powertop auto-optimize of tunetables (not needed with tlp enabled)
-  };
-
 }

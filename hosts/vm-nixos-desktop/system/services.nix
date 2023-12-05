@@ -16,63 +16,10 @@
   */
   #---
 
-  # sound
-  # --> pipewire:
-  hardware.pulseaudio.enable = false;
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-  };
-  # --> pulseaudio:
-  # sound.enable = true;
-  # hardware.pulseaudio.enable = true;
-  # ----
-
-  # printing
-  # --> printer discovery:
-  services.avahi = {                                   # Needed to find wireless printer
-    enable = true;
-    nssmdns = true;
-      publish = {                               # Needed for detecting the scanner
-        enable = true;
-        addresses = true;
-        userServices = true;
-      };
-  };
-  # --> CUPS:
-  services.printing = {
-    enable = true;
-    drivers = [ pkgs.hplip pkgs.hplipWithPlugin ]; # hplip == hp printer drivers; hplipWithPlugin == additional hp drivers
-  }; 
-  # --> scanning:
-  hardware.sane = {
-    enable = true;
-    extraBackends = [ pkgs.hplipWithPlugin ]; # see above
-  };
-  # ----
-
-  # flatpak 
-  # --> best used for non-native or closed sourced apps like discord, obsidian, ... (better isolation than nixos packages)
-  services.flatpak.enable = true;
-  xdg.portal.enable = true;
-  #xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-kde ];
-  # --> see ./desktop.nix for xdg portal as it is dependant on de (kde and gnome auto-install their respective portals)
-  # ---
-
-  # virtualisation
-  virtualisation = {
-    #  --> libvirt:
-    libvirtd = {
-      enable = true;
-    };
-    #  --> docker:
-    docker ={
-      enable = true;
-    };
-  };
-  # ----
+  # disable auto-cpufreq and powermanagement as this is vm
+  # we defined this in core/desktop/system/services.nix as mkdefault (meaning it has a priority of 1000, the default priority in nixos is 100, and mkforce sets it to 50, mkbefore is 500 and mkafter is 1500)
+  # => lower priority value means this overrides the default value
+  services.auto-cpufreq.enable = false;
+  powerManagement.enable = false;
 
 }
