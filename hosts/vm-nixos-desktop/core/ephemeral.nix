@@ -3,12 +3,15 @@
 {
     # define the persistent filesystems
     # (see scripts/prepare.sh under ephemeral option)
-    disko.devices.root.content.partitions.NIXOS_MAIN.subvolumes = {
+    disko.devices.root.content.partitions.NIXOS_MAIN.subvolumes = lib.mkafter {
+        "/root" = {
+            postCreateHook = "btrfs subvolume snapshot -r /root /root-blank";
+        };
         "/persist" = {
             mountpoint = "/persist";
             mountOptions = [ "compress=zstd" "noatime" ];
         };
-        "/persist/vm-default" = {
+        "/persist/libvirt" = {
              mountpoint = "/var/lib/libvirt"; # im going to do this entire folder, this is put into a different subvol so I can disable compression and set the commit to a higher value, to increase performance
              mountOptions = [ "noatime" "commit=120" ];
         };
@@ -16,7 +19,6 @@
             mountpoint = "/var/log";
             mountOptions = [ "compress=zstd" "noatime" ];
         };
-
     };
     /*
     fileSystems = {
