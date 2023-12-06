@@ -28,6 +28,7 @@
                 # allow realtime priority to be set for programs running in the user group
                 { domain = "@users"; item = "rtprio"; type = "-"; value = 1; }
             ];
+        };
     };
     # enable gnome-keyring as some programs use it to manage secrets
     services.gnome = {
