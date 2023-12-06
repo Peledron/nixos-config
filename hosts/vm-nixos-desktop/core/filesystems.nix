@@ -90,6 +90,9 @@
 
     };
   };
+  fileystems = {
+    "/persist".neededForBoot = true;
+  };
 
   /*
   fileSystems = {
