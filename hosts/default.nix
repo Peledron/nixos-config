@@ -36,7 +36,7 @@ let
   global-desktopdir = "${global-confdir}/desktop";
 
   global-coreconf = "${global-confdir}/conf.nix";
-  global-desktopconf = "${global-confdir}/desktop/system/conf.nix}";
+  global-desktopconf = "${global-confdir}/desktop/system/conf.nix";
 
   # -> Desktop environments
   desktop_envdir = "${global-desktopdir}/environments";
