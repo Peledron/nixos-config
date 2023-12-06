@@ -1,6 +1,6 @@
 { config, lib, pkgs, ... }:
 {
-  fonts = lib.mkdefault {
+  fonts = lib.mkDefault {
       # font packages
       fonts = with pkgs; [
         ubuntu_font_family
