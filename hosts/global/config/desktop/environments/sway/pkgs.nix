@@ -25,7 +25,7 @@ in
 {
     home.packages = with pkgs; [
         # [imported scripts]
-        dbus-hyprland-environment
+        dbus-sway-environment
 
         # [applications]
         # -> term

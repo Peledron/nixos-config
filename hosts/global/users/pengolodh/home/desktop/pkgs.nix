@@ -25,8 +25,6 @@
                 meld
                 # [pdf]
                 libsForQt5.okular
-                # [vm]
-                virt-manager
 
             # cli tools
                 # [dotfiles management] # I should define all config in nix but...
