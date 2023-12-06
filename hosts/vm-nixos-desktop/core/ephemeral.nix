@@ -3,7 +3,7 @@
 {
     # define the persistent filesystems
     # (see scripts/prepare.sh under ephemeral option)
-    disko.devices.root.content.partitions.NIXOS_MAIN.subvolumes = lib.mkAfter {
+    disko.devices.disk.root.content.partitions.NIXOS_MAIN.subvolumes = lib.mkAfter {
         "/root" = {
             postCreateHook = "btrfs subvolume snapshot -r /root /root-blank";
         };
