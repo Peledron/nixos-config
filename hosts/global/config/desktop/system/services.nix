@@ -20,6 +20,8 @@
         alsa.support32Bit = true;
         pulse.enable = true;
     };
+    # bluetooth
+    services.blueman.enable = true;
 
     # printing
     # --> printer discovery:

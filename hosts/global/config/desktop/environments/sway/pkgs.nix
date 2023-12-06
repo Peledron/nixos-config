@@ -75,7 +75,6 @@ in
 
         # [applets]
         networkmanagerapplet
-        blueman
 
         # [audio tools]
         pamixer
@@ -85,5 +84,4 @@ in
         #
 
     ];
-    services.blueman.enable = true;
 }
