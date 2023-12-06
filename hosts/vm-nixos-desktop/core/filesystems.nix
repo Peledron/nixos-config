@@ -44,6 +44,7 @@
                   "/root" = {
                     mountpoint = "/";
                     mountOptions = [ "compress=zstd" "noatime" ];
+                    postCreateHook = "btrfs subvolume snapshot -r /root /root-blank";
                   };
                   "/nix" = {
                     mountpoint = "/nix";
@@ -54,6 +55,22 @@
                     mountOptions = [ "compress=zstd" "noatime" ];
                   };
                   # "home/pengolodh" {}; # Sub(sub)volume doesn't need a mountpoint as its parent is mounted
+
+                  # impermanence
+                   "/persist" = {
+                      mountpoint = "/persist";
+                      mountOptions = [ "compress=zstd" "noatime" ];
+                  };
+                  "/persist/libvirt" = {
+                      mountpoint = "/var/lib/libvirt"; # im going to do this entire folder, this is put into a different subvol so I can disable compression and set the commit to a higher value, to increase performance
+                      mountOptions = [ "noatime" "commit=120" ];
+                  };
+                  "/log" = {
+                      mountpoint = "/var/log";
+                      mountOptions = [ "compress=zstd" "noatime" ];
+                  };
+                  # ---
+
                   "/swap" = {
                     mountpoint = "/.swapvol"; # make it hidden cuz it has no use not being so
                     swap = {
