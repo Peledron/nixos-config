@@ -45,12 +45,19 @@ let
   hyprland-coreconf  = "${desktop_envdir}/hyprland.nix";
   hyprland-homeconf = "${desktop_envdir}/hyprland/conf.nix";
 
+  ## => sway
+  sway-coreconf = "${desktop_envdir}/sway.nix";
+  sway-homeconf = "${desktop_envdir}/sway/conf.nix";
+
   ## => gnome
   gnome-coreconf = "${desktop_envdir}/gnome.nix";
 
   ## => kde
   kde-coreconf = "${desktop_envdir}/kde.nix";
   kde-homeconf = "${desktop_envdir}/kde";
+
+  ## => xfce
+  xfce-coreconf = "${desktop_envdir}/xfce,nix";
 
   # user specific modules
   # -> pengolodh
@@ -77,10 +84,15 @@ in
         # modules
         global-coreconf
         global-desktopconf
-        gnome-coreconf
+        sway-coreconf
 
         # -> host module
-        "${hostdir}/vm-nixos-desktop"
+        "${hostdir}/vm-nixos-desktop" {
+          _module.args.disks = [ "/dev/sda" ]; # change this to vda for vmware, you can add more drives in more "", for example "/dev/nvme0n1"
+        }
+
+        # -> hardware
+        "${hostdir}/vm-nixos-desktop/core/hardwareqemu.nix" # change this to hardwarevmware.nix for vmware
 
         # -> user modules
         pengolodh-coreconf
@@ -95,15 +107,12 @@ in
           home-manager.users.pengolodh = {
             imports = 
               [pengolodh_desktop-homeconf]
+              ++ [sway-homeconf]
             ; # add more inports via [import module] ++ (import folder) or ++ [(import file)]
-            
           };
           # ---
           # add more users here:
         }
-	
-        
-        
       ];
   };
   # ---

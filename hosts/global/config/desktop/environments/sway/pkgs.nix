@@ -59,6 +59,7 @@ in
         swaybg # background setter
         autotiling-rs # enables dynamic tiling on sway
         swayr # window switcher (alt+tab thing)
+        wlogout # shutdown options
 
         # -> idle/lock
         swayidle

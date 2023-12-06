@@ -1,7 +1,24 @@
-{ config, lib, pkgs, system, inputs, impermanence, ... }:
+{ config, lib, pkgs, system, inputs, impermanence, disko, disks, ... }:
+
 {
     # define the persistent filesystems
     # (see scripts/prepare.sh under ephemeral option)
+    disko.devices.root.content.partitions.NIXOS_MAIN.subvolumes = {
+        "/persist" = {
+            mountpoint = "/persist";
+            mountOptions = [ "compress=zstd" "noatime" ];
+        };
+        "/persist/vm-default" = {
+             mountpoint = "/var/lib/libvirt"; # im going to do this entire folder, this is put into a different subvol so I can disable compression and set the commit to a higher value, to increase performance
+             mountOptions = [ "noatime" "commit=120" ];
+        };
+        "/log" = {
+            mountpoint = "/var/log";
+            mountOptions = [ "compress=zstd" "noatime" ];
+        };
+
+    };
+    /*
     fileSystems = {
         "/persist" = {
             device = "/dev/mapper/nixos-main";
@@ -23,7 +40,7 @@
 
             options = ["subvol=persist/vm_default-images" "noatime" "commit=120" ];
         };
-    };
+    };*/
 
 
     # clear root subvolume on each boot as per https://grahamc.com/blog/erase-your-darlings/ and https://nixos.wiki/wiki/Btrfs
