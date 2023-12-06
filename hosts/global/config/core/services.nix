@@ -4,7 +4,7 @@
 {
     # see all options  on https://search.nixos.org/options?channel=unstable&from=0&size=50&sort=relevance&type=packages&query=services
     # ssh
-    services.openssh = lib.mkdefault {  # lib.mkdefault sets this value to a low priority, so that it can be overwritten by other configs
+    services.openssh = lib.mkDefault {  # lib.mkdefault sets this value to a low priority, so that it can be overwritten by other configs
       enable = true;
       settings = {
         PasswordAuthentication = false;
