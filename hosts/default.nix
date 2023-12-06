@@ -36,18 +36,18 @@ let
   global-desktopdir = "${global-confdir}/desktop";
 
   global-coreconf = "${global-confdir}/conf.nix";
-  global-desktopconf = "${global-confdir}/desktop/system}";
+  global-desktopconf = "${global-confdir}/desktop/system/conf.nix}";
 
   # -> Desktop environments
   desktop_envdir = "${global-desktopdir}/environments";
 
   ## => hyprland
   hyprland-coreconf  = "${desktop_envdir}/hyprland.nix";
-  hyprland-homeconf = "${desktop_envdir}/hyprland/conf.nix";
+  hyprland-homeconf = "${desktop_envdir}/hyprland/home.nix";
 
   ## => sway
   sway-coreconf = "${desktop_envdir}/sway.nix";
-  sway-homeconf = "${desktop_envdir}/sway/conf.nix";
+  sway-homeconf = "${desktop_envdir}/sway/home.nix";
 
   ## => gnome
   gnome-coreconf = "${desktop_envdir}/gnome.nix";
