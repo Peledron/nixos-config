@@ -50,12 +50,12 @@
 
     # power management
     # -> enables suspend to ram and such (is this needed?)
-    powerManagement = lib.mkdefault {
+    powerManagement = lib.mkDefault {
         enable = true;
         #powertop.enable = true; # enable powertop auto-optimize of tunetables (not needed with tlp enabled)
     };
 
-    services.auto-cpufreq = lib.mkdefault {
+    services.auto-cpufreq = lib.mkDefault {
         enable = true;
     };
 
