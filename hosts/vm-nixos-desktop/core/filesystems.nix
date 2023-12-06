@@ -44,7 +44,6 @@
                   "/root" = {
                     mountpoint = "/";
                     mountOptions = [ "compress=zstd" "noatime" ];
-                    postCreateHook = "btrfs subvolume snapshot -r /root /root-blank";
                   };
                   "/nix" = {
                     mountpoint = "/nix";
@@ -80,6 +79,7 @@
                   };
                 };
               };
+              postCreateHook = "btrfs subvolume snapshot -r /root /root-blank";
             };
             # declare more partitons here:
 
