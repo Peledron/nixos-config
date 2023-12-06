@@ -4,7 +4,7 @@
     # enable sway window manager
     programs.sway = {
         enable = true;
-        package = pkgs.swayfx;
+        #package = pkgs.swayfx;
         wrapperFeatures.gtk = true;
     };
     # install base packages
