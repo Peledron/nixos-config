@@ -178,7 +178,7 @@ in
     };
     modules = [
         # inputs
-        hyprland
+        #hyprland-coremod
 
         # modules
         global-coreconf
@@ -200,6 +200,7 @@ in
           };
           home-manager.users.pengolodh = {
             imports = 
+              # [hyprland-homemod]
               [plasma-manager]  # add plasma-manager to home-man user imports as per https://github.com/pjones/plasma-manager/issues/5
               ++ [kde-homeconf]
               ++ [pengolodh_desktop-homeconf]
