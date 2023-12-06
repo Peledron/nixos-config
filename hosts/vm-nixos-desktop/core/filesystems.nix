@@ -78,8 +78,8 @@
                     };
                   };
                 };
+                postCreateHook = "btrfs subvolume snapshot -r /root /root-blank";
               };
-              postCreateHook = "btrfs subvolume snapshot -r /root /root-blank";
             };
             # declare more partitons here:
 
