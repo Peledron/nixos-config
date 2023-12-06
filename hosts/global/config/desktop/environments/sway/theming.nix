@@ -56,7 +56,7 @@ in
             name = "Adwaita";
         };
         iconTheme = {
-            package = papirus-icon-theme;
+            package = pkgs.papirus-icon-theme;
             name = "Papirus-Dark";
         };
         theme = {
