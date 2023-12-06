@@ -90,7 +90,7 @@
 
     };
   };
-  fileystems = {
+  fileSystems = {
     "/persist".neededForBoot = true;
   };
 
