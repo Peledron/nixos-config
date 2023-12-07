@@ -21,5 +21,6 @@
   # => lower priority value means this overrides the default value
   services.auto-cpufreq.enable = false;
   powerManagement.enable = false;
+  virtualization.docker.enable = false; # disable docker as I do not need it on a desktop machine
 
 }

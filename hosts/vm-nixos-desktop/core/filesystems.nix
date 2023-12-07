@@ -78,7 +78,7 @@
                     };
                   };
                 };
-                postCreateHook = "mount /dev/disk/by-partlabel/disk-root-NIXOS_MAIN /mnt ; btrfs subvolume snapshot -r /mnt/root /mnt/root-blank; unmount /mnt";
+                postCreateHook = "mount /dev/disk/by-partlabel/disk-root-NIXOS_MAIN /mnt ; btrfs subvolume snapshot -r /mnt/root /mnt/root-blank; umount /mnt";
               };
             };
             # declare more partitons here:

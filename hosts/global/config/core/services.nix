@@ -37,7 +37,7 @@
     # ---
 
     # virtualisation
-    virtualisation = {
+    virtualisation = lib.smkDefault {
         #  --> libvirt:
         libvirtd = {
             enable = true;
