@@ -1,12 +1,21 @@
 keys:
-    - $pengolodh_mainkey 6CEAAD2D9B94966D8D55118B10AD8AF6A22763EC
-    - $vm-nixos-desktop_hostkey
+  - $pengolodh_mainkey 6CEAAD2D9B94966D8D55118B10AD8AF6A22763EC
+  - $vm-nixos-desktop_hostkey
 creation_rules:
-    - path_regex: .secrets/global/[^/]+\.(yaml|json|env|ini)$
-        key_groups:
-        - pgp:
-            - *pengolodh_mainkey
-    - path_regex: .secrets/pengolodh/[^/]+\.(yaml|json|env|ini)$
-        key_groups:
-        - pgp:
-            - *pengolodh_mainkey
+  # global secrets
+  - path_regex: .secrets/global/[^/]+\.(yaml|json|env|ini)$
+    key_groups:
+    - pgp:
+      - *pengolodh_mainkey
+  # ---
+
+    # host specific secrets
+    # ---
+
+    # user specific secrets
+    # -> pengolodh
+  - path_regex: .secrets/pengolodh/[^/]+\.(yaml|json|env|ini)$
+    key_groups:
+    - pgp:
+      - *pengolodh_mainkey
+    # ---
