@@ -1,7 +1,8 @@
 { config, lib, pkgs, modulesPath, ... }:
 {
   imports =
-    [(modulesPath + "/profiles/qemu-guest.nix")]
+    [(modulesPath + "/installer/scan/not-detected.nix")]
+    ++ [(modulesPath + "/profiles/qemu-guest.nix")]
     ++ [(modulesPath + "/virtualisation/qemu-guest-agent.nix")] # guest agent for qemu:
   ;
   #[(modulesPath + "/virtualisation/hyperv-guest.nix")] # guest agent for hyperv

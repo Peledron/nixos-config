@@ -80,16 +80,16 @@ in
         # inputs
         disko
         impermanence
+        # -> host module
+        "${hostdir}/vm-nixos-desktop" {
+          _module.args.disks = [ "/dev/vda" ]; # change this to sda for vmware, you can add more drives in more "", for example "/dev/nvme0n1"
+        }
 
         # modules
         global-coreconf
         global-desktopconf
         sway-coreconf
 
-        # -> host module
-        "${hostdir}/vm-nixos-desktop" {
-          _module.args.disks = [ "/dev/vda" ]; # change this to sda for vmware, you can add more drives in more "", for example "/dev/nvme0n1"
-        }
 
         # -> hardware
         "${hostdir}/vm-nixos-desktop/core/hardwareqemu.nix" # change this to hardwarevmware.nix for vmware

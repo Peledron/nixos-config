@@ -11,7 +11,7 @@
   # --> you should keep snapshots of @ and @nix and (depending on preference) @home
 
   # as this is vm we will use disko to format the disk, this would take definition with UUID for a system with multible os's (like nixos-laptop-asus for example)
-  disko.devices = {
+  disko.devices = lib.mkForce {
     disk = {
       root = {
         type = "disk";
