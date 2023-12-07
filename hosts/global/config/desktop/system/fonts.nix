@@ -2,7 +2,7 @@
 {
   fonts = lib.mkDefault {
       # font packages
-      fonts = with pkgs; [
+      packages = with pkgs; [
         ubuntu_font_family
         font-awesome # font icons
         noto-fonts

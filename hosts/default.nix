@@ -88,7 +88,7 @@ in
 
         # -> host module
         "${hostdir}/vm-nixos-desktop" {
-          _module.args.disks = [ "/dev/sda" ]; # change this to vda for vmware, you can add more drives in more "", for example "/dev/nvme0n1"
+          _module.args.disks = [ "/dev/vda" ]; # change this to sda for vmware, you can add more drives in more "", for example "/dev/nvme0n1"
         }
 
         # -> hardware
