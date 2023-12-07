@@ -5,7 +5,9 @@
    passwd-dir = "${self}/.secrets/passwd" # self refers to the base directory of the flake
 in*/
 {
-
+   sops {
+      secrets.
+   };
    users = {
       users = {
          # Define a user account. Don't forget to set a password with ‘passwd’. or run mkpasswd and copy the hash in hashedPassword = "";
@@ -18,7 +20,6 @@ in*/
             hashedPassword = "$6$iloR4OWTUPzS1jPM$OsIp0yHs9IT.NB1PKfVvC8WlJqv5EuHPGq/czcaBh05bJael9Qc5e1OM2oUrE11/2spcdaIfUv9rZNVrbZzTY."; # password hash generated via mkpasswd -m sha-512
             #initialPassword = "changeme"; # change this with passwd on login
             extraGroups = [ "wheel" "docker" "kvm" "libvirtd" "video" ]; # add user to groups for extra permissions like sudo access
-
 
             # ssh user specific settings:
             openssh = {
