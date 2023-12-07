@@ -1,12 +1,26 @@
 keys:
+  # user gpg keys:
   - &pengolodh_mainkey 6CEAAD2D9B94966D8D55118B10AD8AF6A22763EC
-  - &vm-nixos-desktop_hostkey
+
+  # host age keys (generated from their respective ssh host key)
+  - &vm-nixos-desktop_hostkey age1dr30ppvnrs2dvyn7ldgnwvvu9dc5ya583x5tttjf04uu5wxv4vzstyel7t
+  - &nixos-macbook_hostkey
+  - &nixos-laptop-asus_hostkey
+  - &nixos-server-dns_hostkey
+
 creation_rules:
   # global secrets
-  - path_regex: .secrets/global/[^/]+\.(yaml|json|env|ini)$
+  - path_regex: hosts/global/core/secrets/[^/]+\.(yaml|json|env|ini)$
     key_groups:
     - pgp:
+    # I will add my personal key as I want to edit these files
       - *pengolodh_mainkey
+    # we need to allow all host age keys to decrypt the secrets in this file as well
+    - age:
+      - *vm-nixos-desktop_hostkey
+      - *nixos-macbook_hostkey
+      - *nixos-laptop-asus_hostkey
+      - *nixos-server-dns_hostkey
   # ---
 
     # host specific secrets
@@ -14,7 +28,7 @@ creation_rules:
 
     # user specific secrets
     # -> pengolodh
-  - path_regex: .secrets/users/pengolodh/[^/]+\.(yaml|json|env|ini)$
+  - path_regex: hosts/global/users/pengolodh/secrets/[^/]+\.(yaml|json|env|ini)$
     key_groups:
     - pgp:
       - *pengolodh_mainkey
