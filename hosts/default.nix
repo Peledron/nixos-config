@@ -21,6 +21,7 @@ let
   home-manager = inputs.homeMan.nixosModules.home-manager;
   impermanence = inputs.impermanence.nixosModules.impermanence;
   disko = inputs.disko.nixosModules.disko;
+  sops = inputs.sops-nix.nixosModules.sops;
 
   # DE related inputs
   plasma-manager = inputs.plasmaMan.homeManagerModules.plasma-manager;
