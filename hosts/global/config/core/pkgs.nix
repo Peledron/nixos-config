@@ -21,7 +21,7 @@
             neovim
             # [git+related]
             git
-            git-crypt
+            sops
             # [security]
             gnupg
             fail2ban

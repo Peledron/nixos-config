@@ -14,7 +14,7 @@ creation_rules:
 
     # user specific secrets
     # -> pengolodh
-  - path_regex: .secrets/pengolodh/[^/]+\.(yaml|json|env|ini)$
+  - path_regex: .secrets/users/pengolodh/[^/]+\.(yaml|json|env|ini)$
     key_groups:
     - pgp:
       - *pengolodh_mainkey
