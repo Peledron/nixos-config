@@ -1,6 +1,6 @@
 keys:
-  - $pengolodh_mainkey 6CEAAD2D9B94966D8D55118B10AD8AF6A22763EC
-  - $vm-nixos-desktop_hostkey
+  - &pengolodh_mainkey 6CEAAD2D9B94966D8D55118B10AD8AF6A22763EC
+  - &vm-nixos-desktop_hostkey
 creation_rules:
   # global secrets
   - path_regex: .secrets/global/[^/]+\.(yaml|json|env|ini)$
