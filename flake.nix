@@ -23,6 +23,10 @@
         };
         hyprland.url = "github:hyprwm/Hyprland";
         impermanence.url = "github:nix-community/impermanence";
+        sops-nix = {
+            url = "github:Nic92/sops-nix";
+            inputs.nixpkgs.follows = "nixpkgs";
+        };
         # plasma-manager
         plasmaMan = {
             url = "github:pjones/plasma-manager"; # plasma manager so we can manage kde settings with home-manager
