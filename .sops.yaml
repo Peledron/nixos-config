@@ -10,7 +10,7 @@ keys:
 
 creation_rules:
   # global secrets
-  - path_regex: hosts/global/core/secrets/[^/]+\.(yaml|json|env|ini)$
+  - path_regex: .secrets/global/[^/]+\.(yaml|json|env|ini)$
     key_groups:
     - pgp:
     # I will add my personal key as I want to edit these files
@@ -26,10 +26,16 @@ creation_rules:
     # host specific secrets
     # ---
 
-    # user specific secrets
-    # -> pengolodh
-  - path_regex: hosts/global/users/pengolodh/secrets/[^/]+\.(yaml|json|env|ini)$
+  # user specific secrets
+  # -> pengolodh
+  - path_regex: .secrets/users/pengolodh/[^/]+\.(yaml|json|env|ini)$
     key_groups:
     - pgp:
       - *pengolodh_mainkey
+    # we need to allow hosts with this user to decrypt this as well, otherwise they will not be able to read the user password configuration
+    - age:
+      - *vm-nixos-desktop_hostkey
+      - *nixos-macbook_hostkey
+      - *nixos-laptop-asus_hostkey
+      - *nixos-server-dns_hostkey
     # ---

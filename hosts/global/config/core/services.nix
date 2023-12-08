@@ -55,7 +55,7 @@
     # ---
 
     # oomkiller
-    systemd.oomd = {
+    systemd.oomd = lib.mkForce {
       enable = true;
       # fedora's defaults
       enableRootSlice = true;
