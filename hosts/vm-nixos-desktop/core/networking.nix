@@ -36,7 +36,6 @@
     # ---
     
     # set firewall settings:
-
     firewall = {
       enable = true; # set to false to disable
       # define allowed ports:
