@@ -17,7 +17,7 @@
          pengolodh = {
             isNormalUser = true;
             home = "/home/pengolodh" ; # you can define a different home, /home/$USER is used by default
-            passwordFile = config.sops.secrets.pengolodh-password.path;
+            hashedPasswordFile = config.sops.secrets.pengolodh-password.path;
             #hashedPassword =; # password hash generated via mkpasswd -m sha-512
             #initialPassword = "changeme"; # change this with passwd on login
             extraGroups = [ "wheel" "docker" "kvm" "libvirtd" "video" ]; # add user to groups for extra permissions like sudo access
