@@ -3,10 +3,11 @@
 {
    sops.secrets.pengolodh-password = {
       sopsFile = "${self}/.secrets/users/pengolodh/secrets.yaml";
-      neededForUsers = true;
+      neededForUsers = true; # tell nix to load this before user creation (so it can set the passwd)
       mode = "0440"; # read-only permissions
-      owner = config.users.users.pengolodh.name;
-      group = config.users.users.pengolodh.group;
+      # -> cannot combine setting group and user ownership with something else then root and neededForUsers
+      #owner = config.users.users.pengolodh.name;
+      #group = config.users.users.pengolodh.group;
    };
    users = {
       users = {
