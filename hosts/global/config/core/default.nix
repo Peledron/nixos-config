@@ -3,6 +3,6 @@
     ./locale.nix
     ./services.nix
     ./env.nix
-    ./secrets
+    ./secrets.nix
     ./usr.nix
 ]
