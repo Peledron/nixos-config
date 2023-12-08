@@ -39,13 +39,11 @@
 
     firewall = {
       enable = true; # set to false to disable
-
       # define allowed ports:
       allowedTCPPorts = ["22001"]; # allow default port
       allowedUDPPorts = [];
       # ---
     };
-    */
     # ---
 
   };
