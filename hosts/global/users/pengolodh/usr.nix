@@ -1,12 +1,12 @@
 # user-specific config
-
-{ config, lib, pkgs, self, ... }:
-/*let
-   passwd-dir = "${self}/.secrets/passwd" # self refers to the base directory of the flake
-in*/
+{ config, lib, pkgs, self, sops, ... }:
 {
-   sops {
-      secrets.
+   sops.secrets.pengolodh-password = {
+      sopsFile = "${self}/.secrets/users/pengolodh/secrets.yaml";
+      neededForUsers = true;
+      mode = "0440"; # read-only permissions
+      owner = config.users.users.pengolodh.name;
+      group = config.users.users.pengolodh.group;
    };
    users = {
       users = {
@@ -16,8 +16,8 @@ in*/
          pengolodh = {
             isNormalUser = true;
             home = "/home/pengolodh" ; # you can define a different home, /home/$USER is used by default
-            #passwordFile = "${passwd-dir}/pengolodh/passwd"; # you can store a password hash in $flakedir/.secrets and encrypt/decrypt it with git-crypt
-            hashedPassword = "$6$iloR4OWTUPzS1jPM$OsIp0yHs9IT.NB1PKfVvC8WlJqv5EuHPGq/czcaBh05bJael9Qc5e1OM2oUrE11/2spcdaIfUv9rZNVrbZzTY."; # password hash generated via mkpasswd -m sha-512
+            passwordFile = config.sops.secrets.pengolodh-password.path;
+            #hashedPassword =; # password hash generated via mkpasswd -m sha-512
             #initialPassword = "changeme"; # change this with passwd on login
             extraGroups = [ "wheel" "docker" "kvm" "libvirtd" "video" ]; # add user to groups for extra permissions like sudo access
 
