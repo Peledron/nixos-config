@@ -79,6 +79,7 @@ in
     };
     modules = [
         # inputs
+        sops
         disko
         impermanence
 
@@ -133,6 +134,7 @@ in
     };
     modules = [
         # inputs
+        sops
         hyprland-coremod
 
         # modules
@@ -179,6 +181,7 @@ in
     };
     modules = [
         # inputs
+        sops
         #hyprland-coremod
 
         # modules
@@ -227,6 +230,7 @@ in
     };
       modules = [
         # inputs
+        sops
 
         # modules
         global-coreconf
