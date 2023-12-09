@@ -27,8 +27,7 @@ in
         # -> configured through home-manager
 
         # [theming]
-        #nordic # application theming
-        qogir-kde # qt
+#         #nordic # application theming
         qogir-theme # gtk
         papirus-icon-theme
         gnome3.adwaita-icon-theme  # default gnome cursors
@@ -45,7 +44,7 @@ in
         enable = true;
         style = {
             name = "Qogir-Dark";
-            package = pkgs.qogir-kde;
+            package = pkgs.qogir-theme;
         };
         platformTheme = "gtk";
     };

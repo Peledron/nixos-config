@@ -3,7 +3,7 @@ keys:
   - &pengolodh_mainkey 6CEAAD2D9B94966D8D55118B10AD8AF6A22763EC
 
   # host age keys (generated from their respective ssh host key)
-  - &vm-nixos-desktop_hostkey age1dr30ppvnrs2dvyn7ldgnwvvu9dc5ya583x5tttjf04uu5wxv4vzstyel7t
+  - &vm-nixos-desktop_hostkey age10ek0xwpm3muhvl0pyvd00ldyxf2jjh6wyapvq0ua8pvkaa5jwelq3248qa
   - &nixos-macbook_hostkey
   - &nixos-laptop-asus_hostkey
   - &nixos-server-dns_hostkey
