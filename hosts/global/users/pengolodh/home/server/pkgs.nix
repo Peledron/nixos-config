@@ -1,7 +1,7 @@
 { config, lib, pkgs, system, imputs, ... }:
 {
     home.packages = with pkgs; [
-                starshipLw
+                starship
         ];
 
         #==================#
