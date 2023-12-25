@@ -4,7 +4,7 @@ keys:
 
   # host age keys (generated from their respective ssh host key)
   - &vm-nixos-desktop_hostkey age10ek0xwpm3muhvl0pyvd00ldyxf2jjh6wyapvq0ua8pvkaa5jwelq3248qa
-  - &nixos-macbook_hostkey
+  - &nixos-macbook_hostkey age1t9jefxlt4ydnyawz2jrswjlh54ka3c9fnj9uacnff4g0dfghpe6qc43gy2
   - &nixos-laptop-asus_hostkey
   - &nixos-server-dns_hostkey
 
