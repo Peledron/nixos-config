@@ -226,7 +226,7 @@ in
   nixos-server-dns = lib.nixosSystem {
     inherit system pkgs;
     specialArgs = {
-      inherit inputs;
+      inherit inputs self;
     };
       modules = [
         # inputs
