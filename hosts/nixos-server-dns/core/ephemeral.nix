@@ -1,33 +1,6 @@
 { config, lib, pkgs, system, inputs, impermanence, disko, disks, ... }:
 
 {
-    # define the persistent filesystems
-    # (see scripts/prepare.sh under ephemeral option)
-    /*
-    fileSystems = {
-        "/persist" = {
-            device = "/dev/mapper/nixos-main";
-            fsType = "btrfs";
-
-            options = [ "subvol=persist" "compress=zstd" "noatime" ];
-            neededForBoot = true;
-        };
-         "/var/log" = {
-            device = "/dev/mapper/nixos-main";
-            fsType = "btrfs";
-
-            options = [ "subvol=log" "compress=zstd" "noatime" ];
-            neededForBoot = true;
-        };
-        "/var/lib/libvirt/images" = {
-            device = "/dev/mapper/nixos-main";
-            fsType = "btrfs";
-
-            options = ["subvol=persist/vm_default-images" "noatime" "commit=120" ];
-        };
-    };*/
-
-
     # clear root subvolume on each boot as per https://grahamc.com/blog/erase-your-darlings/ and https://nixos.wiki/wiki/Btrfs
     # Note `lib.mkBefore` is used instead of `lib.mkAfter` here.
     boot.initrd.postDeviceCommands = pkgs.lib.mkBefore ''
@@ -68,27 +41,6 @@
         # we can unmount /mnt and continue on the boot process.
         umount /mnt
     ''; # from https://mt-caret.github.io/blog/posts/2020-06-29-optin-state.html
-
-    # set persistence to certain configs
-    /* old method:
-    environment.etc = {
-        # network connections
-        "NetworkManager/system-connections".source = "/persist/etc/NetworkManager/system-connections/";
-
-        # libvirt
-        "libvirt".source = "/persist/etc/libvirt";
-        adjtime.source = "/persist/etc/adjtime";
-        machine-id.source = "/persist/etc/machine-id";
-    };
-
-    systemd.tmpfiles.rules = [
-        "L /var/lib/bluetooth - - - - /persist/var/lib/bluetooth"
-        "L /var/lib/NetworkManager/secret_key - - - - /persist/var/lib/NetworkManager/secret_key"
-        "L /var/lib/NetworkManager/seen-bssids - - - - /persist/var/lib/NetworkManager/seen-bssids"
-        "L /var/lib/NetworkManager/timestamps - - - - /persist/var/lib/NetworkManager/timestamps"
-        "L /var/lib/docker - - - - /persist/var/lib/docker"
-    ]; # -> you can use systemd tempfiles to create symlinks to pernament directories, needed cuz the etc module only allows for files in etc (duh)
-    */
 
     environment.persistence."/persist" = {
         directories = [

@@ -94,52 +94,6 @@
     "/persist".neededForBoot = true;
   };
 
-  /*
-  fileSystems = {
-    #==================#
-    # root:
-    "/" = {
-        device = "/dev/mapper/nixos-main";
-        fsType = "btrfs";
-
-        options = [ "subvol=root" "compress=zstd" ];
-    };
-    "/nix" = {
-        device = "/dev/mapper/nixos-main";
-        fsType = "btrfs";
-
-        options = [ "subvol=nix" "compress=zstd" "noatime" ];
-    };
-    #==================#
-    # home:
-    "/home" = {
-        device = "/dev/mapper/nixos-main";
-        fsType = "btrfs";
-
-        options = [ "subvol=home" "compress=zstd" "noatime" ];
-    };
-    #==================#
-    # swap:
-    # --> see "add swap" for swap device rules
-    "/swap" = {
-        device = "/dev/mapper/nixos-main";
-        fsType = "btrfs";
-
-        options = [ "subvol=swap" ];
-    };
-    #==================#
-    # boot:
-    "/boot" = {
-        device = "/dev/disk/by-label/EFI-NIXOS";
-        fsType = "vfat";
-    };
-  };
-
-  # add swap:
-  swapDevices = [ { device = "/swap/swapfile"; } ];
-  # --- 
-  */
-
   # we are using btrfs so we can enable the scrub service here, as it is filesystem dependant
   services.btrfs.autoScrub = {
     enable = true;
