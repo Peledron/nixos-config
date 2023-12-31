@@ -17,27 +17,16 @@
         type = "disk";
         device = builtins.elemAt disks 0; # this selects the first entry in the disks array that we defined in ${self}/hosts/default.nix
         content = {
-          type = "gpt"; # set the partition table
+          type = "mbr"; # set the partition table
 
           partitions = {
             # partitions will be declared here:
+            /*
             BIOS = {
               size = "1M";
               type = "EF02"; # for grub MBR
             };
-
-            NIXOS_BOOT = {
-              size = "512M";
-              type = "EF00"; # efi partition type
-              content = {
-                # here we will tell it the filesystem type and mountpoint
-                type = "filesystem";
-                format = "vfat";
-                mountpoint = "/boot";
-                mountOptions = [ "defaults" ];
-              };
-            };
-
+            */ # -> only needed if you have a gpt partitioned disk
             NIXOS_MAIN = {
               # see https://github.com/nix-community/disko/blob/master/example/luks-btrfs-subvolumes.nix for luks implementation
               size = "100%"; # use 100% of remaining diskspace in ${diskname}
@@ -45,6 +34,9 @@
                 type = "btrfs";
                 extraArgs = [ "-f" ]; # Override existing partitions
                 subvolumes = {
+                  "/boot" = {
+                    mountpoint = "/boot";
+                  };
                   "/root" = {
                     mountpoint = "/";
                     mountOptions = [ "compress=zstd" "noatime" ];

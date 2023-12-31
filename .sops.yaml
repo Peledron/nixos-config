@@ -6,7 +6,7 @@ keys:
   - &vm-nixos-desktop_hostkey age10ek0xwpm3muhvl0pyvd00ldyxf2jjh6wyapvq0ua8pvkaa5jwelq3248qa
   - &nixos-macbook_hostkey 
   - &nixos-laptop-asus_hostkey
-  - &nixos-server-dns_hostkey
+  - &nixos-server-dns_hostkey age1nnwu8fq9h9g83m5yp7skrtutkshklgfretznd87s3jxy2r8lhy6qvrcqc3
 
 creation_rules:
   # global secrets
