@@ -1,5 +1,8 @@
 # drive config
 { config, lib, pkgs, disko, disks, ... }:
+let
+  nixos_main-part = builtins.elemAt disks 1;
+in
 {
   # set encrypted volume to be mounted as nixos-main at boot
   #boot.initrd.luks.devices."nixos-main".device = "/dev/disk/by-label/crypted-main-nixos";
@@ -17,9 +20,9 @@
         type = "disk";
         device = builtins.elemAt disks 0; # this selects the first entry in the disks array that we defined in ${self}/hosts/default.nix
         content = {
-          type = "mbr"; # set the partition table
-
-          partitions = {
+          type = "table"; # set the partition table
+          format = "msdos";
+          partitions = [
             # partitions will be declared here:
             /*
             BIOS = {
@@ -27,9 +30,12 @@
               type = "EF02"; # for grub MBR
             };
             */ # -> only needed if you have a gpt partitioned disk
-            NIXOS_MAIN = {
-              # see https://github.com/nix-community/disko/blob/master/example/luks-btrfs-subvolumes.nix for luks implementation
-              size = "100%"; # use 100% of remaining diskspace in ${diskname}
+            {
+              # we are using a legacy table so the partiions will be defined as
+              name = "NIXOS_MAIN";
+              part-type = "primary";
+              start = "1M";
+              end = "100%"; # use 100% of remaining diskspace in ${diskname}
               content = {
                 type = "btrfs";
                 extraArgs = [ "-f" ]; # Override existing partitions
@@ -74,17 +80,16 @@
                     };
                   };
                 };
-                postCreateHook = "mount /dev/disk/by-partlabel/disk-root-NIXOS_MAIN /mnt ; btrfs subvolume snapshot -r /mnt/root /mnt/root-blank; umount /mnt"; # create the initial empty subvolume snapshot that we will return to at each boot
+                postCreateHook = "mount ${nixos_main-part} /mnt ; mkdir -p /mnt/persist/sops; btrfs subvolume snapshot -r /mnt/root /mnt/root-blank; umount /mnt"; # create the initial empty subvolume snapshot that we will return to at each boot
               };
-            };
+            }
             # declare more partitons here:
-
-          };
+          ];
         };
       };
+    };
       # use more disks here:
 
-    };
   };
   fileSystems = {
     "/persist".neededForBoot = true;

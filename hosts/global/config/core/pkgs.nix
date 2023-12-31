@@ -7,6 +7,8 @@
         # basic tools
             # [system]
             wget
+            curl
+            rsync
             htop
             tldr
             tree

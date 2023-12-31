@@ -239,7 +239,7 @@ in
 
         # -> host module
         "${hostdir}/nixos-server-dns"  {
-          _module.args.disks = [ "/dev/sda" ]; # change this to sda for vmware, you can add more drives in more "", for example "/dev/nvme0n1"
+          _module.args.disks = [ "/dev/sda" "/dev/disk/by-id/ata-SanDisk_SD8SBAT128G1002_162092404193-part1" ]; # you can add more drives in more "", for example "/dev/nvme0n1", or you can specifiy partitions
         }
 
         # -> user modules

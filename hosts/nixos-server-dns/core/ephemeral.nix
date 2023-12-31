@@ -51,7 +51,6 @@
             "/var/lib/upower"
         ];
         files = [
-            "/var/lib/sops-nix/host.key" # make sure that the sops key is persistent
             "/etc/machine-id"
             "/etc/adjtime"
             #"/etc/passwd" 

@@ -32,14 +32,14 @@
       "20-vlan112-nixos-server_init" = {
         netdevConfig = {
           Kind = "vlan";
-          Name = "vlan112-nixos-server";
+          Name = "vlan112";
         };
         vlanConfig.Id = 112;
       };
       "20-vlan112-nixos-server_cloudflared_init" = {
         netdevConfig = {
           Kind = "vlan";
-          Name = "vlan113-nixos-server_cloudflared";
+          Name = "vlan113";
         };
         vlanConfig.Id = 113;
       };
@@ -50,8 +50,8 @@
         matchConfig.Name = "eno1";
         # tag vlan on this link
         vlan = [
-          "vlan112-nixos-server"
-          "vlan113-nixos-server_cloudflared"
+          "vlan112"
+          "vlan113"
         ];
         networkConfig.LinkLocalAddressing = "no"; # disable link-local address autoconfiguration
         linkConfig.RequiredForOnline = "carrier"; # requiredForOnline tells networkd that a carrier link is needed for network.target, "carrier" in this case means that the vlans need to be online for network.target to complete
@@ -60,13 +60,13 @@
       };
 
       "40-vlan112-nixos-server_conf" = {
-        matchConfig.Name = "vlan112-nixos-server";
+        matchConfig.Name = "vlan112";
         # add relevant configuration here
         networkConfig.DHCP = "yes"; # tell interface to acquire a dhcp link
         linkConfig.RequiredForOnline = "yes"; # needed for network.target to be reached
       };
       "40-vlan112-nixos-server_cloudflared_conf" = {
-        matchConfig.Name = "vlan113-nixos-server_cloudflared";
+        matchConfig.Name = "vlan113";
         # add relevant configuration here
         networkConfig.DHCP = "yes"; # tell interface to acquire a dhcp link
         linkConfig.RequiredForOnline = "yes"; # needed for network.target to be reached

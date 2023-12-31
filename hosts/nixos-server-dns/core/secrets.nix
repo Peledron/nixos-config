@@ -1,9 +1,9 @@
 {config, lib, pkgs, self, sops, ...}:
 {
     sops = {
-        # import host ssh key as age key
         age = {
-            keyFile = "/var/lib/sops-nix/host.key";
+            #sshKeyPaths = [ "/persist/ssh/ssh_host_ed25519_key" ];
+            keyFile = "/persist/sops/host.key"; # specify key location, to be added manually from installer
         };
     };
 }
