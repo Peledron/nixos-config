@@ -15,7 +15,7 @@
     disk = {
       root = {
         type = "disk";
-        device = builtins.elemAt disks 0; # this selects the first entry in the disks array that we defined in ${self}/default.nix
+        device = builtins.elemAt disks 0; # this selects the first entry in the disks array that we defined in ${self}/hosts/default.nix
         content = {
           type = "gpt"; # set the partition table
 
@@ -25,6 +25,7 @@
               size = "1M";
               type = "EF02"; # for grub MBR
             };
+
             NIXOS_BOOT = {
               size = "512M";
               type = "EF00"; # efi partition type
@@ -81,7 +82,7 @@
                     };
                   };
                 };
-                postCreateHook = "mount /dev/disk/by-partlabel/disk-root-NIXOS_MAIN /mnt ; btrfs subvolume snapshot -r /mnt/root /mnt/root-blank; umount /mnt";
+                postCreateHook = "mount /dev/disk/by-partlabel/disk-root-NIXOS_MAIN /mnt ; btrfs subvolume snapshot -r /mnt/root /mnt/root-blank; umount /mnt"; # create the initial empty subvolume snapshot that we will return to at each boot
               };
             };
             # declare more partitons here:
@@ -96,52 +97,6 @@
   fileSystems = {
     "/persist".neededForBoot = true;
   };
-
-  /*
-  fileSystems = {
-    #==================#
-    # root:
-    "/" = {
-        device = "/dev/mapper/nixos-main";
-        fsType = "btrfs";
-
-        options = [ "subvol=root" "compress=zstd" ];
-    };
-    "/nix" = {
-        device = "/dev/mapper/nixos-main";
-        fsType = "btrfs";
-
-        options = [ "subvol=nix" "compress=zstd" "noatime" ];
-    };
-    #==================#
-    # home:
-    "/home" = {
-        device = "/dev/mapper/nixos-main";
-        fsType = "btrfs";
-
-        options = [ "subvol=home" "compress=zstd" "noatime" ];
-    };
-    #==================#
-    # swap:
-    # --> see "add swap" for swap device rules
-    "/swap" = {
-        device = "/dev/mapper/nixos-main";
-        fsType = "btrfs";
-
-        options = [ "subvol=swap" ];
-    };
-    #==================#
-    # boot:
-    "/boot" = {
-        device = "/dev/disk/by-label/EFI-NIXOS";
-        fsType = "vfat";
-    };
-  };
-
-  # add swap:
-  swapDevices = [ { device = "/swap/swapfile"; } ];
-  # --- 
-  */
 
   # we are using btrfs so we can enable the scrub service here, as it is filesystem dependant
   services.btrfs.autoScrub = {
