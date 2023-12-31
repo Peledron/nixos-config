@@ -12,7 +12,7 @@
   };
   networking = {
     hostName = "nixos-server-dns";
-
+    useNetworkd = true;
     # set firewall settings:
     firewall = {
       enable = true; # set to false to disable
