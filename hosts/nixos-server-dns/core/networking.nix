@@ -5,10 +5,10 @@
   
   services.cloudflared = {
     enable = true;
-    tunnel."42c80f70-deb9-49b0-8fbe-606da328921e" = {
+    #tunnel."42c80f70-deb9-49b0-8fbe-606da328921e" = {
       
 
-    };
+    #};
   };
   networking = {
     hostName = "nixos-server-dns";

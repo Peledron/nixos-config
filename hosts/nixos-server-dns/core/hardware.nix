@@ -18,26 +18,8 @@
     kernelModules = [ "kvm-intel" ];
   };
   # ---
-
+  
   # bluetooth:
   #hardware.bluetooth.enable = true;
   # ----
-
-  # graphics:
-  # --> video accel (see https://nixos.wiki/wiki/Accelerated_Video_Playback)
-  /*
-  nixpkgs.config.packageOverrides = pkgs: {
-    vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; };
-  };
-  hardware.opengl = {
-    enable = true;
-    extraPackages = with pkgs; [
-      #intel-media-driver # LIBVA_DRIVER_NAME=iHD --> broadwell+ (>=5th gen), laptop uses hd graphics (<= 4th gen)
-      vaapiIntel         # LIBVA_DRIVER_NAME=i965 (older but works better for Firefox/Chromium) 
-      vaapiVdpau
-      libvdpau-va-gl
-    ];
-  };
-  environment.variables = { LIBVA_DRIVER_NAME = "i965"; };
-  */
 }

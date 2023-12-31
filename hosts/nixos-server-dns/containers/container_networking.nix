@@ -1,6 +1,8 @@
 { config, lib, pkgs, system, inputs, ... }:   
 let 
-  net-egress-interface
+  net-egress-interface = "eno1";
+  net-container-interface = "";
+  net-cloudflared-interface= "";
 in 
 {
   # enable ip forwarding
@@ -12,14 +14,14 @@ in
     nat = {
       enable = true;
       internalInterfaces = ["ve-+" "vb-+"];
-      externalInterface = "eno1";
+      externalInterface = "${net-egress-interface}";
       # Lazy IPv6 connectivity for the container
       enableIPv6 = true;
     };
     firewall = {
       # allow nat masquerade on interface
       extraCommands = ''
-        iptables -t nat -A POSTROUTING -o eno1 -j MASQUERADE
+        iptables -t nat -A POSTROUTING -o ${net-egress-interface} -j MASQUERADE
       '';
     };
  };

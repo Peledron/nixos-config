@@ -231,12 +231,16 @@ in
       modules = [
         # inputs
         sops
+        disko
+        impermanence
 
         # modules
         global-coreconf
 
         # -> host module
-        "${hostdir}/nixos-server-dns"
+        "${hostdir}/nixos-server-dns"  {
+          _module.args.disks = [ "/dev/sda" ]; # change this to sda for vmware, you can add more drives in more "", for example "/dev/nvme0n1"
+        }
 
         # -> user modules
         pengolodh-coreconf
