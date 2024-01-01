@@ -11,7 +11,7 @@
     #};
   };
   networking = {
-    hostName = "nixos-server-dns";
+    hostName = "nixos-server-hp";
     useNetworkd = true;
     # set firewall settings:
     firewall = {
