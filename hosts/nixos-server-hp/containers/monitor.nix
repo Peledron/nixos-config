@@ -6,8 +6,8 @@
     privateNetwork = true;
     hostAddress = "172.24.1.1";
     localAddress = "172.24.1.2";
-    hostAddress6 = "fc00::1";
-    localAddress6 = "fc00::2";
+    #hostAddress6 = "fc00::1";
+    #localAddress6 = "fc00::2";
     
     forwardPorts = [
       {
@@ -21,6 +21,7 @@
     config = { config, pkgs, ... }: {
       environment.etc."resolv.conf".text = "nameserver 8.8.8.8";
       networking = {
+        useNetworkd = true;
        	firewall = { 
           enable = true;
           allowedTCPPorts = [ 80 ];  

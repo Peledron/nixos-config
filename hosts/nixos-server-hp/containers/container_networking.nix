@@ -23,7 +23,7 @@ in
       extraCommands = ''
         iptables -t nat -A POSTROUTING -o ${net-local-container-interface} -j MASQUERADE
       '';
-      interfaces."${net-local-container-interface}" = {
+      interfaces."vlan114@${netport}" = {
         # define allowed ports:
         allowedTCPPorts = [  
           8080 # grafana monitor container ingress
