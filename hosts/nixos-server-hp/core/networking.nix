@@ -14,6 +14,7 @@
     hostName = "nixos-server-hp";
     useNetworkd = true;
     # set firewall settings:
+    nftables.enable = true; # enable nftables
     firewall = {
       enable = true; # set to false to disable
       interfaces."vlan112@${netport}" = {

@@ -1,6 +1,5 @@
 { config, lib, pkgs, system, inputs, netport, ... }:   
 let 
-  net-egress-interface = "${netport}";
   net-local-container-interface = "vlan114@${netport}";
   net-cloudflared-interface= "vlan113@${netport}";
 in 
@@ -21,9 +20,9 @@ in
     firewall = {
       # allow nat masquerade on interface
       extraCommands = ''
-        iptables -t nat -A POSTROUTING -o ${net-local-container-interface} -j MASQUERADE
+        nftables -t nat -A POSTROUTING -o ${net-local-container-interface} -j MASQUERADE
       '';
-      interfaces."vlan114@${netport}" = {
+      interfaces."${net-local-container-interface}" = {
         # define allowed ports:
         allowedTCPPorts = [  
           8080 # grafana monitor container ingress
