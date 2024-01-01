@@ -17,11 +17,23 @@ in
       # Lazy IPv6 connectivity for the container
       #enableIPv6 = true;
     };
+    nftables.ruleset = ''
+      table ip nat {
+        chain prerouting {
+          type nat hook prerouting priority 0; policy accept;
+        }
+
+        # for all packets to WAN, after routing, replace source address with primary IP of WAN interface
+        chain postrouting {
+          type nat hook postrouting priority 100; policy accept;
+          oifname "${net-local-container-interface}" masquerade
+    ''; # modified from https://wiki.gentoo.org/wiki/Nftables/Examples, also see: https://discourse.nixos.org/t/is-it-possible-to-write-custom-rules-to-the-nixos-firewall/27900/4 for a bunch of nixos examples of nftables ruleset
+
     firewall = {
       # allow nat masquerade on interface
-      extraCommands = ''
-        nftables -t nat -A POSTROUTING -o ${net-local-container-interface} -j MASQUERADE
-      '';
+      #extraCommands = ''
+        #nftables -t nat -A POSTROUTING -o ${net-local-container-interface} -j MASQUERADE
+      #'';
       interfaces."${net-local-container-interface}" = {
         # define allowed ports:
         allowedTCPPorts = [  
