@@ -59,8 +59,11 @@
 
     networks =  let networkConfig = {
       # we put global configuration that is valid for all network interfaces here
-      DHCP = "ipv4"; DNSOverTLS = "yes"; DNS = [ "1.1.1.1" "1.0.0.1" ]; 
-    }; in {
+      DHCP = "ipv4"; 
+      DNSOverTLS = "yes"; 
+      DNS = [ "1.1.1.1" "1.0.0.1" ]; 
+    }; 
+    in {
       "30-eno1_outgoing-port_conf" = {
         matchConfig.Name = "${netport}";
         # tag vlan on this link
