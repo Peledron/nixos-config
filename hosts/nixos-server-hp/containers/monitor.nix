@@ -19,12 +19,19 @@
     
     
     config = { config, pkgs, ... }: {
-      environment.etc."resolv.conf".text = "nameserver 8.8.8.8";
+      #environment.etc."resolv.conf".text = "nameserver 8.8.8.8";
       networking = {
         useNetworkd = true;
        	firewall = { 
           enable = true;
           allowedTCPPorts = [ 80 ];  
+        };
+      };
+      systemd.network.networks."10-egress" = {
+        machConfig.Name = "lan";
+        networkConfig = {
+          DNSOverTLS = "yes"; 
+          DNS = [ "1.1.1.1" "1.0.0.1" ]; 
         };
       };
 
