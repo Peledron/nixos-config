@@ -241,7 +241,7 @@ in
         "${hostdir}/nixos-server-hp"  {
           _module.args.disks = [ "/dev/disk/by-id/ata-SanDisk_SD8SBAT128G1002_162092404193" "/dev/disk/by-id/ata-SanDisk_SD8SBAT128G1002_162092404193-part1" ]; # you can add more drives in more "", for example "/dev/nvme0n1", or you can specifiy partitions
           _module.args.netport = "eno1"; # the physical ethernet port
-          _module.args.vlans = [ "112" "113" "114"]; # the incoming vlan tags
+          _module.args.vlans = [ 112 113 114 ]; # the incoming vlan tags
         }
 
         # -> user modules
