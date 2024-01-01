@@ -21,7 +21,7 @@
     config = { config, pkgs, ... }: {
       #environment.etc."resolv.conf".text = "nameserver 8.8.8.8";# resolv.conf cannot be shared with host
       networking = {
-        useNetworkd = true;
+        #useNetworkd = true;
        	firewall = { 
           enable = true;
           allowedTCPPorts = [ 80 ];  
