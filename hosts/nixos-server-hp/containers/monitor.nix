@@ -19,7 +19,7 @@
     
     
     config = { config, pkgs, ... }: {
-      environment.etc."resolv.conf".text = "nameserver 192.168.0.138";# resolv.conf cannot be shared with host
+      environment.etc."resolv.conf".text = "nameserver 1.1.1.1";# resolv.conf cannot be shared with host
       networking = {
         #useNetworkd = true;
        	firewall = { 
