@@ -31,6 +31,7 @@
   # we will use systemd networkd for the configuration of the network interface
   # --> see: https://nixos.wiki/wiki/Systemd-networkd
   systemd.network = {
+    enable = true; 
     netdevs = {
       # we specify the vlans and their names
       "20-vlan112-nixos-server_init" = {
@@ -58,7 +59,7 @@
 
     networks =  let networkConfig = {
       # we put global configuration that is valid for all network interfaces here
-      DHCP = "yes"; DNSOverTLS = "yes"; DNS = [ "1.1.1.1" "1.0.0.1" ]; 
+      DHCP = "ipv4"; DNSOverTLS = "yes"; DNS = [ "1.1.1.1" "1.0.0.1" ]; 
     }; in {
       "30-eno1_outgoing-port_conf" = {
         matchConfig.Name = "${netport}";
@@ -94,4 +95,5 @@
       };
     };
   };
+  systemd.services."systemd-networkd".environment.SYSTEMD_LOG_LEVEL = "debug"; # enable higher loglevel on networkd (for troubleshooting)
 }
