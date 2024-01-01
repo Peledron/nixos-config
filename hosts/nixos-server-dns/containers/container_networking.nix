@@ -21,7 +21,7 @@ in
     firewall = {
       # allow nat masquerade on interface
       extraCommands = ''
-        iptables -t nat -A POSTROUTING -o ${net-egress-interface} -j MASQUERADE
+        iptables -t nat -A POSTROUTING -o ${net-local-container-interface} -j MASQUERADE
       '';
     };
  };
