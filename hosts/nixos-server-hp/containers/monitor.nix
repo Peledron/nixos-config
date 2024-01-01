@@ -23,7 +23,6 @@
         #enable = true; # generate the file
         #text = "nameserver 8.8.8.8";
       #}; # resolv.conf cannot be shared with host
-      "resolv.conf".source = "/run/systemd/resolve/resolv.conf";
       networking = {
         useNetworkd = true;
        	firewall = { 
@@ -32,7 +31,7 @@
         };
       };
       systemd.network.networks."10-egress" = {
-        machConfig.Name = "lan";
+        machConfig.Name = "eth0@if10";
         networkConfig = {
           DNSOverTLS = "yes"; 
           DNS = [ "1.1.1.1" "1.0.0.1" ]; 
