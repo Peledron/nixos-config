@@ -27,7 +27,9 @@ in
         # for all packets to WAN, after routing, replace source address with primary IP of WAN interface
         chain postrouting {
           type nat hook postrouting priority 100; policy accept;
-          oifname "${vlan_local_container_name}" masquerade
+          oifname "${vlan_local_container_name}" masquerad
+        }
+      }
     ''; # modified from https://wiki.gentoo.org/wiki/Nftables/Examples, also see: https://discourse.nixos.org/t/is-it-possible-to-write-custom-rules-to-the-nixos-firewall/27900/4 for a bunch of nixos examples of nftables ruleset
 
     firewall = {
