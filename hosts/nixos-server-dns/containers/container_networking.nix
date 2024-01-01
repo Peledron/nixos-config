@@ -1,8 +1,8 @@
 { config, lib, pkgs, system, inputs, netport, ... }:   
 let 
   net-egress-interface = "${netport}";
-  net-local-container-interface = "vlan114_local-containers@${netport}";
-  net-cloudflared-interface= "vlan113_cloudflared@${netport}";
+  net-local-container-interface = "vlan114@${netport}";
+  net-cloudflared-interface= "vlan113@${netport}";
 in 
 {
   # enable ip forwarding

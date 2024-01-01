@@ -33,21 +33,21 @@
       "20-vlan112-nixos-server_init" = {
         netdevConfig = {
           Kind = "vlan";
-          Name = "vlan112_management";
+          Name = "vlan112";
         };
         vlanConfig.Id = 112;
       };
       "20-vlan113-nixos-server_cloudflared_init" = {
         netdevConfig = {
           Kind = "vlan";
-          Name = "vlan113_cloudflared";
+          Name = "vlan113";
         };
         vlanConfig.Id = 113;
       };
       "20-vlan114-nixos-server_local-containers_init" = {
         netdevConfig = {
           Kind = "vlan";
-          Name = "vlan114_local-containers";
+          Name = "vlan114";
         };
         vlanConfig.Id = 114;
       };
@@ -61,9 +61,9 @@
         matchConfig.Name = "${netport}";
         # tag vlan on this link
         vlan = [
-          "vlan112_management"
-          "vlan113_cloudflared"
-          "vlan114_local-containers"
+          "vlan112"
+          "vlan113"
+          "vlan114"
         ];
         networkConfig.LinkLocalAddressing = "no"; # disable link-local address autoconfiguration
         linkConfig.RequiredForOnline = "carrier"; # requiredForOnline tells networkd that a carrier link is needed for network.target, "carrier" in this case means that the vlans need to be online for network.target to complete
@@ -72,19 +72,19 @@
       };
 
       "40-vlan112-nixos-server_conf" = {
-        matchConfig.Name = "vlan112_management";
+        matchConfig.Name = "vlan112";
         # add relevant configuration here
         inherit networkConfig; # we tell it to use the networkconfig variable we specified
         linkConfig.RequiredForOnline = "yes"; # needed for network.target to be reached
       };
       "40-vlan113-nixos-server_cloudflared_conf" = {
-        matchConfig.Name = "vlan113_cloudflared";
+        matchConfig.Name = "vlan113";
         # add relevant configuration here
         inherit networkConfig; 
         linkConfig.RequiredForOnline = "no"; # needed for network.target to be reached
       };
       "40-vlan114-nixos-server_local-containers_conf" = {
-        matchConfig.Name = "vlan114_local-containers";
+        matchConfig.Name = "vlan114";
         # add relevant configuration here
         inherit networkConfig; 
         linkConfig.RequiredForOnline = "no"; # needed for network.target to be reached
