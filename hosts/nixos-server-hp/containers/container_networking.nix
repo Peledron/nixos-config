@@ -1,8 +1,9 @@
-{ config, lib, pkgs, system, inputs, netport, ... }:   
-let 
-  net-local-container-interface = "vlan114@${netport}";
-  net-cloudflared-interface= "vlan113@${netport}";
-in 
+{ config, lib, pkgs, system, inputs, netport, vlans, ... }:   
+let
+  vlan_management_name = "vlan${builtins.elemAt vlans 0}management";
+  vlan_cloudflared_name = "vlan${builtins.elemAt vlans 1}cloudflared";
+  vlan_local_container_name = "vlan${builtins.elemAt vlans 2}containers";
+in
 {
   # enable ip forwarding
   boot.kernel.sysctl."net.ipv4.ip_forward" = 1; 
@@ -13,7 +14,7 @@ in
     nat = {
       enable = true;
       internalInterfaces = ["ve-+" "vb-+"];
-      externalInterface = "${net-local-container-interface}";
+      externalInterface = vlan_local_container_name;
       # Lazy IPv6 connectivity for the container
       #enableIPv6 = true;
     };
@@ -26,7 +27,7 @@ in
         # for all packets to WAN, after routing, replace source address with primary IP of WAN interface
         chain postrouting {
           type nat hook postrouting priority 100; policy accept;
-          oifname "${net-local-container-interface}" masquerade
+          oifname "${vlan_local_container_name}" masquerade
     ''; # modified from https://wiki.gentoo.org/wiki/Nftables/Examples, also see: https://discourse.nixos.org/t/is-it-possible-to-write-custom-rules-to-the-nixos-firewall/27900/4 for a bunch of nixos examples of nftables ruleset
 
     firewall = {
@@ -34,7 +35,7 @@ in
       #extraCommands = ''
         #nftables -t nat -A POSTROUTING -o ${net-local-container-interface} -j MASQUERADE
       #'';
-      interfaces."${net-local-container-interface}" = {
+      interfaces.vlan_local_container_name = {
         # define allowed ports:
         allowedTCPPorts = [  
           8080 # grafana monitor container ingress

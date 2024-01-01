@@ -1,6 +1,11 @@
 # networking options
 
-{ config, lib, pkgs, netport, ... }:
+{ config, lib, pkgs, netport, vlans, ... }:
+let
+  vlan_management_name = "vlan${builtins.elemAt vlans 0}management";
+  vlan_cloudflared_name = "vlan${builtins.elemAt vlans 1}cloudflared";
+  vlan_local_container_name = "vlan${builtins.elemAt vlans 2}containers";
+in
 {
   
   services.cloudflared = {
@@ -17,7 +22,7 @@
     nftables.enable = true; # enable nftables
     firewall = {
       enable = true; # set to false to disable
-      interfaces."vlan112@${netport}" = {
+      interfaces.vlan_management_name = {
         # define allowed ports:
         allowedTCPPorts = [ 22001 ];
         allowedUDPPorts = [];
@@ -35,26 +40,26 @@
     enable = true; 
     netdevs = {
       # we specify the vlans and their names
-      "20-vlan112-nixos-server_init" = {
+      "20-${vlan_management_name}_init" = {
         netdevConfig = {
           Kind = "vlan";
-          Name = "vlan112";
+          Name = vlan_management_name;
         };
-        vlanConfig.Id = 112;
+        vlanConfig.Id = builtins.elemAt vlans 0;
       };
-      "20-vlan113-nixos-server_cloudflared_init" = {
+      "20-${vlan_cloudflared_name}_init" = {
         netdevConfig = {
           Kind = "vlan";
-          Name = "vlan113";
+          Name = vlan_cloudflared_name;
         };
-        vlanConfig.Id = 113;
+        vlanConfig.Id = builtins.elemAt vlans 1;
       };
-      "20-vlan114-nixos-server_local-containers_init" = {
+      "20-${vlan_local_container_name}_init" = {
         netdevConfig = {
           Kind = "vlan";
-          Name = "vlan114";
+          Name = vlan_local_container_name;
         };
-        vlanConfig.Id = 114;
+        vlanConfig.Id = builtins.elemAt vlans 2;
       };
     };
 
@@ -69,9 +74,9 @@
         matchConfig.Name = "${netport}";
         # tag vlan on this link
         vlan = [
-          "vlan112"
-          "vlan113"
-          "vlan114"
+          vlan_management_name
+          vlan_cloudflared_name
+          vlan_local_container_name
         ];
         networkConfig.LinkLocalAddressing = "no"; # disable link-local address autoconfiguration
         linkConfig.RequiredForOnline = "carrier"; # requiredForOnline tells networkd that a carrier link is needed for network.target, "carrier" in this case means that the vlans need to be online for network.target to complete
@@ -79,20 +84,20 @@
           # --> see https://www.freedesktop.org/software/systemd/man/latest/systemd.network.html#RequiredForOnline= for more info about RequiredForOnline
       };
 
-      "40-vlan112-nixos-server_conf" = {
-        matchConfig.Name = "vlan112";
+      "40-${vlan_management_name}_conf" = {
+        matchConfig.Name = vlan_management_name;
         # add relevant configuration here
         inherit networkConfig; # we tell it to use the networkconfig variable we specified
         linkConfig.RequiredForOnline = "yes"; # needed for network.target to be reached
       };
-      "40-vlan113-nixos-server_cloudflared_conf" = {
-        matchConfig.Name = "vlan113";
+      "40-${vlan_cloudflared_name}_conf" = {
+        matchConfig.Name = vlan_cloudflared_name;
         # add relevant configuration here
         inherit networkConfig; 
         linkConfig.RequiredForOnline = "yes"; # needed for network.target to be reached
       };
-      "40-vlan114-nixos-server_local-containers_conf" = {
-        matchConfig.Name = "vlan114";
+      "40-${vlan_local_container_name}_conf" = {
+        matchConfig.Name = vlan_local_container_name;
         # add relevant configuration here
         inherit networkConfig; 
         linkConfig.RequiredForOnline = "yes"; # needed for network.target to be reached
