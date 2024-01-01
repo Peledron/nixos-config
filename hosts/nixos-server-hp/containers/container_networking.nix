@@ -14,7 +14,7 @@ in
     nat = {
       enable = true;
       internalInterfaces = ["ve-+" "vb-+"];
-      externalInterface = ${vlan_local_container_name};
+      externalInterface = "${vlan_local_container_name}";
       # Lazy IPv6 connectivity for the container
       #enableIPv6 = true;
     };
@@ -37,7 +37,7 @@ in
       #extraCommands = ''
         #nftables -t nat -A POSTROUTING -o ${net-local-container-interface} -j MASQUERADE
       #'';
-      interfaces.${vlan_local_container_name} = {
+      interfaces."${vlan_local_container_name}" = {
         # define allowed ports:
         allowedTCPPorts = [  
           8080 # grafana monitor container ingress

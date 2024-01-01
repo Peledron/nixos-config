@@ -22,7 +22,7 @@ in
     nftables.enable = true; # enable nftables
     firewall = {
       enable = true; # set to false to disable
-      interfaces.${vlan_management_name} = {
+      interfaces."${vlan_management_name}" = {
         # define allowed ports:
         allowedTCPPorts = [ 22001 ];
         allowedUDPPorts = [];
@@ -43,21 +43,21 @@ in
       "20-${vlan_management_name}_init" = {
         netdevConfig = {
           Kind = "vlan";
-          Name = ${vlan_management_name};
+          Name = "${vlan_management_name}";
         };
         vlanConfig.Id = builtins.elemAt vlans 0;
       };
       "20-${vlan_cloudflared_name}_init" = {
         netdevConfig = {
           Kind = "vlan";
-          Name = ${vlan_cloudflared_name};
+          Name = "${vlan_cloudflared_name}";
         };
         vlanConfig.Id = builtins.elemAt vlans 1;
       };
       "20-${vlan_local_container_name}_init" = {
         netdevConfig = {
           Kind = "vlan";
-          Name = ${vlan_local_container_name};
+          Name = "${vlan_local_container_name}";
         };
         vlanConfig.Id = builtins.elemAt vlans 2;
       };
@@ -74,9 +74,9 @@ in
         matchConfig.Name = "${netport}";
         # tag vlan on this link
         vlan = [
-          ${vlan_management_name}
-          ${vlan_cloudflared_name}
-          ${vlan_local_container_name}
+          "${vlan_management_name}"
+          "${vlan_cloudflared_name}"
+          "${vlan_local_container_name}"
         ];
         networkConfig.LinkLocalAddressing = "no"; # disable link-local address autoconfiguration
         linkConfig.RequiredForOnline = "carrier"; # requiredForOnline tells networkd that a carrier link is needed for network.target, "carrier" in this case means that the vlans need to be online for network.target to complete
@@ -85,19 +85,19 @@ in
       };
 
       "40-${vlan_management_name}_conf" = {
-        matchConfig.Name = ${vlan_management_name};
+        matchConfig.Name = "${vlan_management_name}";
         # add relevant configuration here
         inherit networkConfig; # we tell it to use the networkconfig variable we specified
         linkConfig.RequiredForOnline = "yes"; # needed for network.target to be reached
       };
       "40-${vlan_cloudflared_name}_conf" = {
-        matchConfig.Name = ${vlan_cloudflared_name};
+        matchConfig.Name = "${vlan_cloudflared_name}";
         # add relevant configuration here
         inherit networkConfig; 
         linkConfig.RequiredForOnline = "yes"; # needed for network.target to be reached
       };
       "40-${vlan_local_container_name}_conf" = {
-        matchConfig.Name = ${vlan_local_container_name};
+        matchConfig.Name = "${vlan_local_container_name}";
         # add relevant configuration here
         inherit networkConfig; 
         linkConfig.RequiredForOnline = "yes"; # needed for network.target to be reached
