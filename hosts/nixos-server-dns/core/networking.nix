@@ -84,13 +84,13 @@
         matchConfig.Name = "vlan113";
         # add relevant configuration here
         inherit networkConfig; 
-        linkConfig.RequiredForOnline = "no"; # needed for network.target to be reached
+        linkConfig.RequiredForOnline = "yes"; # needed for network.target to be reached
       };
       "40-vlan114-nixos-server_local-containers_conf" = {
         matchConfig.Name = "vlan114";
         # add relevant configuration here
         inherit networkConfig; 
-        linkConfig.RequiredForOnline = "no"; # needed for network.target to be reached
+        linkConfig.RequiredForOnline = "yes"; # needed for network.target to be reached
       };
     };
   };

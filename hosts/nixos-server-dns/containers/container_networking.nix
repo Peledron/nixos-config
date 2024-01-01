@@ -26,7 +26,7 @@ in
       interfaces."${net-local-container-interface}" = {
         # define allowed ports:
         allowedTCPPorts = [  
-          80 # grafana monitor container ingress
+          8080 # grafana monitor container ingress
         ];
         allowedUDPPorts = [];
         # ---
