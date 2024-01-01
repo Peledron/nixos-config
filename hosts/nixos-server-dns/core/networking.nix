@@ -55,7 +55,7 @@
 
     networks =  let networkConfig = {
       # we put global configuration that is valid for all network interfaces here
-      DHCP = "yes"; DNSSEC = "yes"; DNSOverTLS = "yes"; DNS = [ "1.1.1.1" "1.0.0.1" ]; 
+      DHCP = "yes"; DNSOverTLS = "yes"; DNS = [ "1.1.1.1" "1.0.0.1" ]; 
     }; in {
       "30-eno1_outgoing-port_conf" = {
         matchConfig.Name = "${netport}";
