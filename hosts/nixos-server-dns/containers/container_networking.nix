@@ -1,8 +1,8 @@
-{ config, lib, pkgs, system, inputs, ... }:   
+{ config, lib, pkgs, system, inputs, netport, ... }:   
 let 
-  net-egress-interface = "eno1";
-  net-container-interface = "";
-  net-cloudflared-interface= "";
+  net-egress-interface = "${netport}";
+  net-local-container-interface = "vlan114_local-containers@${netport}";
+  net-cloudflared-interface= "vlan113_cloudflared@${netport}";
 in 
 {
   # enable ip forwarding
@@ -14,7 +14,7 @@ in
     nat = {
       enable = true;
       internalInterfaces = ["ve-+" "vb-+"];
-      externalInterface = "${net-egress-interface}";
+      externalInterface = "${net-local-container-interface}";
       # Lazy IPv6 connectivity for the container
       enableIPv6 = true;
     };

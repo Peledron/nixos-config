@@ -1,6 +1,6 @@
 # networking options
 
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, netport, ... }:
 {
   
   services.cloudflared = {
@@ -27,31 +27,43 @@
 
   # we will use systemd networkd for the configuration of the network interface
   # --> see: https://nixos.wiki/wiki/Systemd-networkd
-  systemd.network={
+  systemd.network = {
     netdevs = {
+      # we specify the vlans and their names
       "20-vlan112-nixos-server_init" = {
         netdevConfig = {
           Kind = "vlan";
-          Name = "vlan112";
+          Name = "vlan112_management";
         };
         vlanConfig.Id = 112;
       };
-      "20-vlan112-nixos-server_cloudflared_init" = {
+      "20-vlan113-nixos-server_cloudflared_init" = {
         netdevConfig = {
           Kind = "vlan";
-          Name = "vlan113";
+          Name = "vlan113_cloudflared";
         };
         vlanConfig.Id = 113;
       };
+      "20-vlan114-nixos-server_local-containers_init" = {
+        netdevConfig = {
+          Kind = "vlan";
+          Name = "vlan114_local-containers";
+        };
+        vlanConfig.Id = 114;
+      };
     };
 
-    networks = {
+    networks =  let networkConfig = {
+      # we put global configuration that is valid for all network interfaces here
+      DHCP = "yes"; DNSSEC = "yes"; DNSOverTLS = "yes"; DNS = [ "1.1.1.1" "1.0.0.1" ]; 
+    }; in {
       "30-eno1_outgoing-port_conf" = {
-        matchConfig.Name = "eno1";
+        matchConfig.Name = "${netport}";
         # tag vlan on this link
         vlan = [
-          "vlan112"
-          "vlan113"
+          "vlan112_management"
+          "vlan113_cloudflared"
+          "vlan114_local-containers"
         ];
         networkConfig.LinkLocalAddressing = "no"; # disable link-local address autoconfiguration
         linkConfig.RequiredForOnline = "carrier"; # requiredForOnline tells networkd that a carrier link is needed for network.target, "carrier" in this case means that the vlans need to be online for network.target to complete
@@ -60,16 +72,22 @@
       };
 
       "40-vlan112-nixos-server_conf" = {
-        matchConfig.Name = "vlan112";
+        matchConfig.Name = "vlan112_management";
         # add relevant configuration here
-        networkConfig.DHCP = "yes"; # tell interface to acquire a dhcp link
+        inherit networkConfig; # we tell it to use the networkconfig variable we specified
         linkConfig.RequiredForOnline = "yes"; # needed for network.target to be reached
       };
-      "40-vlan112-nixos-server_cloudflared_conf" = {
-        matchConfig.Name = "vlan113";
+      "40-vlan113-nixos-server_cloudflared_conf" = {
+        matchConfig.Name = "vlan113_cloudflared";
         # add relevant configuration here
-        networkConfig.DHCP = "yes"; # tell interface to acquire a dhcp link
-        linkConfig.RequiredForOnline = "yes"; # needed for network.target to be reached
+        inherit networkConfig; 
+        linkConfig.RequiredForOnline = "no"; # needed for network.target to be reached
+      };
+      "40-vlan114-nixos-server_local-containers_conf" = {
+        matchConfig.Name = "vlan114_local-containers";
+        # add relevant configuration here
+        inherit networkConfig; 
+        linkConfig.RequiredForOnline = "no"; # needed for network.target to be reached
       };
     };
   };
