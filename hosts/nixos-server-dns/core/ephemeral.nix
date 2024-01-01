@@ -1,5 +1,7 @@
 { config, lib, pkgs, system, inputs, impermanence, disko, disks, ... }:
-
+let
+	root-part = builtins.elemAt disks 1;
+in
 {
     # clear root subvolume on each boot as per https://grahamc.com/blog/erase-your-darlings/ and https://nixos.wiki/wiki/Btrfs
     # Note `lib.mkBefore` is used instead of `lib.mkAfter` here.
@@ -8,7 +10,7 @@
 
         # We first mount the btrfs root to /mnt
         # so we can manipulate btrfs subvolumes.
-        mount -o subvol=/ /dev/disk/by-partlabel/disk-root-NIXOS_MAIN /mnt
+        mount -o subvol=/ ${root-part} /mnt
 
         # While we're tempted to just delete /root and create
         # a new snapshot from /root-blank, /root is already
