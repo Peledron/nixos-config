@@ -14,7 +14,7 @@ in
     nat = {
       enable = true;
       internalInterfaces = ["ve-+" "vb-+"];
-      externalInterface = "${vlan_local_container_name}@${netport}";
+      externalInterface = "${vlan_local_container_name}";
       # Lazy IPv6 connectivity for the container
       #enableIPv6 = true;
     };

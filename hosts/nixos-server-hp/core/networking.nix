@@ -22,7 +22,7 @@ in
     nftables.enable = true; # enable nftables
     firewall = {
       enable = true; # set to false to disable
-      interfaces."${vlan_management_name}@${netport}" = {
+      interfaces."${vlan_management_name}" = {
         # define allowed ports:
         allowedTCPPorts = [ 22001 ];
         allowedUDPPorts = [];
