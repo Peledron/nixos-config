@@ -19,10 +19,7 @@
     
     
     config = { config, pkgs, ... }: {
-      #environment.etc."resolv.conf" = {
-        #enable = true; # generate the file
-        #text = "nameserver 8.8.8.8";
-      #}; # resolv.conf cannot be shared with host
+      environment.etc."resolv.conf".text = "nameserver 8.8.8.8";# resolv.conf cannot be shared with host
       networking = {
         useNetworkd = true;
        	firewall = { 
@@ -30,13 +27,7 @@
           allowedTCPPorts = [ 80 ];  
         };
       };
-      systemd.network.networks."10-egress" = {
-        machConfig.Name = "eth0@if10";
-        networkConfig = {
-          DNSOverTLS = "yes"; 
-          DNS = [ "1.1.1.1" "1.0.0.1" ]; 
-        };
-      };
+     
 
       #============#
       # nginx:
