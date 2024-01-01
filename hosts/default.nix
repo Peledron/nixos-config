@@ -223,7 +223,7 @@ in
   #==================#
   # hardware-server:
   #==================#
-  nixos-server-dns = lib.nixosSystem {
+  nixos-server-hp = lib.nixosSystem {
     inherit system pkgs;
     specialArgs = {
       inherit inputs self;
@@ -238,7 +238,7 @@ in
         global-coreconf
 
         # -> host module
-        "${hostdir}/nixos-server-dns"  {
+        "${hostdir}/nixos-server-hp"  {
           _module.args.disks = [ "/dev/disk/by-id/ata-SanDisk_SD8SBAT128G1002_162092404193" "/dev/disk/by-id/ata-SanDisk_SD8SBAT128G1002_162092404193-part1" ]; # you can add more drives in more "", for example "/dev/nvme0n1", or you can specifiy partitions
           _module.args.netport = "eno1"; # the outgoing ethernet port
         }
