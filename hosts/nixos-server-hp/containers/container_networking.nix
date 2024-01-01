@@ -24,7 +24,7 @@ in
       #extraCommands = ''
         #nftables -t nat -A POSTROUTING -o ${net-local-container-interface} -j MASQUERADE
       #'';
-      interfaces."${vlan_local_container_name}@${netport}" = {
+      interfaces."${vlan_local_container_name}" = {
         # define allowed ports:
         allowedTCPPorts = [  
           8080 # grafana monitor container ingress
