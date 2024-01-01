@@ -1,8 +1,8 @@
 { config, lib, pkgs, system, inputs, netport, vlans, ... }:   
 let
-  vlan_management_name = "vlan${builtins.elemAt vlans 0}management";
-  vlan_cloudflared_name = "vlan${builtins.elemAt vlans 1}cloudflared";
-  vlan_local_container_name = "vlan${builtins.elemAt vlans 2}containers";
+  vlan_management_name = "vlan${builtins.toString ${builtins.elemAt vlans 0}}management";
+  vlan_cloudflared_name = "vlan${builtins.toString ${builtins.elemAt vlans 1}}cloudflared";
+  vlan_local_container_name = "vlan${builtins.toString ${builtins.elemAt vlans 2}}containers";
 in
 {
   # enable ip forwarding
