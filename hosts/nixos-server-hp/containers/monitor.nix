@@ -21,7 +21,7 @@
     config = { config, pkgs, ... }: {
       environment.etc."resolv.conf" = {
         enable = true; # generate the file
-        text = "nameserver 8.8.8.8";
+        #text = "nameserver 8.8.8.8";
       }; # resolv.conf cannot be shared with host
       networking = {
         useNetworkd = true;
