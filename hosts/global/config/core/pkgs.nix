@@ -21,6 +21,8 @@
             eza # colorfull ls, easier to read
             # [editor]
             neovim
+            # [dotfiles management] # I should define all config in nix but...
+            stow
             # [git+related]
             git
             sops

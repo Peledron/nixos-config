@@ -1,7 +1,4 @@
 { config, lib, pkgs, system, inputs, impermanence, disko, disks, ... }:
-let
-	root-part = builtins.elemAt disks 1;
-in
 {
     # clear root subvolume on each boot as per https://grahamc.com/blog/erase-your-darlings/ and https://nixos.wiki/wiki/Btrfs
     # Note `lib.mkBefore` is used instead of `lib.mkAfter` here.
@@ -10,7 +7,7 @@ in
 
         # We first mount the btrfs root to /mnt
         # so we can manipulate btrfs subvolumes.
-        mount -o subvol=/ ${root-part} /mnt
+        mount -o subvol=/ ${builtins.elemAt disks 1} /mnt
 
         # While we're tempted to just delete /root and create
         # a new snapshot from /root-blank, /root is already
@@ -47,19 +44,12 @@ in
     environment.persistence."/persist" = {
         directories = [
             "/etc/libvirt"
-            "/etc/NetworkManager/system-connections"
-            "/var/lib/bluetooth"
             "/var/lib/docker"
             "/var/lib/upower"
         ];
         files = [
             "/etc/machine-id"
             "/etc/adjtime"
-            #"/etc/passwd" 
-            #"/etc/shadow"
-            "/var/lib/NetworkManager/secret_key"
-            "/var/lib/NetworkManager/seen-bssids"
-            "/var/lib/NetworkManager/timestamps"
         ];
     };
 

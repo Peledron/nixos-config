@@ -27,8 +27,6 @@
                 libsForQt5.okular
 
             # cli tools
-                # [dotfiles management] # I should define all config in nix but...
-                stow
                 # [shell prompts]
                 starship
                 # [utils]

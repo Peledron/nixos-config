@@ -1,8 +1,5 @@
 # drive config
 { config, lib, pkgs, disko, disks, ... }:
-let
-  nixos_main-part = builtins.elemAt disks 1;
-in
 {
   # set encrypted volume to be mounted as nixos-main at boot
   #boot.initrd.luks.devices."nixos-main".device = "/dev/disk/by-label/crypted-main-nixos";
@@ -80,7 +77,7 @@ in
                     };
                   };
                 };
-                postCreateHook = "mount ${nixos_main-part} /mnt ; mkdir -p /mnt/persist/sops; btrfs subvolume snapshot -r /mnt/root /mnt/root-blank; umount /mnt"; # create the initial empty subvolume snapshot that we will return to at each boot
+                postCreateHook = "mount ${builtins.elemAt disks 1} /mnt ; mkdir -p /mnt/persist/sops; btrfs subvolume snapshot -r /mnt/root /mnt/root-blank; umount /mnt"; # create the initial empty subvolume snapshot that we will return to at each boot
               };
             }
             # declare more partitons here:

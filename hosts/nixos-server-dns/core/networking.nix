@@ -16,11 +16,14 @@
     # set firewall settings:
     firewall = {
       enable = true; # set to false to disable
+      interfaces."vlan112@${netport}" = {
+        # define allowed ports:
+        allowedTCPPorts = [ 22001 ];
+        allowedUDPPorts = [];
+        # ---
+      };
 
-      # define allowed ports:
-      allowedTCPPorts = [ 22001 ];
-      allowedUDPPorts = [];
-      # ---
+     
     };
     # ---
   };
