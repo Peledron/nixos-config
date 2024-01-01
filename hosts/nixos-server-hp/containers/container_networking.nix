@@ -7,7 +7,7 @@ in
 {
   # enable ip forwarding
   boot.kernel.sysctl."net.ipv4.ip_forward" = 1; 
-  boot.kernel.sysctl."net.ipv6.ip_forward" = 1;
+  #boot.kernel.sysctl."net.ipv6.ip_forward" = 1;
 
   # setup container networks
   networking = {
@@ -16,7 +16,7 @@ in
       internalInterfaces = ["ve-+" "vb-+"];
       externalInterface = "${net-local-container-interface}";
       # Lazy IPv6 connectivity for the container
-      enableIPv6 = true;
+      #enableIPv6 = true;
     };
     firewall = {
       # allow nat masquerade on interface
