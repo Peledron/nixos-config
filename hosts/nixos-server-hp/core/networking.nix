@@ -101,6 +101,7 @@ in
         matchConfig.Name = "${vlan_local_container_name}";
         # add relevant configuration here
         inherit networkConfig; 
+        networkConfig.IPMasquerade = "yes";
         linkConfig.RequiredForOnline = "yes"; # needed for network.target to be reached
       };
     };

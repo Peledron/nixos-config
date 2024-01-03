@@ -29,12 +29,8 @@ in
         }
       }
     '';*/
-    
+
     firewall = {
-      #allow nat masquerade on interface
-      extraCommands = ''
-        iptables -t nat -A POSTROUTING -o ${vlan_local_container_name} -j MASQUERADE
-      '';
       interfaces."${vlan_local_container_name}" = {
         # define allowed ports:
         allowedTCPPorts = [  
