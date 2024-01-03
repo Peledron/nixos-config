@@ -30,8 +30,8 @@ in
         allowedUDPPorts = [];
         # ---
       };
-      allowedTCPPorts = [];
-      allowedUDPPorts = [];
+      #allowedTCPPorts = [];
+      #allowedUDPPorts = [];
     };
     # ---
   };
