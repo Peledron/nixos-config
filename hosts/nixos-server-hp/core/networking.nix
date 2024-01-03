@@ -17,7 +17,7 @@ in
   };
   networking = {
     hostName = "nixos-server-hp";
-    useNetworkd = true;
+    #useNetworkd = true;
     # set firewall settings:
     nftables.enable = true; # enable nftables
     firewall = {
