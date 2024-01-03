@@ -12,7 +12,7 @@ in
   systemd.network.networks."50-br0_conf" = {
       matchConfig.Name ="br0";
       bridgeConfig = {};
-      linkConfig = {
+      linkConfig.RequiredForOnline = "carrier";
       # or "routable" with IP addresses configured
       networkConfig = {
         DHCP = "no";
@@ -21,8 +21,7 @@ in
         DNSOverTLS = "yes"; 
         DNS = [ "1.1.1.1" "1.0.0.1" ]; 
       };
-      RequiredForOnline = "carrier";
-    };
+      
   };
   # setup container networks
   networking = {
