@@ -112,6 +112,59 @@ in
         linkConfig.RequiredForOnline = "enslaved";
       };
     };
+    systemd.network.netdevs."20-br-ring" = {
+    netdevConfig = { 
+      Kind = "bridge";
+      Name = "br-ring";
+    };  
+    extraConfig = ''
+      [Bridge]
+      STP=true
+      VLANFiltering=true
+    '';
+  };  
+  systemd.network.networks."30-int-enp3s0f0" = { 
+    matchConfig = { 
+      Name = "enp3s0f0";
+    };  
+    networkConfig = { Bridge = "br-ring"; };
+  };  
+  systemd.network.networks."30-int-enp3s0f1" = { 
+    matchConfig = { 
+      Name = "enp3s0f1";
+    };  
+    networkConfig = { Bridge = "br-ring"; };
+  };  
+  systemd.network.networks."30-int-ring" = { 
+    matchConfig = { 
+      Name = "br-ring";
+    };  
+    address = [ 
+      "10.42.13.1/24"
+    ];  
+  };  
+
+  # VM Network mon0
+  systemd.network.netdevs."40-veth-vlan100-mon0" = { 
+    netdevConfig = { 
+      Kind = "veth";
+      Name = "br-mon0-v100";
+    };  
+    peerConfig = { 
+      Name = "pe-mon0-v100";
+    };  
+  };  
+  systemd.network.networks."45-veth-mon0" = { 
+    matchConfig = { 
+      Name = "pe-mon0-v100";
+    };  
+    networkConfig = { Bridge = "br-ring"; };
+    linkConfig = { RequiredForOnline = false; };
+    extraConfig = ''
+      [BridgeVLAN]
+      VLAN=100
+    '';
+  };  
   };
   systemd.services."systemd-networkd".environment.SYSTEMD_LOG_LEVEL = "debug"; # enable higher loglevel on networkd (for troubleshooting)
 }
