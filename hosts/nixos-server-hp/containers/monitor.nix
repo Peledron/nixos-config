@@ -9,6 +9,7 @@
     #hostAddress6 = "fc00::1";
     #localAddress6 = "fc00::2";
     
+    /*
     forwardPorts = [
       {
         containerPort = 80;
@@ -16,17 +17,18 @@
         protocol = "tcp";
       }
     ];
-    
+    */
     
     config = { config, pkgs, ... }: {
-      environment.etc."resolv.conf".text = "nameserver 1.1.1.1";# resolv.conf cannot be shared with host
-      services.resolved.enable = false;
+      #environment.etc."resolv.conf".text = "nameserver 1.1.1.1";# resolv.conf cannot be shared with host
+      services.resolved.enable = true;
       networking = {
         #useNetworkd = true;
        	firewall = { 
           enable = true;
           allowedTCPPorts = [ 80 ];  
         };
+        useHostResolvConf = mkForce false;
       };
      
 
