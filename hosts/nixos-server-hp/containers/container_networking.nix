@@ -15,9 +15,7 @@ in
       linkConfig.RequiredForOnline = "carrier";
       # or "routable" with IP addresses configured
       networkConfig = {
-        DHCP = "no";
-        Address = "192.168.100.2/24";
-        Gateway = "192.168.100.1";
+        DHCP = "yes";
         DNSOverTLS = "yes"; 
         DNS = [ "1.1.1.1" "1.0.0.1" ]; 
       };
