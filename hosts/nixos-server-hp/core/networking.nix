@@ -100,8 +100,12 @@ in
       "40-${vlan_local_container_name}_conf" = {
         matchConfig.Name = "${vlan_local_container_name}";
         # add relevant configuration here
-        inherit networkConfig; 
-        networkConfig.IPMasquerade = "yes";
+        networkConfig = {
+          DHCP = "ipv4"; 
+          DNSOverTLS = "yes"; 
+          DNS = [ "1.1.1.1" "1.0.0.1" ];
+          IPMasquerade = "yes"; # enable NAT masquarading
+        };
         linkConfig.RequiredForOnline = "yes"; # needed for network.target to be reached
       };
     };
