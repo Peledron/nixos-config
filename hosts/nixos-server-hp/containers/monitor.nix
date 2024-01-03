@@ -4,19 +4,10 @@
     autoStart = true;
     extraFlags = [ "-U" ]; # run as user instead of root
     privateNetwork = true;
-    hostAddress = "172.24.1.1";
+    hostBridge = "br0";
     localAddress = "172.24.1.2";
     #hostAddress6 = "fc00::1";
     #localAddress6 = "fc00::2";
-    
-    forwardPorts = [
-      {
-        containerPort = 80;
-        hostPort = 8080;
-        protocol = "tcp";
-      }
-    ];
-    
     
     config = { config, pkgs, lib, ... }: {
       #environment.etc."resolv.conf".text = "nameserver 1.1.1.1";# resolv.conf cannot be shared with host

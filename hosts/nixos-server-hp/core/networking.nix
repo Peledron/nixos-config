@@ -62,6 +62,12 @@ in
         };
         vlanConfig.Id = builtins.elemAt vlans 2;
       };
+      "30-br0_init" = {
+         netdevConfig = {
+           Kind = "bridge";
+           Name = "br0";
+         };
+       };
     };
 
     networks =  let networkConfig = {
@@ -107,14 +113,6 @@ in
           Bridge = "br0";
         };
         linkConfig.RequiredForOnline = "enslaved";
-      };
-      "50-br0" = {
-        matchConfig.Name ="br0";
-        bridgeConfig = {};
-        linkConfig = {
-          # or "routable" with IP addresses configured
-          RequiredForOnline = "carrier";
-        };
       };
     };
   };

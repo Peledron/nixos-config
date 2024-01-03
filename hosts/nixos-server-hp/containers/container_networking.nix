@@ -9,7 +9,21 @@ in
   boot.kernel.sysctl."net.ipv4.ip_forward" = 1; 
   #boot.kernel.sysctl."net.ipv6.ip_forward" = 1;
   # virtualisation.docker.extraOptions  = "--iptables=False"; # disable iptables, manual NATing is needed for docker networking to work, see below
-  
+  systemd.network.networks."50-br0_conf" = {
+      matchConfig.Name ="br0";
+      bridgeConfig = {};
+      linkConfig = {
+      # or "routable" with IP addresses configured
+      networkConfig = {
+        DHCP = "no";
+        Address = "192.168.100.2/24";
+        Gateway = "192.168.100.1";
+        DNSOverTLS = "yes"; 
+        DNS = [ "1.1.1.1" "1.0.0.1" ]; 
+      };
+      RequiredForOnline = "carrier";
+    };
+  };
   # setup container networks
   networking = {
     /*
