@@ -12,6 +12,7 @@ in
   
   # setup container networks
   networking = {
+    /*
     nat = {
     
       enable = true;
@@ -20,7 +21,6 @@ in
       # Lazy IPv6 connectivity for the container
       #enableIPv6 = true;
     };
-    /*
     nftables.ruleset = ''
       table ip nat {
         chain PREROUTING {

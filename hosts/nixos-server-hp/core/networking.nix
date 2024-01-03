@@ -80,7 +80,7 @@ in
           "${vlan_local_container_name}"
         ];
         networkConfig.LinkLocalAddressing = "no"; # disable link-local address autoconfiguration
-        linkConfig.RequiredForOnline = "carrier"; # requiredForOnline tells networkd that a carrier link is needed for network.target, "carrier" in this case means that the vlans need to be online for network.target to complete
+        linkConfig.RequiredForOnline = "carrier"; # requiredForOnline tells networkd that a carrier link is needed for network.target
           # --> see https://www.freedesktop.org/software/systemd/man/latest/networkctl.html# for an overview of the possible link states
           # --> see https://www.freedesktop.org/software/systemd/man/latest/systemd.network.html#RequiredForOnline= for more info about RequiredForOnline
       };
@@ -89,24 +89,32 @@ in
         matchConfig.Name = "${vlan_management_name}";
         # add relevant configuration here
         inherit networkConfig; # we tell it to use the networkconfig variable we specified
-        linkConfig.RequiredForOnline = "yes"; # needed for network.target to be reached
+        linkConfig.RequiredForOnline = "routable"; # needed for network.target to be reached
       };
       "40-${vlan_cloudflared_name}_conf" = {
         matchConfig.Name = "${vlan_cloudflared_name}";
         # add relevant configuration here
         inherit networkConfig; 
-        linkConfig.RequiredForOnline = "yes"; # needed for network.target to be reached
+        linkConfig.RequiredForOnline = "routable"; # needed for network.target to be reached
       };
       "40-${vlan_local_container_name}_conf" = {
         matchConfig.Name = "${vlan_local_container_name}";
         # add relevant configuration here
-        networkConfig = {
+        networkConfig = { 
           DHCP = "ipv4"; 
           DNSOverTLS = "yes"; 
-          DNS = [ "1.1.1.1" "1.0.0.1" ];
-          IPMasquerade = "yes"; # enable NAT masquarading
+          DNS = [ "1.1.1.1" "1.0.0.1" ]; 
+          Bridge = "br0";
         };
-        linkConfig.RequiredForOnline = "yes"; # needed for network.target to be reached
+        linkConfig.RequiredForOnline = "enslaved";
+      };
+      "50-br0" = {
+        matchConfig.Name ="br0";
+        bridgeConfig = {};
+        linkConfig = {
+          # or "routable" with IP addresses configured
+          RequiredForOnline = "carrier";
+        };
       };
     };
   };
