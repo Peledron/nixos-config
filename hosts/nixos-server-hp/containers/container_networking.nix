@@ -18,7 +18,14 @@ in
       # Lazy IPv6 connectivity for the container
       #enableIPv6 = true;
     };
-   
+    nftables.ruleset = ''
+      table ip nat {
+        chain PREROUTING {
+          type nat hook prerouting priority dstnat; policy accept;
+          iifname "${vlan_local_container_name}" tcp dport 8080 dnat to 172.24.1.2:80
+        }
+      }
+    '';
     firewall = {
       # allow nat masquerade on interface
       #extraCommands = ''
