@@ -39,7 +39,7 @@ in
           iifname "${vlan_local_container_name}" tcp dport 8080 dnat to 172.24.1.2:80
         }
       }
-    '';*/
+    '';
 
     firewall = {
       interfaces."${vlan_local_container_name}" = {
@@ -51,5 +51,6 @@ in
         # ---
       };
     };
- };
+    */
+  };
 }

@@ -5,7 +5,7 @@
     extraFlags = [ "-U" ]; # run as user instead of root
     privateNetwork = true;
     hostBridge = "br0";
-    localAddress = "172.24.1.2";
+    localAddress = "192.168.1.5";
     #hostAddress6 = "fc00::1";
     #localAddress6 = "fc00::2";
     

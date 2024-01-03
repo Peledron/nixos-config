@@ -107,9 +107,6 @@ in
         matchConfig.Name = "${vlan_local_container_name}";
         # add relevant configuration here
         networkConfig = { 
-          DHCP = "ipv4"; 
-          DNSOverTLS = "yes"; 
-          DNS = [ "1.1.1.1" "1.0.0.1" ]; 
           Bridge = "br0";
         };
         linkConfig.RequiredForOnline = "enslaved";
