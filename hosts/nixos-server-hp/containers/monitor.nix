@@ -19,7 +19,7 @@
     ];
     */
     
-    config = { config, pkgs, ... }: {
+    config = { config, pkgs, lib, ... }: {
       #environment.etc."resolv.conf".text = "nameserver 1.1.1.1";# resolv.conf cannot be shared with host
       services.resolved.enable = true;
       networking = {
@@ -28,7 +28,7 @@
           enable = true;
           allowedTCPPorts = [ 80 ];  
         };
-        useHostResolvConf = mkForce false;
+        useHostResolvConf = lib.mkForce false;
       };
      
 
