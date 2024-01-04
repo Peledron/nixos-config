@@ -1,26 +1,14 @@
 { config, lib, pkgs, system, inputs, netport, vlans, ... }:   
 let
-  vlan_management_name = "vlan${builtins.toString (builtins.elemAt vlans 0)}mngmnt";
-  vlan_cloudflared_name = "vlan${builtins.toString (builtins.elemAt vlans 1)}cloudfld";
-  vlan_local_container_name = "vlan${builtins.toString (builtins.elemAt vlans 2)}cont";
+  br_management_name = "br${builtins.toString (builtins.elemAt vlans 0)}mngmnt";
+  br_cloudflared_name = "br${builtins.toString (builtins.elemAt vlans 1)}cloudfld";
+  br_local_container_name = "br${builtins.toString (builtins.elemAt vlans 2)}cont";
 in
 {
   # enable ip forwarding
   boot.kernel.sysctl."net.ipv4.ip_forward" = 1; 
   #boot.kernel.sysctl."net.ipv6.ip_forward" = 1;
   # virtualisation.docker.extraOptions  = "--iptables=False"; # disable iptables, manual NATing is needed for docker networking to work, see below
-  systemd.network.networks."50-br0_conf" = {
-      matchConfig.Name ="br0";
-      bridgeConfig = {};
-      linkConfig.RequiredForOnline = "carrier";
-      # or "routable" with IP addresses configured
-      networkConfig = {
-        DHCP = "yes";
-        DNSOverTLS = "yes"; 
-        DNS = [ "1.1.1.1" "1.0.0.1" ]; 
-      };
-      
-  };
   # setup container networks
   networking = {
     /*
