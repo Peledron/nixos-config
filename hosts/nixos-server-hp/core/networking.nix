@@ -21,6 +21,11 @@ in
   networking = {
     hostName = "nixos-server-hp";
     useNetworkd = true;
+    vlans = {
+        ${vlan_management_name} = { id=${builtins.toString (builtins.elemAt vlans 0)}; interface="${netport}"; };
+        ${vlan_cloudflared_name} = { id=${builtins.toString (builtins.elemAt vlans 0)}; interface="${netport}"; };
+        ${vlan_local_container_name} = { id=${builtins.toString (builtins.elemAt vlans 0)}; interface="${netport}"; };
+    };
     # set firewall settings:
     nftables.enable = true; # enable nftables
     firewall = {
@@ -36,7 +41,12 @@ in
     };
     # ---
   };
-
+  services.openssh.listenAddresses = [
+    {
+      addr = "192.168.0.130";
+    }
+  ];
+  /*
   # we will use systemd networkd for the configuration of the network interface
   # --> see: https://nixos.wiki/wiki/Systemd-networkd
   systemd.network = {
@@ -143,5 +153,6 @@ in
       };  
     };
   };
+  */
   systemd.services."systemd-networkd".environment.SYSTEMD_LOG_LEVEL = "debug"; # enable higher loglevel on networkd (for troubleshooting)
 }

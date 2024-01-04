@@ -1,5 +1,6 @@
 { config, lib, pkgs, system, inputs, netport, vlans, ... }:   
 let
+  vlan_local_container_name = "vlan${builtins.toString (builtins.elemAt vlans 2)}cont";
   br_local_container_name = "br${builtins.toString (builtins.elemAt vlans 2)}cont";
 in
 {
@@ -28,7 +29,7 @@ in
     '';
     */
     firewall = {
-      interfaces."${br_local_container_name }" = {
+      interfaces."${vlan_local_container_name }" = {
         # define allowed ports:
         allowedTCPPorts = [  
           80 # grafana monitor container ingress
