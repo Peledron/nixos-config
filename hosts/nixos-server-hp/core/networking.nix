@@ -2,9 +2,9 @@
 
 { config, lib, pkgs, netport, vlans, ... }:
 let
-  vlan_management_name = "vlan${builtins.toString (builtins.elemAt vlans 0)}mngmnt";
-  vlan_cloudflared_name = "vlan${builtins.toString (builtins.elemAt vlans 1)}cloudfld";
-  vlan_local_container_name = "vlan${builtins.toString (builtins.elemAt vlans 2)}cont";
+  br_management_name = "br${builtins.toString (builtins.elemAt vlans 0)}mngmnt";
+  br_cloudflared_name = "br${builtins.toString (builtins.elemAt vlans 1)}cloudfld";
+  br_local_container_name = "br${builtins.toString (builtins.elemAt vlans 2)}cont";
 in
 {
   
@@ -40,33 +40,15 @@ in
   systemd.network = {
     enable = true; 
     netdevs = {
-      # we specify the vlans and their names
-      "20-${vlan_management_name}_init" = {
-        netdevConfig = {
-          Kind = "vlan";
-          Name = "${vlan_management_name}";
-        };
-        vlanConfig.Id = builtins.elemAt vlans 0;
-      };
-      "20-${vlan_cloudflared_name}_init" = {
-        netdevConfig = {
-          Kind = "vlan";
-          Name = "${vlan_cloudflared_name}";
-        };
-        vlanConfig.Id = builtins.elemAt vlans 1;
-      };
-      "20-${vlan_local_container_name}_init" = {
-        netdevConfig = {
-          Kind = "vlan";
-          Name = "${vlan_local_container_name}";
-        };
-        vlanConfig.Id = builtins.elemAt vlans 2;
-      };
-      "30-br0_init" = {
+      "20-${br_management_name}_init" = {
          netdevConfig = {
            Kind = "bridge";
-           Name = "br0";
+           Name = "${br_management_name}";
          };
+          extraConfig = ''
+          [Bridge]
+          VLANFiltering=true 
+        '';
        };
     };
 
@@ -79,70 +61,27 @@ in
     in {
       "30-eno1_outgoing-port_conf" = {
         matchConfig.Name = "${netport}";
-        # tag vlan on this link
-        vlan = [
-          "${vlan_management_name}"
-          "${vlan_cloudflared_name}"
-          "${vlan_local_container_name}"
-        ];
-        networkConfig.LinkLocalAddressing = "no"; # disable link-local address autoconfiguration
+        networkConfig = { 
+          Bridge = [
+            "${br_management_name}"
+            "${br_cloudflared_name}"
+            "${br_local_container_name}"
+          ]; 
+          LinkLocalAddressing = "no"; # disable link-local address autoconfiguration};
+        };
         linkConfig.RequiredForOnline = "carrier"; # requiredForOnline tells networkd that a carrier link is needed for network.target
           # --> see https://www.freedesktop.org/software/systemd/man/latest/networkctl.html# for an overview of the possible link states
           # --> see https://www.freedesktop.org/software/systemd/man/latest/systemd.network.html#RequiredForOnline= for more info about RequiredForOnline
       };
 
-      "40-${vlan_management_name}_conf" = {
-        matchConfig.Name = "${vlan_management_name}";
-        # add relevant configuration here
-        inherit networkConfig; # we tell it to use the networkconfig variable we specified
-        linkConfig.RequiredForOnline = "routable"; # needed for network.target to be reached
-      };
-      "40-${vlan_cloudflared_name}_conf" = {
-        matchConfig.Name = "${vlan_cloudflared_name}";
-        # add relevant configuration here
-        inherit networkConfig; 
-        linkConfig.RequiredForOnline = "routable"; # needed for network.target to be reached
-      };
-      "40-${vlan_local_container_name}_conf" = {
-        matchConfig.Name = "${vlan_local_container_name}";
-        # add relevant configuration here
-        networkConfig = { 
-          Bridge = "br0";
-        };
-        linkConfig.RequiredForOnline = "enslaved";
-      };
-    };
-    systemd.network.netdevs."20-br-ring" = {
-    netdevConfig = { 
-      Kind = "bridge";
-      Name = "br-ring";
-    };  
-    extraConfig = ''
-      [Bridge]
-      STP=true
-      VLANFiltering=true
-    '';
-  };  
-  systemd.network.networks."30-int-enp3s0f0" = { 
-    matchConfig = { 
-      Name = "enp3s0f0";
-    };  
-    networkConfig = { Bridge = "br-ring"; };
-  };  
-  systemd.network.networks."30-int-enp3s0f1" = { 
-    matchConfig = { 
-      Name = "enp3s0f1";
-    };  
-    networkConfig = { Bridge = "br-ring"; };
-  };  
-  systemd.network.networks."30-int-ring" = { 
-    matchConfig = { 
-      Name = "br-ring";
-    };  
-    address = [ 
-      "10.42.13.1/24"
-    ];  
-  };  
+        systemd.network.networks."30-int-ring" = { 
+          matchConfig = { 
+            Name = "br-ring";
+          };  
+          address = [ 
+            "10.42.13.1/24"
+          ];  
+        };  
 
   # VM Network mon0
   systemd.network.netdevs."40-veth-vlan100-mon0" = { 
