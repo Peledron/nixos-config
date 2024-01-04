@@ -22,9 +22,9 @@ in
     hostName = "nixos-server-hp";
     useNetworkd = true;
     vlans = {
-        ${vlan_management_name} = { id=${builtins.toString (builtins.elemAt vlans 0)}; interface="${netport}"; };
-        ${vlan_cloudflared_name} = { id=${builtins.toString (builtins.elemAt vlans 0)}; interface="${netport}"; };
-        ${vlan_local_container_name} = { id=${builtins.toString (builtins.elemAt vlans 0)}; interface="${netport}"; };
+        ${vlan_management_name} = { id="${builtins.toString (builtins.elemAt vlans 0)}"; interface="${netport}"; };
+        ${vlan_cloudflared_name} = { id="${builtins.toString (builtins.elemAt vlans 0)}"; interface="${netport}"; };
+        ${vlan_local_container_name} = { id="${builtins.toString (builtins.elemAt vlans 0)}"; interface="${netport}"; };
     };
     # set firewall settings:
     nftables.enable = true; # enable nftables
