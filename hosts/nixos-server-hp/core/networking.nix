@@ -6,8 +6,7 @@ let
   br_cloudflared_name = "br${builtins.toString (builtins.elemAt vlans 1)}cloudfld";
   br_local_container_name = "br${builtins.toString (builtins.elemAt vlans 2)}cont";
 in
-{
-  
+{ 
   services.cloudflared = {
     enable = true;
     #tunnel."42c80f70-deb9-49b0-8fbe-606da328921e" = {
@@ -86,7 +85,7 @@ in
             "${br_management_name}"
             "${br_cloudflared_name}"
             "${br_local_container_name}"
-          ]; 
+          ];
           LinkLocalAddressing = "no"; # disable link-local address autoconfiguration};
         };
         linkConfig.RequiredForOnline = "enslaved"; # requiredForOnline tells networkd that a carrier link is needed for network.target
@@ -121,7 +120,7 @@ in
           VLAN=${builtins.elemAt vlans 2}
         '';
       };  
-
+    };
   };
   systemd.services."systemd-networkd".environment.SYSTEMD_LOG_LEVEL = "debug"; # enable higher loglevel on networkd (for troubleshooting)
 }
