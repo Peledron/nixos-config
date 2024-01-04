@@ -44,7 +44,7 @@ in
   services.openssh.listenAddresses = [
     {
       addr = "192.168.0.130";
-      port = "22001";
+      port = 22001;
     }
   ];
   /*
