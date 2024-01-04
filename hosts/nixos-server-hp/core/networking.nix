@@ -23,8 +23,8 @@ in
     useNetworkd = true;
     vlans = {
         ${vlan_management_name} = { id= builtins.elemAt vlans 0 ; interface="${netport}"; };
-        ${vlan_cloudflared_name} = { id=builtins.elemAt vlans 0; interface="${netport}"; };
-        ${vlan_local_container_name} = { id=builtins.elemAt vlans 0; interface="${netport}"; };
+        ${vlan_cloudflared_name} = { id=builtins.elemAt vlans 1; interface="${netport}"; };
+        ${vlan_local_container_name} = { id=builtins.elemAt vlans 2; interface="${netport}"; };
     };
     # set firewall settings:
     nftables.enable = true; # enable nftables
