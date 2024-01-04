@@ -99,7 +99,7 @@ in
         linkConfig.RequiredForOnline = "yes";
         extraConfig = ''
           [BridgeVLAN]
-          VLAN=${builtins.elemAt vlans 0}
+          VLAN=${builtins.toString (builtins.elemAt vlans 1)}
         '';
       };  
        "40-${br_cloudflared_name}_conf" = { 
@@ -108,7 +108,7 @@ in
         linkConfig.RequiredForOnline = "yes";
         extraConfig = ''
           [BridgeVLAN]
-          VLAN=${builtins.elemAt vlans 1}
+          VLAN=${builtins.toString (builtins.elemAt vlans 1)}
         '';
       };  
        "40-${br_local_container_name}_conf" = { 
@@ -117,7 +117,7 @@ in
         linkConfig.RequiredForOnline = "yes";
         extraConfig = ''
           [BridgeVLAN]
-          VLAN=${builtins.elemAt vlans 2}
+          VLAN=${builtins.toString (builtins.elemAt vlans 2)}
         '';
       };  
     };
