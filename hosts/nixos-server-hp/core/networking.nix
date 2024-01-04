@@ -81,11 +81,7 @@ in
       "30-${netport}_conf" = {
         matchConfig.Name = "${netport}";
         networkConfig = { 
-          Bridge = [
-            "${br_management_name}"
-            "${br_cloudflared_name}"
-            "${br_local_container_name}"
-          ];
+          Bridge = "${br_management_name}";
           LinkLocalAddressing = "no"; # disable link-local address autoconfiguration};
         };
         linkConfig.RequiredForOnline = "enslaved"; # requiredForOnline tells networkd that a carrier link is needed for network.target
