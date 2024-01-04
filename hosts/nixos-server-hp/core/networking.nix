@@ -2,6 +2,9 @@
 
 { config, lib, pkgs, netport, vlans, ... }:
 let
+  vlan_management_name = "vlan${builtins.toString (builtins.elemAt vlans 0)}mngmnt";
+  vlan_cloudflared_name = "vlan${builtins.toString (builtins.elemAt vlans 1)}cloudfld";
+  vlan_local_container_name = "vlan${builtins.toString (builtins.elemAt vlans 2)}cont";
   br_management_name = "br${builtins.toString (builtins.elemAt vlans 0)}mngmnt";
   br_cloudflared_name = "br${builtins.toString (builtins.elemAt vlans 1)}cloudfld";
   br_local_container_name = "br${builtins.toString (builtins.elemAt vlans 2)}cont";
@@ -39,35 +42,44 @@ in
   systemd.network = {
     enable = true; 
     netdevs = {
-      "20-${br_management_name}_init" = {
+      "20-${vlan_management_name}_init" = {
+        netdevConfig = {
+          Kind = "vlan";
+          Name = "${vlan_management_name}";
+        };
+        vlanConfig.Id = builtins.elemAt vlans 0;
+      };
+      "20-${vlan_cloudflared_name}_init" = {
+        netdevConfig = {
+          Kind = "vlan";
+          Name = "${vlan_cloudflared_name}";
+        };
+        vlanConfig.Id = builtins.elemAt vlans 1;
+      };
+      "20-${vlan_local_container_name}_init" = {
+        netdevConfig = {
+          Kind = "vlan";
+          Name = "${vlan_local_container_name}";
+        };
+        vlanConfig.Id = builtins.elemAt vlans 2;
+      };
+      "25-${br_management_name}_init" = {
          netdevConfig = {
            Kind = "bridge";
            Name = "${br_management_name}";
          };
-          extraConfig = ''
-          [Bridge]
-          VLANFiltering=true 
-        '';
        };
-       "20-${br_cloudflared_name}_init" = {
+       "25-${br_cloudflared_name}_init" = {
          netdevConfig = {
            Kind = "bridge";
            Name = "${br_cloudflared_name}";
          };
-          extraConfig = ''
-          [Bridge]
-          VLANFiltering=true 
-        '';
        };
-       "20-${br_local_container_name}_init" = {
+       "25-${br_local_container_name}_init" = {
          netdevConfig = {
            Kind = "bridge";
            Name = "${br_local_container_name}";
          };
-          extraConfig = ''
-          [Bridge]
-          VLANFiltering=true 
-        '';
        };
     };
 
@@ -80,41 +92,54 @@ in
     in {
       "30-${netport}_conf" = {
         matchConfig.Name = "${netport}";
-        networkConfig = { 
-          Bridge = "${br_management_name}";
-          LinkLocalAddressing = "no"; # disable link-local address autoconfiguration};
-        };
-        linkConfig.RequiredForOnline = "enslaved"; # requiredForOnline tells networkd that a carrier link is needed for network.target
+         vlan = [
+          "${vlan_management_name}"
+          "${vlan_cloudflared_name}"
+          "${vlan_local_container_name}"
+        ];
+        networkConfig.LinkLocalAddressing = "no"; # disable link-local address autoconfiguration};
+        linkConfig.RequiredForOnline = "carrier"; # requiredForOnline tells networkd that a carrier link is needed for network.target
           # --> see https://www.freedesktop.org/software/systemd/man/latest/networkctl.html# for an overview of the possible link states
           # --> see https://www.freedesktop.org/software/systemd/man/latest/systemd.network.html#RequiredForOnline= for more info about RequiredForOnline
       };
-
-      "40-${br_management_name}_conf" = { 
+      "40-${vlan_management_name}_conf" = {
+        matchConfig.Name = "${vlan_management_name}";
+        networkConfig = {
+          Bridge = "${br_management_name}";
+          LinkLocalAddressing = "no"; # disable link-local address autoconfiguration};
+        };
+        linkConfig.RequiredForOnline = "enslaved";
+      };
+      "40-${vlan_cloudflared_name}_conf" = {
+        matchConfig.Name = "${vlan_cloudflared_name}";
+        networkConfig = {
+          Bridge = "${br_cloudflared_name}";
+          LinkLocalAddressing = "no"; # disable link-local address autoconfiguration};
+        };
+        linkConfig.RequiredForOnline = "enslaved";
+      };
+      "40-${vlan_local_container_name}_conf" = {
+        matchConfig.Name = "${vlan_local_container_name}";
+        networkConfig = {
+          Bridge = "${br_local_container_name}";
+          LinkLocalAddressing = "no"; # disable link-local address autoconfiguration};
+        };
+        linkConfig.RequiredForOnline = "enslaved";
+      };
+      "50-${br_management_name}_conf" = { 
         matchConfig.Name = "${br_management_name}";  
         inherit networkConfig;
         linkConfig.RequiredForOnline = "yes";
-        extraConfig = ''
-          [BridgeVLAN]
-          VLAN=${builtins.toString (builtins.elemAt vlans 1)}
-        '';
       };  
-       "40-${br_cloudflared_name}_conf" = { 
+       "50-${br_cloudflared_name}_conf" = { 
         matchConfig.Name = "${br_cloudflared_name}";  
         inherit networkConfig;
         linkConfig.RequiredForOnline = "yes";
-        extraConfig = ''
-          [BridgeVLAN]
-          VLAN=${builtins.toString (builtins.elemAt vlans 1)}
-        '';
       };  
-       "40-${br_local_container_name}_conf" = { 
+       "50-${br_local_container_name}_conf" = { 
         matchConfig.Name = "${br_local_container_name}";  
         inherit networkConfig;
         linkConfig.RequiredForOnline = "yes";
-        extraConfig = ''
-          [BridgeVLAN]
-          VLAN=${builtins.toString (builtins.elemAt vlans 2)}
-        '';
       };  
     };
   };
