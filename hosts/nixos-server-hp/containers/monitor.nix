@@ -6,9 +6,9 @@ in
   containers.monitor = {
     autoStart = true;
     extraFlags = [ "-U" ]; # run as user instead of root
-    #privateNetwork = true;
-    hostBridge = "${br_local_container_name}";
-    localAddress = "192.168.1.5/24";
+    privateNetwork = true;
+    #hostBridge = "${br_local_container_name}";
+    localAddress = "192.168.5.5/24";
     #hostAddress6 = "fc00::1";
     #localAddress6 = "fc00::2";
     
