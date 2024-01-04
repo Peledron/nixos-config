@@ -26,6 +26,11 @@ in
         ${vlan_cloudflared_name} = { id=builtins.elemAt vlans 1; interface="${netport}"; };
         ${vlan_local_container_name} = { id=builtins.elemAt vlans 2; interface="${netport}"; };
     };
+    interfaces = {
+      ${vlan_management_name}.useDHCP = true;
+      ${vlan_cloudflared_name}.useDHCP = true;
+      ${vlan_local_container_name}.useDHCP = true;
+    };
     # set firewall settings:
     nftables.enable = true; # enable nftables
     firewall = {
