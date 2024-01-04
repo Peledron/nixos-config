@@ -1,7 +1,5 @@
 { config, lib, pkgs, system, inputs, netport, vlans, ... }:   
 let
-  br_management_name = "br${builtins.toString (builtins.elemAt vlans 0)}mngmnt";
-  br_cloudflared_name = "br${builtins.toString (builtins.elemAt vlans 1)}cloudfld";
   br_local_container_name = "br${builtins.toString (builtins.elemAt vlans 2)}cont";
 in
 {
@@ -24,21 +22,20 @@ in
       table ip nat {
         chain PREROUTING {
           type nat hook prerouting priority dstnat; policy accept;
-          iifname "${vlan_local_container_name}" tcp dport 8080 dnat to 172.24.1.2:80
+          iifname "${br_local_container_name }" tcp dport 8080 dnat to 172.24.1.2:80
         }
       }
     '';
-
+    */
     firewall = {
-      interfaces."${vlan_local_container_name}" = {
+      interfaces."${br_local_container_name }" = {
         # define allowed ports:
         allowedTCPPorts = [  
-          8080 # grafana monitor container ingress
+          80 # grafana monitor container ingress
         ];
         allowedUDPPorts = [];
         # ---
       };
     };
-    */
   };
 }
