@@ -10,7 +10,6 @@ in
   # virtualisation.docker.extraOptions  = "--iptables=False"; # disable iptables, manual NATing is needed for docker networking to work, see below
   # setup container networks
   networking = {
-    /*
     nat = {
     
       enable = true;
@@ -23,16 +22,15 @@ in
       table ip nat {
         chain PREROUTING {
           type nat hook prerouting priority dstnat; policy accept;
-          iifname "${br_local_container_name }" tcp dport 8080 dnat to 172.24.1.2:80
+          iifname "${vlan_local_container_name }" tcp dport 8080 dnat to 172.24.1.2:80
         }
       }
     '';
-    */
     firewall = {
       interfaces."${vlan_local_container_name }" = {
         # define allowed ports:
         allowedTCPPorts = [  
-          80 # grafana monitor container ingress
+          8080 # grafana monitor container ingress
         ];
         allowedUDPPorts = [];
         # ---

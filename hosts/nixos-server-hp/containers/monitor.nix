@@ -8,7 +8,8 @@ in
     extraFlags = [ "-U" ]; # run as user instead of root
     privateNetwork = true;
     #hostBridge = "${br_local_container_name}";
-    localAddress = "192.168.5.5/24";
+    hostAddress = "172.24.1.1/24";
+    localAddress = "172.24.1.2/24";
     #hostAddress6 = "fc00::1";
     #localAddress6 = "fc00::2";
     
