@@ -12,7 +12,11 @@ in
     localAddress = "172.24.1.2/24";
     #hostAddress6 = "fc00::1";
     #localAddress6 = "fc00::2";
-    
+    forwardPorts = [{ 
+      protocol = "tcp"; 
+      hostPort = 8080; 
+      containerPort = 80; }
+    ];
     config = { config, pkgs, lib, ... }: {
       #environment.etc."resolv.conf".text = "nameserver 1.1.1.1";# resolv.conf cannot be shared with host
       services.resolved.enable = true;
