@@ -63,21 +63,21 @@ in
           Kind = "macvlan";
           Name = "${vlan_management_name}";
         };
-        vlanConfig.Id = builtins.elemAt vlans 0;
+        macvlanConfig.Id = builtins.elemAt vlans 0;
       };
       "20-${vlan_cloudflared_name}_init" = {
         netdevConfig = {
           Kind = "macvlan";
           Name = "${vlan_cloudflared_name}";
         };
-        vlanConfig.Id = builtins.elemAt vlans 1;
+        macvlanConfig.Id = builtins.elemAt vlans 1;
       };
       "20-${vlan_local_container_name}_init" = {
         netdevConfig = {
           Kind = "macvlan";
           Name = "${vlan_local_container_name}";
         };
-        vlanConfig.Id = builtins.elemAt vlans 2;
+        macvlanConfig.Id = builtins.elemAt vlans 2;
       };
     };
 
