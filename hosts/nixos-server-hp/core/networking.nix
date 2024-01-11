@@ -6,7 +6,7 @@ let
   vlan_cloudflared_name = "vlan${builtins.toString (builtins.elemAt vlans 1)}cloudfld";
   vlan_local_container_name = "vlan${builtins.toString (builtins.elemAt vlans 2)}cont";
 
-  getDhcpAddress = interface: builtins.substring 0 -1 (builtins.readFile "/run/systemd/netif/leases/${interface}.lease"); # chatgpt
+  getDhcpAddress = interface: builtins.substring 0 (builtins.length (builtins.readFile "/run/systemd/netif/leases/${interface}.lease") - 1) (builtins.readFile "/run/systemd/netif/leases/${interface}.lease"); # chatgpt
 in
 { 
   services.cloudflared = {
