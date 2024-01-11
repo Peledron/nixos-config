@@ -21,6 +21,7 @@ in
   networking = {
     hostName = "nixos-server-hp";
     useNetworkd = true;
+    /*
     macvlans = {
       ${vlan_management_name} = { id= builtins.elemAt vlans 0 ; interface="${netport}"; };
       ${vlan_cloudflared_name} = { id=builtins.elemAt vlans 1; interface="${netport}"; };
@@ -31,6 +32,7 @@ in
       ${vlan_cloudflared_name}.useDHCP = true;
       ${vlan_local_container_name}.useDHCP = true;
     };
+    */
     # set firewall settings:
     firewall = {
       enable = true; # set to false to disable
@@ -45,13 +47,7 @@ in
       };
       # ---
     };
-    services.openssh.listenAddresses = [
-      {
-        addr = "192.168.0.130";
-        port = 22001;
-      }]
-    ;
-  /*
+  services.openssh.listenAddresses = [ "192.168.0.130"];  
   # we will use systemd networkd for the configuration of the network interface
   # --> see: https://nixos.wiki/wiki/Systemd-networkd
   systemd.network = {
@@ -89,42 +85,33 @@ in
     in {
       "30-${netport}_conf" = {
         matchConfig.Name = "${netport}";
-         vlan = [
+        macvlan = [
           "${vlan_management_name}"
           "${vlan_cloudflared_name}"
           "${vlan_local_container_name}"
         ];
-        networkConfig.LinkLocalAddressing = "no"; # disable link-local address autoconfiguration};
+        networkConfig.LinkLocalAddressing = "no"; # disable link-local address autoconfiguration
         linkConfig.RequiredForOnline = "carrier"; # requiredForOnline tells networkd that a carrier link is needed for network.target
           # --> see https://www.freedesktop.org/software/systemd/man/latest/networkctl.html# for an overview of the possible link states
           # --> see https://www.freedesktop.org/software/systemd/man/latest/systemd.network.html#RequiredForOnline= for more info about RequiredForOnline
       };
       "40-${vlan_management_name}_conf" = {
         matchConfig.Name = "${vlan_management_name}";
-        networkConfig = {
-          Bridge = "${br_management_name}";
-          LinkLocalAddressing = "no"; # disable link-local address autoconfiguration};
-        };
-        linkConfig.RequiredForOnline = "enslaved";
+        inherit networkConfig;
+        linkConfig.RequiredForOnline = "yes";
       };
       "40-${vlan_cloudflared_name}_conf" = {
         matchConfig.Name = "${vlan_cloudflared_name}";
-        networkConfig = {
-          Bridge = "${br_cloudflared_name}";
-          LinkLocalAddressing = "no"; # disable link-local address autoconfiguration};
-        };
-        linkConfig.RequiredForOnline = "enslaved";
+        inherit networkConfig;
+        linkConfig.RequiredForOnline = "yes";
       };
       "40-${vlan_local_container_name}_conf" = {
         matchConfig.Name = "${vlan_local_container_name}";
-        networkConfig = {
-          Bridge = "${br_local_container_name}";
-          LinkLocalAddressing = "no"; # disable link-local address autoconfiguration};
-        };
-        linkConfig.RequiredForOnline = "enslaved";
+        inherit networkConfig;
+        linkConfig.RequiredForOnline = "yes";
       };  
     };
   };
-  */
+  
   systemd.services."systemd-networkd".environment.SYSTEMD_LOG_LEVEL = "debug"; # enable higher loglevel on networkd (for troubleshooting)
 }
