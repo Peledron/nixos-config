@@ -47,7 +47,12 @@ in
     };
       # ---
   };
-  services.openssh.listenAddresses = [ {addr ="192.168.0.130";}]; # mngmt address, unable to let this be dynamically determined as dhcpd encodes its lease file... 
+  services.openssh.listenAddresses = [ 
+    {
+      addr = "192.168.0.130";
+      port = 22001;
+    }
+  ]; # mngmt address, unable to let this be dynamically determined as dhcpd encodes its lease file... 
   # we will use systemd networkd for the configuration of the network interface
   # --> see: https://nixos.wiki/wiki/Systemd-networkd
   systemd.network = {
