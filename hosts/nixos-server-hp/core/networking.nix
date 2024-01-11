@@ -35,10 +35,10 @@ in
     # set firewall settings:
     firewall = {
       enable = true; # set to false to disable
-      default = {
-        allowedTCPPorts = [];
-        allowedUDPPorts = [];
-      };
+      
+      allowedTCPPorts = [];
+      allowedUDPPorts = [];
+      
       interfaces."${vlan_management_name}" = {
         # define allowed ports:
         allowedTCPPorts = [ 22001 ];
