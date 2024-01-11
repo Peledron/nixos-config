@@ -18,7 +18,7 @@ in
   networking = {
     hostName = "nixos-server-hp";
     useNetworkd = true;
-    /*
+    
     macvlans = {
       ${vlan_management_name} = { id= builtins.elemAt vlans 0 ; interface="${netport}"; };
       ${vlan_cloudflared_name} = { id=builtins.elemAt vlans 1; interface="${netport}"; };
@@ -29,7 +29,7 @@ in
       ${vlan_cloudflared_name}.useDHCP = true;
       ${vlan_local_container_name}.useDHCP = true;
     };
-    */
+    
     # set firewall settings:
     firewall = {
       enable = true; # set to false to disable
@@ -55,6 +55,7 @@ in
   ]; # mngmt address, unable to let this be dynamically determined as dhcpd encodes its lease file... 
   # we will use systemd networkd for the configuration of the network interface
   # --> see: https://nixos.wiki/wiki/Systemd-networkd
+  /*
   systemd.network = {
     enable = true; 
     netdevs = {
@@ -63,21 +64,21 @@ in
           Kind = "macvlan";
           Name = "${vlan_management_name}";
         };
-        macvlanConfig.Id = builtins.elemAt vlans 0;
+        vlanConfig.Id = builtins.elemAt vlans 0;
       };
       "20-${vlan_cloudflared_name}_init" = {
         netdevConfig = {
           Kind = "macvlan";
           Name = "${vlan_cloudflared_name}";
         };
-        macvlanConfig.Id = builtins.elemAt vlans 1;
+        vlanConfig.Id = builtins.elemAt vlans 1;
       };
       "20-${vlan_local_container_name}_init" = {
         netdevConfig = {
           Kind = "macvlan";
           Name = "${vlan_local_container_name}";
         };
-        macvlanConfig.Id = builtins.elemAt vlans 2;
+        vlanConfig.Id = builtins.elemAt vlans 2;
       };
     };
 
@@ -117,6 +118,6 @@ in
       };  
     };
   };
-  
+  */
   systemd.services."systemd-networkd".environment.SYSTEMD_LOG_LEVEL = "debug"; # enable higher loglevel on networkd (for troubleshooting)
 }
