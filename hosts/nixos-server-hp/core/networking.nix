@@ -6,8 +6,7 @@ let
   vlan_cloudflared_name = "vlan${builtins.toString (builtins.elemAt vlans 1)}cloudfld";
   vlan_local_container_name = "vlan${builtins.toString (builtins.elemAt vlans 2)}cont";
 
-  getDhcpAddress = interface: builtins.substring 0 (builtins.length (builtins.readFile "/var/lib/dhcp/dhclient.${interface}.leases") - 1) (builtins.readFile "/var/lib/dhcp/dhclient.${interface}.leases");
- # chatgpt
+  getDhcpAddress = interface: builtins.substring 0 (builtins.length (builtins.readFile "/var/db/dhcpcd/${interface}.lease") - 1) (builtins.readFile "/var/db/dhcpcd/${interface}.lease"); # modified from chatgpt, function reads the entry in the leaase file and removes the trailing .
 in
 { 
   services.cloudflared = {
