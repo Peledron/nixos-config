@@ -34,7 +34,7 @@ in
     # set firewall settings:
     nftables.enable = true; # enable nftables
     firewall = {
-      enable = true; # set to false to disable
+      enable = false; # set to false to disable
       interfaces."${vlan_management_name}" = {
         # define allowed ports:
         allowedTCPPorts = [ 22001 ];
@@ -46,14 +46,13 @@ in
     };
     # ---
   };
- 
-  /*
    services.openssh.listenAddresses = [
     {
       addr = "192.168.0.130";
       port = 22001;
     }
   ];
+  /*
   # we will use systemd networkd for the configuration of the network interface
   # --> see: https://nixos.wiki/wiki/Systemd-networkd
   systemd.network = {

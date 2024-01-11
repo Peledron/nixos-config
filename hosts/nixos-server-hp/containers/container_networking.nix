@@ -7,7 +7,6 @@ in
   # enable ip forwarding
   boot.kernel.sysctl."net.ipv4.ip_forward" = 1; 
   #boot.kernel.sysctl."net.ipv6.ip_forward" = 1;
-  # virtualisation.docker.extraOptions  = "--iptables=False"; # disable iptables, manual NATing is needed for docker networking to work, see below
   # setup container networks
   networking = {
     nat = {

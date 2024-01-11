@@ -15,8 +15,8 @@ in
     forwardPorts = [{ 
       protocol = "tcp"; 
       hostPort = 8080; 
-      containerPort = 80; }
-    ];
+      containerPort = 80; 
+    }];
     config = { config, pkgs, lib, ... }: {
       #environment.etc."resolv.conf".text = "nameserver 1.1.1.1";# resolv.conf cannot be shared with host
       services.resolved.enable = true;
