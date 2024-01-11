@@ -49,7 +49,7 @@ in
     };
       # ---
   };
-  listenAddress = getDhcpAddress "${vlan_management_name}"; 
+  services.openssh.listenAddress = getDhcpAddress "${vlan_management_name}"; 
   # we will use systemd networkd for the configuration of the network interface
   # --> see: https://nixos.wiki/wiki/Systemd-networkd
   systemd.network = {
