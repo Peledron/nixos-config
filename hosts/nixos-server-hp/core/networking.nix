@@ -32,7 +32,6 @@ in
       ${vlan_local_container_name}.useDHCP = true;
     };
     # set firewall settings:
-    nftables.enable = true; # enable nftables
     firewall = {
       enable = false; # set to false to disable
       interfaces."${vlan_management_name}" = {
