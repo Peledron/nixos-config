@@ -5,9 +5,8 @@ let
   vlan_management_name = "vlan${builtins.toString (builtins.elemAt vlans 0)}mngmnt";
   vlan_cloudflared_name = "vlan${builtins.toString (builtins.elemAt vlans 1)}cloudfld";
   vlan_local_container_name = "vlan${builtins.toString (builtins.elemAt vlans 2)}cont";
-  br_management_name = "br${builtins.toString (builtins.elemAt vlans 0)}mngmnt";
-  br_cloudflared_name = "br${builtins.toString (builtins.elemAt vlans 1)}cloudfld";
-  br_local_container_name = "br${builtins.toString (builtins.elemAt vlans 2)}cont";
+
+  getDhcpAddress = interface: builtins.substring 0 -1 (builtins.readFile "/run/systemd/netif/leases/${interface}.lease"); # chatgpt
 in
 { 
   services.cloudflared = {
@@ -50,7 +49,7 @@ in
     };
       # ---
   };
-  services.openssh.listenAddresses = [ "192.168.0.130"];  
+  listenAddress = getDhcpAddress "${vlan_management_name}"; 
   # we will use systemd networkd for the configuration of the network interface
   # --> see: https://nixos.wiki/wiki/Systemd-networkd
   systemd.network = {
