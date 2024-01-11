@@ -1,0 +1,32 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "NixOS Rebuild",
+        "type": "shell",
+        "command": "docker",
+        "args": [
+          "run",
+          "--rm",
+          "-it",
+          "--name",
+          "nixos-container",
+          "-v",
+          "${workspaceFolder}:/nixos-config",
+          "nixos/nix:latest",
+          "sh",
+          "-c",
+          "NIX_EXPERIMENTAL_FEATURES=nix-command flakes nixos-rebuild switch --build-host --flake /nixos-config#${flakeInput}"
+        ],
+        "group": {
+          "kind": "build",
+          "isDefault": true
+        },
+        "problemMatcher": []
+      }
+    ],
+    "variables": {
+      "flakeInput": "<default-flake-input>"
+    }
+  }
+  

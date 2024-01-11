@@ -20,38 +20,34 @@ in
 
   networking = {
     hostName = "nixos-server-hp";
-    #useNetworkd = true;
-    vlans = {
-        ${vlan_management_name} = { id= builtins.elemAt vlans 0 ; interface="${netport}"; };
-        ${vlan_cloudflared_name} = { id=builtins.elemAt vlans 1; interface="${netport}"; };
-        ${vlan_local_container_name} = { id=builtins.elemAt vlans 2; interface="${netport}"; };
+    useNetworkd = true;
+    /*
+    macvlans = {
+      ${vlan_management_name} = { id= builtins.elemAt vlans 0 ; interface="${netport}"; };
+      ${vlan_cloudflared_name} = { id=builtins.elemAt vlans 1; interface="${netport}"; };
+      ${vlan_local_container_name} = { id=builtins.elemAt vlans 2; interface="${netport}"; };
     };
     interfaces = {
       ${vlan_management_name}.useDHCP = true;
       ${vlan_cloudflared_name}.useDHCP = true;
       ${vlan_local_container_name}.useDHCP = true;
     };
+    */
     # set firewall settings:
     firewall = {
-      enable = false; # set to false to disable
+      enable = true; # set to false to disable
       interfaces."${vlan_management_name}" = {
         # define allowed ports:
         allowedTCPPorts = [ 22001 ];
-        allowedUDPPorts = [];
-        # ---
+         allowedUDPPorts = [];
+          # ---
       };
-      #allowedTCPPorts = [];
-      #allowedUDPPorts = [];
+        #allowedTCPPorts = [];
+        #allowedUDPPorts = [];
+      };
+      # ---
     };
-    # ---
-  };
-   services.openssh.listenAddresses = [
-    {
-      addr = "192.168.0.130";
-      port = 22001;
-    }
-  ];
-  /*
+  services.openssh.listenAddresses = [ "192.168.0.130"];  
   # we will use systemd networkd for the configuration of the network interface
   # --> see: https://nixos.wiki/wiki/Systemd-networkd
   systemd.network = {
@@ -59,43 +55,25 @@ in
     netdevs = {
       "20-${vlan_management_name}_init" = {
         netdevConfig = {
-          Kind = "vlan";
+          Kind = "macvlan";
           Name = "${vlan_management_name}";
         };
         vlanConfig.Id = builtins.elemAt vlans 0;
       };
       "20-${vlan_cloudflared_name}_init" = {
         netdevConfig = {
-          Kind = "vlan";
+          Kind = "macvlan";
           Name = "${vlan_cloudflared_name}";
         };
         vlanConfig.Id = builtins.elemAt vlans 1;
       };
       "20-${vlan_local_container_name}_init" = {
         netdevConfig = {
-          Kind = "vlan";
+          Kind = "macvlan";
           Name = "${vlan_local_container_name}";
         };
         vlanConfig.Id = builtins.elemAt vlans 2;
       };
-      "25-${br_management_name}_init" = {
-         netdevConfig = {
-           Kind = "bridge";
-           Name = "${br_management_name}";
-         };
-       };
-       "25-${br_cloudflared_name}_init" = {
-         netdevConfig = {
-           Kind = "bridge";
-           Name = "${br_cloudflared_name}";
-         };
-       };
-       "25-${br_local_container_name}_init" = {
-         netdevConfig = {
-           Kind = "bridge";
-           Name = "${br_local_container_name}";
-         };
-       };
     };
 
     networks =  let networkConfig = {
@@ -107,57 +85,33 @@ in
     in {
       "30-${netport}_conf" = {
         matchConfig.Name = "${netport}";
-         vlan = [
+        macvlan = [
           "${vlan_management_name}"
           "${vlan_cloudflared_name}"
           "${vlan_local_container_name}"
         ];
-        networkConfig.LinkLocalAddressing = "no"; # disable link-local address autoconfiguration};
+        networkConfig.LinkLocalAddressing = "no"; # disable link-local address autoconfiguration
         linkConfig.RequiredForOnline = "carrier"; # requiredForOnline tells networkd that a carrier link is needed for network.target
           # --> see https://www.freedesktop.org/software/systemd/man/latest/networkctl.html# for an overview of the possible link states
           # --> see https://www.freedesktop.org/software/systemd/man/latest/systemd.network.html#RequiredForOnline= for more info about RequiredForOnline
       };
       "40-${vlan_management_name}_conf" = {
         matchConfig.Name = "${vlan_management_name}";
-        networkConfig = {
-          Bridge = "${br_management_name}";
-          LinkLocalAddressing = "no"; # disable link-local address autoconfiguration};
-        };
-        linkConfig.RequiredForOnline = "enslaved";
+        inherit networkConfig;
+        linkConfig.RequiredForOnline = "yes";
       };
       "40-${vlan_cloudflared_name}_conf" = {
         matchConfig.Name = "${vlan_cloudflared_name}";
-        networkConfig = {
-          Bridge = "${br_cloudflared_name}";
-          LinkLocalAddressing = "no"; # disable link-local address autoconfiguration};
-        };
-        linkConfig.RequiredForOnline = "enslaved";
+        inherit networkConfig;
+        linkConfig.RequiredForOnline = "yes";
       };
       "40-${vlan_local_container_name}_conf" = {
         matchConfig.Name = "${vlan_local_container_name}";
-        networkConfig = {
-          Bridge = "${br_local_container_name}";
-          LinkLocalAddressing = "no"; # disable link-local address autoconfiguration};
-        };
-        linkConfig.RequiredForOnline = "enslaved";
-      };
-      "50-${br_management_name}_conf" = { 
-        matchConfig.Name = "${br_management_name}";  
-        inherit networkConfig;
-        linkConfig.RequiredForOnline = "yes";
-      };  
-       "50-${br_cloudflared_name}_conf" = { 
-        matchConfig.Name = "${br_cloudflared_name}";  
-        inherit networkConfig;
-        linkConfig.RequiredForOnline = "yes";
-      };  
-       "50-${br_local_container_name}_conf" = { 
-        matchConfig.Name = "${br_local_container_name}";  
         inherit networkConfig;
         linkConfig.RequiredForOnline = "yes";
       };  
     };
   };
-  */
+  
   systemd.services."systemd-networkd".environment.SYSTEMD_LOG_LEVEL = "debug"; # enable higher loglevel on networkd (for troubleshooting)
 }
