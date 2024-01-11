@@ -5,8 +5,6 @@ let
   vlan_management_name = "vlan${builtins.toString (builtins.elemAt vlans 0)}mngmnt";
   vlan_cloudflared_name = "vlan${builtins.toString (builtins.elemAt vlans 1)}cloudfld";
   vlan_local_container_name = "vlan${builtins.toString (builtins.elemAt vlans 2)}cont";
-
-  getDhcpAddress = interface: builtins.substring 0 (builtins.length (builtins.readFile "/var/db/dhcpcd/${interface}.lease") - 1) (builtins.readFile "/var/db/dhcpcd/${interface}.lease"); # modified from chatgpt, function reads the entry in the leaase file and removes the trailing .
 in
 { 
   services.cloudflared = {
@@ -49,7 +47,7 @@ in
     };
       # ---
   };
-  services.openssh.listenAddress = getDhcpAddress "${vlan_management_name}"; 
+  services.openssh.listenAddress = "192.168.0.130"; # mngmt address, unable to let this be dynamically determined as dhcpd encodes its lease file... 
   # we will use systemd networkd for the configuration of the network interface
   # --> see: https://nixos.wiki/wiki/Systemd-networkd
   systemd.network = {
