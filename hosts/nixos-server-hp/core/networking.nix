@@ -36,17 +36,20 @@ in
     # set firewall settings:
     firewall = {
       enable = true; # set to false to disable
+      default = {
+        allowedTCPPorts = [];
+        allowedUDPPorts = [];
+      };
       interfaces."${vlan_management_name}" = {
         # define allowed ports:
         allowedTCPPorts = [ 22001 ];
-         allowedUDPPorts = [];
+        allowedUDPPorts = [];
           # ---
       };
-        #allowedTCPPorts = [];
-        #allowedUDPPorts = [];
-      };
-      # ---
+      
     };
+      # ---
+  };
   services.openssh.listenAddresses = [ "192.168.0.130"];  
   # we will use systemd networkd for the configuration of the network interface
   # --> see: https://nixos.wiki/wiki/Systemd-networkd
