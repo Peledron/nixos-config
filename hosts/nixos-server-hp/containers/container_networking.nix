@@ -1,7 +1,7 @@
 { config, lib, pkgs, system, inputs, netport, vlans, ... }:   
 let
   vlan_local_container_name = "vlan${builtins.toString (builtins.elemAt vlans 2)}cont";
-  br_local_container_name = "br${builtins.toString (builtins.elemAt vlans 2)}cont";
+  br_contrainer_name = "br0cont";
 in
 {
   # enable ip forwarding
@@ -9,14 +9,15 @@ in
   #boot.kernel.sysctl."net.ipv6.ip_forward" = 1;
   # setup container networks
   networking = {
+    /*
     nat = {
-    
       enable = true;
       internalInterfaces = ["ve-+" "vb-+"];
       externalInterface = "${vlan_local_container_name}";
       # Lazy IPv6 connectivity for the container
       #enableIPv6 = true;
     };
+
     nftables.ruleset = ''
       table ip nat {
         chain PREROUTING {
@@ -24,7 +25,7 @@ in
           iifname "${vlan_local_container_name }" tcp dport 8080 dnat to 172.24.1.2:80
         }
       }
-    '';
+    '';*/
     firewall = {
       interfaces."${vlan_local_container_name }" = {
         # define allowed ports:
