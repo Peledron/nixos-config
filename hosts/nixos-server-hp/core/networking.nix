@@ -17,8 +17,6 @@ in
 
   networking = {
     hostName = "nixos-server-hp";
-    useNetworkd = true;
-    
     macvlans = {
       ${vlan_management_name} = { id= builtins.elemAt vlans 0 ; interface="${netport}"; };
       ${vlan_cloudflared_name} = { id=builtins.elemAt vlans 1; interface="${netport}"; };
