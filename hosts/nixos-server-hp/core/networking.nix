@@ -17,6 +17,8 @@ in
 
   networking = {
     hostName = "nixos-server-hp";
+
+    useNetworkd = true;
     macvlans = {
       ${vlan_management_name}.interface="${netport}";
       ${vlan_cloudflared_name}.interface="${netport}";
@@ -50,7 +52,7 @@ in
   # --> see: https://nixos.wiki/wiki/Systemd-networkd
   systemd.network = {
     enable = true; 
-    useNetworkd = true;
+
     netdevs = {
       "20-${vlan_management_name}_init" = {
         netdevConfig = {
