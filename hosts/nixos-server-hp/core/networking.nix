@@ -113,6 +113,6 @@ in
       };  
     };
   };
-  */
+  
   systemd.services."systemd-networkd".environment.SYSTEMD_LOG_LEVEL = "debug"; # enable higher loglevel on networkd (for troubleshooting)
 }
