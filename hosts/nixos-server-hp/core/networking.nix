@@ -50,6 +50,7 @@ in
   # --> see: https://nixos.wiki/wiki/Systemd-networkd
   systemd.network = {
     enable = true; 
+    useNetworkd = true;
     netdevs = {
       "20-${vlan_management_name}_init" = {
         netdevConfig = {
