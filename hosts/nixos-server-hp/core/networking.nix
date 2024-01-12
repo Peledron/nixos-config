@@ -14,17 +14,17 @@ in
 
     #};
   };
-
+  
   networking = {
     hostName = "nixos-server-hp";
-
     useNetworkd = true;
-    macvlans = {
-      ${vlan_management_name}.interface="${netport}";
-      ${vlan_cloudflared_name}.interface="${netport}";
-      ${vlan_local_container_name}.interface="${netport}";
+    /*
+    vlans = {
+      ${vlan_management_name} = { id= builtins.elemAt vlans 0 ; interface="${netport}"; };
+      ${vlan_cloudflared_name} = { id=builtins.elemAt vlans 1; interface="${netport}"; };
+      ${vlan_local_container_name} = { id=builtins.elemAt vlans 2; interface="${netport}"; };
     };
-
+    */
     # set firewall settings:
     firewall = {
       enable = true; # set to false to disable
@@ -50,27 +50,27 @@ in
   ]; # mngmt address, unable to let this be dynamically determined as dhcpd encodes its lease file... 
   # we will use systemd networkd for the configuration of the network interface
   # --> see: https://nixos.wiki/wiki/Systemd-networkd
+  
   systemd.network = {
     enable = true; 
-
     netdevs = {
       "20-${vlan_management_name}_init" = {
         netdevConfig = {
-          Kind = "macvlan";
+          Kind = "vlan";
           Name = "${vlan_management_name}";
         };
         vlanConfig.Id = builtins.elemAt vlans 0;
       };
       "20-${vlan_cloudflared_name}_init" = {
         netdevConfig = {
-          Kind = "macvlan";
+          Kind = "vlan";
           Name = "${vlan_cloudflared_name}";
         };
         vlanConfig.Id = builtins.elemAt vlans 1;
       };
       "20-${vlan_local_container_name}_init" = {
         netdevConfig = {
-          Kind = "macvlan";
+          Kind = "vlan";
           Name = "${vlan_local_container_name}";
         };
         vlanConfig.Id = builtins.elemAt vlans 2;
@@ -86,7 +86,7 @@ in
     in {
       "30-${netport}_conf" = {
         matchConfig.Name = "${netport}";
-        macvlan = [
+        vlan = [
           "${vlan_management_name}"
           "${vlan_cloudflared_name}"
           "${vlan_local_container_name}"
@@ -113,5 +113,6 @@ in
       };  
     };
   };
+  */
   systemd.services."systemd-networkd".environment.SYSTEMD_LOG_LEVEL = "debug"; # enable higher loglevel on networkd (for troubleshooting)
 }
