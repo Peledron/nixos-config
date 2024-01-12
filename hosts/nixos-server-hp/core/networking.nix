@@ -18,16 +18,11 @@ in
   networking = {
     hostName = "nixos-server-hp";
     macvlans = {
-      ${vlan_management_name} = { id= builtins.elemAt vlans 0 ; interface="${netport}"; };
-      ${vlan_cloudflared_name} = { id=builtins.elemAt vlans 1; interface="${netport}"; };
-      ${vlan_local_container_name} = { id=builtins.elemAt vlans 2; interface="${netport}"; };
+      ${vlan_management_name}.interface="${netport}";
+      ${vlan_cloudflared_name}.interface="${netport}";
+      ${vlan_local_container_name}.interface="${netport}";
     };
-    interfaces = {
-      ${vlan_management_name}.useDHCP = true;
-      ${vlan_cloudflared_name}.useDHCP = true;
-      ${vlan_local_container_name}.useDHCP = true;
-    };
-    
+
     # set firewall settings:
     firewall = {
       enable = true; # set to false to disable
@@ -53,7 +48,6 @@ in
   ]; # mngmt address, unable to let this be dynamically determined as dhcpd encodes its lease file... 
   # we will use systemd networkd for the configuration of the network interface
   # --> see: https://nixos.wiki/wiki/Systemd-networkd
-  /*
   systemd.network = {
     enable = true; 
     netdevs = {
@@ -116,6 +110,5 @@ in
       };  
     };
   };
-  */
   systemd.services."systemd-networkd".environment.SYSTEMD_LOG_LEVEL = "debug"; # enable higher loglevel on networkd (for troubleshooting)
 }
