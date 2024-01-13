@@ -16,7 +16,7 @@ in
       # Lazy IPv6 connectivity for the container
       #enableIPv6 = true;
       forwardPorts = [
-        {destination = "${config.containers.monitor.localAddress}:8080"; sourcePort = 80;}
+        {destination = "${config.containers.monitor.localAddress}:80"; sourcePort = 80;}
       ];
     };
     firewall = {
