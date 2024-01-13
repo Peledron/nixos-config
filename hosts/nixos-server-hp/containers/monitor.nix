@@ -1,6 +1,6 @@
 { config, lib, pkgs, vlans, ... }:
 let
-  br_local_contrainer_name = "br0cont";
+  br_local_container_name = "br0cont";
 in
 {
   containers.monitor = {
