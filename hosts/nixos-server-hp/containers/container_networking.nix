@@ -9,28 +9,21 @@ in
   #boot.kernel.sysctl."net.ipv6.ip_forward" = 1;
   # setup container networks
   networking = {
-    /*
     nat = {
       enable = true;
       internalInterfaces = ["ve-+" "vb-+"];
       externalInterface = "${vlan_local_container_name}";
       # Lazy IPv6 connectivity for the container
       #enableIPv6 = true;
+      forwardPorts = [
+        {destination = "${config.containers.monitor.localAddress}:8080"; sourcePort = 80;}
+      ];
     };
-
-    nftables.ruleset = ''
-      table ip nat {
-        chain PREROUTING {
-          type nat hook prerouting priority dstnat; policy accept;
-          iifname "${vlan_local_container_name }" tcp dport 8080 dnat to 172.24.1.2:80
-        }
-      }
-    '';*/
     firewall = {
       interfaces."${vlan_local_container_name }" = {
         # define allowed ports:
         allowedTCPPorts = [  
-          8080 # grafana monitor container ingress
+          80 # grafana monitor container ingress
         ];
         allowedUDPPorts = [];
         # ---
