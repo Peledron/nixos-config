@@ -1,7 +1,7 @@
 { config, lib, pkgs, system, inputs, netport, vlans, ... }:   
 let
   vlan_local_container_name = "vlan${builtins.toString (builtins.elemAt vlans 2)}cont";
-  br_contrainer_name = "br0cont";
+  br_local_contrainer_name = "br0cont";
 in
 {
   # enable ip forwarding
@@ -9,6 +9,9 @@ in
   #boot.kernel.sysctl."net.ipv6.ip_forward" = 1;
   # setup container networks
   networking = {
+    bridges."${br_local_contrainer_name}".interfaces = [ "${vlan_local_container_name}" ];
+    interfaces."${br_local_contrainer_name}".useDHCP = true;
+  /*
     nat = {
       enable = true;
       internalInterfaces = ["ve-+" "vb-+"];
@@ -31,7 +34,7 @@ in
           }
         }
     '';
-
+    */
     firewall = {
       interfaces."${vlan_local_container_name }" = {
         # define allowed ports:

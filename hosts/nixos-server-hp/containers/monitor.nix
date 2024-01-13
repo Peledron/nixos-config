@@ -1,12 +1,15 @@
 { config, lib, pkgs, vlans, ... }:
+let
+  br_local_contrainer_name = "br0cont";
+in
 {
   containers.monitor = {
     autoStart = true;
     extraFlags = [ "-U" ]; # run as user instead of root
     privateNetwork = true;
-    #hostBridge = "${br_local_container_name}";
-    hostAddress = "172.24.1.1";
-    localAddress = "172.24.1.2";
+    hostBridge = "${br_local_container_name}";
+    #hostAddress = "172.24.1.1";
+    #localAddress = "172.24.1.2";
     #hostAddress6 = "fc00::1";
     #localAddress6 = "fc00::2";
     /*
