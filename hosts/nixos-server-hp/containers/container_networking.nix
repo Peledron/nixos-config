@@ -16,9 +16,22 @@ in
       # Lazy IPv6 connectivity for the container
       #enableIPv6 = true;
       forwardPorts = [
-        {destination = "${config.containers.monitor.localAddress}:80"; sourcePort = 80;}
+        {
+          sourcePort = 80;
+          proto = "tcp";
+          destination = "${config.containers.monitor.localAddress}:80";
+        }
       ];
     };
+    nftables.ruleset = ''
+        table ip nat {
+          chain PREROUTING {
+            type nat hook prerouting priority dstnat; policy accept;
+            iifname "${vlan_local_container_name}" tcp dport 80 dnat to ${config.containers.monitor.localAddress}:80
+          }
+        }
+    '';
+
     firewall = {
       interfaces."${vlan_local_container_name }" = {
         # define allowed ports:
