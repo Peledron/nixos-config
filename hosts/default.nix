@@ -58,7 +58,7 @@ let
   kde-homeconf = "${desktop_envdir}/kde";
 
   ## => xfce
-  xfce-coreconf = "${desktop_envdir}/xfce,nix";
+  xfce-coreconf = "${desktop_envdir}/xfce.nix";
 
   # user specific modules
   # -> pengolodh
@@ -127,6 +127,51 @@ in
   #==================#
   # hardware:
   #==================#
+  nixos-main = lib.nixosSystem {
+    inherit system pkgs;
+    specialArgs = {
+      inherit inputs self; 
+    };
+    modules = [
+        # inputs
+        sops
+        disko
+        impermanence
+        hyprland-coremod
+
+        # modules
+        global-coreconf
+        global-desktopconf
+        
+        # -> host module
+        "${hostdir}/nixos-main" {
+          _module.args.disks = [ "/dev/disk/by-id/nvme-SAMSUNG_MZVLW512HMJP-000H1_S36ENX0HA25227" ]; 
+        }
+
+        # -> user modules
+        pengolodh-coreconf
+        # add more users here:
+
+        #==================#
+        # system home-man:
+        home-manager {
+          home-manager.useGlobalPkgs = true; # sets home-manager to use the nix-package-manager packages instead of its own internal ones
+          home-manager.useUserPackages = true; # packages will be installed per user;
+          home-manager.extraSpecialArgs = {  };
+          home-manager.users.pengolodh = {
+            imports = 
+              [hyprland-homemod]
+              ++ [pengolodh_desktop-homeconf]
+              ++ [hyprland-homeconf]
+            ; # add more inports via [import module] ++ (import folder) or ++ [(import file)]
+          };
+          # ---
+          # add more users here:
+        }
+      ];
+  };
+
+  # ---
   nixos-macbook = lib.nixosSystem {
     inherit system pkgs;
     specialArgs = {
