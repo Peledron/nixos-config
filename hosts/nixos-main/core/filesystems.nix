@@ -2,11 +2,6 @@
 
 { config, lib, pkgs, disko, disks, ... }:
 {
-  # set encrypted volume to be mounted as nixos-main at boot
-  boot.initrd.luks.devices."nixos-main".device = "/dev/disk/by-label/cr_nixos-main";
-  boot.initrd.luks.devices."nixos-persist".device = "/dev/disk/by-label/cr_nixos-persist";
-  boot.initrd.luks.devices."home".device = "/dev/disk/by-label/cr_home";
-  
   # using zfs, following from https://www.reddit.com/r/NixOS/comments/ruyunj/comment/hr4lijv/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button 
   disko.devices = {
     disk.main = {
@@ -33,7 +28,8 @@
               type = "luks";
               name = "cr_nixos-main";
               settings.allowDiscards = true;
-              passwordFile = "/tmp/nixos-main.key"; # if you want this to be a password use echo -n "password" > /tmp/nixos-main.key , the -n is very important as it removes the trailing newline
+              passwordFile = "/tmp/nixos-main.passwd"; # if you want this to be a password use echo -n "password" > /tmp/nixos-main.key , the -n is very important as it removes the trailing newline
+              # no keyfile will be specified as there will only be a password for this disk
               content = {
                 type = "filesystem";
                 format = "xfs"; 
@@ -53,8 +49,11 @@
             content = {
               type = "luks";
               name = "cr_nixos-persist";
-              settings.allowDiscards = true;
-              settings.keyFile = "/tmp/nixos-persist.key"; # generated using openssl-genrsa -out 
+              passwordFile = "/tmp/nixos-persist.key"; # initial encryption key 
+              settings= {
+                allowDiscards = true;
+                keyFile = "/nix/keys/nixos-persist.key"; # generated using openssl-genrsa -out 
+              };
               content = {
                 type = "filesystem";
                 format = "xfs"; 
@@ -77,11 +76,14 @@
             content = {
               type = "luks";
               name = "cr_home";
-              settings.allowDiscards = true;
-              settings.keyFile = "/tmp/data-home.key"; 
+              passwordFile = "/tmp/data-home.key"; # initial encryption key
+              settings = { 
+                allowDiscards = true;
+                keyFile = "/nix/data-home.key"; # path to the disk encryption key (for boot)
+              };
+              additionalKeyFiles = [ "/tmp/data-home.passwd" ]; # additional key containing a password if I should loose the main key
               content = {
-                type = "filesystem";
-                format = "btrfs"; 
+                type = "btrfs";
                 extraArgs = [ "-f" ]; # force create the partition
                 subvolumes = {
                   "/home" = {
@@ -107,5 +109,7 @@
     }; # root will be on a tmpfs, meaning that it is impermament
   };
   # ---
-
+  fileSystems = {
+    "/persist".neededForBoot = true;
+  };
 }
