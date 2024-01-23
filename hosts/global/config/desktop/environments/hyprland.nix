@@ -46,7 +46,7 @@
       };
     };
   };
-  
+  security.pam.services.swaylock = {}; # fixes swaylock issue
   # --> see ./hyprland/pkgs.nix for installed programs and themes
 
 
@@ -75,14 +75,12 @@
 
 
   # flatpak support: (already included in hyprland nix module)
-  /*
   xdg.portal = {
       enable = true;
-      wlr.enable = true;
+      #wlr.enable = true;
       extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
       # gtkUsePortal = true; # depricated
   };
-  */
   # ---
 
 }

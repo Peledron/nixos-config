@@ -142,6 +142,7 @@ in
         # modules
         global-coreconf
         global-desktopconf
+        hyprland-coreconf
         
         # -> host module
         "${hostdir}/nixos-main" {
