@@ -49,6 +49,7 @@
     # flatpak
     # --> best used for non-native or closed sourced apps like discord, obsidian, ... (better isolation than nixos packages)
     services.flatpak.enable = true;
+    xdg.portal.enable = true;
 
     # power management
     # -> enables suspend to ram and such (is this needed?)

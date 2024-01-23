@@ -7,7 +7,6 @@
     # define hostname and enable networkmanager
     #hostId="1e772256"; # needed for zfs, so it knows which device to mount to, command used: head -c 8 /etc/machine-id
     hostName = "nixos-main"; # Define your hostname
-    wireless.enable = true;
     networkmanager.enable = true;  # Easiest to use and most distros use this by default
     # ---
 
