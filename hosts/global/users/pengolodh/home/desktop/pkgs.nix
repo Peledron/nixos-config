@@ -3,7 +3,6 @@
     home.packages = with pkgs; [
             # applications
                 # [browsers]
-                # firefox-wayland --> see ./configs/firefox.nix as it is enabled there (otherwise there is a collision) ==> https://nixos.wiki/wiki/Firefox
                 # [backup-solution]
                 vorta
                 # [creative]
@@ -30,8 +29,7 @@
                 # [shell prompts]
                 starship
                 # [utils]
-                #steam-run # allows you to run commands in the steam runtime env, usefull for running binaries that need FSH compatibility (not pure tho)
-                # --> steam-run will keep steam installed
+ 
         ];
 
         #==================#

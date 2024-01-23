@@ -37,7 +37,7 @@
     # --> CUPS:
     services.printing = {
         enable = true;
-        drivers = []; #pkgs.hplip pkgs.hplipWithPlugin ]; # hplip == hp printer drivers; hplipWithPlugin == additional hp drivers
+        drivers = []; #pkgs.hplip pkgs.hplipWithPlugin ]; # hplip == hp printer drivers; hplipWithPlugin == additional hp drivers, these need to compile so i have disabled them, most printer should work without them anyway
     };
     # --> scanning:
     hardware.sane = {
