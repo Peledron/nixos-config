@@ -2,7 +2,7 @@
 {
     boot = {
         kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages; # this will use the latest kernel that is patched with zfs module
-        kernelParams = [ "quiet" "splash" "amd_pstate=active" ]; # kernel parameters used at boot, arc size is 12 GB
+        kernelParams = [ "quiet" "splash" "amd_pstate=guided" ]; # kernel parameters used at boot, arc size is 12 GB
         loader = {
             systemd-boot = {
                 enable = true;
