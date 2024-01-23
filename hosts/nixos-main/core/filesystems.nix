@@ -76,7 +76,7 @@
             content = {
               type = "luks";
               name = "cr_home";
-              passwordFile = "/nix/keys/nixos-home.passwd";
+              passwordFile = "/nix/keys/data-home.passwd";
               settings = { 
                 allowDiscards = true;
                 #keyFile = "/nix/keys/data-home.key"; # path to the disk encryption key (for boot)
