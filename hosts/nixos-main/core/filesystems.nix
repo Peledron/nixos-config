@@ -50,7 +50,7 @@
               type = "luks";
               name = "cr_nixos-persist";
               passwordFile = "/tmp/nixos-main.passwd"; # initial encryption key 
-              additionalKeyFiles = [ "/nix/keys/nixos-persist.key" ];
+              additionalKeyFiles = [ "/tmp/nixos-persist.key" ];
               settings= {
                 allowDiscards = true;
                 #keyFile = "/nix/keys/nixos-persist.key"; # generated using openssl-genrsa -out 
@@ -78,7 +78,7 @@
               type = "luks";
               name = "cr_home";
               passwordFile = "/tmp/data-home.passwd";
-              additionalKeyFiles = [ "/nix/keys/data-home.key" ];
+              additionalKeyFiles = [ "/tmp/data-home.key" ];
               settings = { 
                 allowDiscards = true;
                 #keyFile = "/nix/keys/data-home.key"; # path to the disk encryption key (for boot)
