@@ -19,15 +19,12 @@
                 openjdk
                 # [editors]
                 kate
-                obsidian
-                vscodium-fhs # fhs version allows for extention installion
                 meld
                 # [pdf]
                 libsForQt5.okular
 
             # cli tools
                 # [shell prompts]
-                starship
                 # [utils]
  
         ];
