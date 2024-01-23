@@ -3,7 +3,7 @@
 { config, lib, pkgs, disko, disks, ... }:
 {
   # set encrypted volume to be mounted as nixos-main at boot
-  boot.initrd.luks.devices."nixos-main".device = "/dev/disk/by-label/cr-main-nixos";
+  boot.initrd.luks.devices."nixos-main".device = "/dev/disk/by-label/cr_nixos-main";
   
   # using zfs, following from https://www.reddit.com/r/NixOS/comments/ruyunj/comment/hr4lijv/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button 
   disko.devices = {
@@ -26,32 +26,16 @@
               };
           };
           cr_nixos-main = {
-            size = "20G";
+            size = "60G";
             content = {
               type = "luks";
               name = "cr_nixos-main";
-              settings = {
-                  allowDiscards = true;
-                  keyFile = "/persist/nix-store.key";
-              };
+              settings.allowDiscards = true;
+              passwordFile = "/tmp/nixos-main.key"; # if you want this to be a password use echo -n "password" > /tmp/nixos-main.key , the -n is very important as it removes the trailing newline
               content = {
                 type = "filesystem";
                 format = "xfs"; 
                 mountpoint = "/nix";
-              };
-            };
-          };
-          cr_nixos-persist = {
-            size = "40G";
-            content = {
-              type = "luks";
-              name = "cr_nixos-persist";
-              settings.allowDiscards = true;
-              passwordFile = "/tmp/secret.key";
-              content = {
-                type = "filesystem";
-                format = "xfs"; 
-                mountpoint = "/persist";
               };
             };
           };
@@ -62,10 +46,55 @@
               randomEncryption = true;
             };
           };
-          
+          cr_nixos-persist = {
+            size = "100%";
+            content = {
+              type = "luks";
+              name = "cr_nixos-persist";
+              settings.allowDiscards = true;
+              passwordFile = "/tmp/nixos-persist.key"; # generated using openssl-genrsa -out 
+              content = {
+                type = "filesystem";
+                format = "xfs"; 
+                mountpoint = "/persist";
+              };
+            };
+          };
+        
         };
       };
     };
+    disk.home = {
+      device = builtins.elemAt disks 1;
+      type = "disk";
+      content = {
+        type = "gpt";
+        partitions = {
+          cr_home = {
+            size = "100%";
+            content = {
+              type = "luks";
+              name = "cr_home";
+              settings.allowDiscards = true;
+              passwordFile = "/tmp/home.key"; # generated using openssl-genrsa -out 
+              content = {
+                type = "filesystem";
+                format = "btrfs"; 
+                extraArgs = [ "-f" ]; # force create the partition
+                subvolumes = {
+                  "/home" = {
+                    mountpoint = "/home";
+                    mountOptions = [ "compress=zstd" "noatime" ];
+                  };
+                  "/home/pengolodh" = {}; # /home is mounted, so home/user does not need to be (it acts as a folder, I assume that the compression will still be applied to the sub-subvolume)
+                };
+              };
+            };
+          };
+        };
+      };
+    };
+      
     nodev."/" = {
       fsType = "tmpfs";
       mountOptions = [

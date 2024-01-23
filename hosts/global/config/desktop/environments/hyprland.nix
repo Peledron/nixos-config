@@ -17,6 +17,7 @@
   environment.systemPackages = with pkgs; [
     # [basic deps]
     wayland
+    xwayland
     glib 
     ffmpeg
 
@@ -72,25 +73,6 @@
     };
   };
 
-
-  # --> lightdm
-  /*
-  services.xserver = {
-      enable = true;
-
-      displayManager = {
-        lightdm = {
-          enable = true;
-          greeters.gtk = {
-            enable = true;
-            #theme.name = "qogir";
-          };
-        };
-        defaultSession = "hyprland";
-      };
-  };
-  */
-  # ---
 
   # flatpak support: (already included in hyprland nix module)
   /*

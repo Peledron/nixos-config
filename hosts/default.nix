@@ -145,7 +145,10 @@ in
         
         # -> host module
         "${hostdir}/nixos-main" {
-          _module.args.disks = [ "/dev/disk/by-id/nvme-SAMSUNG_MZVLW512HMJP-000H1_S36ENX0HA25227" ]; 
+          _module.args.disks = [ 
+            "/dev/disk/by-id/nvme-SAMSUNG_MZVLW512HMJP-000H1_S36ENX0HA25227" # 512GB root drive
+            "/dev/disk/by-id/nvme-SAMSUNG_MZVLB1T0HALR-00000_S3W6NX0N701285" # 1TB home drive
+          ]; 
         }
 
         # -> user modules

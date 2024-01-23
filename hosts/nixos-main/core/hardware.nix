@@ -10,9 +10,8 @@
 
   # kernel modules:
   boot = {
-    initrd = { # modules that are enabled in the initrd (when the kernel is loaded from the efi partition)
-      # qemu guest modules: "uhci_hcd" "ehci_pci" "ahci" "virtio_pci" "virtio_scsi" "sd_mod" "sr_mod" 
-      availableKernelModules = [ "nvme" "xhci_pci" "usbhid" "usb_storage" "sd_mod" "sdhci_pci" ];
+    initrd = { # modules that are enabled during early load in the initrd (when the kernel is loaded from the efi partition)
+      availableKernelModules = [ "nvme" "xhci_pci" "usbhid" "usb_storage" "sd_mod" "sdhci_pci" "aesni_intel" "cryptd" ];
       kernelModules = [ ]; 
     };
     kernelModules = [ "kvm-amd" ];

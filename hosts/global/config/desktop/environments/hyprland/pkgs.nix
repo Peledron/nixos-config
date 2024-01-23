@@ -12,50 +12,56 @@ let
       systemctl --user start pipewire pipewire-media-session xdg-desktop-portal xdg-desktop-portal-wlr
     '';
   };
-
-  configure-gtk = pkgs.writeTextFile {
-    name = "configure-gtk";
-    destination = "/bin/configure-gtk";
-    executable = true;
-    text = 
-    let
-      schema = pkgs.gsettings-desktop-schemas;
-      datadir = "${schema}/share/gesettings/schemas/${schema.name}";
-    in ''
-      export XDG_DATA_DIRS=${datadir}:$XDG_DATA_DIRS
-      gnome_schema=org.gnome.desktop.interface
-      gesettings set $gnome_schema gtk-theme 'Qogir-Dark'
-    '';
-  };
 in
 {
     home.packages = with pkgs; [
         # [imported scripts]
         dbus-hyprland-environment
-        configure-gtk
 
-        # [theming]
-        #nordic # application theming
-        qogir-kde # qt
-        qogir-theme # gtk
-        papirus-icon-theme 
+         # [applications]
+        # -> term
+        libsForQt5.konsole
+        # -> filemanager
+        libsForQt5.dolphin
+        libsForQt5.dolphin-plugins
+        # -> runner
+        fuzzel
+        # -> image viewer
+        libsForQt5.gwenview
+        haruna # video player
+        # -> archive manager
+        peazip
 
-        # [qt-theming control]
-        libsForQt5.qt5ct
-        libsForQt5.qtstyleplugin-kvantum
+        # [sway related]
+        # -> bar
+        waybar
 
-        # [wayland tools]
-        grim # screenshotting tool for wayland
-        slurp # screenshot region selection tool
+        # -> screenshots
+        grim
+        slurp
+        grimblast
         wf-recorder # screen recording for wayland
+
+        # -> clipboard
         wl-clipboard
         clipman
+
+        # -> functionality
+        swaybg # background setter
+        swayr # window switcher (alt+tab thing)
+        wlogout # shutdown options
         wlr-randr # to set screensize
-        swaybg # wallpaper tool for wayland
-        swayidle # to allow the computer to go to sleep after a set period
-        clipman
+
+        # -> idle/lock
+        swayidle
         waylock
-        avizo # osd
+
+        # -> brightness
+        brightnessctl
+        wob # also indicates audio
+
+        # -> notifications
+        swaynotificationcenter
 
         # [applets]
         networkmanagerapplet
@@ -64,19 +70,6 @@ in
         pamixer
         pavucontrol
         playerctl
-        
-        # [file manager]
-        #gnome.nautilus # file-manager
-        #nautilus-open-any-terminal
-        libsForQt5.dolphin
-        libsForQt5.dolphin-plugins
-        # [terminal]
-        libsForQt5.konsole
 
-        # [configured tools]
-        # --> see ./hyprland/hm-conf.nix and ./hyprland/configs/*
-        dunst # notifications
-        fuzzel # rofi alternative
-        wlogout
     ];
 }
