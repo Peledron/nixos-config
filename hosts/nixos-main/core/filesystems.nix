@@ -4,6 +4,8 @@
 {
   # set encrypted volume to be mounted as nixos-main at boot
   boot.initrd.luks.devices."nixos-main".device = "/dev/disk/by-label/cr_nixos-main";
+  boot.initrd.luks.devices."nixos-persist".device = "/dev/disk/by-label/cr_nixos-persist";
+  boot.initrd.luks.devices."home".device = "/dev/disk/by-label/cr_home";
   
   # using zfs, following from https://www.reddit.com/r/NixOS/comments/ruyunj/comment/hr4lijv/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button 
   disko.devices = {
@@ -52,7 +54,7 @@
               type = "luks";
               name = "cr_nixos-persist";
               settings.allowDiscards = true;
-              passwordFile = "/tmp/nixos-persist.key"; # generated using openssl-genrsa -out 
+              settings.keyFile = "/tmp/nixos-persist.key"; # generated using openssl-genrsa -out 
               content = {
                 type = "filesystem";
                 format = "xfs"; 
@@ -76,7 +78,7 @@
               type = "luks";
               name = "cr_home";
               settings.allowDiscards = true;
-              passwordFile = "/tmp/home.key"; # generated using openssl-genrsa -out 
+              settings.keyFile = "/tmp/data-home.key"; 
               content = {
                 type = "filesystem";
                 format = "btrfs"; 

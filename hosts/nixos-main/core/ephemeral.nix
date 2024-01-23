@@ -3,9 +3,13 @@
     # root partition is hosted on tmpfs, it is cleared by default on reboots (since it resides in memory)
 
     environment.persistence."/persist" = {
+        hideMounts = true; # For added security and less clutter in the system
         directories = [
             "/etc/libvirt" # persist the libvirt configuration directory
             "/etc/NetworkManager/system-connections"
+            "/var/log" # perserve the system logs
+            "/var/lib/nixos" 
+            "/var/lib/systemd/coredump" # perserve the coredump on reboots
             "/var/lib/docker"
             "/var/lib/upower"
             "/var/lib/bluetooth"
