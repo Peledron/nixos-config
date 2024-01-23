@@ -4,7 +4,7 @@
 {
   # using zfs, following from https://www.reddit.com/r/NixOS/comments/ruyunj/comment/hr4lijv/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button 
   disko.devices = {
-    disk.main = {
+    disk.Aroot = {
       device = builtins.elemAt disks 0;
       type = "disk";
       content = {
@@ -28,7 +28,7 @@
               type = "luks";
               name = "cr_nixos-main";
               settings.allowDiscards = true;
-              passwordFile = "/tmp/nixos-main.passwd"; # if you want this to be a password use echo -n "password" > /tmp/nixos-main.key , the -n is very important as it removes the trailing newline
+              passwordFile = "/nix/keys/nixos-main.passwd"; # if you want this to be a password use echo -n "password" > /tmp/nixos-main.key , the -n is very important as it removes the trailing newline
               # no keyfile will be specified as there will only be a password for this disk
               content = {
                 type = "filesystem";
@@ -49,7 +49,7 @@
             content = {
               type = "luks";
               name = "cr_nixos-persist";
-              passwordFile = "/tmp/nixos-persist.key"; # initial encryption key 
+              passwordFile = "/nix/keys/nixos-persist.passwd"; # initial encryption key 
               settings= {
                 allowDiscards = true;
                 keyFile = "/nix/keys/nixos-persist.key"; # generated using openssl-genrsa -out 
@@ -76,12 +76,11 @@
             content = {
               type = "luks";
               name = "cr_home";
-              passwordFile = "/tmp/data-home.key"; # initial encryption key
+              passwordFile = "/nix/keys/data-home.passwd";
               settings = { 
                 allowDiscards = true;
-                keyFile = "/nix/data-home.key"; # path to the disk encryption key (for boot)
+                keyFile = "/nix/keys/data-home.key"; # path to the disk encryption key (for boot)
               };
-              additionalKeyFiles = [ "/tmp/data-home.passwd" ]; # additional key containing a password if I should loose the main key
               content = {
                 type = "btrfs";
                 extraArgs = [ "-f" ]; # force create the partition
@@ -110,6 +109,7 @@
   };
   # ---
   fileSystems = {
+    "/nix".neededForBoot = true;
     "/persist".neededForBoot = true;
   };
 }
