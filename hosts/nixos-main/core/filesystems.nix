@@ -52,7 +52,7 @@
               passwordFile = "/nix/keys/nixos-persist.passwd"; # initial encryption key 
               settings= {
                 allowDiscards = true;
-                keyFile = "/nix/keys/nixos-persist.key"; # generated using openssl-genrsa -out 
+                #keyFile = "/nix/keys/nixos-persist.key"; # generated using openssl-genrsa -out 
               };
               content = {
                 type = "filesystem";
@@ -76,10 +76,10 @@
             content = {
               type = "luks";
               name = "cr_home";
-              passwordFile = "/nix/keys/data-home.passwd";
+              passwordFile = "/nix/keys/nixos-home.passwd";
               settings = { 
                 allowDiscards = true;
-                keyFile = "/nix/keys/data-home.key"; # path to the disk encryption key (for boot)
+                #keyFile = "/nix/keys/data-home.key"; # path to the disk encryption key (for boot)
               };
               content = {
                 type = "btrfs";
