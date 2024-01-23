@@ -20,7 +20,7 @@
         22001 # ssh port
       ];
       allowedUDPPorts = [
-        51820 # wireguard port
+        #51820 # wireguard port
       ];
       # ---
     };
