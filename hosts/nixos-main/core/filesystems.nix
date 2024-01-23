@@ -4,7 +4,7 @@
 {
   # using zfs, following from https://www.reddit.com/r/NixOS/comments/ruyunj/comment/hr4lijv/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button 
   disko.devices = {
-    disk.Aroot = {
+    disk.nixos-root = {
       device = builtins.elemAt disks 0;
       type = "disk";
       content = {
@@ -28,7 +28,7 @@
               type = "luks";
               name = "cr_nixos-main";
               settings.allowDiscards = true;
-              passwordFile = "/nix/keys/nixos-main.passwd"; # if you want this to be a password use echo -n "password" > /tmp/nixos-main.key , the -n is very important as it removes the trailing newline
+              passwordFile = "/tmp/nixos-main.passwd"; # if you want this to be a password use echo -n "password" > /tmp/nixos-main.key , the -n is very important as it removes the trailing newline
               # no keyfile will be specified as there will only be a password for this disk
               content = {
                 type = "filesystem";
@@ -49,7 +49,8 @@
             content = {
               type = "luks";
               name = "cr_nixos-persist";
-              passwordFile = "/nix/keys/nixos-persist.passwd"; # initial encryption key 
+              passwordFile = "/tmp/nixos-main.passwd"; # initial encryption key 
+              additionalKeyFiles = [ "/nix/keys/nixos-persist.key" ];
               settings= {
                 allowDiscards = true;
                 #keyFile = "/nix/keys/nixos-persist.key"; # generated using openssl-genrsa -out 
@@ -76,7 +77,8 @@
             content = {
               type = "luks";
               name = "cr_home";
-              passwordFile = "/nix/keys/data-home.passwd";
+              passwordFile = "/tmp/data-home.passwd";
+              additionalKeyFiles = [ "/nix/keys/data-home.key" ];
               settings = { 
                 allowDiscards = true;
                 #keyFile = "/nix/keys/data-home.key"; # path to the disk encryption key (for boot)
