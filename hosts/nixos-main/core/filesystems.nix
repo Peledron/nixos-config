@@ -49,7 +49,7 @@
             content = {
               type = "luks";
               name = "cr_nixos-persist";
-              passwordFile = "/tmp/nixos-main.passwd"; # initial encryption key 
+              passwordFile = "/tmp/nixos-main.passwd"; # the password will be the same as /nix, this will only prompt for 1 password and reuse the given one at boot
               additionalKeyFiles = [ "/tmp/nixos-persist.key" ];
               settings= {
                 allowDiscards = true;
@@ -83,6 +83,7 @@
                 allowDiscards = true;
                 #keyFile = "/nix/keys/data-home.key"; # path to the disk encryption key (for boot)
               };
+              initrdUnlock = false; # do not add this drive to the initrd devices mounted during boot, we will do this in stage 2 using systemd crypttab file instead (see below)
               content = {
                 type = "btrfs";
                 extraArgs = [ "-f" ]; # force create the partition
@@ -114,4 +115,11 @@
     "/nix".neededForBoot = true;
     "/persist".neededForBoot = true;
   };
+  environment.etc.crypttab = {
+    enable = true;
+    text = ''
+      cr_home /dev/disk/by-id/${builtins.elemAt disks 1}-part1 /nix/keys/data-home.key luks,discard
+    '';
+
+  }; # using crypttab will allow systemd to auto-mount the devices on stage2 of the boot process (after initrd and nixos mounts are done), this should work...
 }

@@ -4,5 +4,5 @@
     #./swaylock.nix
     #./wlogout.nix
     #./waybar.nix
-    ./avizo.nix
+    #./avizo.nix
 ]
