@@ -18,6 +18,8 @@
     # [basic deps]
     wayland
     xwayland
+    xdg-desktop-portal-gtk
+    xdg-desktop-portal-hyprland
     
     qt5.qtwayland
     qt6.qtwayland
@@ -85,7 +87,7 @@
   # flatpak support: (already included in hyprland nix module)
   xdg.portal = {
       enable = true;
-      #wlr.enable = true;
+      wlr.enable = true;
       extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
       # gtkUsePortal = true; # depricated
   };

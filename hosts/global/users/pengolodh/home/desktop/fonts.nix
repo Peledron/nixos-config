@@ -18,18 +18,18 @@
     ];
 
     fonts = lib.mkDefault {
-        fontDir.enable = true;
+        #fontDir.enable = true;
         
         # font config
         fontconfig = {
             enable = true;
             # the defaults seem to fine, https://search.nixos.org/options?channel=22.11&show=fonts.fontconfig.hinting.enable&from=0&size=50&sort=relevance&type=packages&query=fonts
-
+            /*   
             defaultFonts = {
                 monospace = [ "UbuntuMono Nerd Font" ];
                 serif = [ "Ubuntu Font" ];
                 sansSerif = [ "Ubuntu Font" ];
-            };
+            };*/
         };
     };
 }
