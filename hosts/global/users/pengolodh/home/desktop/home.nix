@@ -4,6 +4,7 @@
         [( import ./env.nix)]
         ++ [( import ./pkgs.nix)] 
         ++ [( import ./locations.nix)]
+        ++ [( import ./fonts.nix)]
         ++ (import ./configs)
     ;
     home.stateVersion = "23.11";

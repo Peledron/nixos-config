@@ -112,13 +112,14 @@
   };
   # ---
   fileSystems = {
+    "/".neededForBoot = true;
     "/nix".neededForBoot = true;
     "/persist".neededForBoot = true;
   };
   environment.etc.crypttab = {
     enable = true;
     text = ''
-      cr_home /dev/disk/by-id/${builtins.elemAt disks 1}-part1 /nix/keys/data-home.key luks,discard
+      cr_home ${builtins.elemAt disks 1}-part1 /nix/keys/data-home.key luks,discard
     '';
 
   }; # using crypttab will allow systemd to auto-mount the devices on stage2 of the boot process (after initrd and nixos mounts are done), this should work...

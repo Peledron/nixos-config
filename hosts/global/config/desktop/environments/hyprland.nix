@@ -18,6 +18,10 @@
     # [basic deps]
     wayland
     xwayland
+    
+    qt5.qtwayland
+    qt6.qtwayland
+    
     glib 
     ffmpeg
 
@@ -70,6 +74,10 @@
       default_session = {
         command = "${pkgs.greetd.greetd}/bin/agreety --cmd ${pkgs.hyprland}/bin/Hyprland";
       };
+      initial_session = {
+        command = "${pkgs.greetd.greetd}/bin/agreety --cmd ${pkgs.hyprland}/bin/Hyprland";
+        user = "pengolodh"; # not really config independant, but...
+      }; # auto-login for user pengolodh
     };
   };
 

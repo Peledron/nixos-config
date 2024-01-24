@@ -30,7 +30,7 @@ in
         libsForQt5.gwenview
         haruna # video player
         # -> archive manager
-        peazip
+        ark
 
         # [sway related]
         # -> bar
