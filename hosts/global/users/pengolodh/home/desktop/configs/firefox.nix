@@ -119,18 +119,20 @@
                     "gfx.canvas.accelerated" = true;
                     "gfx.webrender.enabled" = true;
                     "layers.acceleration.force-enabled" = true;
+                    "layout.frame_rate" = 144;
 
                     # [nvida accel] 
                     # --> see https://github.com/pop-os/nvidia-vaapi-driver#firefox
-                    "gfx.x11-egl.force-enabled" = true;
-                    "media.av1.enabled" = false; # set to true if your gpu supports av1 decoding
+                    #"gfx.x11-egl.force-enabled" = true;
+                    "media.av1.enabled" = true; # set to true if your gpu supports av1 decoding
                     "media.ffmpeg.vaapi.enabled" = true;
                     "media.hardware-video-decoding.force-enabled" = true;
                     "media.rdd-ffmpeg.enabled" = true; 
                     # "widget.dmabuf.force-enabled" = true; #  only enable on older nvidia cards (pre pascal or using 470 driver)
                     
                     # [others]
-                    "widget.use-xdg-desktop-portal" = true; # only if you use this 
+                    "widget.use-xdg-desktop-portal" = true; # tells firefox to use xdg-desktop-portal for filepicker I think
+                    "widget.wayland.opaque-region.enabled=false" = false; # prevents screen flicker when going fullscreen under wayland
                     
                 };
 

@@ -16,7 +16,7 @@ in
         publicShare = "${userdata-basedir}/Public";
 
         extraConfig = {
-            XDG_SCREENSHOTS_DIR = "${userdata-basedir}/$XDG_PICTURES_DIR/screenshots/linux";
+            XDG_SCREENSHOTS_DIR = "$XDG_PICTURES_DIR/screenshots/linux";
         };
 
     };

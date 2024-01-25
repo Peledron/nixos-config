@@ -24,6 +24,7 @@ in
         # -> filemanager
         libsForQt5.dolphin
         libsForQt5.dolphin-plugins
+        libsForQt5.kdegraphics-thumbnailers
         # -> runner
         fuzzel
         # -> image viewer
@@ -54,7 +55,7 @@ in
 
         # -> idle/lock
         swayidle
-        waylock
+        swaylock
 
         # -> brightness
         brightnessctl

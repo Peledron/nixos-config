@@ -26,6 +26,7 @@
     
     glib 
     ffmpeg
+    libheif
 
     # [polkit] 
     # --> used for password storage of some applications
@@ -34,6 +35,7 @@
     blueman
   ];
   services.blueman.enable = true; # enable blueman daemon
+  services.gvfs.enable = true; # enable the virtual file system, so that u can see and mount local/remote disks in dolphin and such
 
   # enable polkit 
   security.polkit.enable = true;
@@ -56,7 +58,7 @@
   # --> see ./hyprland/pkgs.nix for installed programs and themes
 
 
-  # gtk addons:
+  # gtk addons:mounting
   services = {
       gnome = {
         glib-networking.enable = true;
@@ -76,8 +78,8 @@
       default_session = {
         command = "${pkgs.greetd.greetd}/bin/agreety --cmd ${pkgs.hyprland}/bin/Hyprland";
       };
-      initial_session = {
-        command = "${pkgs.greetd.greetd}/bin/agreety --cmd ${pkgs.hyprland}/bin/Hyprland";
+      initial_session = { 
+        command = "${pkgs.hyprland}/bin/Hyprland";
         user = "pengolodh"; # not really config independant, but...
       }; # auto-login for user pengolodh
     };

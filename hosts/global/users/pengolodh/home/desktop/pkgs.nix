@@ -18,7 +18,7 @@
                 go
                 openjdk
                 # [editors]
-                kate
+                vscodium-fhs
                 meld
                 # [pdf]
                 libsForQt5.okular

@@ -20,13 +20,11 @@
         alsa.support32Bit = true;
         pulse.enable = true;
     };
-    # bluetooth
-    services.blueman.enable = true;
 
     # printing
     # --> printer discovery:
     services.avahi = {                                   # Needed to find wireless printer
-        enable = true;
+        enable = true; # disabled dont really use it
         nssmdns4 = true;
         publish = {                               # Needed for detecting the scanner
             enable = true;
