@@ -25,6 +25,7 @@
             stow
             # [git+related]
             git
+            git-crypt
             sops
             # [security]
             gnupg
