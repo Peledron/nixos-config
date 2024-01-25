@@ -5,16 +5,16 @@
         settings = {
             # output="<not set>";
             font = "UbuntuMono Nerd Font:size=14";
-            dpi-aware = yes;
+            dpi-aware = true;
 
             
             icon-theme = "Papirus-Dark";
-            icons-enabled = "yes";
+            icons-enabled = true;
             # prompt="> ";
             # fields="filename,name,generic";
             # password-character="*";
 
-            fuzzy = "yes";
+            fuzzy = true;
 
             # show-actions="no";
             # terminal="$TERMINAL -e"; # Note: you cannot actually use environment variables here
