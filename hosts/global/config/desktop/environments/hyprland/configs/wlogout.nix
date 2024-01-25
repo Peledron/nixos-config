@@ -69,35 +69,37 @@ in
         # ---
 
         # [buttons]
-        layout.lock = {
-            label = "lock";
-            action = "swaylock -f";
-            text = "Lock";
-            keybind = "l";
-        };
-        layout.reboot = {
-            label = "reboot";
-            action = "systemctl reboot";
-            text = "Reboot";
-            keybind = "r";
-        };
-        layout.shutdown = {
-            label = "shutdown";
-            action = "systemctl poweroff";
-            text = "Shutdown";
-            keybind = "s";
-        };
-        layout.logout = {
-            label = "logout";
-            action = "hyprctl dispatch exit 0";
-            text = "Logout";
-            keybind = "e";
-        };
-        layout.suspend = {
-            label = "suspend";
-            action = "systemctl suspend";
-            text = "Suspend";
-            keybind = "u";
-        };
+        layout = [
+            {
+                label = "lock";
+                action = "swaylock -f";
+                text = "Lock";
+                keybind = "l";
+            }
+            {
+                label = "reboot";
+                action = "systemctl reboot";
+                text = "Reboot";
+                keybind = "r";
+            }
+            {
+                label = "shutdown";
+                action = "systemctl poweroff";
+                text = "Shutdown";
+                keybind = "s";
+            }
+            {
+                label = "logout";
+                action = "hyprctl dispatch exit 0";
+                text = "Logout";
+                keybind = "e";
+            }
+            {
+                label = "suspend";
+                action = "systemctl suspend";
+                text = "Suspend";
+                keybind = "u";
+            }
+        ];
     };
 }

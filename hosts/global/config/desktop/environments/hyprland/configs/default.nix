@@ -4,6 +4,6 @@
     #./kitty.nix
     ./swaylock.nix
     ./wlogout.nix
-    #./waybar.nix
+    ./waybar.nix
     #./avizo.nix
 ]

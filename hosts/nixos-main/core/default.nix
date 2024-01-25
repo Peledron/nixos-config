@@ -5,4 +5,5 @@
     ./ephemeral.nix
     ./networking.nix
     ./env.nix
+    ./secrets.nix
 ]

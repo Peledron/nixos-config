@@ -13,11 +13,11 @@ let
         text = 
         let
             schema = pkgs.gsettings-desktop-schemas;
-            datadir = "${schema}/share/gesettings/schemas/${schema.name}";
+            datadir = "${schema}/share/gsettings/schemas/${schema.name}";
         in ''
             export XDG_DATA_DIRS=${datadir}:$XDG_DATA_DIRS
             gnome_schema=org.gnome.desktop.interface
-            gesettings set $gnome_schema gtk-theme '${gtk-theme}'
+            gsettings set $gnome_schema gtk-theme '${gtk-theme}'
         '';
     };
 in
