@@ -1,6 +1,6 @@
-{config, pkgs, ... }:
+{config, pkgs, self, ... }:
 let
-    logodir = "$HYPRCONF/resources/wlogout-logos";
+    logodir = "${self}/hosts/global/config/desktop/environments/hyprland/configs/non-nix/wlogout-logos";
 in
 {
     programs.wlogout = {

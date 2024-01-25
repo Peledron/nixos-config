@@ -1,8 +1,9 @@
 [
-    #./dunst.nix
+    ./dunst.nix
+    ./wob.nix
     #./kitty.nix
-    #./swaylock.nix
-    #./wlogout.nix
+    ./swaylock.nix
+    ./wlogout.nix
     #./waybar.nix
     #./avizo.nix
 ]

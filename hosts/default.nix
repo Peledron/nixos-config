@@ -161,7 +161,7 @@ in
         home-manager {
           home-manager.useGlobalPkgs = true; # sets home-manager to use the nix-package-manager packages instead of its own internal ones
           home-manager.useUserPackages = true; # packages will be installed per user;
-          home-manager.extraSpecialArgs = {  };
+          home-manager.extraSpecialArgs = { inherit self; };
           home-manager.users.pengolodh = {
             imports = 
               [hyprland-homemod]
