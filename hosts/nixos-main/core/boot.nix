@@ -2,7 +2,7 @@
 {
     boot = {
         kernelPackages = pkgs.linuxKernel.packages.linux_xanmod_latest; #config.boot.zfs.package.latestCompatibleLinuxPackages; # this will use the latest kernel that is patched with zfs module
-        kernelParams = [ "quiet" "splash" "amd_pstate=guided" ]; # kernel parameters used at boot, arc size is 12 GB
+        kernelParams = [ "quiet" "loglevel=3" "amd_pstate=guided" ]; # kernel parameters used at boot, "splash"
         loader = {
             systemd-boot = {
                 enable = true;
@@ -12,7 +12,7 @@
             timeout = 1; # amount of time before default option is chosen
         };
         plymouth = {
-            enable = true;
+            enable = false;
         };
     };
 #     # for secure boot see: https://github.com/nix-community/lanzaboote/blob/master/docs/QUICK_START.md and https://nixos.wiki/wiki/Secure_Boot

@@ -32,7 +32,12 @@
     environment.systemPackages = with pkgs.libsForQt5; [
         # desktop specific
             # [kde]
-            polonium # tiling
+            #polonium # tiling
             sddm-kcm
+            ffmpegthumbs
+            kdegraphics-thumbnailers
+            dolphin-plugins
+            qtstyleplugin-kvantum
+            
     ];
 }
