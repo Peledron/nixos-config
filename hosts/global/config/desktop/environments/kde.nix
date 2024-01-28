@@ -12,7 +12,7 @@
                 # --> disable kde specific packages:
                 /*
                 excludePackages = with pkgs.libsForQt5; [
-                    # package
+                    # package, the default is very barebones
                 ];
                 */
                 # --> see https://github.com/pjones/plasma-manager for a way to declare plasma config in home-manager
