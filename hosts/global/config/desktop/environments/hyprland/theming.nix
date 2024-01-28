@@ -4,6 +4,10 @@ let
     gtk-theme-package = "nordic";
     qt-theme = "Utterly-Nord";
     qt-theme-package = "utterly-nord-plasma";
+    icon-theme-name = "Papirus-Dark";
+    icon-theme-package = "papirus-icon-theme";
+    cursor-theme-name = "Adwaita";
+    cursor-theme-package = "gnome.adwaita-icon-theme";
 
     # scripts taken from https://github.com/abdul2906/nixos-system-config/blob/main/nixos/modules/hyprland/module.nix
     configure-gtk = pkgs.writeTextFile {
@@ -37,51 +41,46 @@ in
             gnome3.adwaita-icon-theme  # default gnome cursors
 
             # [qt-theming control]
-            libsForQt5.qt5ct
-            #qt6Packages.qt6ct
+            #lxqt.lxqt-qtplugin
             libsForQt5.qtstyleplugin-kvantum
-            #qt6Packages.qtstyleplugin-kvantum
             # -> not needed as we will follow the gtk theme
 
         ];
         pointerCursor = {
-            name = "Adwaita";
+            name = "${cursor-theme-name}";
             package = pkgs.gnome.adwaita-icon-theme;
             size = 24;
             x11 = {
                 enable = true;
-                defaultCursor = "Adwaita";
+                defaultCursor = "${cursor-theme-name}";
             };
         };
     };
+    
     qt = {
         enable = true;
         platformTheme = "qtct";
         style.name = "kvantum";
     };
     xdg.configFile = {
-        "Kvantum/kvantum.kvconfig".text = ''
-        [General]
-        theme=${qt-theme}
-        '';
-        "Kvantum/${qt-theme}".source = "${pkgs.${qt-theme-package}}/share/Kvantum/${qt-theme}";
+        #"Kvantum/kvantum.kvconfig".text = "[General]\ntheme=${qt-theme}";
+        #"Kvantum/${qt-theme}".source = "${pkgs.${qt-theme-package}}/share/Kvantum/${qt-theme}";
+        
     }; # from https://discourse.nixos.org/t/guide-to-installing-qt-theme/35523/2 and https://discourse.nixos.org/t/guide-to-installing-qt-theme/35523/3
 
     gtk = {
         enable = true;
         cursorTheme = {
             package = pkgs.gnome.adwaita-icon-theme;
-            name = "Adwaita";
+            name = "${cursor-theme-name}";
         };
         iconTheme = {
             package = pkgs.papirus-icon-theme;
-            name = "Papirus-Dark";
+            name = "${icon-theme-name}";
         };
         theme = {
-            package = pkgs.${gtk-theme-package};
+            package = pkgs.nordic;
             name = "${gtk-theme}";
         };
-
     };
-   
 }

@@ -1,3 +1,4 @@
+{ config, lib, pkgs, system, imputs, ... }:
 {
   programs.plasma = {
     enable = true;

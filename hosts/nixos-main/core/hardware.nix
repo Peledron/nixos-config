@@ -30,4 +30,8 @@
   };
   
   # ----
+  environment.systemPackages = with pkgs; [
+    opentabletdriver  # usermode graphics tablet driver
+
+  ];
 }

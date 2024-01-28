@@ -55,7 +55,7 @@ let
 
   ## => kde
   kde-coreconf = "${desktop_envdir}/kde.nix";
-  kde-homeconf = "${desktop_envdir}/kde";
+  kde-homeconf = "${desktop_envdir}/kde/home.nix";
 
   ## => xfce
   xfce-coreconf = "${desktop_envdir}/xfce.nix";
@@ -137,12 +137,13 @@ in
         sops
         disko
         impermanence
-        hyprland-coremod
+        #hyprland-coremod
 
         # modules
         global-coreconf
         global-desktopconf
-        hyprland-coreconf
+        #hyprland-coreconf
+        kde-coreconf
         
         # -> host module
         "${hostdir}/nixos-main" {
@@ -164,9 +165,9 @@ in
           home-manager.extraSpecialArgs = { inherit self; };
           home-manager.users.pengolodh = {
             imports = 
-              [hyprland-homemod]
+              [plasma-manager]
               ++ [pengolodh_desktop-homeconf]
-              ++ [hyprland-homeconf]
+              ++ [kde-homeconf]
             ; # add more inports via [import module] ++ (import folder) or ++ [(import file)]
           };
           # ---

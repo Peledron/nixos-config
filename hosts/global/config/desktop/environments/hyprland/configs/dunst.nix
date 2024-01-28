@@ -130,7 +130,7 @@
 
                     ### Tex
 
-                    font = "UbuntuMono Nerd Font 8";
+                    font = "UbuntuMono Nerd Font 12";
 
                     # The spacing between lines.  If the height is smaller than the
                     # font height, it will get raised to the font height.
@@ -293,7 +293,7 @@
                     # Otherwise the "#" and following would be interpreted as a comment.
                     background = "#000000AA";
                     foreground = "#ffffff";
-                    timeout = 5;
+                    timeout = 8;
                     # Icon for notifications with low urgency, uncomment to enable
                     #default_icon = /path/to/icon
                 };
@@ -301,10 +301,11 @@
                 urgency_normal = {
                     background = "#000000AA";
                     foreground = "#ffffff";
-                    timeout = 5;
+                    timeout = 8;
                     # Icon for notifications with normal urgency, uncomment to enable
                     #default_icon = /path/to/icon
                 };
+
                 urgency_critical = {
                     background = "#900000";
                     foreground = "#ffffff";

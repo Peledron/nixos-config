@@ -1,3 +1,4 @@
 [
     #./plasma.nix
+    ./env.nix
 ]

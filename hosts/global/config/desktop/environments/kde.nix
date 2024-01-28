@@ -32,26 +32,7 @@
     environment.systemPackages = with pkgs.libsForQt5; [
         # desktop specific
             # [kde]
-            #bismuth # tiling
+            polonium # tiling
             sddm-kcm
     ];
-    environment.variables = {
-        # kde specific
-        XDG_CURRENT_DESKTOP = "KDE";
-        KWIN_OPENGL_INTERFACE = "egl";
-        KWIN_X11_REFRESH_RATE = "120000";
-        KWIN_X11_NO_SYNC_TO_VBLANK = "1";
-        KWIN_X11_FORCE_SOFTWARE_VSYNC = "1";
-
-        # wayland specific
-        QT_QPA_PLATFORM=  "wayland;xcb";
-        EGL_PLATFORM = "wayland";
-
-
-        # qt specific
-        #QT_QPA_PLATFORMTHEME = "qt5ct";
-        #QT_STYLE_OVERRIDE = "kvantum";
-    };
-    # ---
-
 }

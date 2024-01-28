@@ -111,16 +111,26 @@
     }; # root will be on a tmpfs, meaning that it is impermament
   };
   # ---
+
   fileSystems = {
     "/".neededForBoot = true;
     "/nix".neededForBoot = true;
     "/persist".neededForBoot = true;
   };
+
+  # using crypttab will allow systemd to auto-mount the devices on stage2 of the boot process (after initrd and nixos mounts are done), this should work...
   environment.etc.crypttab = {
     enable = true;
     text = ''
       cr_home ${builtins.elemAt disks 1}-part1 /nix/keys/data-home.key luks,discard
     '';
+  }; 
+  # ---
 
-  }; # using crypttab will allow systemd to auto-mount the devices on stage2 of the boot process (after initrd and nixos mounts are done), this should work...
+  # we are using btrfs so we can enable the scrub service here, as it is filesystem dependant
+  services.btrfs.autoScrub = {
+    enable = true;
+    interval = "weekly";
+    fileSystems = [ "/home" ]; # does not need to be done on the nested sub-volumes
+  };
 }

@@ -24,7 +24,8 @@ in
         # -> filemanager
         libsForQt5.dolphin
         libsForQt5.dolphin-plugins
-        libsForQt5.kdegraphics-thumbnailers
+        libsForQt5.kdegraphics-thumbnailers # thumbnails, not sure if it needed with dolphin-plugins
+        
         # -> runner
         fuzzel
         # -> image viewer
@@ -59,12 +60,13 @@ in
 
         # -> brightness
         brightnessctl
-        # avizo # fancy audio indicator
+        # avizo # fancy audio/brightness indicator
         wob # also indicates audio
 
         # -> notifications
-        swaynotificationcenter
-
+        #swaynotificationcenter
+        dunst
+        
         # [applets]
         networkmanagerapplet
 

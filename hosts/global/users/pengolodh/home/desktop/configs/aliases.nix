@@ -1,5 +1,5 @@
 {dotfiles, config,...}:
-{
+{   # im going to keep this in a dotfile repo via stow, having this declerative does not make sense...
     home.file.".aliases" = {
         enable = true;
         text = ''

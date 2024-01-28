@@ -9,22 +9,27 @@
                 #blender
                 #krita
                 # [gaming]
-                #steam
-                #heroic
+                #steam # install via flatpak, less issues that way...
+                #heroic # install via flatpak
 
             # development
                 # [programming langs]
                 python3
                 go
                 openjdk
+                # [programming tools]
+                alejandra # nix-formatter
+                meld # diff tool
+                
                 # [editors]
                 vscodium-fhs
-                meld
+                
                 # [pdf]
                 libsForQt5.okular
 
             # cli tools
                 # [shell prompts]
+                # -> defined in the global core config
                 # [utils]
  
         ];
