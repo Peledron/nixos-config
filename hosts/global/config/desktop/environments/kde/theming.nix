@@ -1,4 +1,8 @@
 { config, lib, pkgs, ... }:
+let
+    qt-theme = "Utterly-Nord";
+    qt-theme-package = "utterly-nord-plasma";
+in
 {
     qt = {
         enable = true;
