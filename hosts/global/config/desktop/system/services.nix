@@ -58,7 +58,7 @@
   # -> enables suspend to ram and such (is this needed?)
   powerManagement = lib.mkDefault {
     enable = true;
-    powertop.enable = true; # enable powertop auto-optimize of tunetables (not needed with tlp enabled)
+    powertop.enable = false; # enable powertop auto-optimize of tunetables (not needed with tlp enabled), is very aggressive with the usb autosuspend
   };
 
   services.auto-cpufreq = lib.mkDefault {
