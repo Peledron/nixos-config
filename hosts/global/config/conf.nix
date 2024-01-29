@@ -25,7 +25,7 @@
     # ---
     optimise = {
       automatic = true;
-      dates = "daily";
+      dates = ["daily"];
     };
     # enable garbage collection on the nix-store (cleans old system versions)
     gc = {

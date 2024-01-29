@@ -10,6 +10,5 @@
         # Enable raytracing (VKD3D-proton). Recommended with RADV above (not AMDVLK).
         VKD3D_CONFIG="dxr,dxr11";
         RADV_PERFTEST="rt";
-        
     };
 }
