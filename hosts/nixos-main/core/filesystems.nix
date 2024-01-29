@@ -116,6 +116,7 @@
   };
   # ---
 
+  # define existing disks here, as well as other options that do not need/are able to be covered by disko
   fileSystems = {
     "/".neededForBoot = true;
     "/nix".neededForBoot = true;
@@ -145,6 +146,7 @@
       depends = ["/home"];
     };
   };
+  # ---
 
   # using crypttab will allow systemd to auto-mount the devices on stage2 of the boot process (after initrd and nixos mounts are done), this should work...
   environment.etc.crypttab = {

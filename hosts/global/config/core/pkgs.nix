@@ -15,6 +15,7 @@
             killall
             pciutils
             usbutils
+            lm_sensors
             # [shell]
             fish
             bat # cat replacement with syntax highlighting, etc
