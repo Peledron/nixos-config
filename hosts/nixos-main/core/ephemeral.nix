@@ -14,14 +14,18 @@
             "/var/lib/upower"
             "/var/lib/bluetooth"
             "/var/lib/libvirt"
+            { directory = "/var/lib/colord"; user = "colord"; group = "colord"; mode = "u=rwx,g=rx,o="; } # colord map needs to be long to the colord user 
         ];
         files = [
+            # systemd unique machine id and ntp time adjust
             "/etc/machine-id"
             "/etc/adjtime"
             # network manager is enabled so we need the following files to be persistent for wifi
             "/var/lib/NetworkManager/secret_key"
             "/var/lib/NetworkManager/seen-bssids"
             "/var/lib/NetworkManager/timestamps"
+            # 
+            { file = "/var/keys/secret_file"; parentDirectory = { mode = "u=rwx,g=,o="; }; }
         ];
     };
 
