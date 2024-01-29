@@ -21,14 +21,6 @@
     usbutils
     lm_sensors
     powertop
-    # [shell]
-    fish
-    bat # cat replacement with syntax highlighting, etc
-    eza # colorfull ls, easier to read
-    # [editor]
-    neovim
-    # [dotfiles management] # I should define all config in nix but...
-    stow
     # [git+related]
     git
     git-crypt
