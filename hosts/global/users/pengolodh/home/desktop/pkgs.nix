@@ -7,16 +7,17 @@
   ...
 }: {
   home.packages = with pkgs; [
-    # applications
+    # gui applications
     # [browsers]
     # [backup-solution]
     vorta
     # [creative]
-    #blender
-    #krita
+    blender-hip # blender with the hip library added to it, does not matter for nvidia machines
+    krita
     # [gaming]
     #steam # install via flatpak, less issues that way...
     #heroic # install via flatpak
+    tuxclocker # overclocking/monitoring utility for gpu's and cpu's
 
     # development
     # [programming langs]
@@ -35,6 +36,9 @@
 
     # [mail]
     thunderbird
+
+    # [torrent client]
+    qbittorrent
 
     # cli tools
     # [shell]

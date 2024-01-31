@@ -7,6 +7,8 @@
             systemd-boot = {
                 enable = true;
                 configurationLimit = 5; # limits the amount of entries in boot menu
+                editor = false; # disable kernel comandline editing
+                memtest86.enable = true; # show an option for memtest
             };
             efi.canTouchEfiVariables = true; # makes it so we can edit boot entrie kernel command line
             timeout = 1; # amount of time before default option is chosen
