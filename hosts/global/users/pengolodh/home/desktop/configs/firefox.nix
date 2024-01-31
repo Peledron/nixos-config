@@ -47,7 +47,7 @@
         # --> only usefull if you dont use an existing firefox profile...
         extensions = with pkgs.nur.repos.rycee.firefox-addons; [
           # [privacy]
-          multi-account-containers
+          #multi-account-containers
           privacy-badger
           privacy-possum
           localcdn
@@ -138,7 +138,7 @@
         settings = {
           # [general]
           "general.smoothScroll" = true;
-          browser.compactmode.show = true;
+          "browser.compactmode.show" = true;
 
           # [basic accel]
           "gfx.canvas.accelerated" = true;

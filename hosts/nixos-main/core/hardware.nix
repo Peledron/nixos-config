@@ -29,7 +29,7 @@
   # hardware settings
   hardware = {
     # vulkan settings
-    opengl = {
+    opengl = {F
       driSupport = true;
       driSupport32Bit = true; # For 32 bit applications
       extraPackages = with pkgs; [
@@ -63,5 +63,6 @@
     rocmPackages.rocm-smi
     rocmPackages.rocminfo
     clinfo
+    nvtop-amd
   ];
 }

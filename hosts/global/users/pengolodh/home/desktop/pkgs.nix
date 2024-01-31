@@ -12,12 +12,11 @@
     # [backup-solution]
     vorta
     # [creative]
-    blender-hip # blender with the hip library added to it, does not matter for nvidia machines
+    #blender-hip # blender with the hip library added to it, does not matter for nvidia machines
     krita
     # [gaming]
     #steam # install via flatpak, less issues that way...
     #heroic # install via flatpak
-    
 
     # development
     # [programming langs]
