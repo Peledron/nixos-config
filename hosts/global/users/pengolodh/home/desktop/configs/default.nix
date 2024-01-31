@@ -5,4 +5,5 @@
   ./firefox.nix
   ./starship.nix
   ./htop.nix
+  ./tuxclocker.nix
 ]
