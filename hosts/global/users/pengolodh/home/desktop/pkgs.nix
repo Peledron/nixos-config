@@ -17,7 +17,7 @@
     # [gaming]
     #steam # install via flatpak, less issues that way...
     #heroic # install via flatpak
-    tuxclocker # overclocking/monitoring utility for gpu's and cpu's
+    
 
     # development
     # [programming langs]
