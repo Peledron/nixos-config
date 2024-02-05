@@ -42,6 +42,6 @@
     ffmpegthumbs
     kdegraphics-thumbnailers # you need to enable the thumbnailing settings in dolphin
     dolphin-plugins
-    qtstyleplugin-kvantum
+    #qtstyleplugin-kvantum
   ];
 }

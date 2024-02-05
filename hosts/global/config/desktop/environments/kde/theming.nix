@@ -33,7 +33,7 @@ in {
       };
     };
   };
-
+  /*
   qt = {
     enable = true;
     platformTheme = "kde";
@@ -43,7 +43,7 @@ in {
     "Kvantum/kvantum.kvconfig".text = "[General]\ntheme=${qt-theme}";
     "Kvantum/${qt-theme}".source = "${pkgs.${qt-theme-package}}/share/Kvantum/${qt-theme}";
   }; # from https://discourse.nixos.org/t/guide-to-installing-qt-theme/35523/2 and https://discourse.nixos.org/t/guide-to-installing-qt-theme/35523/3
-
+  */
   gtk = {
     enable = true;
     cursorTheme = {

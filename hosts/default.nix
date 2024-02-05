@@ -140,13 +140,13 @@ in {
       sops
       disko
       impermanence
-      #hyprland-coremod
+      hyprland-coremod
 
       # modules
       global-coreconf
       global-desktopconf
-      #hyprland-coreconf
-      kde-coreconf
+      hyprland-coreconf
+      #kde-coreconf
 
       # -> host module
       "${hostdir}/nixos-main"
@@ -177,9 +177,10 @@ in {
         home-manager.extraSpecialArgs = {inherit self;};
         home-manager.users.pengolodh = {
           imports =
-            [plasma-manager]
+            [hyprland-homemod]
+            #[plasma-manager]
             ++ [pengolodh_desktop-homeconf]
-            ++ [kde-homeconf]; # add more inports via [import module] ++ (import folder) or ++ [(import file)]
+            ++ [hyprland-homeconf]; # add more inports via [import module] ++ (import folder) or ++ [(import file)]
         };
         # ---
         # add more users here:

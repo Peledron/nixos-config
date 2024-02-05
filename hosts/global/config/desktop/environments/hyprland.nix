@@ -1,14 +1,19 @@
 # make sure you use pipewire and enable ./hyprland-configs/nvidia.nix if you have that (cuz wayland specific settings)
 # --> taken mostly from https://github.com/abdul2906/nixos-system-config/tree/main/nixos/modules/hyprland
-{ config, pkgs, lib, ... }:
-
 {
-  nix.settings = { # add the hyprland cachix, otherwise it needs to compile
+  config,
+  pkgs,
+  lib,
+  ...
+}: {
+  nix.settings = {
+    # add the hyprland cachix, otherwise it needs to compile
     substituters = ["https://hyprland.cachix.org"];
     trusted-public-keys = ["hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="];
   };
   # hyprland:
-  programs.hyprland = { # see https://wiki.hyprland.org/Nix/Options-Overrides/
+  programs.hyprland = {
+    # see https://wiki.hyprland.org/Nix/Options-Overrides/
     enable = true;
   };
   # ---
@@ -20,15 +25,15 @@
     xwayland
     xdg-desktop-portal-gtk
     xdg-desktop-portal-hyprland
-    
+
     qt5.qtwayland
     qt6.qtwayland
-    
-    glib 
+
+    glib
     ffmpeg
     libheif
 
-    # [polkit] 
+    # [polkit]
     # --> used for password storage of some applications
     polkit_gnome
     # [bluetooth]
@@ -37,33 +42,32 @@
   services.blueman.enable = true; # enable blueman daemon
   services.gvfs.enable = true; # enable the virtual file system, so that u can see and mount local/remote disks in dolphin and such
 
-  # enable polkit 
+  # enable polkit
   security.polkit.enable = true;
   systemd = {
     user.services.polkit-gnome-authentication-agent-1 = {
       description = "polkit-gnome-authentication-agent-1";
-      wantedBy = [ "graphical-session.target" ];
-      wants = [ "graphical-session.target" ];
-      after = [ "graphical-session.target" ];
+      wantedBy = ["graphical-session.target"];
+      wants = ["graphical-session.target"];
+      after = ["graphical-session.target"];
       serviceConfig = {
-          Type = "simple";
-          ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
-          Restart = "on-failure";
-          RestartSec = 1;
-          TimeoutStopSec = 10;
+        Type = "simple";
+        ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
+        Restart = "on-failure";
+        RestartSec = 1;
+        TimeoutStopSec = 10;
       };
     };
   };
   security.pam.services.swaylock = {}; # fixes swaylock issue
   # --> see ./hyprland/pkgs.nix for installed programs and themes
 
-
   # gtk addons:mounting
   services = {
-      gnome = {
-        glib-networking.enable = true;
-        gnome-keyring.enable = true;
-      }; # enable gnome-keyring as some programs use it to manage secrets
+    gnome = {
+      glib-networking.enable = true;
+      gnome-keyring.enable = true;
+    }; # enable gnome-keyring as some programs use it to manage secrets
   };
   services.dbus.enable = true;
   programs.dconf.enable = true; # better compatiblity for costum setups (gnome apps)
@@ -78,21 +82,23 @@
       default_session = {
         command = "${pkgs.greetd.greetd}/bin/agreety --cmd ${pkgs.hyprland}/bin/Hyprland";
       };
-      initial_session = { 
+      initial_session = {
         command = "${pkgs.hyprland}/bin/Hyprland";
         user = "pengolodh"; # not really config independant, but...
       }; # auto-login for user pengolodh
     };
   };
 
-
   # flatpak support: (already included in hyprland nix module)
   xdg.portal = {
-      enable = true;
-      wlr.enable = true;
-      extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
-      # gtkUsePortal = true; # depricated
+    enable = true;
+    wlr.enable = true;
+    extraPortals = [pkgs.xdg-desktop-portal-gtk];
+    # gtkUsePortal = true; # depricated
   };
   # ---
-
+  environment.sessionVariables = {
+    QT_QPA_PLATFORMTHEME = "qt5ct";
+    QT_STYLE_OVERRIDE = "kvantum";
+  }; # something is broken in qt theming, perhaps this will fix it?
 }
