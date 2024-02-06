@@ -15,6 +15,7 @@
   programs.hyprland = {
     # see https://wiki.hyprland.org/Nix/Options-Overrides/
     enable = true;
+    xwayland.enable = true;
   };
   # ---
 
@@ -35,7 +36,7 @@
 
     # [polkit]
     # --> used for password storage of some applications
-    polkit_gnome
+    libsForQt5.polkit-kde-agent
     # [bluetooth]
     blueman
   ];
@@ -45,14 +46,14 @@
   # enable polkit
   security.polkit.enable = true;
   systemd = {
-    user.services.polkit-gnome-authentication-agent-1 = {
-      description = "polkit-gnome-authentication-agent-1";
+    user.services.polkit-kde-authentication-agent-1 = {
+      description = "polkit-kde-authentication-agent-1";
       wantedBy = ["graphical-session.target"];
       wants = ["graphical-session.target"];
       after = ["graphical-session.target"];
       serviceConfig = {
         Type = "simple";
-        ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
+        ExecStart = "${pkgs.libsForQt5.polkit-kde-agent}/libexec/polkit-kde-authentication-agent-1";
         Restart = "on-failure";
         RestartSec = 1;
         TimeoutStopSec = 10;
@@ -100,5 +101,5 @@
   environment.sessionVariables = {
     QT_QPA_PLATFORMTHEME = "qt5ct";
     QT_STYLE_OVERRIDE = "kvantum";
-  }; # something is broken in qt theming, perhaps this will fix it?
+  }; # something is broken in qt theming if done by hone-manager sessionvariables, seems that this fixed it
 }

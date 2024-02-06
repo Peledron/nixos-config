@@ -1,7 +1,13 @@
-{ config, pkgs, lib, system, input, ... }:
-let 
-# 2 scripts taken from https://github.com/abdul2906/nixos-system-config/blob/main/nixos/modules/hyprland/module.nix
- dbus-hyprland-environment = pkgs.writeTextFile {
+{
+  config,
+  pkgs,
+  lib,
+  system,
+  input,
+  ...
+}: let
+  # 2 scripts taken from https://github.com/abdul2906/nixos-system-config/blob/main/nixos/modules/hyprland/module.nix
+  dbus-hyprland-environment = pkgs.writeTextFile {
     name = "dbus-hyprland-environment";
     destination = "/bin/dbus-hyprland-environment";
     executable = true;
@@ -12,68 +18,67 @@ let
       systemctl --user start pipewire pipewire-media-session xdg-desktop-portal xdg-desktop-portal-hyprland
     '';
   };
-in
-{
-    home.packages = with pkgs; [
-        # [imported scripts]
-        dbus-hyprland-environment
+in {
+  home.packages = with pkgs; [
+    # [imported scripts]
+    dbus-hyprland-environment
 
-         # [applications]
-        # -> term
-        libsForQt5.konsole
-        # -> filemanager
-        libsForQt5.dolphin
-        libsForQt5.dolphin-plugins
-        libsForQt5.kdegraphics-thumbnailers # thumbnails, not sure if it needed with dolphin-plugins
-        
-        # -> runner
-        fuzzel
-        # -> image viewer
-        libsForQt5.gwenview
-        haruna # video player
-        # -> archive manager
-        ark
+    # [applications]
+    # -> term
+    libsForQt5.konsole
+    # -> filemanager
+    libsForQt5.dolphin
+    libsForQt5.dolphin-plugins
+    libsForQt5.kdegraphics-thumbnailers # thumbnails, not sure if it needed with dolphin-plugins
+    ffmpegthumbs
 
-        # [sway related]
-        # -> bar
-        waybar
+    # -> runner
+    fuzzel
+    # -> image viewer
+    libsForQt5.gwenview
+    haruna # video player
+    # -> archive manager
+    ark
 
-        # -> screenshots
-        grim
-        slurp
-        grimblast
-        wf-recorder # screen recording for wayland
+    # [sway related]
+    # -> bar
+    waybar
 
-        # -> clipboard
-        wl-clipboard
-        clipman
+    # -> screenshots
+    grim
+    slurp
+    grimblast
+    wf-recorder # screen recording for wayland
 
-        # -> functionality
-        swaybg # background setter
-        swayr # window switcher (alt+tab thing)
-        wlogout # shutdown options
-        wlr-randr # to set screensize
+    # -> clipboard
+    wl-clipboard
+    clipman
 
-        # -> idle/lock
-        swayidle
-        swaylock
+    # -> functionality
+    swaybg # background setter
+    swayr # window switcher (alt+tab thing)
+    wlogout # shutdown options
+    wlr-randr # to set screensize
 
-        # -> brightness
-        brightnessctl
-        # avizo # fancy audio/brightness indicator
-        wob # also indicates audio
+    # -> idle/lock
+    swayidle
+    swaylock
 
-        # -> notifications
-        #swaynotificationcenter
-        dunst
-        
-        # [applets]
-        networkmanagerapplet
+    # -> brightness
+    brightnessctl
+    # avizo # fancy audio/brightness indicator
+    wob # also indicates audio
 
-        # [audio tools]
-        pamixer
-        pavucontrol
-        playerctl
+    # -> notifications
+    #swaynotificationcenter
+    dunst
 
-    ];
+    # [applets]
+    networkmanagerapplet
+
+    # [audio tools]
+    pamixer
+    pavucontrol
+    playerctl
+  ];
 }
