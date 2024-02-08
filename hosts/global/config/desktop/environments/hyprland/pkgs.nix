@@ -6,7 +6,8 @@
   input,
   ...
 }: let
-  # 2 scripts taken from https://github.com/abdul2906/nixos-system-config/blob/main/nixos/modules/hyprland/module.nix
+  # script taken from https://github.com/abdul2906/nixos-system-config/blob/main/nixos/modules/hyprland/module.nix
+  /*
   dbus-hyprland-environment = pkgs.writeTextFile {
     name = "dbus-hyprland-environment";
     destination = "/bin/dbus-hyprland-environment";
@@ -14,14 +15,14 @@
 
     text = ''
       dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=hyprland XDG_SESSION_TYPE=wayland  XDG_SESSION_DESKTOP=Hyprland
-      systemctl --user stop pipewire pipewire-media-session xdg-desktop-portal xdg-desktop-portal-hyprland
-      systemctl --user start pipewire pipewire-media-session xdg-desktop-portal xdg-desktop-portal-hyprland
+      systemctl --user restart pipewire wireplumber xdg-desktop-portal xdg-desktop-portal-hyprland
     '';
   };
+  */
 in {
   home.packages = with pkgs; [
     # [imported scripts]
-    dbus-hyprland-environment
+    #dbus-hyprland-environment # replaced with configs/hyprland, using the systemd option, it does the same thing (only better)
 
     # [applications]
     # -> term
@@ -29,8 +30,11 @@ in {
     # -> filemanager
     libsForQt5.dolphin
     libsForQt5.dolphin-plugins
-    libsForQt5.kdegraphics-thumbnailers # thumbnails, not sure if it needed with dolphin-plugins
+    libsForQt5.kdegraphics-thumbnailers # thumbnails, not sure if it needed with dolphin-plugins, doesnt seem to work with hyprland
     ffmpegthumbs
+    libsForQt5.kio
+    libsForQt5.kio-extras
+    kio-fuse # fuse overlay for kio needed for network mounts/etc
 
     # -> runner
     fuzzel

@@ -8,7 +8,7 @@
 }: {
   boot = {
     kernelPackages = pkgs.linuxKernel.packages.linux_xanmod_latest; #config.boot.zfs.package.latestCompatibleLinuxPackages; # this will use the latest kernel that is patched with zfs module
-    kernelParams = ["quiet" "loglevel=3" "amd_pstate=guided"]; # kernel parameters used at boot, "splash"
+    kernelParams = ["splash" "quiet" "loglevel=3" "amd_pstate=active"]; # kernel parameters used at boot, "splash"
     loader = {
       /*
       systemd-boot = {
@@ -26,13 +26,14 @@
         efiSupport = true;
         device = "nodev";
         useOSProber = true; # tell grub to look for other os'es (windows for example)
+        gfxmodeEfi = "3440x1440"; # the display resolution that grub runs at
         theme = pkgs.nixos-grub2-theme; # default nixos grub theme
         memtest86.enable = true; # show an option for memte
       };
-      timeout = 1; # amount of time before default option is chosen
+      timeout = 2; # amount of time before default option is chosen
     };
     plymouth = {
-      enable = true;
+      enable = true; # eenable boot spash screen
     };
   };
   #     # for secure boot see: https://github.com/nix-community/lanzaboote/blob/master/docs/QUICK_START.md and https://nixos.wiki/wiki/Secure_Boot

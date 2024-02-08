@@ -74,5 +74,6 @@
     clinfo
     nvtop-amd
     openrgb-with-all-plugins # rgb control
+    via # keyboard control software
   ];
 }

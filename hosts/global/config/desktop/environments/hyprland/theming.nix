@@ -64,7 +64,7 @@ in {
     platformTheme = "qtct";
     style.name = "kvantum";
   };
-  home.sessionVariables = {
+  home.sessionVariables = { # does not work, see ../hyprland.nix, sessionvariables need to be system level it seems
       QT_QPA_PLATFORMTHEME = "qt5ct";
       QT_STYLE_OVERRIDE = "kvantum";
     };
