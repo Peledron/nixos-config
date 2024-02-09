@@ -55,6 +55,8 @@
       enable = true;
       daemon.enable = true;
     };
+
+    keyboard.qmk.enable = true; # enable non-root users access to qmk firmware
   };
 
   # ----
@@ -74,6 +76,8 @@
     clinfo
     nvtop-amd
     openrgb-with-all-plugins # rgb control
+    qmk
+    qmk-udev-rules
     via # keyboard control software
   ];
 }

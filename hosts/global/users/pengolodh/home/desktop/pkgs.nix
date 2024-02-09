@@ -35,6 +35,7 @@
     # [programming tools]
     alejandra # .nix auto-formatter
     meld # qt diff tool
+    direnv # per folder environment profiles
     # [editors]
     vscodium-fhs # fhs variant allows for plugins
 
