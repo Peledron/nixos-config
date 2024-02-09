@@ -44,6 +44,8 @@
     fish
     bat # cat replacement with syntax highlighting, etc
     eza # colorfull ls, easier to read
+    zoxide # cd replacement, allows for cd-ing into subdirectories, etc..
+    du-dust # du replacement, fancier
     # [editor]
     neovim
     # [dotfiles management] # I should define all config in nix but defining things like aliases via imperative dotfiles is easier/faster
@@ -54,4 +56,5 @@
   # set programs to be managed by home-manager:
   # --> program configs are within ./configs
   #programs.firefox.enable = true;
+  programs.zoxide.enable = true; # enabling this so that fish integration is enabled
 }

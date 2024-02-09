@@ -82,7 +82,7 @@ in {
 
     # [audio tools]
     pamixer
-    pavucontrol
+    lxqt.pavucontrol-qt
     playerctl
   ];
 }

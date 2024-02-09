@@ -16,8 +16,8 @@
   boot = {
     initrd = {
       # modules that are enabled during early load in the initrd (enables the modules in the kernel image that is loaded from the efi partition)
-      availableKernelModules = ["nvme" "aesni_intel" "cryptd" "amdgpu" "xhci_pci" "ahci" "usb_storage" "sd_mod"];
-      # aesni and cryptd enable the aes accelerated drivers on early boot, so the system boots faster
+      availableKernelModules = ["nvme" "aesni_intel" "cryptd" "xhci_pci" "ahci" "usb_storage" "sd_mod"];
+      # aesni and cryptd enable the aes accelerated drivers on early boot, so the system boots faster, you can also add  "amdgpu" to make that driver initialize earlier during boot
 
       kernelModules = ["dm-snapshot"];
       systemd.enable = true; # -> will startup systemd during stage 1 (allows things like plymouth to load early for password entry), boots slightly slower? not sure
