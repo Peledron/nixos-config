@@ -3,7 +3,7 @@
   lib,
   ...
 }: {
-  # we will define the htop config using the xdg.configfile method, as the home-manager options confuse me
+  # I will define the htop config using the xdg.configfile method, as the home-manager options confuse me
   xdg.configFile."htop/htoprc".text = ''
     # Beware! This file is rewritten by htop when settings are changed in the interface.
     # The parser is also very primitive, and not human-friendly.

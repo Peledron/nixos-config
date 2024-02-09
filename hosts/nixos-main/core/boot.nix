@@ -7,7 +7,8 @@
   ...
 }: {
   boot = {
-    kernelPackages = pkgs.linuxKernel.packages.linux_xanmod_latest.kvmfr; #config.boot.zfs.package.latestCompatibleLinuxPackages; # this will use the latest kernel that is patched with zfs module
+    kernelPackages = pkgs.linuxKernel.packages.linux_xanmod_latest; #config.boot.zfs.package.latestCompatibleLinuxPackages; # this will use the latest kernel that is patched with zfs module
+    extraModulePackages = with config.boot.kernelPackages; [kvmfr];
     # --> .kvmfr: This kernel module implements a basic interface to the IVSHMEM device for LookingGlass when using LookingGlass in VM->VM mode Additionally, in VM->host mode, it can be used to generate a shared memory device on the host machine that supports dmabuf
     kernelParams = ["splash" "quiet" "loglevel=3" "amd_pstate=active"]; # kernel parameters used at boot, "splash"
     loader = {
