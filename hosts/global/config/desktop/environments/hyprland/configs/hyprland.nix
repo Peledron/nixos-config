@@ -19,7 +19,7 @@
 in {
   wayland.windowManager.hyprland = {
     enable = true;
-    package = inputs.hyprland.packages.${pkgs.system}.hyprland; # needed to allow plugins
+    #package = inputs.hyprland.packages.${pkgs.system}.hyprland; # needed to allow plugins
     xwayland.enable = true; #
     systemd = {
       # activates the dbus environment for hyprland on graphical-target, this is added to the conf file
@@ -35,14 +35,14 @@ in {
       #  im leaving this blanc since I think its for when hyprland reloads, not really needed in this case since we use systemd
     };
     plugins = [
-      inputs.split-monitor-workspaces.packages.${pkgs.system}.split-monitor-workspaces
+      #inputs.split-monitor-workspaces.packages.${pkgs.system}.split-monitor-workspaces # -> does not work for some reason
     ];
     settings = {
       # see https://github.com/skbolton/nix-dotfiles/blob/main/home/capabilities/desktop/hyprland/default.nix for a good example of this type of config
       # [variables]
       "$screenshotarea" = "hyprctl keyword animation 'fadeOut,0,0,default'; grimblast --notify copysave area; hyprctl keyword animation 'fadeOut,1,4,default'";
-      "$screenshotwindow" = "hyprctl keyword animation 'fadeOut,0,0,default'; grimblast --notify --cursor copysave output; hyprctl keyword animation 'fadeOut,1,4,default'";
-      "$screenshotscreen" = "hyprctl keyword animation 'fadeOut,0,0,default'; grimblast --notify --cursor copysave screen; hyprctl keyword animation 'fadeOut,1,4,default'";
+      "$screenshotscreen" = "hyprctl keyword animation 'fadeOut,0,0,default'; grimblast --notify --cursor copysave output; hyprctl keyword animation 'fadeOut,1,4,default'";
+      "$screenshotall" = "hyprctl keyword animation 'fadeOut,0,0,default'; grimblast --notify --cursor copysave screen; hyprctl keyword animation 'fadeOut,1,4,default'";
 
       "$volup" = "wpctl set-volume @DEFAULT_AUDIO_SINK@ 1%+ && pamixer --get-volume > ${wobsock}";
       "$voldown" = "wpctl set-volume @DEFAULT_AUDIO_SINK@ 1%- && pamixer --get-volume > ${wobsock}";
@@ -151,7 +151,7 @@ in {
         ## shadow
         drop_shadow = true;
         shadow_ignore_window = true;
-        shadow_offset = 2;
+        shadow_offset = "2 2";
         shadow_range = 4;
         shadow_render_power = 2;
         "col.shadow" = "0x66000000";
@@ -204,8 +204,8 @@ in {
         "float, confirmreset"
         "float, title:Open File"
         "float, title:branchdialog"
-        "windowrule=float,org.kde.polkit-kde-authentication-agent-1"
-        "windowrule=float,org.gnome.polkit-gnome-authentication-agent-1"
+        "float,org.kde.polkit-kde-authentication-agent-1"
+        "float,org.gnome.polkit-gnome-authentication-agent-1"
         "float, title:^(Media viewer)$"
         "float, title:^(Volume Control)$"
         "float, title:^(Picture-in-Picture)$"
@@ -239,8 +239,8 @@ in {
 
           ## screenshotting
           ", print, exec, $screenshotarea" # print selected rectangle, $screenshotarea is defined in variables of hyprland itself (see above)
-          "SHIFT, print, exec, $screenshotwindow" # per window
-          "CTRL, print, exec, $screenshotscreen" # per screen
+          "SHIFT, print, exec, $screenshotscreen" # per screen
+          "CTRL, print, exec, $screenshotall" # entireoutput
 
           ## logout/lockscreens
           "${mod}, escape, exec, wlogout --protocol layer-shell -b 5 -T 400 -B 400"

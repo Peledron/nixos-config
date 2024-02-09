@@ -61,8 +61,10 @@
     flags = [
       "--recreate-lock-file"
       "--no-write-lock-file"
+      "--update-input"
       "-L" # print build logs
     ];
     dates = "daily";
+    randomizedDelaySec = "15min";
   };
 }
