@@ -17,6 +17,7 @@
     # [gaming]
     #steam # install via flatpak, less issues that way... + propietary apps should be installed via flatpak anyway
     #heroic # install via flatpak
+    
     # [chat]
     vesktop # open-source discord client, with vencord plugin/theme support, installing it via this instead of flatpak should fix some annoyances (screensharing)?
     # [pdf]
@@ -50,6 +51,10 @@
     neovim
     # [dotfiles management] # I should define all config in nix but defining things like aliases via imperative dotfiles is easier/faster
     stow
+
+    # wine
+    wineWowPackages.staging # wine with wayland support
+    winetricks
   ];
 
   #==================#
@@ -57,4 +62,5 @@
   # --> program configs are within ./configs
   #programs.firefox.enable = true;
   programs.zoxide.enable = true; # enabling this so that fish integration is enabled
+  
 }

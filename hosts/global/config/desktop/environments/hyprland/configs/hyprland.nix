@@ -165,8 +165,9 @@ in {
           "notifications"
           "wob"
           "title:branchdialog"
-          "org.kde.*"
           "splash"
+          "org.kde.konsole"
+          "org.kde.dolphin"
         ];
       };
       animations = {
@@ -224,6 +225,9 @@ in {
 
         ## set wlogout to be fullscreen
         "fullscreen, title:wlogout"
+
+        ## set chrome to be borderless fullscreen
+        "fakefullscreen, chrome"
       ];
 
       # [keybinds]

@@ -30,15 +30,20 @@
   hardware = {
     # vulkan settings
     opengl = {
+      # enable vulkan drivers:
       driSupport = true;
       driSupport32Bit = true; # For 32 bit applications
 
+      # extra drivers:
       extraPackages = with pkgs; [
         rocmPackages.clr
         rocmPackages.clr.icd
         rocmPackages.rocm-runtime
-        #amdvlk # amd pro driver
+        amdvlk # amd pro driver -> in env RADV is enabled so this will only be used as fallback I think
         #driversi686Linux.amdvlk # amd pro driver
+      ];
+      extraPackages32 = with pkgs; [ 
+        driversi686Linux.amdvlk
       ];
     };
 
@@ -75,9 +80,10 @@
     rocmPackages.rocminfo
     clinfo
     nvtop-amd
-    openrgb-with-all-plugins # rgb control
     qmk
     qmk-udev-rules
+    
     via # keyboard control software
+    openrgb-with-all-plugins # rgb control
   ];
 }

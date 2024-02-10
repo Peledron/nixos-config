@@ -8,8 +8,9 @@
 }: {
   boot = {
     kernelPackages = pkgs.linuxKernel.packages.linux_xanmod_latest; #config.boot.zfs.package.latestCompatibleLinuxPackages; # this will use the latest kernel that is patched with zfs module
-    extraModulePackages = with config.boot.kernelPackages; [kvmfr];
-    # --> .kvmfr: This kernel module implements a basic interface to the IVSHMEM device for LookingGlass when using LookingGlass in VM->VM mode Additionally, in VM->host mode, it can be used to generate a shared memory device on the host machine that supports dmabuf
+    extraModulePackages = with config.boot.kernelPackages; [
+      kvmfr # This kernel module implements a basic interface to the IVSHMEM device for LookingGlass when using LookingGlass in VM->VM mode Additionally, in VM->host mode, it can be used to generate a shared memory device on the host machine that supports dmabuf
+    ];
     kernelParams = ["splash" "quiet" "loglevel=3" "amd_pstate=active"]; # kernel parameters used at boot, "splash"
     loader = {
       /*
@@ -21,7 +22,7 @@
       };
       */
       efi = {
-        canTouchEfiVariables = false; # makes it so we can edit boot kernel command line
+        canTouchEfiVariables = true; # makes it so nixos-rebuild can touch efi-variables (to add boot entries to eufi)
         efiSysMountPoint = "/boot";
       };
       grub = {
