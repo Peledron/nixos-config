@@ -28,7 +28,7 @@
         user = "colord";
         group = "colord";
         mode = "u=rwx,g=rx,o=";
-      } # colord map needs to be long to the colord user
+      } # colord map needs to belong to the colord user
     ];
     files = [
       # systemd unique machine id and ntp time adjust
@@ -51,9 +51,10 @@
     # rollback results in sudo lectures after each reboot
     Defaults lecture = never
   '';
+
   services.openssh = {
     enable = true;
-    # sets nix to use the host keys in the given directory
+    # sets nix to use/generate the host keys in the given directory
     hostKeys = [
       {
         path = "/persist/ssh/ssh_host_ed25519_key";

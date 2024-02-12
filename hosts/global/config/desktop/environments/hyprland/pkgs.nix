@@ -32,7 +32,7 @@ in {
     libsForQt5.dolphin-plugins
     libsForQt5.kdegraphics-thumbnailers # thumbnails, not sure if it needed with dolphin-plugins, doesnt seem to work with hyprland
     ffmpegthumbs
-    libsForQt5.kio
+    libsForQt5.kio # important for kde applications
     libsForQt5.kio-extras
     kio-fuse # fuse overlay for kio needed for network mounts/etc
 
@@ -59,10 +59,10 @@ in {
     clipman
 
     # -> functionality
-    swaybg # background setter
     swayr # window switcher (alt+tab thing)
     wlogout # shutdown options
     wlr-randr # to set screensize
+    swaybg # could also use hyprpaper for per monitor wallpapers and better hyprland support ig
 
     # -> idle/lock
     swayidle

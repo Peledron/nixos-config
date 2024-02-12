@@ -90,3 +90,4 @@ in {
     };
   };
 }
+# might migrate to https://github.com/SenchoPens/base16.nix or https://danth.github.io/stylix/index.html

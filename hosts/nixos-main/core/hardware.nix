@@ -39,10 +39,10 @@
         rocmPackages.clr
         rocmPackages.clr.icd
         rocmPackages.rocm-runtime
+
         amdvlk # amd pro driver -> in env RADV is enabled so this will only be used as fallback I think
-        #driversi686Linux.amdvlk # amd pro driver
       ];
-      extraPackages32 = with pkgs; [ 
+      extraPackages32 = with pkgs; [
         driversi686Linux.amdvlk
       ];
     };
@@ -65,25 +65,45 @@
   };
 
   # ----
-
+  # systemd-rules
   systemd.tmpfiles.rules = [
     "L+    /opt/rocm/hip   -    -    -     -    ${pkgs.rocmPackages.clr}" # Most software has the HIP libraries hard-coded. You can work around it on NixOS by using this
   ];
+  # ----
 
+  # hardware related environment
+  environment = {
+    variables = {
+      # Configure AMD. Only required if you have AMD iGPU and/or dGPU
+      # "AMDVLK" = AMD's Vulkan driver
+      # "RADV" = mesa's RADV driver (recommended)
+      AMD_VULKAN_ICD = "RADV";
+      # Enable raytracing (VKD3D-proton). Recommended with RADV above (not AMDVLK).
+      VKD3D_CONFIG = "dxr,dxr11";
+      RADV_PERFTEST = "rt";
+      ## -> these are from # from https://asus-linux.org/blog/updates-2022-04-16/
+
+      # rocm related
+      ROCR_VISIBLE_DEVICES = "GPU-8beaa8932431d436"; # UUID of 7900xt obtained through rocminfo, there is a bug where rocm prefers igpu over dgpu, this is from https://github.com/vosen/ZLUDA
+    };
+    ## packages related to hardware
+    systemPackages = with pkgs; [
+      rocmPackages.rocm-smi
+      rocmPackages.rocminfo
+      clinfo
+      nvtop-amd
+      qmk
+      qmk-udev-rules
+
+      via # keyboard control software
+      openrgb-with-all-plugins # rgb control
+    ];
+  };
+  # ----
+
+  # services/program settings
   services.hardware.openrgb = {
     enable = true;
     motherboard = "amd";
   };
-
-  environment.systemPackages = with pkgs; [
-    rocmPackages.rocm-smi
-    rocmPackages.rocminfo
-    clinfo
-    nvtop-amd
-    qmk
-    qmk-udev-rules
-    
-    via # keyboard control software
-    openrgb-with-all-plugins # rgb control
-  ];
 }

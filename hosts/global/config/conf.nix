@@ -43,7 +43,7 @@
       auto-optimise-store = true;
       # ---
 
-      # set usres as trusted (@group allows entire group )
+      # set users as trusted to run nix commands (@group allows entire group)
       trusted-users = [
         "@wheel"
       ];
@@ -59,10 +59,12 @@
     #channel = "https://nixos.org/channels/nixos-unstable"; # --> not needed with flakes channels are declared as input
     flake = self.outPath;
     flags = [
+      "-L" # print build logs
       "--recreate-lock-file"
       "--no-write-lock-file"
       "--update-input"
-      "-L" # print build logs
+      "nixpkgs"
+      # -> note that flags need to be in a correct order, the resulting command is nixos-rebuild switch --flag1 --flag2 --... --flake {self} --update 
     ];
     dates = "daily";
     randomizedDelaySec = "15min";

@@ -39,6 +39,7 @@
     direnv # per folder environment profiles
     # [editors]
     vscodium-fhs # fhs variant allows for plugins
+    
 
     # cli tools
     # [shell]
@@ -49,11 +50,12 @@
     du-dust # du replacement, fancier
     # [editor]
     neovim
+    dit # lightweight editor with mouse support https://github.com/hishamhm/dit
     # [dotfiles management] # I should define all config in nix but defining things like aliases via imperative dotfiles is easier/faster
     stow
 
     # wine
-    wineWowPackages.staging # wine with wayland support
+    wineWowPackages.staging 
     winetricks
   ];
 
