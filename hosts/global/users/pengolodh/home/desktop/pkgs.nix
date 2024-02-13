@@ -15,11 +15,10 @@
     blender-hip # blender with the hip library added to it, does not matter for nvidia machines, seems to crash for some reason...
     krita
     # [gaming]
-    #steam # install via flatpak, less issues that way... + propietary apps should be installed via flatpak anyway
     #heroic # install via flatpak
     
     # [chat]
-    vesktop # open-source discord client, with vencord plugin/theme support, installing it via this instead of flatpak should fix some annoyances (screensharing)?
+    vesktop # open-source discord client, with vencord plugin/theme support, installing it via this instead of flatpak should fix some annoyances like links not opening.
     # [pdf]
     libsForQt5.okular
     # [mail]

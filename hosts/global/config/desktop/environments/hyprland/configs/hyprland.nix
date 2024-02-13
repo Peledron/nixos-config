@@ -52,6 +52,12 @@ in {
       "$brightup" = "brightnessctl -q set +5% && ( echo $((`brightnessctl get` * 100 / `brightnessctl m`)) > ${wobsock} )"; # -> you need to have brightnessctl installed
       "$brightdown" = "brightnessctl -q set 5%- && ( echo $((`brightnessctl get` * 100 / `brightnessctl m`)) > ${wobsock} )";
 
+      # [env]
+      # -> best set this in ../env.nix, ill put some here cuz they are temporary
+      env = [
+        "WLR_DRM_NO_ATOMIC,1" # for tearing support
+      ];
+
       # [exec]
       exec-once = [
         ## theming related
@@ -68,7 +74,6 @@ in {
         "nm-applet"
         "blueman-applet"
         #"nextcloud --background"
-        
       ];
       exec = [
         ## basic
@@ -117,10 +122,13 @@ in {
         border_size = 2;
         "col.active_border" = "rgba(33ccffee) rgba(00ff99ee) 45deg";
         "col.inactive_border" = "rgba(595959aa)";
+
+        ## allow tearing
+        allow_tearing = true; # see https://wiki.hyprland.org/Configuring/Tearing/
       };
       misc = {
         disable_hyprland_logo = true;
-        disable_splash_rendering = true;
+        disable_splash_rendering = false;
         mouse_move_enables_dpms = true;
 
         enable_swallow = true; # swallowing closes a program when a new program is launched from it, the new program "swallows" it
@@ -157,7 +165,11 @@ in {
         shadow_range = 4;
         shadow_render_power = 2;
         "col.shadow" = "0x66000000";
-        ## blur specific application parts
+
+        blur = {
+          popups = true; # whether to blur popups (e.g. right-click menus)
+        };
+        ## blur specific applications
         blurls = [
           "gtk-layer-shell"
           "swaync-client"
@@ -207,8 +219,8 @@ in {
         "float, confirmreset"
         "float, title:Open File"
         "float, title:branchdialog"
-        "float,org.kde.polkit-kde-authentication-agent-1"
-        "float,org.gnome.polkit-gnome-authentication-agent-1"
+        "float, org.kde.polkit-kde-authentication-agent-1"
+        "float, org.gnome.polkit-gnome-authentication-agent-1"
         "float, title:^(Media viewer)$"
         "float, title:^(Volume Control)$"
         "float, title:^(Picture-in-Picture)$"
@@ -230,7 +242,10 @@ in {
         "fullscreen, title:wlogout"
 
         ## set chrome to be borderless fullscreen
-        "fakefullscreen, chrome"
+        "fakefullscreen, class:^(Google-Chrome)$"
+
+        ## allow tearing on gamescope windows
+        "immediate, class:^(.gamescope-wrapped)$"
       ];
 
       # [keybinds]

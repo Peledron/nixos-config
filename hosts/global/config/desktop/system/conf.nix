@@ -2,6 +2,7 @@
 {
     imports =
         [(import ./services.nix)]
-        ++ [(import ./pkgs.nix )]
+        ++ [(import ./pkgs.nix)]
+        ++ [import ./configs]
     ;
 }
