@@ -62,7 +62,11 @@ in {
     swayr # window switcher (alt+tab thing)
     wlogout # shutdown options
     wlr-randr # to set screensize
-    swaybg # could also use hyprpaper for per monitor wallpapers and better hyprland support ig
+     #hyprpaper # -> swww and swaybg used in conjunction with waypaper is nicer, hyprpaper is nice if you want per workspace wallpapers
+    hyprpicker
+    swww # moving wallpapers
+    waypaper # gui for wallpapers
+
 
     # -> idle/lock
     swayidle

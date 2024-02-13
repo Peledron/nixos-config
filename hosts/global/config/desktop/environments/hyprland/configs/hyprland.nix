@@ -56,7 +56,9 @@ in {
       exec-once = [
         ## theming related
         "configure-gtk" # -> see ../theming.nix for what this does
+        "waypaper --restore"
         ## basic
+        "dunst"
         "waybar"
         "sleep 2; pkill -USR1 waybar" # hides waybar on reload
         "swayidle timeout 900 'swaylock -f -i ${lockscreen}' timeout 1200 'hyprctl dispatch dpms off' resume 'hyprctl dispatch dpms on' timeout 1800 'systemctl suspend' before-sleep 'swaylock -f -i ${lockscreen}'"
@@ -66,12 +68,12 @@ in {
         "nm-applet"
         "blueman-applet"
         #"nextcloud --background"
+        
       ];
       exec = [
         ## basic
-        "dunst"
         "rm -f ${wobsock} && mkfifo ${wobsock} && tail -f ${wobsock} | wob"
-        "swaybg -m fill -i ${wallpaper}"
+        #"swaybg -m fill -i ${wallpaper}"
       ];
 
       # [monitors]
@@ -222,6 +224,7 @@ in {
         "float, pavucontrol"
         "float, file-roller"
         "float, steam"
+        "float, waypaper"
 
         ## set wlogout to be fullscreen
         "fullscreen, title:wlogout"
