@@ -26,6 +26,7 @@
     git-crypt
     sops
     # [security]
+    # doas is enabled by default in security.nix
     gnupg
     fail2ban
     # filesystem

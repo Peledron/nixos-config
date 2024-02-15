@@ -40,6 +40,7 @@
     alejandra # .nix auto-formatter
     meld # qt diff tool
     direnv # per folder environment profiles
+    exercism # learning programming exercism.io
     # [editors]
     vscodium-fhs # fhs variant allows for plugins
 

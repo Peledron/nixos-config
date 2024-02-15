@@ -19,7 +19,7 @@
 in {
   wayland.windowManager.hyprland = {
     enable = true;
-    #ypackage = inputs.hyprland.packages.${pkgs.system}.hyprland; # needed to allow plugins
+    #package = inputs.hyprland.packages.${pkgs.system}.hyprland; # needed to allow plugins
     xwayland.enable = true; #
     systemd = {
       # activates the dbus environment for hyprland on graphical-target, this is added to the conf file

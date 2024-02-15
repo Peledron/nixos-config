@@ -94,7 +94,7 @@
     enable = true;
     wlr.enable = true;
     extraPortals = [pkgs.xdg-desktop-portal-gtk];
-    # gtkUsePortal = true; # depricated
+    gtkUsePortal = true; # depricated
   };
   # ---
   environment.sessionVariables = {
