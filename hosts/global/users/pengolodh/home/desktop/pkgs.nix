@@ -16,9 +16,13 @@
     krita
     # [gaming]
     #heroic # install via flatpak
-    
+
     # [chat]
     vesktop # open-source discord client, with vencord plugin/theme support, installing it via this instead of flatpak should fix some annoyances like links not opening.
+    # [steaming]
+    obs-studio
+    obs-studio-plugins.obs-vaapi
+    obs-studio-plugins.obs-pipewire-audio-capture
     # [pdf]
     libsForQt5.okular
     # [mail]
@@ -38,7 +42,6 @@
     direnv # per folder environment profiles
     # [editors]
     vscodium-fhs # fhs variant allows for plugins
-    
 
     # cli tools
     # [shell]
@@ -54,7 +57,7 @@
     stow
 
     # wine
-    wineWowPackages.staging 
+    wineWowPackages.staging
     winetricks
   ];
 
@@ -63,5 +66,4 @@
   # --> program configs are within ./configs
   #programs.firefox.enable = true;
   programs.zoxide.enable = true; # enabling this so that fish integration is enabled
-  
 }

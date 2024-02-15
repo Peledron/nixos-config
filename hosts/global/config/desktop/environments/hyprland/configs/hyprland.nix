@@ -244,8 +244,9 @@ in {
         ## set chrome to be borderless fullscreen
         "fakefullscreen, class:^(Google-Chrome)$"
 
-        ## allow tearing on gamescope windows
+        ## allow tearing on gamescope/steam windows
         "immediate, class:^(.gamescope-wrapped)$"
+        "immediate, class:^steam_app_*"
       ];
 
       # [keybinds]
