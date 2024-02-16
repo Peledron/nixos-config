@@ -3,9 +3,7 @@
   pkgs,
   inputs,
   ...
-}: let
-  split-monitor-workspaces = inputs.split-monitor-workspaces;
-in {
+}: {
   # [import declared configs]
   imports =
     [(import ./pkgs.nix)]
@@ -14,5 +12,4 @@ in {
     #++ [(import ./nvidia.nix)]
     ++ (import ./configs);
   # ---
-
 }

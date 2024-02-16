@@ -19,7 +19,7 @@
 in {
   wayland.windowManager.hyprland = {
     enable = true;
-    #package = inputs.hyprland.packages.${pkgs.system}.hyprland; # needed to allow plugins
+    package = inputs.hyprland.packages.${pkgs.system}.hyprland;
     xwayland.enable = true; #
     systemd = {
       # activates the dbus environment for hyprland on graphical-target, this is added to the conf file
@@ -55,7 +55,7 @@ in {
       # [env]
       # -> best set this in ../env.nix, ill put some here cuz they are temporary
       env = [
-        "WLR_DRM_NO_ATOMIC,1" # for tearing support
+        "WLR_DRM_NO_ATOMIC,1" # for tearing support, not needed after kernel 6.8
       ];
 
       # [exec]
@@ -127,16 +127,22 @@ in {
         allow_tearing = true; # see https://wiki.hyprland.org/Configuring/Tearing/
       };
       misc = {
+        ## hypr related
         disable_hyprland_logo = true;
         disable_splash_rendering = false;
-        mouse_move_enables_dpms = true;
-
+        
+        ## window swallowing
         enable_swallow = true; # swallowing closes a program when a new program is launched from it, the new program "swallows" it
         swallow_regex = "^(${term})$"; # swallow_regex only applies swallowing to the following, in this case my terminal application
+        
+        ## performance/dispay
+        mouse_move_enables_dpms = true;
+        no_direct_scanout = false; # false enables direct_scanout, should reduce latency on fullscreen windows -> this is set to true  by default
+        vfr = true; # vfr limits framerate when nothing is happening on screen, good for performance
         vrr = 2; # vrr 2 means only fullscreen variable refresh rate, 1 means all time, leaving this on 1 causes brightness flickering on my monitors sadly
       };
       xwayland = {
-        force_zero_scaling = true;
+        force_zero_scaling = true; # fixes some wierd issues like virt-manager not auto resizing vm's
       };
 
       # [layouts]
@@ -259,6 +265,7 @@ in {
           "${mod}, W, exec, ${browser}"
           "${mod}, E, exec, ${file-man}"
           "${mod}, V, exec, clipman pick --max-items=99999 --tool=CUSTOM --tool-args='${runner} -d'" # clipboard picker using fuzzel
+          "${mod}, G, exec, hyprpicker -a"
 
           ## screenshotting
           ", print, exec, $screenshotarea" # print selected rectangle, $screenshotarea is defined in variables of hyprland itself (see above)

@@ -127,19 +127,19 @@
       options = ["defaults" "noatime" "nofail"];
       depends = ["home"];
     };
-    "/home/pengolodh/Data/windows/windows-root" = {
+    "/home/pengolodh/Data/Windows/windows-root" = {
       device = builtins.elemAt disks 2;
       fsType = "ntfs";
       options = ["defaults" "noatime" "nofail" "uid=1000" "gid=1000" "rw" "user" "exec" "umask=000"];
       depends = ["/home"];
     };
-    "/home/pengolodh/Data/windows/windows-data-main" = {
+    "/home/pengolodh/Data/Windows/windows-data-main" = {
       device = builtins.elemAt disks 4;
       fsType = "ntfs";
       options = ["defaults" "noatime" "nofail" "uid=1000" "gid=1000" "rw" "user" "exec" "umask=000"];
       depends = ["/home"];
     };
-    "/home/pengolodh/Data/windows/windows-data-mods" = {
+    "/home/pengolodh/Data/Windows/windows-data-mods" = {
       device = builtins.elemAt disks 5;
       fsType = "ntfs";
       options = ["defaults" "noatime" "nofail" "uid=1000" "gid=1000" "rw" "user" "exec" "umask=000"];

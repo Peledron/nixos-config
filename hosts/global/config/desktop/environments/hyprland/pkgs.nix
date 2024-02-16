@@ -22,7 +22,7 @@
 in {
   home.packages = with pkgs; [
     # [imported scripts]
-    #dbus-hyprland-environment # replaced with configs/hyprland, using the systemd option, it does the same thing (only better)
+    #dbus-hyprland-environment # replaced with ./configs/hyprland.nix, using the systemd option, it does the same thing (only better)
 
     # [applications]
     # -> term
@@ -35,6 +35,8 @@ in {
     libsForQt5.kio # important for kde applications
     libsForQt5.kio-extras
     kio-fuse # fuse overlay for kio needed for network mounts/etc
+    # vm client
+    spicy
 
     # -> runner
     fuzzel
@@ -62,11 +64,10 @@ in {
     swayr # window switcher (alt+tab thing)
     wlogout # shutdown options
     wlr-randr # to set screensize
-     #hyprpaper # -> swww and swaybg used in conjunction with waypaper is nicer, hyprpaper is nice if you want per workspace wallpapers
+    #hyprpaper # -> swww and swaybg used in conjunction with waypaper is nicer, hyprpaper is nice if you want per workspace wallpapers
     hyprpicker
     swww # moving wallpapers
     waypaper # gui for wallpapers
-
 
     # -> idle/lock
     swayidle

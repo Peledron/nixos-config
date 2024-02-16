@@ -41,7 +41,7 @@
         adi1090x-plymouth-themes # bunch of themes, see https://github.com/adi1090x/plymouth-themes 
         nixos-bgrt-plymouth # similar to default, has the nixos snowflake spinning instead of the round thingy
       ];
-      theme = "hexagon_2";
+      theme = "hexagon_dots_alt";
     };
   };
   #     # for secure boot see: https://github.com/nix-community/lanzaboote/blob/master/docs/QUICK_START.md and https://nixos.wiki/wiki/Secure_Boot
