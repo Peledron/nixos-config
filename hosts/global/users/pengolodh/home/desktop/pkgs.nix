@@ -20,9 +20,13 @@
     # [chat]
     vesktop # open-source discord client, with vencord plugin/theme support, installing it via this instead of flatpak should fix some annoyances like links not opening.
     # [steaming]
+    gst_all_1.gstreamer
+    gst_all_1.gst-plugins-good
+    gst_all_1.gst-plugins-ugly
+    gst_all_1.gst-plugins-bad
+    gst_all_1.gst-vaapi
     obs-studio
-    obs-studio-plugins.obs-vaapi
-    obs-studio-plugins.obs-pipewire-audio-capture
+    
     # [pdf]
     libsForQt5.okular
     # [mail]
@@ -35,12 +39,17 @@
     python3
     go
     openjdk
-    pipx
+    gcc
     # [programming tools]
     alejandra # .nix auto-formatter
     meld # qt diff tool
     direnv # per folder environment profiles
     exercism # learning programming exercism.io
+    pipx
+    meson
+    cmake
+    gnumake
+    pkg-config
     # [editors]
     vscodium-fhs # fhs variant allows for plugins
 

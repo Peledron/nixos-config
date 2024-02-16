@@ -5,14 +5,15 @@
   ...
 }: {
   security = lib.mkDefault {
+    polkit.enable = true;
     sudo.enable = false; # disable sudo by default
     doas = {
       enable = true;
       wheelNeedsPassword = true;
       extraRules = [
-        # creates a rule user pengolodh to persist passwords after prompting a single time (per session)
+        # creates a rule group wheel to persist passwords after prompting a single time (per session)
         {
-          users = ["pengolodh"];
+          groups = ["wheel"];
           keepEnv = true; # Optional, retains environment variables while running commands
           persist = true; # Optional, only require password verification a single time
         }

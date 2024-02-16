@@ -25,7 +25,7 @@ in {
       # activates the dbus environment for hyprland on graphical-target, this is added to the conf file
       enable = true;
 
-      variables = ["-all"];
+      variables = ["--all"];
       /*
       extraCommands = [
         "systemctl --user restart pipewire wireplumber xdg-desktop-portal xdg-desktop-portal-hyprland"
@@ -130,11 +130,11 @@ in {
         ## hypr related
         disable_hyprland_logo = true;
         disable_splash_rendering = false;
-        
+
         ## window swallowing
         enable_swallow = true; # swallowing closes a program when a new program is launched from it, the new program "swallows" it
         swallow_regex = "^(${term})$"; # swallow_regex only applies swallowing to the following, in this case my terminal application
-        
+
         ## performance/dispay
         mouse_move_enables_dpms = true;
         no_direct_scanout = false; # false enables direct_scanout, should reduce latency on fullscreen windows -> this is set to true  by default
@@ -349,6 +349,10 @@ in {
         "${mod}, mouse:272, movewindow"
         "${mod}, mouse:273, resizewindow"
       ];
+      debug = {
+        enable_stdout_logs = false;
+        disable_logs = true;
+      };
     };
   };
 }

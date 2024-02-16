@@ -16,7 +16,7 @@
   # programs.hyprland = {
   #   enable = true;
   #   package = inputs.hyprland.packages.${pkgs.system}.hyprland;
-  # }; # see hyprland/home.nix for the rest of the options, it needs to be enabled here to allow it to load on boot, otherwise it lacks permissions to access things like video
+  # }; # -> moved to hyprland/home.nix for the rest of the options
 
   # deps and env
   environment.systemPackages = with pkgs; [
@@ -25,6 +25,7 @@
     xwayland
     xdg-desktop-portal-gtk
     xdg-desktop-portal-hyprland
+    hyprland-protocols
 
     qt5.qtwayland
     qt6.qtwayland

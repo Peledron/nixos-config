@@ -20,7 +20,7 @@
       # aesni and cryptd enable the aes accelerated drivers on early boot, so the system boots faster, you can also add  "amdgpu" to make that driver initialize earlier during boot
 
       kernelModules = ["dm-snapshot"];
-      #systemd.enable = true; # -> will startup systemd during stage 1 (allows things like plymouth to load early for password entry), boots slightly slower? not sure
+      systemd.enable = true; # -> will startup systemd during stage 1 (allows things like plymouth to load early for password entry), boots faster
     };
     kernelModules = ["kvm-amd"];
   };
