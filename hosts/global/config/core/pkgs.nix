@@ -13,6 +13,7 @@
     wget
     curl
     rsync
+    rclone
     htop
     tldr
     tree
@@ -21,6 +22,8 @@
     usbutils
     lm_sensors
     powertop
+    # [nix-tools]
+    nix-ld # Run unpatched dynamic binaries on NixOS https://github.com/Mic92/nix-ld, very usefull for running specific software not available otherwise
     # [git+related]
     git
     git-crypt
@@ -40,5 +43,9 @@
   programs.gnupg.agent = {
     enable = true;
     enableSSHSupport = true;
+  };
+  programs.nix-ld = {
+    enable = true;
+    #libraries = []; # there is a default set defined, you can add more here
   };
 }

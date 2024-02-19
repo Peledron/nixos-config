@@ -10,14 +10,20 @@
     doas = {
       enable = true;
       wheelNeedsPassword = true;
+      /*
       extraRules = [
-        # creates a rule group wheel to persist passwords after prompting a single time (per session)
+        # creates a rule for user to persist passwords after prompting a single time (per session)
         {
-          groups = ["wheel"];
+          users = [ "pengolodh" ];
           keepEnv = true; # Optional, retains environment variables while running commands
           persist = true; # Optional, only require password verification a single time
         }
       ];
+      */
+      # -> extraRules does not seem to ba pply in doas.conf
+      extraConfig = ''
+        permit persist keepenv pengolodh
+      '';
     };
   };
   environment.systemPackages = with pkgs; [

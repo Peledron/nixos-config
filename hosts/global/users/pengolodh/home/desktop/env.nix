@@ -8,7 +8,7 @@
         USRNIXBIN = "/etc/profiles/per-user/$USER/bin";
 
         # common variables
-        EDITOR = "dit";
+        EDITOR = "micro";
         VISUAL = "vscodium"; # the visual variables is for the defualt command to run the full-fledged editor that is used for more demanding tasks
         BROWSER = "firefox";
     };

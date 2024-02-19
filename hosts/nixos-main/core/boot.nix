@@ -14,7 +14,7 @@
     ];
     extraModprobeConfig = ''
       options v4l2loopback devices=1 video_nr=1 card_label="OBS Cam" exclusive_caps=1 
-    ''; # obs support
+    ''; # obs-studio virtual camera support
     kernelParams = ["splash" "quiet" "loglevel=3" "amd_pstate=active"]; # kernel parameters used at boot, "splash"
     loader = {
       /*
@@ -33,7 +33,7 @@
         efiSupport = true;
         device = "nodev";
         useOSProber = true; # tell grub to look for other os'es (windows for example)
-        configurationLimit = 20; # limit amount of boot options in grub
+        configurationLimit = 20; # limit amount of boot options in grub, also limits the amount of kernels kept in /boot (the default of 100 used up all of the 512MB), this ofc depends more on how many kernel versions are switched between rebuilds so...
         gfxmodeEfi = "3440x1440"; # the display resolution that grub runs at
         theme = pkgs.nixos-grub2-theme; # default nixos grub theme
         memtest86.enable = true; # show an option for memtest

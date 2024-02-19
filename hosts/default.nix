@@ -27,6 +27,7 @@
   impermanence = inputs.impermanence.nixosModules.impermanence;
   disko = inputs.disko.nixosModules.disko;
   sops = inputs.sops-nix.nixosModules.sops;
+  nix-index-db = inputs.nix-index-database.hmModules.nix-index; # -> note that this is a Homemanager module
 
   # DE related inputs
   plasma-manager = inputs.plasmaMan.homeManagerModules.plasma-manager;
@@ -174,10 +175,11 @@ in {
       {
         home-manager.useGlobalPkgs = true; # sets home-manager to use the nix-package-manager packages instead of its own internal ones
         home-manager.useUserPackages = true; # packages will be installed per user;
-        home-manager.extraSpecialArgs = {inherit inputs self;};
+        home-manager.extraSpecialArgs = {inherit inputs self system;};
         home-manager.users.pengolodh = {
           imports =
             [hyprland-homemod]
+            ++ [nix-index-db]
             #[plasma-manager]
             ++ [pengolodh_desktop-homeconf]
             ++ [hyprland-homeconf];

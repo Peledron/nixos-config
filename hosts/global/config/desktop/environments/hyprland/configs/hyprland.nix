@@ -243,12 +243,13 @@ in {
         "float, file-roller"
         "float, steam"
         "float, waypaper"
+        "float, nextcloud"
 
         ## set wlogout to be fullscreen
         "fullscreen, title:wlogout"
 
         ## set chrome to be borderless fullscreen
-        "fakefullscreen, class:^(Google-Chrome)$"
+        "fakefullscreen, class:^(Google-chrome)$"
 
         ## allow tearing on gamescope/steam windows
         "immediate, class:^(.gamescope-wrapped)$"
