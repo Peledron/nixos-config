@@ -39,6 +39,8 @@
     libsForQt5.polkit-kde-agent
     # [bluetooth]
     blueman
+
+    xdg-utils
   ];
   services.blueman.enable = true; # enable blueman daemon
   services.gvfs.enable = true; # enable the virtual file system, so that u can see and mount local/remote disks in dolphin and such

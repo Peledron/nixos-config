@@ -17,6 +17,7 @@
   email = "thunderbird";
   runner = "fuzzel";
 in {
+  # [hyprland config]
   wayland.windowManager.hyprland = {
     enable = true;
     package = inputs.hyprland.packages.${pkgs.system}.hyprland;
@@ -64,11 +65,15 @@ in {
         "configure-gtk" # -> see ../theming.nix for what this does
         "waypaper --restore"
         ## basic
+        "pypr"
         "dunst"
         "waybar"
         "sleep 2; pkill -USR1 waybar" # hides waybar on reload
         "swayidle timeout 900 'swaylock -f -i ${lockscreen}' timeout 1200 'hyprctl dispatch dpms off' resume 'hyprctl dispatch dpms on' timeout 1800 'systemctl suspend' before-sleep 'swaylock -f -i ${lockscreen}'"
-        "wl-paste -t text --watch clipman store --no-persist --max-items=999999"
+        ## clipboard
+        #"wl-paste -t text --watch clipman store --no-persist --max-items=999999" # -> clipman
+        "wl-paste --type text --watch cliphist store" # cliphist, Stores only text data
+        "wl-paste --type image --watch cliphist store" #cliphist, Stores only image data
         ## applets
         "vorta -d"
         "nm-applet"
@@ -186,8 +191,6 @@ in {
           "wob"
           "title:branchdialog"
           "splash"
-          "org.kde.konsole"
-          "org.kde.dolphin"
         ];
       };
       animations = {
@@ -265,8 +268,10 @@ in {
           "${mod}, C, exec, ${term}"
           "${mod}, W, exec, ${browser}"
           "${mod}, E, exec, ${file-man}"
-          "${mod}, V, exec, clipman pick --max-items=99999 --tool=CUSTOM --tool-args='${runner} -d'" # clipboard picker using fuzzel
           "${mod}, G, exec, hyprpicker -a"
+          ## clipboard
+          #"${mod}, V, exec, clipman pick --max-items=99999 --tool=CUSTOM --tool-args='${runner} -d'" # clipboard picker using fuzzel
+          "${mod}, V, exec, cliphist list | ${runner} --dmenu | cliphist decode | wl-copy"
 
           ## screenshotting
           ", print, exec, $screenshotarea" # print selected rectangle, $screenshotarea is defined in variables of hyprland itself (see above)
@@ -290,7 +295,10 @@ in {
           "${mod}, X, killactive,"
           "${mod} SHIFT, Q, exit,"
           "${mod}, F, fullscreen,"
+          "${mod}, N, exec, pypr toggle_special minimized" # move window to special workspace
+          "${mod} SHIFT, N, togglespecialworkspace, minimized" # show special workspace
           "${mod} SHIFT, F, togglefloating,"
+          "${mod}, tab, exec, pypr expose" # expose all active windows on the current workspace
 
           ### tiling layout managemnt
           "${mod}, P, pseudo," # dwindle
@@ -315,8 +323,8 @@ in {
           "${mod} CTRL, down, resizeactive, 0 80"
 
           ## mouse keys
-          "${mod}, mouse_up, workspace, e-1"
-          "${mod}, mouse_down, workspace, e+1"
+          "${mod}, mouse_up, exec, pypr change_workspace +1"
+          "${mod}, mouse_down, exec, pypr change_workspace -1"
         ]
         ++ (
           ## workspaces/ workspace movement
@@ -356,4 +364,14 @@ in {
       };
     };
   };
+
+  # [pyprland plugin config]
+  xdg.configFile."hypr/pyprland.toml".text = ''
+    [pyprland]
+      plugins = [
+        "workspaces_follow_focus",
+        "expose",
+        "toggle_special"
+      ]
+  '';
 }
