@@ -1,11 +1,15 @@
-{ config, lib, pkgs, vlans, ... }:
-let
-  br_local_container_name = "br0cont";
-in
 {
+  config,
+  lib,
+  pkgs,
+  vlans,
+  ...
+}: let
+  br_local_container_name = "br0cont";
+in {
   containers.monitor = {
     autoStart = true;
-    extraFlags = [ "-U" ]; # run as user instead of root
+    extraFlags = ["-U"]; # run as user instead of root
     privateNetwork = true;
     hostBridge = "${br_local_container_name}";
     #hostAddress = "172.24.1.1";
@@ -13,23 +17,29 @@ in
     #hostAddress6 = "fc00::1";
     #localAddress6 = "fc00::2";
     /*
-    forwardPorts = [{ 
-      protocol = "tcp"; 
-      hostPort = 8080; 
-      containerPort = 80; 
-    }];*/
-    config = { config, pkgs, lib, ... }: {
+    forwardPorts = [{
+      protocol = "tcp";
+      hostPort = 8080;
+      containerPort = 80;
+    }];
+    */
+    config = {
+      config,
+      pkgs,
+      lib,
+      ...
+    }: {
       #environment.etc."resolv.conf".text = "nameserver 1.1.1.1";# resolv.conf cannot be shared with host
       services.resolved.enable = true;
       networking = {
+        useDHCP = true;
         #useNetworkd = true;
-       	firewall = { 
+        firewall = {
           enable = true;
-          allowedTCPPorts = [ 80 ];  
+          allowedTCPPorts = [80];
         };
         useHostResolvConf = lib.mkForce false;
       };
-     
 
       #============#
       # nginx:
@@ -77,7 +87,7 @@ in
           locations."/" = {
             proxyPass = "http://grafana";
             proxyWebsockets = true;
-            
+
             extraConfig = "
               proxy_set_header Host $host;
             ";
@@ -85,12 +95,12 @@ in
           locations."/api/live" = {
             proxyPass = "http://grafana";
             proxyWebsockets = true;
-           
+
             extraConfig = ''
               proxy_set_header Upgrade $http_upgrade;
               proxy_set_header Connection $connection_upgrade;
               proxy_set_header Host $host;
-            '';            
+            '';
           };
           /*
           listen = [{
@@ -98,7 +108,6 @@ in
             port = 8010;
           }];
           */
-                  
         };
       };
       # ---
@@ -107,44 +116,40 @@ in
       # grafana:
       #============#
       services.grafana = {
-          enable = true;
-          
-          settings = {
-            analytics.reporting_enabled = false;
-            server = {
-              #rootUrl = "http://172.24.1.2:8010";
-              domain = "grafana.nixos.local";
-              http_port = 2342;
-              http_addr = "127.0.0.1";
-            };
+        enable = true;
+
+        settings = {
+          analytics.reporting_enabled = false;
+          server = {
+            #rootUrl = "http://172.24.1.2:8010";
+            domain = "grafana.nixos.local";
+            http_port = 2342;
+            http_addr = "127.0.0.1";
           };
+        };
 
-          provision.datasources.settings = {
-            apiVersion = 1;
-            datasources = [
-              # prometheus
-              {
-                name = "Prometheus";
-                type = "prometheus";
-                access = "proxy";
-                url = "http://127.0.0.1:${toString config.services.prometheus.port}";
-                editable = true;
-              }
+        provision.datasources.settings = {
+          apiVersion = 1;
+          datasources = [
+            # prometheus
+            {
+              name = "Prometheus";
+              type = "prometheus";
+              access = "proxy";
+              url = "http://127.0.0.1:${toString config.services.prometheus.port}";
+              editable = true;
+            }
 
-              # loki
-              {
-               
-                name = "Loki";
-                type = "loki";
-                access = "proxy";
-                url = "http://127.0.0.1:${toString config.services.loki.configuration.server.http_listen_port}";
-                #editable = true;
-              }
-              
-            ];
-
-          };
-
+            # loki
+            {
+              name = "Loki";
+              type = "loki";
+              access = "proxy";
+              url = "http://127.0.0.1:${toString config.services.loki.configuration.server.http_listen_port}";
+              #editable = true;
+            }
+          ];
+        };
       };
       # ---
 
@@ -158,21 +163,23 @@ in
         exporters = {
           node = {
             enable = true;
-            enabledCollectors = [ "systemd" ];
+            enabledCollectors = ["systemd"];
             port = 9002;
           };
         };
         scrapeConfigs = [
           {
             job_name = "local_machine";
-            static_configs = [{
-              targets = [ "127.0.0.1:${toString config.services.prometheus.exporters.node.port}" ];
-            }];
+            static_configs = [
+              {
+                targets = ["127.0.0.1:${toString config.services.prometheus.exporters.node.port}"];
+              }
+            ];
           }
         ];
       };
       # ---
-      
+
       #============#
       # loki:
       #============#
@@ -203,16 +210,18 @@ in
           };
 
           schema_config = {
-            configs = [{
-              from = "2022-06-06";
-              store = "boltdb-shipper";
-              object_store = "filesystem";
-              schema = "v11";
-              index = {
-                prefix = "index_";
-                period = "24h";
-              };
-            }];
+            configs = [
+              {
+                from = "2022-06-06";
+                store = "boltdb-shipper";
+                object_store = "filesystem";
+                schema = "v11";
+                index = {
+                  prefix = "index_";
+                  period = "24h";
+                };
+              }
+            ];
           };
 
           storage_config = {
@@ -270,23 +279,29 @@ in
           positions = {
             filename = "/tmp/positions.yaml";
           };
-          clients = [{
-            url = "http://127.0.0.1:${toString config.services.loki.configuration.server.http_listen_port}/loki/api/v1/push";
-          }];
-          scrape_configs = [{
-            job_name = "journal";
-            journal = {
-              max_age = "12h";
-              labels = {
-                job = "systemd-journal";
-                host = "nixos-server-dns";
+          clients = [
+            {
+              url = "http://127.0.0.1:${toString config.services.loki.configuration.server.http_listen_port}/loki/api/v1/push";
+            }
+          ];
+          scrape_configs = [
+            {
+              job_name = "journal";
+              journal = {
+                max_age = "12h";
+                labels = {
+                  job = "systemd-journal";
+                  host = "nixos-server-dns";
+                };
               };
-            };
-            relabel_configs = [{
-              source_labels = [ "__journal__systemd_unit" ];
-              target_label = "unit";
-            }];
-          }];
+              relabel_configs = [
+                {
+                  source_labels = ["__journal__systemd_unit"];
+                  target_label = "unit";
+                }
+              ];
+            }
+          ];
         };
         # extraFlags
       };
@@ -294,5 +309,4 @@ in
       system.stateVersion = "23.11";
     };
   };
-
 }

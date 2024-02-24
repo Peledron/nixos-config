@@ -313,7 +313,9 @@ in {
         home-manager.useUserPackages = true; # packages will be installed per user;
         home-manager.extraSpecialArgs = {};
         home-manager.users.pengolodh = {
-          imports = [pengolodh_server-homeconf]; # add more inports via [import module] ++ (import folder) or ++ [(import file)]
+          imports =
+            [nix-index-db]
+            ++ [pengolodh_server-homeconf]; # add more inports via [import module] ++ (import folder) or ++ [(import file)]
         };
         # ---
         # add more users here:
