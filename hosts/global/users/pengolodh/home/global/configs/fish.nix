@@ -1,8 +1,7 @@
 { config, ... }:
 {   # see https://nixos.wiki/wiki/Fish
     programs.fish = {
-        enable = true; # set fish to be managed by home-manager
-
+        enable = lib.mkDefault false; # set fish to be managed by home-manager
     #==================#
     # fish config:
     # --> on intereractive shell launch fish will do the following:
@@ -14,13 +13,9 @@
                 fish_add_path ~/.local/bin
                 fish_add_path ~/.cargo/bin
 
-                # aliases
                 source ~/.aliases
             end
         '';
-    
     };
     # ---
-
-    
 }

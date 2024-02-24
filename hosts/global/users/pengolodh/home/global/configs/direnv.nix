@@ -4,7 +4,7 @@
   ...
 }: {
   programs.direnv = {
-    enable = true;
+    enable = lib.mkDefault false;
     nix-direnv = {
       # these options are the default, still beter to declare them explicitly
       enable = true;

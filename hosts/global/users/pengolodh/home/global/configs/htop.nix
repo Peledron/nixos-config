@@ -41,9 +41,9 @@
     delay=15
     hide_function_bar=0
     header_layout=two_50_50
-    column_meters_0=LeftCPUs4 Memory Swap Zram DiskIO NetworkIO PressureStallCPUSome PressureStallIOFull PressureStallMemoryFull
+    column_meters_0=LeftCPUs4 Memory Swap Zram DiskIO NetworkIO ZFSARC ZFSCARC
     column_meter_modes_0=1 1 1 1 2 2 2 2 2
-    column_meters_1=RightCPUs4 LoadAverage Uptime Tasks Systemd SystemdUser DateTime ZFSARC ZFSCARC
+    column_meters_1=RightCPUs4 LoadAverage Uptime Tasks Systemd SystemdUser DateTime
     column_meter_modes_1=1 2 2 2 2 2 2 2 2
     tree_view=0
     sort_key=39

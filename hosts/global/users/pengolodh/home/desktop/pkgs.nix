@@ -7,19 +7,7 @@
   self,
   ...
 }: let
-  cli-install = with pkgs; [
-    # [shell]
-    fish
-    bat # cat replacement with syntax highlighting, etc
-    eza # colorfull ls, easier to read
-    zoxide # cd replacement, allows for cd-ing into subdirectories, etc..
-    du-dust # du replacement, fancier
-    # [editor]
-    neovim
-    micro # lightweight editor with mouse support https://micro-editor.github.io/ (also see https://github.com/hishamhm/dit as a more barebones alternative)
-    # [dotfiles management] # I should define all config in nix but defining things like aliases via imperative dotfiles is easier/faster
-    stow
-    # [filesystem]
+  tools-install = with pkgs; [
     # [wine]
     wineWowPackages.staging
     winetricks
@@ -90,9 +78,7 @@
     vscodium-fhs # fhs variant allows for plugins
   ];
 
-  nix-alien-install = with self.inputs.nix-alien.packages.${system}; [
-    nix-alien # program to auto resolve dependencies of non-nix binaries, works in conjunction with nix-index and nix-ld
-  ];
+ 
   gstreamer-install = with pkgs.gst_all_1; [
     gstreamer
     gst-plugins-good
@@ -108,10 +94,9 @@
   ];
 in {
   home.packages =
-    cli-install
+    tools-install
     ++ gui-install
     ++ dev-install
-    ++ nix-alien-install
     ++ gstreamer-install
     ++ hunspell-dict-install; # see https://stackoverflow.com/a/53692127 for an example of why I did it this way
 
@@ -119,12 +104,5 @@ in {
   # set programs to be managed by home-manager:
   # --> program configs are within ./configs
   #programs.firefox.enable = true;
-  programs = {
-    zoxide.enable = true; # enabling this so that fish integration is enabled
-
-    nix-index = {
-      enable = true; # setting this to true enables the shell integrations as well as command-not-found
-    };
-    nix-index-database.comma.enable = true; # enable comma integration
-  };
+  
 }

@@ -8,7 +8,7 @@
   # [starship]
   # dot from https://github.com/ChrisTitusTech/mybash/blob/main/starship.toml
   programs.starship = {
-    enable = true;
+    enable = lib.mkDefault false;
     enableBashIntegration = true;
     enableFishIntegration = true; # if you have fish enabled
     #enableZshIntegration = true; # if you have zsh enabled

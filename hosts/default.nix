@@ -69,6 +69,7 @@
   # user specific modules
   # -> pengolodh
   pengolodh-coreconf = "${global-usrdir}/pengolodh/usr.nix";
+  pengolodh_global-homeconf = "${global-usrdir}/pengolodh/home/global/home.nix";
   pengolodh_desktop-homeconf = "${global-usrdir}/pengolodh/home/desktop/home.nix";
   pengolodh_server-homeconf = "${global-usrdir}/pengolodh/home/server/home.nix";
 in {
@@ -113,8 +114,9 @@ in {
         home-manager.extraSpecialArgs = {};
         home-manager.users.pengolodh = {
           imports =
-            [pengolodh_desktop-homeconf]
-            ++ [sway-homeconf]; # add more inports via [import module] ++ (import folder) or ++ [(import file)]
+            [sway-homeconf]
+            ++ [pengolodh_global-homeconf]
+            ++ [pengolodh_desktop-homeconf]; # add more inports via [import module] ++ (import folder) or ++ [(import file)]
         };
         # ---
         # add more users here:
@@ -181,6 +183,7 @@ in {
             [hyprland-homemod]
             ++ [nix-index-db]
             #[plasma-manager]
+            ++ [pengolodh_global-homeconf]
             ++ [pengolodh_desktop-homeconf]
             ++ [hyprland-homeconf];
           # add more inports via [import module] ++ (import folder) or ++ [(import file)], variables behave like modules
@@ -227,6 +230,7 @@ in {
             [hyprland-homemod]
             ++ [hyprland-homeconf]
             # ++ [kde-homeconf]
+            ++ [pengolodh_global-homeconf]
             ++ [pengolodh_desktop-homeconf]; # add more inports via [import module] ++ (import folder) or ++ [(import file)]
         };
         # ---
@@ -269,6 +273,7 @@ in {
             # [hyprland-homemod]
             [plasma-manager] # add plasma-manager to home-man user imports as per https://github.com/pjones/plasma-manager/issues/5
             ++ [kde-homeconf]
+            ++ [pengolodh_global-homeconf]
             ++ [pengolodh_desktop-homeconf]; # add more inports via [import module] ++ (import folder) or ++ [(import file)]
         };
         # ---
@@ -315,6 +320,7 @@ in {
         home-manager.users.pengolodh = {
           imports =
             [nix-index-db]
+            ++ [pengolodh_global-homeconf]
             ++ [pengolodh_server-homeconf]; # add more inports via [import module] ++ (import folder) or ++ [(import file)]
         };
         # ---

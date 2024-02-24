@@ -1,7 +1,7 @@
 { config, ... }:
 {
     programs.helix = {
-        enable = true;
+        enable = lib.mkDefault false;
         settings = {
             theme = "base16_transparent";
         };
