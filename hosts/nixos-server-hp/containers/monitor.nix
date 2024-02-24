@@ -32,7 +32,7 @@ in {
       #environment.etc."resolv.conf".text = "nameserver 1.1.1.1";# resolv.conf cannot be shared with host
       services.resolved.enable = true;
       networking = {
-        useDHCP = true;
+        useDHCP = lib.mkForce true;
         #useNetworkd = true;
         firewall = {
           enable = true;
