@@ -11,7 +11,7 @@ in {
     autoStart = true;
     extraFlags = ["-U"]; # run as user instead of root
     privateNetwork = false;
-    hostBridge = "${br_local_container_name}";
+    #hostBridge = "${br_local_container_name}";
     #hostAddress = "172.24.1.1";
     #localAddress = "172.24.1.2";
     #hostAddress6 = "fc00::1";
