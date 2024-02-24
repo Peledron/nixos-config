@@ -20,8 +20,7 @@
     # [dotfiles management] # I should define all config in nix but defining things like aliases via imperative dotfiles is easier/faster
     stow
     # [filesystem]
-    s3fs
-    # wine
+    # [wine]
     wineWowPackages.staging
     winetricks
   ];
@@ -55,6 +54,10 @@
 
     # [file management]
     rclone-browser # qt rclone frontend, might not work, repo seems to be dead but author seems to be alive so who knows
+    #celeste # file sync client that supports webdav, syncthing would be better but storagebox does not support this
+    #duplicati # A free backup client that securely stores encrypted, incremental, compressed backups on cloud storage services and remote file servers, seems to me to be like borg and not for syncing? maybe if you automated the sync jobs or something...
+    #cryptomator # encrypt files before storing them in the cloud
+    #freefilesync # celeste but mainly for windows, supports sftp, seems robust
   ];
   dev-install = with pkgs; [
     # [programming langs]

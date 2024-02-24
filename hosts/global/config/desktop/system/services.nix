@@ -55,7 +55,7 @@
   xdg.portal = lib.mkDefault {
     enable =  true;
     xdgOpenUsePortal = true; # use the portal to open programs, which resolves bugs involving programs opening inside FHS envs or with unexpected env vars set from wrappers. from https://github.com/NixOS/nixpkgs/issues/160923, this fixed screencasting problem under hyprland (screeencasting opened window picker multible times)
-    config.common.default = "*";
+    #config.common.default = "*";
   };
   # power management
   # -> enables suspend to ram and such (is this needed?)

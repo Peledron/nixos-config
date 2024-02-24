@@ -25,6 +25,16 @@
         permit persist keepenv pengolodh
       '';
     };
+    # securty wrappers specify ownership,capabilities, etc... of certain files
+    wrappers = {
+      "mount.cifs" = {
+        # mount.cifs seems to behave strangely
+        setuid = true;
+        owner = "root";
+        group = "root";
+        source = "${pkgs.cifs-utils.out}/bin/mount.cifs";
+      };
+    };
   };
   environment.systemPackages = with pkgs; [
     doas-sudo-shim # shim that makes it to that sudo and some of its flags are mapped to doas

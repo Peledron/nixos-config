@@ -10,6 +10,7 @@
       extraPkgs = pkgs:
         with pkgs; [
           gamescope
+          gamemode
         ];
     };
     gamescopeSession = {

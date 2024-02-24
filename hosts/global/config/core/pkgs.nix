@@ -33,6 +33,9 @@
     gnupg
     fail2ban
     # filesystem
+    fuse
+    cifs-utils
+    s3fs
     # [general-util]
     ncdu # shows detailed diskusage
   ];

@@ -29,12 +29,12 @@ in {
     libsForQt5.konsole
     # -> filemanager
     libsForQt5.dolphin
-    libsForQt5.dolphin-plugins
     libsForQt5.kdegraphics-thumbnailers # thumbnails, not sure if it needed with dolphin-plugins, doesnt seem to work with hyprland
     ffmpegthumbs
     libsForQt5.kio # important for kde applications
     libsForQt5.kio-extras
     kio-fuse # fuse overlay for kio needed for network mounts/etc
+    libsForQt5.kdenetwork-filesharing
     # vm client
     spicy
 

@@ -97,6 +97,14 @@
     enable = true;
     wlr.enable = true;
     extraPortals = [pkgs.xdg-desktop-portal-gtk];
+    config = {
+      Hyprland = {
+        default = [
+          "hyprland"
+          "gtk"
+        ];
+      };
+    };
   };
   # ---
   environment.sessionVariables = {
