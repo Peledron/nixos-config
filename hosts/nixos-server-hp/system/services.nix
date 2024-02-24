@@ -5,5 +5,5 @@
   # disable autosuspend on lid close so we can use the laptop as a server
   services.logind.lidSwitch = "ignore";
   services.auto-cpufreq.enable = true;
-  services.logrotate.checkConfig = false; # workaround for a bug
+  #services.logrotate.checkConfig = false; # workaround for a bug
 }
