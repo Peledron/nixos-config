@@ -186,7 +186,8 @@
           # "widget.dmabuf.force-enabled" = true; #  only enable on older nvidia cards (pre pascal or using 470 driver)
 
           # [others]
-          "widget.use-xdg-desktop-portal" = true; # tells firefox to use xdg-desktop-portal for filepicker I think
+          "widget.use-xdg-desktop-portal" = true; # tells firefox to use xdg-desktop-portal
+          "widget.use-xdg-desktop-portal.file-picker" = 1; # tells firefox to use the kde filepicker
           "widget.wayland.opaque-region.enabled=false" = false; # prevents screen flicker when going fullscreen under wayland
         };
       };

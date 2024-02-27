@@ -1,9 +1,10 @@
 [
   ./direnv.nix
-  ./fish.nix
   ./git.nix
   ./helix.nix
   ./htop.nix
   ./micro.nix
+  ./fish.nix
   ./starship.nix
+  ./zoxide.nix
 ]

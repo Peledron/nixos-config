@@ -3,7 +3,7 @@
   lib,
   pkgs,
   system,
-  imputs,
+  inputs,
   ...
 }: {
   imports =

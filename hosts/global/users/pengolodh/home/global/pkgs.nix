@@ -31,8 +31,6 @@ in {
   # set programs to be managed by home-manager:
   # --> program configs are within ./configs
   programs = {
-    zoxide.enable = true; # enabling this so that fish integration is enabled
-
     nix-index = {
       enable = true; # setting this to true enables the shell integrations as well as command-not-found
     };

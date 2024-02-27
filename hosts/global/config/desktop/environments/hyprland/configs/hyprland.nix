@@ -38,7 +38,7 @@ in {
     plugins = [
       #inputs.split-monitor-workspaces.packages.${pkgs.system}.split-monitor-workspaces # -> does not work for some reason
     ];
-    
+
     settings = {
       # see https://github.com/skbolton/nix-dotfiles/blob/main/home/capabilities/desktop/hyprland/default.nix for a good example of this type of config
       # [variables]
@@ -248,6 +248,7 @@ in {
         "float, steam"
         "float, waypaper"
         "float, nextcloud"
+        "float, title:Persepolis Download Manager"
 
         ## set wlogout to be fullscreen
         "fullscreen, title:wlogout"

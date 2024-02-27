@@ -13,8 +13,9 @@
       v4l2loopback # for obs virtual camera support
     ];
     extraModprobeConfig = ''
+      options kvm_amd nested=1
       options v4l2loopback devices=1 video_nr=1 card_label="OBS Cam" exclusive_caps=1 
-    ''; # obs-studio virtual camera support
+    ''; # nested virtualization and obs-studio virtual camera support
     kernelParams = ["splash" "quiet" "loglevel=3" "amd_pstate=active"]; # kernel parameters used at boot, "splash"
     loader = {
       /*

@@ -40,6 +40,8 @@
     # [torrent client]
     qbittorrent
 
+    # [download tool]
+    persepolis
     # [file management]
     rclone-browser # qt rclone frontend, might not work, repo seems to be dead but author seems to be alive so who knows
     #celeste # file sync client that supports webdav, syncthing would be better but storagebox does not support this
@@ -78,7 +80,6 @@
     vscodium-fhs # fhs variant allows for plugins
   ];
 
- 
   gstreamer-install = with pkgs.gst_all_1; [
     gstreamer
     gst-plugins-good
@@ -104,5 +105,4 @@ in {
   # set programs to be managed by home-manager:
   # --> program configs are within ./configs
   #programs.firefox.enable = true;
-  
 }
