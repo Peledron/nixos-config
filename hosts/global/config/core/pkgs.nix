@@ -14,8 +14,6 @@
     curl
     rsync
     rclone
-    htop
-    tldr
     tree
     killall
     pciutils
@@ -24,20 +22,14 @@
     powertop
     # [nix-tools]
     nix-ld # Run unpatched dynamic binaries on NixOS https://github.com/Mic92/nix-ld, very usefull for running specific software not available otherwise
-    # [git+related]
-    git
-    git-crypt
-    sops
     # [security]
     # doas is enabled by default in security.nix
     gnupg
     fail2ban
-    # filesystem
+    # [filesystem]
     fuse
     cifs-utils
     s3fs
-    # [general-util]
-    ncdu # shows detailed diskusage
   ];
   # in order to use a program with sudo you should do: program.$program.enable = true;
   # --> nix takes over management of the package, it also imports a configured module for the program

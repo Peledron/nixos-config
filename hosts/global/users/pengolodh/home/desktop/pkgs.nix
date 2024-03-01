@@ -26,6 +26,7 @@
     vesktop # open-source discord client, with vencord plugin/theme support, installing it via this instead of flatpak should fix some annoyances like links not opening.
     # [steaming]
     #obs-studio # -> if I enable it here it collides with the unwrapped version provided by programs.obs in ./configs/obs.nix
+    parsec-bin
 
     # [pdf]
     libsForQt5.okular
