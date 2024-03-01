@@ -10,6 +10,8 @@
     # ---
     # basic tools
     # [system]
+    git
+    sops
     wget
     curl
     rsync

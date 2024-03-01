@@ -24,10 +24,8 @@
 
     # [dotfiles management] # I should define all config in nix but defining things like aliases via imperative dotfiles is easier/faster
     stow
-    # [git+related]
-    git
+    # [git-related]
     git-crypt
-    sops
   ];
   nix-alien-install = with self.inputs.nix-alien.packages.${system}; [
     nix-alien # program to auto resolve dependencies of non-nix binaries, works in conjunction with nix-index and nix-ld
