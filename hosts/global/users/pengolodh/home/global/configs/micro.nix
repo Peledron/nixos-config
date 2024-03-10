@@ -7,7 +7,7 @@
   programs.micro = lib.mkDefault {
     enable = false;
     settings = {
-      autosave = 5; # autosave every 5 minutes
+      autosave = 0; # autosave every 5 minutes
       colorscheme = "nord-16"; # defined below
     };
   };

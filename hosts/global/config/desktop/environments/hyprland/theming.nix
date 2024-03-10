@@ -6,7 +6,7 @@
 }: let
   gtk-theme = "Nordic";
   gtk-theme-package = "nordic";
-  qt-theme = "Utterly-Nord";
+  qt-theme = "Utterly-Nord-Solid";
   qt-theme-package = "utterly-nord-plasma";
   icon-theme-name = "Papirus-Dark";
   icon-theme-package = "papirus-icon-theme";

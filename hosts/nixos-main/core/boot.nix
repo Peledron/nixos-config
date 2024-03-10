@@ -14,9 +14,11 @@
     ];
     extraModprobeConfig = ''
       options kvm_amd nested=1
-      options v4l2loopback devices=1 video_nr=1 card_label="OBS Cam" exclusive_caps=1 
+      options v4l2loopback devices=1 video_nr=1 card_label="OBS Cam" exclusive_caps=1
     ''; # nested virtualization and obs-studio virtual camera support
-    kernelParams = ["splash" "quiet" "loglevel=3" "amd_pstate=active"]; # kernel parameters used at boot, "splash"
+    kernelParams = ["splash" "quiet" "loglevel=3" "amd_pstate=active" "amdgpu.si_support=1" "amdgpu.ppfeaturemask=0xffffffff"];
+    # kernel parameters used at boot,
+    # -> amdgpu.si_support=1 and amdgpu.ppfeaturemask=0xffffffff is to enable overclocking support
     loader = {
       /*
       systemd-boot = {

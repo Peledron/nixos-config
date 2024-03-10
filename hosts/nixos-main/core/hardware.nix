@@ -62,6 +62,7 @@
     };
 
     keyboard.qmk.enable = true; # enable non-root users access to qmk firmware
+    
   };
 
   # ----
@@ -92,6 +93,7 @@
       rocmPackages.rocminfo
       clinfo
       nvtop-amd
+      lact # amdgpu gui control
       qmk
       qmk-udev-rules
 

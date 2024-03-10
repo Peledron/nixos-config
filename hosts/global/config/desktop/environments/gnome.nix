@@ -27,6 +27,7 @@
         iagno # go game
         hitori # sudoku game
         atomix # puzzle game
+        yelp # the gnome help utility
     ]);
     
 }

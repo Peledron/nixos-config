@@ -161,7 +161,7 @@ in {
           # existing system partitions
           "/dev/disk/by-id/nvme-Samsung_SSD_980_PRO_2TB_S69ENX0TB18294T-part3" # 2 TB windows root partition
           # existing data partitions
-          "/dev/mapper/big--data-data--games" # 4TB linux-game drive (luks on lvm)
+          "/dev/mapper/big--data-data--games" # 4TB linux-game drive (luks on lvm, once day ill consolidate all these old hard drives into a 2 10tb drives...)
           "/dev/disk/by-id/ata-TOSHIBA_DT01ACA300_95QGT6KGS-part2" # 3tb windows-data drive (ntfs)
           "/dev/disk/by-id/ata-ST1000DM003-1ER162_Z4YC0ZWB-part1" #1TB windows-mod drive (ntfs)
         ];

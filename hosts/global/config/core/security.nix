@@ -4,6 +4,7 @@
   pkgs,
   ...
 }: {
+  hardware.nitrokey.enable = lib.mkDefault true; # enable access to nitrokey devices
   security = lib.mkDefault {
     polkit.enable = true;
     sudo.enable = false; # disable sudo by default
@@ -20,7 +21,7 @@
         }
       ];
       */
-      # -> extraRules does not seem to ba pply in doas.conf
+      # -> extraRules does not seem to apply in doas.conf so I'll use extraConfig instead
       extraConfig = ''
         permit persist keepenv pengolodh
       '';

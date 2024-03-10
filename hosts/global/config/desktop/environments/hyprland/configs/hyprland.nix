@@ -11,9 +11,9 @@
   mod = "SUPER";
 
   # applications
-  term = "konsole";
+  term = "kitty";
   browser = "firefox";
-  file-man = "dolphin";
+  file-man = "pcmanfm-qt";
   email = "thunderbird";
   runner = "fuzzel";
 in {
@@ -179,7 +179,7 @@ in {
         "col.shadow" = "0x66000000";
 
         blur = {
-          popups = true; # whether to blur popups (e.g. right-click menus)
+          #popups = true; # whether to blur popups (e.g. right-click menus), this fixes issues with konsole and such
         };
         ## blur specific applications
         blurls = [

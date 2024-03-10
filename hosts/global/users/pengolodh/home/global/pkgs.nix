@@ -17,8 +17,8 @@
     ncdu # shows detailed diskusage (df mixed with du ig)
     fzf # fuzzy finder, faster then find
     tldr # short command explenation with examples
-    htop # system monitor
-    
+    bottom # system monitor, has a nicer ui and configuration then htop
+
     # [editor]
     micro # lightweight editor with mouse support https://micro-editor.github.io/ (also see https://github.com/hishamhm/dit as a more barebones alternative)
 
@@ -26,6 +26,9 @@
     stow
     # [git-related]
     git-crypt
+
+    # [hardware management]
+    pynitrokey # cli interface for nitrokey devices, udev rules are enabled in ${self}/hosts/global/core/security.nix, this needs to compile!
   ];
   nix-alien-install = with self.inputs.nix-alien.packages.${system}; [
     nix-alien # program to auto resolve dependencies of non-nix binaries, works in conjunction with nix-index and nix-ld

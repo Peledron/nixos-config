@@ -2,7 +2,7 @@
   ./hyprland.nix
   ./dunst.nix
   ./wob.nix
-  #./kitty.nix
+  ./kitty.nix
   ./swaylock.nix
   ./wlogout.nix
   ./waybar.nix

@@ -12,7 +12,7 @@
     libinput.enable = true;
     # kde:
     desktopManager = {
-      plasma5 = {
+      plasma6 = {
         enable = true;
         # --> disable kde specific packages:
         /*
@@ -34,7 +34,7 @@
   programs.dconf.enable = true; # better compatiblity for costum setups (gnome apps)
 
   # --> install kde specific packages:
-  environment.systemPackages = with pkgs.libsForQt5; [
+  environment.systemPackages = with pkgs.kdePackages; [
     # desktop specific
     # [kde]
     polonium # tiling

@@ -26,25 +26,28 @@ in {
 
     # [applications]
     # -> term
-    libsForQt5.konsole
+    kitty
     # -> filemanager
-    libsForQt5.dolphin
-    libsForQt5.kdegraphics-thumbnailers # thumbnails, not sure if it needed with dolphin-plugins, doesnt seem to work with hyprland
-    ffmpegthumbs
-    libsForQt5.kio # important for kde applications
-    libsForQt5.kio-extras
-    kio-fuse # fuse overlay for kio needed for network mounts/etc
-    libsForQt5.kdenetwork-filesharing
+    # kdePackages.dolphin
+    # kdePackages.kdegraphics-thumbnailers # thumbnails, not sure if it needed with dolphin-plugins, doesnt seem to work with hyprland
+    # ffmpegthumbs
+    # kdePackages.kio # important for kde applications
+    # kdePackages.kio-extras
+    # kio-fuse # fuse overlay for kio needed for network mounts/etc
+    # kdePackages.kdenetwork-filesharing
+    lxqt.pcmanfm-qt # uses gvfs for folder mounts
+    lxqt.lxqt-menu-data # add installed applications to the right click menu when selecting "open with"
+
     # vm client
     spicy
 
     # -> runner
     fuzzel
     # -> image viewer
-    libsForQt5.gwenview
-    haruna # video player
+    kdePackages.gwenview
+    celluloid # video player, gtk frontend for mpv
     # -> archive manager
-    ark
+    lxqt.lxqt-archiver
 
     # [sway related]
     # -> bar

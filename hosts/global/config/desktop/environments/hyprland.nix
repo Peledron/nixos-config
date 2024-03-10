@@ -27,7 +27,6 @@
     xdg-desktop-portal-hyprland
     hyprland-protocols
 
-    qt5.qtwayland
     qt6.qtwayland
 
     glib
@@ -35,27 +34,27 @@
     libheif
 
     # [polkit]
-    # --> used for password storage of some applications
-    libsForQt5.polkit-kde-agent
+    # --> used to elevate certain programs
+    lxqt.lxqt-policykit
     # [bluetooth]
     blueman
 
     xdg-utils
   ];
   services.blueman.enable = true; # enable blueman daemon
-  services.gvfs.enable = true; # enable the virtual file system, so that u can see and mount local/remote disks in dolphin and such
+  services.gvfs.enable = true; # enable the virtual file system, so that u can see and mount local/remote disks in gtk based filemanagers (and pcmanfm-qt)
 
   # enable polkit
   security.polkit.enable = true;
   systemd = {
-    user.services.polkit-kde-authentication-agent-1 = {
-      description = "polkit-kde-authentication-agent-1";
+    user.services.lxqt-policykit-agent = {
+      description = "lxqt-policykit-agent";
       wantedBy = ["graphical-session.target"];
       wants = ["graphical-session.target"];
       after = ["graphical-session.target"];
       serviceConfig = {
         Type = "simple";
-        ExecStart = "${pkgs.libsForQt5.polkit-kde-agent}/libexec/polkit-kde-authentication-agent-1";
+        ExecStart = "${pkgs.lxqt.lxqt-policykit}/libexec/lxqt-policykit-agent";
         Restart = "on-failure";
         RestartSec = 1;
         TimeoutStopSec = 10;
