@@ -6,7 +6,7 @@
   ...
 }: let
   wallpaper = "${self}/hosts/global/config/desktop/environments/hyprland/configs/non-nix/wallpapers/wallpaper.png";
-  lockscreen = "${self}/hosts/global/config/desktop/environments/hyprland/configs/non-nix/wallpapers/lockscreen.jpg";
+  lockscreen = "${self}/hosts/global/config/desktop/environments/hyprland/configs/non-nix/wallpapers/lockscreen.png";
   wobsock = "$XDG_RUNTIME_DIR/wob.sock"; # file where values that wob needs for showing levels are stored
   mod = "SUPER";
 
@@ -70,7 +70,7 @@ in {
         "dunst"
         "waybar"
         "sleep 2; pkill -USR1 waybar" # hides waybar on reload
-        "swayidle timeout 900 'swaylock -f -i ${lockscreen}' timeout 1200 'hyprctl dispatch dpms off' resume 'hyprctl dispatch dpms on' timeout 1800 'systemctl suspend' before-sleep 'swaylock -f -i ${lockscreen}'"
+        "swayidle timeout 900 hyprlock timeout 1200 'hyprctl dispatch dpms off' resume 'hyprctl dispatch dpms on' timeout 1800 'systemctl suspend' before-sleep hyprlock"
         ## clipboard
         #"wl-paste -t text --watch clipman store --no-persist --max-items=999999" # -> clipman
         "wl-paste --type text --watch cliphist store" # cliphist, Stores only text data
@@ -248,7 +248,7 @@ in {
         "float, steam"
         "float, waypaper"
         "float, nextcloud"
-        "float, title:Persepolis Download Manager"
+        "float, title:^(Persepolis Download Manager)$"
 
         ## set wlogout to be fullscreen
         "fullscreen, title:wlogout"
@@ -282,7 +282,7 @@ in {
 
           ## logout/lockscreens
           "${mod}, escape, exec, wlogout --protocol layer-shell -b 5 -T 400 -B 400"
-          "CTRL ALT, L, exec, swaylock --daemonize --image ${lockscreen}"
+          "CTRL ALT, L, exec, hyprlock"
 
           ## media keys
           ", XF86AudioPlay, exec, playerctl play-pause"
@@ -325,8 +325,10 @@ in {
           "${mod} CTRL, down, resizeactive, 0 80"
 
           ## mouse keys
-          "${mod}, mouse_up, exec, pypr change_workspace +1"
-          "${mod}, mouse_down, exec, pypr change_workspace -1"
+          "${mod}, mouse_up, exec, hyprnome -k"
+          "${mod}, mouse_down, exec, hyprnome --previous -k"
+          "${mod} SHIFT, mouse_up, exec, hyprnome --move -k"
+          "${mod} SHIFT, mouse_down, exec, hyprnome --move --previous -k"
         ]
         ++ (
           ## workspaces/ workspace movement
@@ -368,12 +370,71 @@ in {
   };
 
   # [pyprland plugin config]
-  xdg.configFile."hypr/pyprland.toml".text = ''
-    [pyprland]
-      plugins = [
-        "workspaces_follow_focus",
-        "expose",
-        "toggle_special"
-      ]
-  '';
+  xdg.configFile = {
+    "hypr/pyprland.toml".text = ''
+      [pyprland]
+        plugins = [
+          "toggle_special"
+        ]
+    '';
+    "hypr/hyprgame.sh".text = ''
+      #!/usr/bin/env bash
+
+    '';
+    "hypr/hyprlock.conf".text = ''
+      general {
+        grace = 10
+      }
+      background {
+        monitor =
+        path = ${lockscreen}   # only png supported for now
+        color = rgba(25, 20, 20, 1.0)
+
+        # all these options are taken from hyprland, see https://wiki.hyprland.org/Configuring/Variables/#blur for explanations
+        blur_passes = 0 # 0 disables blurring
+        blur_size = 7
+        noise = 0.0117
+        contrast = 0.8916
+        brightness = 0.8172
+        vibrancy = 0.1696
+        vibrancy_darkness = 0.0
+      }
+      input-field {
+        monitor = #monitor can be left empty for “all monitors”
+        size = 200, 50
+        outline_thickness = 3
+        dots_size = 0.33 # Scale of input-field height, 0.2 - 0.8
+        dots_spacing = 0.15 # Scale of dots' absolute size, 0.0 - 1.0
+        dots_center = false
+        dots_rounding = -1 # -1 default circle, -2 follow input-field rounding
+        outer_color = rgb(151515)
+        inner_color = rgb(200, 200, 200)
+        font_color = rgb(10, 10, 10)
+        fade_on_empty = true
+        fade_timeout = 1000 # Milliseconds before fade_on_empty is triggered.
+        placeholder_text = <i>Input Password...</i> # Text rendered in the input box when it's empty.
+        hide_input = false
+        rounding = -1 # -1 means complete rounding (circle/oval)
+        check_color = rgb(204, 136, 34)
+        fail_color = rgb(204, 34, 34) # if authentication failed, changes outer_color and fail message color
+        fail_text = <i>$FAIL <b>($ATTEMPTS)</b></i> # can be set to empty
+        fail_transition = 300 # transition time in ms between normal outer_color and fail_color
+
+        position = 0, -20
+        halign = center
+        valign = center
+      }
+      label {
+        monitor = # monitor can be left empty for “all monitors”
+        text = cmd[update:1000] echo "<span foreground='##ff2222'>$(date)</span>"
+        color = rgba(200, 200, 200, 1.0)
+        font_size = 25
+        font_family = Ubuntu
+
+        position = 0, 80
+        halign = center
+        valign = center
+      }
+    '';
+  };
 }

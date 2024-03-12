@@ -17,7 +17,7 @@
     ncdu # shows detailed diskusage (df mixed with du ig)
     fzf # fuzzy finder, faster then find
     tldr # short command explenation with examples
-    bottom # system monitor, has a nicer ui and configuration then htop
+    bottom # system monitor, has a nicer ui and configuration then htop, though its basic mode shows less than I would like ig
 
     # [editor]
     micro # lightweight editor with mouse support https://micro-editor.github.io/ (also see https://github.com/hishamhm/dit as a more barebones alternative)

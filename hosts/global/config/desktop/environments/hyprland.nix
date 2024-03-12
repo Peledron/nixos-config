@@ -107,7 +107,7 @@
   };
   # ---
   environment.sessionVariables = {
-    QT_QPA_PLATFORMTHEME = "qt5ct";
+    QT_QPA_PLATFORMTHEME = "qt6ct";
     QT_STYLE_OVERRIDE = "kvantum";
   }; # something is broken in qt theming if done by hone-manager sessionvariables, seems that this fixed it
 }

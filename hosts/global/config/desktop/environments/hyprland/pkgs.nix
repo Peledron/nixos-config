@@ -66,7 +66,7 @@ in {
 
     # -> functionality
     pyprland # plugin package for hyprland, contains a lot of functionality https://github.com/hyprland-community/pyprland (and you dont need to sideload flakes into hyprland config)
-    swayr # window switcher (alt+tab thing)
+    hyprnome # gnome like workspace switching
     wlogout # shutdown options
     wlr-randr # to set screensize
     #hyprpaper # -> swww and swaybg used in conjunction with waypaper is nicer, hyprpaper is nice if you want per workspace wallpapers
@@ -76,7 +76,7 @@ in {
 
     # -> idle/lock
     swayidle
-    swaylock
+    hyprlock
 
     # -> brightness
     brightnessctl

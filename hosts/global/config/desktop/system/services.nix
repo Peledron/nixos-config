@@ -97,4 +97,15 @@
       CPU_MAX_PERF_ON_BAT = 50;
     };
   };
+  
+  # You can tell the Linux kernel to use an interpreter (e.g. appimage-run) when executing certain binary files through the use of binfmt_misc, either by filename extension or magic number matching. Below NixOS configuration registers AppImage files (ELF files with magic number "AI" + 0x02) to be run with appimage-run as interpreter.
+  # -> https://nixos.wiki/wiki/Appimage
+  boot.binfmt.registrations.appimage = {
+    wrapInterpreterInShell = false;
+    interpreter = "${pkgs.appimage-run}/bin/appimage-run";
+    recognitionType = "magic";
+    offset = 0;
+    mask = ''\xff\xff\xff\xff\x00\x00\x00\x00\xff\xff\xff'';
+    magicOrExtension = ''\x7fELF....AI\x02'';
+  };
 }
