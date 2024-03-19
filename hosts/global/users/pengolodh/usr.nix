@@ -4,19 +4,9 @@
   lib,
   pkgs,
   self,
-  sops,
   ...
 }: {
-   /*
-  sops.secrets.pengolodh-password = {
-    sopsFile = "${self}/.secrets/users/pengolodh/secrets.yaml";
-    neededForUsers = true; # tell nix to load this before user creation (so it can set the passwd)
-    mode = "0440"; # read-only permissions
-    # -> cannot combine setting group and user ownership with something else then root and neededForUsers
-    #owner = config.users.users.pengolodh.name;
-    #group = config.users.users.pengolodh.group;
-  };
-  */
+  # user system-level module imports:
   users = {
     users = {
       # Define a user account. Don't forget to set a password with ‘passwd’. or run mkpasswd and copy the hash in hashedPassword = "";
@@ -28,7 +18,7 @@
         #hashedPasswordFile = config.sops.secrets.pengolodh-password.path;
         #hashedPassword =; # password hash generated via mkpasswd -m sha-512
         initialPassword = "nimbus"; # change this with passwd on login
-        extraGroups = ["wheel" "docker" "kvm" "libvirtd" "video"]; # add user to groups for extra permissions like sudo access
+        extraGroups = ["wheel" "docker" "kvm" "libvirtd" "video" "networkmanager"]; # add user to groups for extra permissions like sudo access
 
         # ssh user specific settings:
         openssh = {
@@ -40,7 +30,6 @@
           };
         };
       };
-      # add new users here:
     };
   };
 }

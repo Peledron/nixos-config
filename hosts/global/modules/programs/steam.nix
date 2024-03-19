@@ -6,7 +6,7 @@
 }: {
   programs = {
     steam = {
-      enable = true;
+      enable = false;
       package = pkgs.steam.override {
         extraPkgs = pkgs:
           with pkgs; [
@@ -25,17 +25,13 @@
       };
     };
     gamescope = {
-      enable = true;
+      enable = false;
       capSysNice = true; # Add cap_sys_nice capability to the GameScope binary so that it may renice itself
     };
     gamemode = {
-      enableRenice = true;
+      enableRenice = false;
       settings = {
         general.renice = 10;
-        custom = {
-          start = "${pkgs.libnotify}/bin/notify-send 'GameMode started'";
-          end = "${pkgs.libnotify}/bin/notify-send 'GameMode ended'";
-        };
       };
     };
   };

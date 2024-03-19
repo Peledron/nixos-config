@@ -400,7 +400,8 @@ in {
         vibrancy_darkness = 0.0
       }
       input-field {
-        monitor = #monitor can be left empty for “all monitors”
+        monitor =
+        # monitor can be left empty for “all monitors”
         size = 200, 50
         outline_thickness = 3
         dots_size = 0.33 # Scale of input-field height, 0.2 - 0.8
@@ -425,8 +426,9 @@ in {
         valign = center
       }
       label {
-        monitor = # monitor can be left empty for “all monitors”
-        text = cmd[update:1000] echo "<span foreground='##ff2222'>$(date)</span>"
+        monitor =
+        # monitor can be left empty for “all monitors”
+        text = Hi there, $USER
         color = rgba(200, 200, 200, 1.0)
         font_size = 25
         font_family = Ubuntu

@@ -6,42 +6,32 @@
   ...
 }: {
   # enable the xserver:
-  services.xserver = {
-    enable = true;
-    # Enable touchpad support (enabled default in most desktopManager).
-    libinput.enable = true;
-    # kde:
-    desktopManager = {
-      plasma6 = {
-        enable = true;
-        # --> disable kde specific packages:
-        /*
-        excludePackages = with pkgs.libsForQt5; [
-            # package, the default is very barebones
-        ];
-        */
-        # --> see https://github.com/pjones/plasma-manager for a way to declare plasma config in home-manager
+  services = {
+    xserver = {
+      enable = true;
+      # Enable touchpad support (enabled default in most desktopManager).
+      libinput.enable = true;
+      #set de default login session to sddm and tell it to use plasma-wayland
+      displayManager = {
+        defaultSession = "plasma";
+        sddm = {
+          enable = true;
+        };
       };
     };
-    #set de default login session to sddm and tell it to use plasma-wayland
-    displayManager = {
-      defaultSession = "plasmawayland";
-      sddm = {
-        enable = true;
-      };
-    };
+    desktopManager.plasma6.enable = true;
   };
   programs.dconf.enable = true; # better compatiblity for costum setups (gnome apps)
 
   # --> install kde specific packages:
-  environment.systemPackages = with pkgs.kdePackages; [
+  environment.systemPackages = with pkgs; [
     # desktop specific
     # [kde]
-    polonium # tiling
-    sddm-kcm
-    ffmpegthumbs
-    kdegraphics-thumbnailers # you need to enable the thumbnailing settings in dolphin
-    dolphin-plugins
-    #qtstyleplugin-kvantum
+    libsForQt5.polonium # tiling, package doesnt work with plasma 6
+    # ark needs to be able to use compression applicatoiins
+    p7zip
+    unrar
+    lzop
+    lrzip
   ];
 }

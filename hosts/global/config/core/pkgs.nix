@@ -22,6 +22,7 @@
     usbutils
     lm_sensors
     powertop
+    nvim
     # [nix-tools]
     nix-ld # Run unpatched dynamic binaries on NixOS https://github.com/Mic92/nix-ld, very usefull for running specific software not available otherwise
     # [security]

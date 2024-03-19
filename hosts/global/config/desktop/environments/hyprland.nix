@@ -85,7 +85,7 @@
         command = "${pkgs.greetd.greetd}/bin/agreety --cmd ${pkgs.hyprland}/bin/Hyprland";
       };
       initial_session = {
-        command = "${pkgs.hyprland}/bin/Hyprland";
+        command = "${pkgs.hyprland}/bin/Hyprland &> /dev/null";
         user = "pengolodh"; # not really config independant, but...
       }; # auto-login for user pengolodh
     };

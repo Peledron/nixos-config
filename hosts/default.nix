@@ -39,6 +39,7 @@
   # -> main
   hostdir = "${self}/hosts";
   global-confdir = "${hostdir}/global/config";
+  global-moddir = "${hostdir}/modules";
   global-usrdir = "${hostdir}/global/users";
   global-desktopdir = "${global-confdir}/desktop";
 
@@ -74,63 +75,6 @@
   pengolodh_server-homeconf = "${global-usrdir}/pengolodh/home/server/home.nix";
 in {
   #==================#
-  # vm-desktop:
-  #==================#
-  vm-nixos-desktop = lib.nixosSystem {
-    inherit system pkgs;
-    specialArgs = {
-      inherit inputs self;
-    };
-    modules = [
-      # inputs
-      sops
-      disko
-      impermanence
-
-      # modules
-      global-coreconf
-      global-desktopconf
-      sway-coreconf
-
-      # -> host module
-      "${hostdir}/vm-nixos-desktop"
-      {
-        _module.args.disks = ["/dev/vda"]; # change this to sda for vmware, you can add more drives in more "", for example "/dev/nvme0n1"
-      }
-
-      # -> hardware
-      "${hostdir}/vm-nixos-desktop/core/hardwareqemu.nix" # change this to hardwarevmware.nix for vmware
-
-      # -> user modules
-      pengolodh-coreconf
-      # add more users here:
-
-      #==================#
-      # system home-man:
-      home-manager
-      {
-        home-manager.useGlobalPkgs = true; # sets home-manager to use the nix-package-manager packages instead of its own internal ones
-        home-manager.useUserPackages = true; # packages will be installed per user;
-        home-manager.extraSpecialArgs = {};
-        home-manager.users.pengolodh = {
-          imports =
-            [sway-homeconf]
-            ++ [pengolodh_global-homeconf]
-            ++ [pengolodh_desktop-homeconf]; # add more inports via [import module] ++ (import folder) or ++ [(import file)]
-        };
-        # ---
-        # add more users here:
-      }
-    ];
-  };
-  # ---
-
-  #==================#
-  # vm-server:
-  #==================#
-  # ---
-
-  #==================#
   # hardware:
   #==================#
   nixos-main = lib.nixosSystem {
@@ -145,13 +89,8 @@ in {
       impermanence
       hyprland-coremod
 
-      # modules
+      # core configuration
       global-coreconf
-      global-desktopconf
-      hyprland-coreconf
-      #kde-coreconf
-
-      # -> host module
       "${hostdir}/nixos-main"
       {
         _module.args.disks = [
@@ -165,7 +104,13 @@ in {
           "/dev/disk/by-id/ata-TOSHIBA_DT01ACA300_95QGT6KGS-part2" # 3tb windows-data drive (ntfs)
           "/dev/disk/by-id/ata-ST1000DM003-1ER162_Z4YC0ZWB-part1" #1TB windows-mod drive (ntfs)
         ];
+        _module.args.rocmgpu = "GPU-8beaa8932431d436"; # obtained trough rocminfo, there is a bug where rocm prefers igpu over dgpu, this is from https://github.com/vosen/ZLUDA
       }
+
+      # desktop configuration
+      global-desktopconf
+      #hyprland-coreconf
+      kde-coreconf
 
       # -> user modules
       pengolodh-coreconf
@@ -180,12 +125,13 @@ in {
         home-manager.extraSpecialArgs = {inherit inputs self system;};
         home-manager.users.pengolodh = {
           imports =
-            [hyprland-homemod]
-            ++ [nix-index-db]
+            #[hyprland-homemod]
+            [nix-index-db]
             #[plasma-manager]
             ++ [pengolodh_global-homeconf]
             ++ [pengolodh_desktop-homeconf]
-            ++ [hyprland-homeconf];
+            ##++ [hyprland-homeconf]
+            ++ [kde-homeconf];
           # add more inports via [import module] ++ (import folder) or ++ [(import file)], variables behave like modules
         };
         # ---
@@ -329,7 +275,62 @@ in {
     ];
   };
   # ---
+  #==================#
+  # vm-desktop:
+  #==================#
+  vm-nixos-desktop = lib.nixosSystem {
+    inherit system pkgs;
+    specialArgs = {
+      inherit inputs self;
+    };
+    modules = [
+      # inputs
+      sops
+      disko
+      impermanence
 
+      # modules
+      global-coreconf
+      global-desktopconf
+      sway-coreconf
+
+      # -> host module
+      "${hostdir}/vm-nixos-desktop"
+      {
+        _module.args.disks = ["/dev/vda"]; # change this to sda for vmware, you can add more drives in more "", for example "/dev/nvme0n1"
+      }
+
+      # -> hardware
+      "${hostdir}/vm-nixos-desktop/core/hardwareqemu.nix" # change this to hardwarevmware.nix for vmware
+
+      # -> user modules
+      pengolodh-coreconf
+      # add more users here:
+
+      #==================#
+      # system home-man:
+      home-manager
+      {
+        home-manager.useGlobalPkgs = true; # sets home-manager to use the nix-package-manager packages instead of its own internal ones
+        home-manager.useUserPackages = true; # packages will be installed per user;
+        home-manager.extraSpecialArgs = {};
+        home-manager.users.pengolodh = {
+          imports =
+            [sway-homeconf]
+            ++ [pengolodh_global-homeconf]
+            ++ [pengolodh_desktop-homeconf]; # add more inports via [import module] ++ (import folder) or ++ [(import file)]
+        };
+        # ---
+        # add more users here:
+      }
+    ];
+  };
+  # ---
+
+  #==================#
+  # vm-server:
+  #==================#
+  # ---
   # home-manager can also be done as a standalone:
   # (not really recommended as it recuires more steps)
   /*

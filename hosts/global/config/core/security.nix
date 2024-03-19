@@ -4,7 +4,6 @@
   pkgs,
   ...
 }: {
-  hardware.nitrokey.enable = lib.mkDefault true; # enable access to nitrokey devices
   security = lib.mkDefault {
     polkit.enable = true;
     sudo.enable = false; # disable sudo by default

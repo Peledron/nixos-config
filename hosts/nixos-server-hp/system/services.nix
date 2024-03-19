@@ -11,4 +11,5 @@
   #services.logrotate.checkConfig = false; # workaround for a bug
 
   systemd.services.sshd.after = ["network.target" "systemd-networkd.service"]; # sets sshd to boot after network, otherwise it fails at startup due to listenAddress not existing yet
+  
 }

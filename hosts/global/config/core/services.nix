@@ -41,37 +41,6 @@
   services.irqbalance.enable = true; # distributes interrupts across processors and cores
   # ---
 
-  # virtualisation
-  virtualisation = lib.mkDefault {
-    #  --> libvirt:
-    libvirtd = {
-      enable = true;
-      qemu = {
-        package = pkgs.qemu_kvm; # limited to x86 system I think
-        runAsRoot = true;
-        swtpm.enable = true;
-        ovmf = {
-          enable = true;
-          packages = with pkgs; [
-            (OVMFFull.override {
-              secureBoot = true;
-              tpmSupport = true;
-            }).fd
-          ];
-        };
-        verbatimConfig = ''
-          nvram = [ "/run/libvirt/nix-ovmf/AAVMF_CODE.fd:/run/libvirt/nix-ovmf/AAVMF_VARS.fd", "/run/libvirt/nix-ovmf/OVMF_CODE.fd:/run/libvirt/nix-ovmf/OVMF_VARS.fd" ]
-        '';
-      };
-    };
-    #  --> docker:
-    docker = {
-      enable = true;
-    };
-    spiceUSBRedirection.enable = true;
-  };
-  # ----
-
   # zramswap
   zramSwap.enable = true;
   # ---

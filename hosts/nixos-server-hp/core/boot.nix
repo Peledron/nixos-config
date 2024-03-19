@@ -12,6 +12,13 @@
     kernelPackages = pkgs.linuxPackages_latest;
     kernelParams = ["loglevel=3"]; # kernel parameters used at boot
     # loglevel 3 disables annoying message spam
+    initrd = {
+      # modules that are enabled in the initrd (when the kernel is loaded from the efi partition)
+      # qemu guest modules: "uhci_hcd" "ehci_pci" "ahci" "virtio_pci" "virtio_scsi" "sd_mod" "sr_mod"
+      availableKernelModules = ["ehci_pci" "ahci" "xhci_pci" "usb_storage" "sd_mod" "rtsx_pci_sdmmc"];
+      kernelModules = [];
+    };
+    kernelModules = ["kvm-intel"];
     loader = {
       grub.device = builtins.elemAt disks 0;
     };

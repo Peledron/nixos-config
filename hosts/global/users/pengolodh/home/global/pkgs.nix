@@ -28,7 +28,7 @@
     git-crypt
 
     # [hardware management]
-    pynitrokey # cli interface for nitrokey devices, udev rules are enabled in ${self}/hosts/global/core/security.nix, this needs to compile!
+    #pynitrokey # cli interface for nitrokey devices, udev rules are enabled in ${self}/hosts/global/core/security.nix, this needs to compile!
   ];
   nix-alien-install = with self.inputs.nix-alien.packages.${system}; [
     nix-alien # program to auto resolve dependencies of non-nix binaries, works in conjunction with nix-index and nix-ld

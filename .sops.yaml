@@ -13,10 +13,7 @@ creation_rules:
   # global secrets
   - path_regex: .secrets/global/[^/]+\.(yaml|json|env|ini)$
     key_groups:
-    - pgp:
-    # I will add my personal key as I want to edit these files
-      - *pengolodh_mainkey
-    # we need to allow all host age keys to decrypt the secrets in this file as well
+    # we need to allow all host age keys to decrypt the secrets in this file
     - age:
       - *vm-nixos-desktop_hostkey
       - *nixos-macbook_hostkey
@@ -28,16 +25,19 @@ creation_rules:
     # ---
 
   # user specific secrets
-  # -> pengolodh
+  # -> pengolodh system secrets
+   # -> pengolodh files
   - path_regex: .secrets/users/pengolodh/[^/]+\.(yaml|json|env|ini)$
     key_groups:
-    - pgp:
-      - *pengolodh_mainkey
-    # we need to allow hosts with this user to decrypt this as well, otherwise they will not be able to read the user password configuration
-    - age:
-      - *nixos-main_hostkey
+     - age:
       - *vm-nixos-desktop_hostkey
       - *nixos-macbook_hostkey
       - *nixos-laptop-asus_hostkey
       - *nixos-server-dns_hostkey
+  # -> pengolodh files
+  - path_regex: .secrets/users/pengolodh/files/[^/]+\.(yaml|json|env|ini)$
+    key_groups:
+     - pgp:
+    # I will add my personal key as I want to edit these files
+      - *pengolodh_mainkey
     # ---

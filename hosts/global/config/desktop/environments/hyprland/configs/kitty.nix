@@ -12,6 +12,7 @@
       name = "Ubuntu Nerd Font Mono";
       size = 14.0;
     };
+    shellIntegration.mode = "disabled"; #"no-sudo"; # fixes issues with doasnot understanding kitties TERMINFO variable (since we are using doas-sudo-shim)
 
     settings = {
       # [advanced]
@@ -131,7 +132,7 @@
       # [Clipboard]
       "ctrl+v" = "paste_from_clipboard";
       "ctrl+shift+v" = "paste_from_selection";
-      "ctrl+c" = "copy_and_clear_or_interrupt"; # Copy the selected text from the active window to the clipboard and clear selection, if no selection, send SIGINT 
+      "ctrl+c" = "copy_and_clear_or_interrupt"; # Copy the selected text from the active window to the clipboard and clear selection, if no selection, send SIGINT
       "shift+insert" = "paste_from_selection";
 
       # [Scrolling]
