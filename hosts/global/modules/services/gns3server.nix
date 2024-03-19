@@ -14,7 +14,4 @@
     ubridge.enable = true;
     dynamips.enable = true; # dynamips is used to emulate cisco IOS devices
   };
-  environment.systemPackages = with pkgs; [
-    gns3-gui
-  ];
 }

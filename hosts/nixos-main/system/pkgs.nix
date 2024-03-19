@@ -3,10 +3,10 @@
   config,
   lib,
   pkgs,
+  self,
   ...
 }: {
   imports =
     [(self + "/hosts/global/modules/programs/steam.nix")]
-    ++ [(self + "/hosts/global/modules/programs/vr.nix")]
-    ++ [(self + "/hosts/global/modules/programs/gns3.nix")];
+    ++ [(self + "/hosts/global/modules/programs/vr.nix")];
 }
