@@ -16,10 +16,11 @@
     # [networking]
     winbox # mikrotik router management GUI
     remmina # spice,rdp and vnc client
-
+    
     # [security]
     #nitrokey-app2 # seems to compile a lot of python packages, it exists as a flatpak so I added it that way
     kdePackages.kleopatra
+    #goldwarden # bitwarden native frontend for linux (with more features then official client)
 
     # [backup-solution]
     vorta
@@ -70,8 +71,6 @@
     # [programming tools]
     meld # qt diff tool
     direnv # per folder environment profiles
-    exercism # learning programming exercism.io
-    pipx
     cargo
 
     # [build tools]

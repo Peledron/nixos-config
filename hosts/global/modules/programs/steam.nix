@@ -6,7 +6,7 @@
 }: {
   programs = {
     steam = {
-      enable = false;
+      enable = true;
       package = pkgs.steam.override {
         extraPkgs = pkgs:
           with pkgs; [

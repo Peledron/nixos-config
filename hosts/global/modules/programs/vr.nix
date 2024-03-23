@@ -6,10 +6,12 @@
 }: {
   environment.systemPackages = with pkgs; [
     alvr
+    android-tools
+    sidequest
   ];
   programs = {
-    alvr = lib.mkDefault {
-      enable = false;
+    alvr = {
+      enable = true;
       openFirewall = true;
     };
   };
