@@ -25,14 +25,19 @@
       };
     };
     gamescope = {
-      enable = false;
+      enable = true;
       capSysNice = true; # Add cap_sys_nice capability to the GameScope binary so that it may renice itself
     };
     gamemode = {
-      enableRenice = false;
+      enableRenice = true;
       settings = {
         general.renice = 10;
       };
     };
   };
+  environment.systemPackages = with pkgs; [
+    gamescope
+    gamemode
+    protontricks
+  ];
 }

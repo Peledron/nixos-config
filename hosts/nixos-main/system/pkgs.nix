@@ -6,7 +6,5 @@
   self,
   ...
 }: {
-  imports =
-    [(self + "/hosts/global/modules/programs/steam.nix")]
-    ++ [(self + "/hosts/global/modules/programs/vr.nix")];
+  #[(self + "/hosts/global/modules/programs/steam.nix")];
 }

@@ -42,7 +42,7 @@
       rocmPackages.rocm-smi
       rocmPackages.rocminfo
       clinfo
-      nvtop-amd
+      nvtopPackages.amd
     ];
   };
   # systemd-rules

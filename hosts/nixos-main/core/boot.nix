@@ -10,19 +10,19 @@
     # [kernel]
     kernelPackages = pkgs.linuxKernel.packages.linux_xanmod_latest; #config.boot.zfs.package.latestCompatibleLinuxPackages; # this will use the latest kernel that is patched with zfs module
     extraModulePackages = with config.boot.kernelPackages; [
-      kvmfr # This kernel module implements a basic interface to the IVSHMEM device for LookingGlass when using LookingGlass in VM->VM mode Additionally, in VM->host mode, it can be used to generate a shared memory device on the host machine that supports dmabuf
+      #kvmfr # This kernel module implements a basic interface to the IVSHMEM device for LookingGlass when using LookingGlass in VM->VM mode Additionally, in VM->host mode, it can be used to generate a shared memory device on the host machine that supports dmabuf
       v4l2loopback # for obs virtual camera support
     ];
     extraModprobeConfig = ''
       options kvm_amd nested=1
       options v4l2loopback devices=1 video_nr=1 card_label="OBS Cam" exclusive_caps=1
     ''; # nested virtualization and obs-studio virtual camera support
-    
+
     # [early load]
     kernelParams = ["splash" "quiet" "loglevel=3" "amd_pstate=active" "amdgpu.si_support=1" "amdgpu.ppfeaturemask=0xffffffff"];
     # kernel parameters used at boot,
     # -> amdgpu.si_support=1 and amdgpu.ppfeaturemask=0xffffffff is to enable overclocking support
-    
+
     initrd = {
       # modules that are enabled during early load in the initrd (enables the modules in the kernel image that is loaded from the efi partition)
       availableKernelModules = ["amdgpu" "nvme" "aesni_intel" "cryptd" "xhci_pci" "ahci" "usb_storage" "sd_mod"];
@@ -32,7 +32,7 @@
       systemd.enable = true; # -> will startup systemd during stage 1 (allows things like plymouth to load early for password entry), boots faster
     };
     kernelModules = ["kvm-amd"];
-    
+
     # [bootloader]
     loader = {
       /*

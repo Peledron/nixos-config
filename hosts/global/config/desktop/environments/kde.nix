@@ -12,12 +12,12 @@
       # Enable touchpad support (enabled default in most desktopManager).
       libinput.enable = true;
       #set de default login session to sddm and tell it to use plasma-wayland
-      displayManager = {
-        defaultSession = "plasma";
-        sddm = {
-          enable = true;
-          wayland.enable = true; # launch sddm in wayland
-        };
+    };
+    displayManager = {
+      defaultSession = "plasma";
+      sddm = {
+        enable = true;
+        wayland.enable = true; # launch sddm in wayland
       };
     };
     desktopManager.plasma6.enable = true;
@@ -34,5 +34,9 @@
     unrar
     lzop
     lrzip
+
+    kdePackages.partitionmanager # kde-partition manager
+    kdePackages.filelight # disk usage statistics
+    kdePackages.kate # text editor
   ];
 }

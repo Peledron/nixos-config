@@ -16,31 +16,27 @@
     # [networking]
     winbox # mikrotik router management GUI
     remmina # spice,rdp and vnc client
-    
+
     # [security]
-    #nitrokey-app2 # seems to compile a lot of python packages, it exists as a flatpak so I added it that way
     kdePackages.kleopatra
-    #goldwarden # bitwarden native frontend for linux (with more features then official client)
 
     # [backup-solution]
     vorta
-    #celeste # file sync client that supports webdav, syncthing would be better but storagebox does not support this
-    #duplicati # A free backup client that securely stores encrypted, incremental, compressed backups on cloud storage services and remote file servers, seems to me to be like borg and not for syncing? maybe if you automated the sync jobs or something...
-    #cryptomator # encrypt files before storing them in the cloud
-    #freefilesync # celeste but mainly for windows, supports sftp, seems robust
 
     # [creative]
     blender-hip # blender with the hip library added to it, does not matter for nvidia machines, seems to crash for some reason...
     krita
 
     # [gaming]
-    #heroic # install via flatpak
+    #heroic # -> i am using the flatpak
+    prismlauncher
 
     # [chat]
-    #vesktop # open-source discord client, with vencord plugin/theme support, installing it via this instead of flatpak should fix some annoyances like links not opening.
+    # armcord # -> i am using the flatpak
+
     # [steaming]
     #obs-studio # -> if I enable it here it collides with the unwrapped version provided by programs.obs in ./configs/obs.nix
-    parsec-bin
+    easyeffects
 
     # [pdf]
     kdePackages.okular
@@ -57,6 +53,7 @@
 
     # [download tool]
     persepolis
+
     # [file management]
     #rclone-browser # qt rclone frontend, might not work, repo seems to be dead but author seems to be alive so who knows
   ];
