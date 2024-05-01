@@ -195,7 +195,17 @@
               definedAliases = ["@no"];
             };
             "Home Options search" = {
-              urls = [{template = "https://mipmip.github.io/home-manager-option-search/?query={searchTerms}";}];
+              urls = [
+                {
+                  template = "https://mipmip.github.io/home-manager-option-search";
+                  params = [
+                    {
+                      name = "query";
+                      value = "{searchTerms}";
+                    }
+                  ];
+                }
+              ];
               iconUpdateURL = "https://avatars.githubusercontent.com/u/33221035?s=48&v=4";
               updateInterval = 24 * 60 * 60 * 1000; # every 24 hrs (in ms)
               definedAliases = ["@ho"];

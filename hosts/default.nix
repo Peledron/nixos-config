@@ -109,8 +109,8 @@ in {
 
       # desktop configuration
       global-desktopconf
-      #hyprland-coreconf
-      kde-coreconf
+      hyprland-coreconf
+      #kde-coreconf
 
       # -> user modules
       pengolodh-coreconf
@@ -125,13 +125,13 @@ in {
         home-manager.extraSpecialArgs = {inherit inputs self system;};
         home-manager.users.pengolodh = {
           imports =
-            #[hyprland-homemod]
-            [nix-index-db]
+            [hyprland-homemod]
+            ++ [nix-index-db]
             #[plasma-manager]
             ++ [pengolodh_global-homeconf]
             ++ [pengolodh_desktop-homeconf]
-            ##++ [hyprland-homeconf]
-            ++ [kde-homeconf];
+            ++ [hyprland-homeconf];
+            #++ [kde-homeconf];
           # add more inports via [import module] ++ (import folder) or ++ [(import file)], variables behave like modules
         };
         # ---

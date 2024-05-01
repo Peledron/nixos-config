@@ -43,10 +43,7 @@ in {
       gnome3.adwaita-icon-theme # default gnome cursors
 
       # [qt-theming control]
-      # libsForQt5.qt5ct
-      # kdePackages.qt6ct
       kdePackages.qtstyleplugin-kvantum
-      # -> not needed as we will follow the gtk theme
     ];
     pointerCursor = {
       name = "${cursor-theme-name}";
@@ -61,15 +58,10 @@ in {
 
   qt = {
     enable = true;
-    platformTheme = "qtct";
+    platformTheme.name = "qtct";
     style.name = "kvantum";
   };
-  /*
-  home.sessionVariables = { # does not work, see ../hyprland.nix, sessionvariables need to be system level it seems
-      QT_QPA_PLATFORMTHEME = "qt5ct";
-      QT_STYLE_OVERRIDE = "kvantum";
-    };
-  */
+  
   xdg.configFile = {
     "Kvantum/kvantum.kvconfig".text = "[General]\ntheme=${qt-theme}";
     "Kvantum/${qt-theme}".source = "${pkgs.${qt-theme-package}}/share/Kvantum/${qt-theme}";
@@ -115,11 +107,11 @@ in {
       icon_theme=Papirus-Dark
       standard_dialogs=default
       style=kvantum-dark
-          
+        
       [Fonts]
       fixed="UbuntuMono Nerd Font,12,-1,5,400,0,0,0,0,0,0,0,0,0,0,1,Regular"
       general="Ubuntu Nerd Font,12,-1,5,400,0,0,0,0,0,0,0,0,0,0,1,Regular"
-          
+        
       [Interface]
       activate_item_on_single_click=1
       buttonbox_layout=0
@@ -134,12 +126,12 @@ in {
       toolbutton_style=4
       underline_shortcut=1
       wheel_scroll_lines=3
-          
+        
       [SettingsWindow]
       geometry=@ByteArray(\x1\xd9\xd0\xcb\0\x3\0\0\0\0\0\0\0\0\0\0\0\0\x3\xb4\0\0\x5\x82\0\0\0
       \0\0\0\0\0\0\0\x2\xde\0\0\x2\x7f\0\0\0\0\x2\0\0\0\rp\0\0\0\0\0\0\0\0\0\0\x3\xb4\0\0\x5\x
       82)
-          
+        
       [Troubleshooting]
       force_raster_widgets=0
       ignored_applications=@Invalid()'';

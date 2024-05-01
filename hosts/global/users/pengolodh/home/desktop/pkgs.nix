@@ -69,6 +69,7 @@
     meld # qt diff tool
     direnv # per folder environment profiles
     cargo
+    pipx
 
     # [build tools]
     gnumake

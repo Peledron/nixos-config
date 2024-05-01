@@ -8,15 +8,9 @@
   ...
 }: {
   nix.settings = {
-    # add the hyprland cachix, otherwise it needs to compile
     substituters = ["https://hyprland.cachix.org"];
     trusted-public-keys = ["hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="];
   };
-
-  # programs.hyprland = {
-  #   enable = true;
-  #   package = inputs.hyprland.packages.${pkgs.system}.hyprland;
-  # }; # -> moved to hyprland/home.nix for the rest of the options
 
   # deps and env
   environment.systemPackages = with pkgs; [

@@ -7,12 +7,6 @@
 }: {
   # enable the xserver:
   services = {
-    xserver = {
-      enable = true;
-      # Enable touchpad support (enabled default in most desktopManager).
-      libinput.enable = true;
-      #set de default login session to sddm and tell it to use plasma-wayland
-    };
     displayManager = {
       defaultSession = "plasma";
       sddm = {

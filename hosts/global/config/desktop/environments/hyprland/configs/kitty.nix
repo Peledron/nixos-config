@@ -115,7 +115,7 @@
 
       # [session]
       # --> The value of the TERM environment variable to set
-      term = "xterm-kitty";
+      term = "xterm-256color"; #"xterm-kitty";
 
       # [color scheme]
       # --> set background opacity

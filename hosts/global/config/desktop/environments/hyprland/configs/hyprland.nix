@@ -25,18 +25,10 @@ in {
     systemd = {
       # activates the dbus environment for hyprland on graphical-target, this is added to the conf file
       enable = true;
-
       variables = ["--all"];
-      /*
-      extraCommands = [
-        "systemctl --user restart pipewire wireplumber xdg-desktop-portal xdg-desktop-portal-hyprland"
-        # im not sure why this is needed, taken from https://github.com/abdul2906/nixos-system-config/blob/main/nixos/modules/hyprland/module.nix
-      ];
-      */
-      #  im leaving this blanc since I think its for when hyprland reloads, not really needed in this case since we use systemd
     };
     plugins = [
-      #inputs.split-monitor-workspaces.packages.${pkgs.system}.split-monitor-workspaces # -> does not work for some reason
+      #inputs.hyprsplit.packages.${pkgs.system}.hyprsplit
     ];
 
     settings = {
@@ -57,7 +49,7 @@ in {
       # [env]
       # -> best set this in ../env.nix, ill put some here cuz they are temporary
       env = [
-        "WLR_DRM_NO_ATOMIC,1" # for tearing support, not needed after kernel 6.8
+        #"WLR_DRM_NO_ATOMIC,1" # for tearing support, not needed after kernel 6.8
       ];
 
       # [exec]
@@ -297,7 +289,7 @@ in {
           "${mod}, X, killactive,"
           "${mod} SHIFT, Q, exit,"
           "${mod}, F, fullscreen,"
-          "${mod}, N, exec, pypr toggle_special minimized" # move window to special workspace
+          "${mod}, N, exec, split:movetoworkspacesilent" # move window to special workspace
           "${mod} SHIFT, N, togglespecialworkspace, minimized" # show special workspace
           "${mod} SHIFT, F, togglefloating,"
           "${mod}, tab, exec, pypr expose" # expose all active windows on the current workspace
@@ -325,10 +317,10 @@ in {
           "${mod} CTRL, down, resizeactive, 0 80"
 
           ## mouse keys
-          "${mod}, mouse_up, exec, hyprnome -k"
-          "${mod}, mouse_down, exec, hyprnome --previous -k"
-          "${mod} SHIFT, mouse_up, exec, hyprnome --move -k"
-          "${mod} SHIFT, mouse_down, exec, hyprnome --move --previous -k"
+          "${mod}, mouse_up, exec, workspace, current +1"
+          "${mod}, mouse_down, exec, workspace, current -1"
+          "${mod} SHIFT, mouse_up, exec, movetoworkspace, current +1"
+          "${mod} SHIFT, mouse_down, exec, movetoworkspace, current -1"
         ]
         ++ (
           ## workspaces/ workspace movement
@@ -374,7 +366,6 @@ in {
     "hypr/pyprland.toml".text = ''
       [pyprland]
         plugins = [
-          "toggle_special"
         ]
     '';
     "hypr/hyprgame.sh".text = ''

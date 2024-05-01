@@ -30,8 +30,8 @@
     };
 
     hyprland.url = "github:hyprwm/Hyprland";
-    split-monitor-workspaces = {
-      url = "github:Duckonaut/split-monitor-workspaces";
+    hyprsplit = {
+      url = "github:shezdy/hyprsplit";
       inputs.hyprland.follows = "hyprland"; # <- make sure this line is present for the plugin to work as intended
     };
 
@@ -47,7 +47,7 @@
       url = "github:nix-community/nix-index-database";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nix-alien.url = "github:thiagokokada/nix-alien"; # auto dependency installing for external binaries 
+    nix-alien.url = "github:thiagokokada/nix-alien"; # auto dependency installing for external binaries
     /*
     dotfiles = {
         url = "gitlab:pengolodh/dotfiles";
@@ -64,7 +64,7 @@
     impermanence,
     sops-nix,
     hyprland,
-    split-monitor-workspaces,
+    hyprsplit,
     nix-index-database,
     nix-alien,
     ...

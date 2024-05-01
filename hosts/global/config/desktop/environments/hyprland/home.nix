@@ -12,4 +12,5 @@
     #++ [(import ./nvidia.nix)]
     ++ (import ./configs);
   # ---
+
 }
