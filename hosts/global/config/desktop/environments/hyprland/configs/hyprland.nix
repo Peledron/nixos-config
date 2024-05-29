@@ -3,6 +3,7 @@
   pkgs,
   self,
   inputs,
+  system,
   ...
 }: let
   wallpaper = "${self}/hosts/global/config/desktop/environments/hyprland/configs/non-nix/wallpapers/wallpaper.png";
@@ -30,7 +31,7 @@ in {
     plugins = [
       #inputs.hyprsplit.packages.${pkgs.system}.hyprsplit
     ];
-
+	enableNvidiaPatches = false;
     settings = {
       # see https://github.com/skbolton/nix-dotfiles/blob/main/home/capabilities/desktop/hyprland/default.nix for a good example of this type of config
       # [variables]
@@ -62,7 +63,8 @@ in {
         "dunst"
         "waybar"
         "sleep 2; pkill -USR1 waybar" # hides waybar on reload
-        "swayidle timeout 900 hyprlock timeout 1200 'hyprctl dispatch dpms off' resume 'hyprctl dispatch dpms on' timeout 1800 'systemctl suspend' before-sleep hyprlock"
+        #"swayidle timeout 900 hyprlock timeout 1200 'hyprctl dispatch dpms off' resume 'hyprctl dispatch dpms on' timeout 1800 'systemctl suspend' before-sleep hyprlock"
+        "exec swayidle -w timeout 300 swaylock -f -i ${lockscreen} timeout 600 'hyprctl dispatch dpms off' resume 'hyprctl dispatch dpms on' before-sleep swaylock -f -i ${lockscreen}"
         ## clipboard
         #"wl-paste -t text --watch clipman store --no-persist --max-items=999999" # -> clipman
         "wl-paste --type text --watch cliphist store" # cliphist, Stores only text data

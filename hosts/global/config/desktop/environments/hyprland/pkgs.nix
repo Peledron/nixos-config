@@ -5,25 +5,8 @@
   system,
   input,
   ...
-}: let
-  # script taken from https://github.com/abdul2906/nixos-system-config/blob/main/nixos/modules/hyprland/module.nix
-  /*
-  dbus-hyprland-environment = pkgs.writeTextFile {
-    name = "dbus-hyprland-environment";
-    destination = "/bin/dbus-hyprland-environment";
-    executable = true;
-
-    text = ''
-      dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=hyprland XDG_SESSION_TYPE=wayland  XDG_SESSION_DESKTOP=Hyprland
-      systemctl --user restart pipewire wireplumber xdg-desktop-portal xdg-desktop-portal-hyprland
-    '';
-  };
-  */
-in {
-  home.packages = with pkgs; [
-    # [imported scripts]
-    #dbus-hyprland-environment # replaced with ./configs/hyprland.nix, using the systemd option, it does the same thing (only better)
-
+}: {
+  home.packages = with pkgs.unstable; [
     # [applications]
     # -> term
     kitty
@@ -44,7 +27,7 @@ in {
     # -> runner
     fuzzel
     # -> image viewer
-    kdePackages.gwenview
+    nomacs
     celluloid # video player, gtk frontend for mpv
     # -> archive manager
     lxqt.lxqt-archiver
@@ -76,7 +59,8 @@ in {
 
     # -> idle/lock
     swayidle
-    hyprlock
+    swaylock
+    #hyprlock
 
     # -> brightness
     brightnessctl

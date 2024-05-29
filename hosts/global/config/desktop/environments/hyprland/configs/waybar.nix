@@ -7,6 +7,7 @@
 in {
   programs.waybar = {
     enable = true;
+    package = pkgs.unstable.waybar;
     #package = pkgs.waybar.overrideAttrs (oldAttrs: {mesonFlags = oldAttrs.mesonFlags ++ ["-Dexperimental=true"];}); # enable the experimental patch to allow for hyprland workspaces indicator
     settings = {
       mainBar = {

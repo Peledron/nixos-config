@@ -9,11 +9,19 @@
   system = "x86_64-linux"; # System architecture
   lib = inputs.nixpkgs.lib;
 
+  overlay-unstable = final: prev: {
+    #unstable = inputs.nixpkgs-unstable.legacyPackages.${prev.system};
+    # use this variant if unfree packages are needed:
+    unstable = import inputs.nixpkgs-unstable {
+      inherit system;
+      config.allowUnfree = true;
+    };
+  };
   pkgs = import inputs.nixpkgs {
     inherit system;
-    config.allowUnfree = true; # Allow proprietary software
+    config.allowUnfree = true;
     overlays = [
-      inputs.nur.overlay # overlay nixpkgs with nur, meant that you add nur packages to the nixpkgs module (I think)
+      overlay-unstable
     ];
   };
 
@@ -77,7 +85,7 @@ in {
   #==================#
   # hardware:
   #==================#
-  nixos-main = lib.nixosSystem {
+  nixos-main = lib.nixosSystem rec {
     inherit system pkgs;
     specialArgs = {
       inherit inputs self;
@@ -120,7 +128,7 @@ in {
       # system home-man:
       home-manager
       {
-        home-manager.useGlobalPkgs = true; # sets home-manager to use the nix-package-manager packages instead of its own internal ones
+        home-manager.useGlobalPkgs = true; # sets home-manager to use the nix-package-manager packages instead of its own internal ones, otherwise it duplicates dependancies
         home-manager.useUserPackages = true; # packages will be installed per user;
         home-manager.extraSpecialArgs = {inherit inputs self system;};
         home-manager.users.pengolodh = {
@@ -131,8 +139,10 @@ in {
             ++ [pengolodh_global-homeconf]
             ++ [pengolodh_desktop-homeconf]
             ++ [hyprland-homeconf];
-            #++ [kde-homeconf];
+          	#++ [kde-homeconf];
           # add more inports via [import module] ++ (import folder) or ++ [(import file)], variables behave like modules
+          home.stateVersion = "23.11";
+          #nixpkgs.config.allowUnfree = true;
         };
         # ---
         # add more users here:

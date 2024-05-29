@@ -7,18 +7,18 @@
   self,
   ...
 }: let
-  tools-install = with pkgs; [
+  tools-install = with pkgs.unstable; [
     # [wine]
     wineWowPackages.staging
     winetricks
   ];
-  gui-install = with pkgs; [
+  gui-install = with pkgs.unstable; [
     # [networking]
     winbox # mikrotik router management GUI
     remmina # spice,rdp and vnc client
 
     # [security]
-    kdePackages.kleopatra
+    gnome.seahorse
 
     # [backup-solution]
     vorta
@@ -39,7 +39,7 @@
     easyeffects
 
     # [pdf]
-    kdePackages.okular
+    zathura
 
     # [documents]
     libreoffice-qt
@@ -51,13 +51,10 @@
     # [torrent client]
     qbittorrent
 
-    # [download tool]
-    persepolis
-
     # [file management]
     #rclone-browser # qt rclone frontend, might not work, repo seems to be dead but author seems to be alive so who knows
   ];
-  dev-install = with pkgs; [
+  dev-install = with pkgs.unstable; [
     # [programming langs]
     python3
     go
@@ -67,7 +64,6 @@
 
     # [programming tools]
     meld # qt diff tool
-    direnv # per folder environment profiles
     cargo
     pipx
 

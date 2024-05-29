@@ -11,27 +11,13 @@
     substituters = ["https://hyprland.cachix.org"];
     trusted-public-keys = ["hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="];
   };
-
+  #programs.hyprland.enable = true;
   # deps and env
-  environment.systemPackages = with pkgs; [
-    # [basic deps]
-    wayland
-    xwayland
-    xdg-desktop-portal-gtk
-    xdg-desktop-portal-hyprland
-    hyprland-protocols
 
-    qt6.qtwayland
-
-    glib
-    ffmpeg
-    libheif
-
+  environment.systemPackages = with pkgs.unstable; [
     # [polkit]
     # --> used to elevate certain programs
     lxqt.lxqt-policykit
-    # [bluetooth]
-    blueman
 
     xdg-utils
   ];
@@ -48,7 +34,7 @@
       after = ["graphical-session.target"];
       serviceConfig = {
         Type = "simple";
-        ExecStart = "${pkgs.lxqt.lxqt-policykit}/libexec/lxqt-policykit-agent";
+        ExecStart = "${pkgs.unstable.lxqt.lxqt-policykit}/libexec/lxqt-policykit-agent";
         Restart = "on-failure";
         RestartSec = 1;
         TimeoutStopSec = 10;
@@ -74,12 +60,13 @@
 
   services.greetd = {
     enable = true;
+    package = pkgs.unstable.greetd;
     settings = {
       default_session = {
-        command = "${pkgs.greetd.greetd}/bin/agreety --cmd ${pkgs.hyprland}/bin/Hyprland";
+        command = "${pkgs.unstable.greetd.greetd}/bin/agreety --cmd ${inputs.hyprland.packages.${pkgs.system}.hyprland}/bin/Hyprland";
       };
       initial_session = {
-        command = "${pkgs.hyprland}/bin/Hyprland &> /dev/null";
+        command = "${inputs.hyprland.packages.${pkgs.system}.hyprland}/bin/Hyprland &> /dev/null";
         user = "pengolodh"; # not really config independant, but...
       }; # auto-login for user pengolodh
     };
@@ -89,7 +76,7 @@
   xdg.portal = {
     enable = true;
     wlr.enable = true;
-    extraPortals = [pkgs.xdg-desktop-portal-gtk];
+    extraPortals = [pkgs.unstable.xdg-desktop-portal-gtk];
     config = {
       Hyprland = {
         default = [

@@ -5,7 +5,7 @@
 }: {
   programs.kitty = {
     enable = true;
-
+    package = pkgs.unstable.kitty;
     theme = "Nord"; # can be any from https://github.com/kovidgoyal/kitty-themes/tree/master/themes
 
     font = {

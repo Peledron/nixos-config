@@ -29,7 +29,7 @@
   };
 in {
   home = {
-    packages = with pkgs; [
+    packages = with pkgs.unstable; [
       # [imported scripts]
       configure-gtk
       # -> configured through home-manager
@@ -43,11 +43,11 @@ in {
       gnome3.adwaita-icon-theme # default gnome cursors
 
       # [qt-theming control]
-      kdePackages.qtstyleplugin-kvantum
+      #kdePackages.qtstyleplugin-kvantum
     ];
     pointerCursor = {
       name = "${cursor-theme-name}";
-      package = pkgs.gnome.adwaita-icon-theme;
+      package = pkgs.unstable.gnome.adwaita-icon-theme;
       size = 24;
       x11 = {
         enable = true;
@@ -58,13 +58,13 @@ in {
 
   qt = {
     enable = true;
-    platformTheme.name = "qtct";
+    platformTheme = "qtct";
     style.name = "kvantum";
   };
-  
+
   xdg.configFile = {
     "Kvantum/kvantum.kvconfig".text = "[General]\ntheme=${qt-theme}";
-    "Kvantum/${qt-theme}".source = "${pkgs.${qt-theme-package}}/share/Kvantum/${qt-theme}";
+    "Kvantum/${qt-theme}".source = "${pkgs.unstable.${qt-theme-package}}/share/Kvantum/${qt-theme}";
     "qt5ct/qt5ct.conf".text = ''
       [Appearance]
       color_scheme_path=${pkgs.libsForQt5.qt5ct}/share/qt5ct/colors/darker.conf
@@ -102,16 +102,16 @@ in {
     '';
     "qt6ct/qt6ct.conf".text = ''
       [Appearance]
-      color_scheme_path=${pkgs.kdePackages.qt6ct}/share/qt6ct/colors/darker.conf
+      color_scheme_path=${pkgs.unstable.kdePackages.qt6ct}/share/qt6ct/colors/darker.conf
       custom_palette=false
       icon_theme=Papirus-Dark
       standard_dialogs=default
       style=kvantum-dark
-        
+          
       [Fonts]
       fixed="UbuntuMono Nerd Font,12,-1,5,400,0,0,0,0,0,0,0,0,0,0,1,Regular"
       general="Ubuntu Nerd Font,12,-1,5,400,0,0,0,0,0,0,0,0,0,0,1,Regular"
-        
+          
       [Interface]
       activate_item_on_single_click=1
       buttonbox_layout=0
@@ -126,12 +126,12 @@ in {
       toolbutton_style=4
       underline_shortcut=1
       wheel_scroll_lines=3
-        
+          
       [SettingsWindow]
       geometry=@ByteArray(\x1\xd9\xd0\xcb\0\x3\0\0\0\0\0\0\0\0\0\0\0\0\x3\xb4\0\0\x5\x82\0\0\0
       \0\0\0\0\0\0\0\x2\xde\0\0\x2\x7f\0\0\0\0\x2\0\0\0\rp\0\0\0\0\0\0\0\0\0\0\x3\xb4\0\0\x5\x
       82)
-        
+          
       [Troubleshooting]
       force_raster_widgets=0
       ignored_applications=@Invalid()'';
@@ -140,15 +140,15 @@ in {
   gtk = {
     enable = true;
     cursorTheme = {
-      package = pkgs.gnome.adwaita-icon-theme;
+      package = pkgs.unstable.gnome.adwaita-icon-theme;
       name = "${cursor-theme-name}";
     };
     iconTheme = {
-      package = pkgs.papirus-icon-theme;
+      package = pkgs.unstable.papirus-icon-theme;
       name = "${icon-theme-name}";
     };
     theme = {
-      package = pkgs.nordic;
+      package = pkgs.unstable.nordic;
       name = "${gtk-theme}";
     };
   };

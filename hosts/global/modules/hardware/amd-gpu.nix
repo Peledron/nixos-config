@@ -8,19 +8,24 @@
   hardware = {
     # vulkan settings
     opengl = {
+      enable = true;
       # enable vulkan drivers:
       driSupport = true;
       driSupport32Bit = true; # For 32 bit applications
+      package = pkgs.unstable.mesa.drivers;
+      package32 = pkgs.unstable.pkgsi686Linux.mesa.drivers;
 
       # extra drivers:
-      extraPackages = with pkgs; [
+      extraPackages = with pkgs.unstable; [
+        mesa.drivers
         rocmPackages.clr
         rocmPackages.clr.icd
         rocmPackages.rocm-runtime
 
         amdvlk # amd pro driver -> in env RADV is enabled so this will only be used as fallback I think
       ];
-      extraPackages32 = with pkgs; [
+      extraPackages32 = with pkgs.unstable; [
+        pkgsi686Linux.mesa.drivers
         driversi686Linux.amdvlk
       ];
     };
@@ -38,7 +43,7 @@
       # rocm related
       ROCR_VISIBLE_DEVICES = "${rocmgpu}";
     };
-    systemPackages = with pkgs; [
+    systemPackages = with pkgs.unstable; [
       rocmPackages.rocm-smi
       rocmPackages.rocminfo
       clinfo
@@ -47,6 +52,6 @@
   };
   # systemd-rules
   systemd.tmpfiles.rules = [
-    "L+    /opt/rocm/hip   -    -    -     -    ${pkgs.rocmPackages.clr}" # Most software has the HIP libraries hard-coded. You can work around it on NixOS by using this
+    "L+    /opt/rocm/hip   -    -    -     -    ${pkgs.unstable.rocmPackages.clr}" # Most software has the HIP libraries hard-coded. You can work around it on NixOS by using this
   ];
 }

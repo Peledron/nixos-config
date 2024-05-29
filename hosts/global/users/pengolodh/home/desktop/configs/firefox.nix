@@ -7,7 +7,7 @@
   # a lot of these options come from: https://discourse.nixos.org/t/declare-firefox-extensions-and-settings/36265
   programs.firefox = {
     enable = true;
-    package = pkgs.wrapFirefox pkgs.firefox-unwrapped {
+    package = pkgs.unstable.wrapFirefox pkgs.unstable.firefox-unwrapped {
       extraPolicies = {
         # Check about:policies#documentation for options.
         CaptivePortal = false;
@@ -100,7 +100,7 @@
         # extentions :
         # --> only usefull if you dont use an existing firefox profile..., also these will be disabled by default so... IDK how to actually enable them
         # find more at https://nur.nix-community.org/repos/rycee/
-        extensions = with pkgs.nur.repos.rycee.firefox-addons; [
+        #extensions = with pkgs.nur.repos.rycee.firefox-addons; [
           # [privacy]
           #multi-account-containers # --> seems to break the syncronized containers if this is enabled
           # privacy-badger
@@ -117,7 +117,7 @@
           # #firefox-translations # translate webpages does not exist, uses offline translator so this is prob a better choice anyway
           # return-youtube-dislikes
           # reddit-enhancement-suite
-        ];
+        #];
         # ---
         search = {
           force = true;

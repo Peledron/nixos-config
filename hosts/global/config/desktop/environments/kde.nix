@@ -17,9 +17,9 @@
     desktopManager.plasma6.enable = true;
   };
   programs.dconf.enable = true; # better compatiblity for costum setups (gnome apps)
-  programs.gnupg.agent.pinentryPackage = lib.mkForce pkgs.pinentry-qt;
+  #programs.gnupg.agent.pinentryPackage = lib.mkForce pkgs.pinentry-qt;
   # --> install kde specific packages:
-  environment.systemPackages = with pkgs; [
+  environment.systemPackages = with pkgs.unstable; [
     # desktop specific
     # [kde]
     libsForQt5.polonium # tiling, package doesnt work with plasma 6

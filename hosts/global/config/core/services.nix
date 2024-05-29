@@ -51,6 +51,6 @@
     # fedora's defaults
     enableRootSlice = true;
     enableSystemSlice = false;
-    enableUserSlices = true;
+    enableUserServices = true; # renamed to UserSlices in nixpkgs-unstable
   };
 }

@@ -4,9 +4,9 @@
   #rev = "main";
   inputs = {
     # main nix repo
-    nixpkgs = {
-      url = "github:nixos/nixpkgs/nixos-unstable"; # change to whatever version, as home-manager is used, unstable is recommended
-    };
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-23.11";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+
     # disko, auto disk partitioning tool using nix config... its perfect to replace scripts/prepare.sh (most of it at least)
     disko = {
       url = "github:nix-community/disko";
@@ -16,12 +16,11 @@
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
     impermanence.url = "github:nix-community/impermanence";
 
     # home-manager
     homeMan = {
-      url = "github:nix-community/home-manager";
+      url = "github:nix-community/home-manager/release-23.11";
       inputs.nixpkgs.follows = "nixpkgs"; # sets home-manager to use the nix-package-manager packages instead of its own internal ones
     };
     # Nix User Repo
@@ -29,7 +28,11 @@
       url = "github:nix-community/NUR";
     };
 
-    hyprland.url = "github:hyprwm/Hyprland";
+    hyprland = {
+      type = "git";
+      url = "https://github.com/hyprwm/Hyprland";
+      submodules = true;
+    }; #"github:hyprwm/Hyprland";
     hyprsplit = {
       url = "github:shezdy/hyprsplit";
       inputs.hyprland.follows = "hyprland"; # <- make sure this line is present for the plugin to work as intended
@@ -59,6 +62,7 @@
   outputs = inputs @ {
     self,
     nixpkgs,
+    nixpkgs-unstable,
     homeMan,
     nur,
     impermanence,

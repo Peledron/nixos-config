@@ -7,6 +7,7 @@
   services = {
     rkvm = {
       enable = true;
+      package = pkgs.unstable.rkvm;
       server = {
         enable = true;
         settings = {

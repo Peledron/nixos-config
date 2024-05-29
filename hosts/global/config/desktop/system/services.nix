@@ -7,9 +7,9 @@
 }: {
   # nice daemon
   services.ananicy = {
-    package = pkgs.ananicy-cpp;
+    package = pkgs.unstable.ananicy-cpp;
     enable = true;
-    rulesProvider = pkgs.ananicy-rules-cachyos;
+    rulesProvider = pkgs.unstable.ananicy-rules-cachyos;
   };
   # ---
 
@@ -28,8 +28,8 @@
   # --> printer discovery:
   services.avahi = {
     # Needed to find wireless printer
-    enable = true; # disabled dont really use it
-    nssmdns4 = true;
+    enable = false; # disabled dont really use it
+    # nssmdns4 = true; # unstable option
     publish = {
       # Needed for detecting the scanner
       enable = true;
