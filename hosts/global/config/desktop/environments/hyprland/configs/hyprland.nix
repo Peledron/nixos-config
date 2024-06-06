@@ -26,12 +26,12 @@ in {
     systemd = {
       # activates the dbus environment for hyprland on graphical-target, this is added to the conf file
       enable = true;
-      variables = ["--all"];
+      variables = ["-all"];
     };
     plugins = [
       #inputs.hyprsplit.packages.${pkgs.system}.hyprsplit
     ];
-	enableNvidiaPatches = false;
+    enableNvidiaPatches = false;
     settings = {
       # see https://github.com/skbolton/nix-dotfiles/blob/main/home/capabilities/desktop/hyprland/default.nix for a good example of this type of config
       # [variables]
@@ -291,7 +291,8 @@ in {
           "${mod}, X, killactive,"
           "${mod} SHIFT, Q, exit,"
           "${mod}, F, fullscreen,"
-          "${mod}, N, exec, split:movetoworkspacesilent" # move window to special workspace
+
+          "${mod}, N, exec, movetoworkspace, special" # move window to special workspace
           "${mod} SHIFT, N, togglespecialworkspace, minimized" # show special workspace
           "${mod} SHIFT, F, togglefloating,"
           "${mod}, tab, exec, pypr expose" # expose all active windows on the current workspace
@@ -323,6 +324,11 @@ in {
           "${mod}, mouse_down, exec, workspace, current -1"
           "${mod} SHIFT, mouse_up, exec, movetoworkspace, current +1"
           "${mod} SHIFT, mouse_down, exec, movetoworkspace, current -1"
+
+          ## special
+          ### submaps are different keybind groups,
+          "${mod}, Delete, submap, grabOn"
+          "${mod} SHIFT, Delete, submap, reset"
         ]
         ++ (
           ## workspaces/ workspace movement
@@ -355,6 +361,10 @@ in {
       bindm = [
         "${mod}, mouse:272, movewindow"
         "${mod}, mouse:273, resizewindow"
+      ];
+      submap = [
+        "grabOn"
+        "reset"
       ];
       debug = {
         enable_stdout_logs = false;

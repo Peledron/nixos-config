@@ -5,7 +5,7 @@
 }: {
   programs.fuzzel = {
     enable = true;
-    package = pkgs.unstable.fuzzel;
+    package = pkgs.fuzzel;
     settings = {
       main = {
         # output="<not set>";

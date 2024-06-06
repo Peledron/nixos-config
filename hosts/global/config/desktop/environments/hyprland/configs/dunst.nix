@@ -5,7 +5,7 @@
 }: {
   services.dunst = {
     enable = true;
-    package = pkgs.unstable.dunst;
+    package = pkgs.dunst;
     iconTheme = {
       package = pkgs.papirus-icon-theme;
       name = "Papirus"; # change to installed theme

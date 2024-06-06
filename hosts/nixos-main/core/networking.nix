@@ -20,7 +20,8 @@
       # define allowed ports:
       allowedTCPPorts = [
         22001 # ssh port
-        52581 # rkvm port, see services.nix in system
+        22424 # lan-mouse port
+        #52581 # rkvm port, see services.nix in system
       ];
       allowedUDPPorts = [
         #51820 # wireguard port

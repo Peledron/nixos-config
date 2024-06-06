@@ -18,23 +18,24 @@ in {
         # "gtk-layer-shell"= "false";
 
         # Choose the order of the modules
-        modules-left = ["tray"]; #"hyprland/workspaces"];
+        modules-left = ["hyprland/workspaces"];
         #"modules-center"= ["sway/window"];
-        modules-right = ["idle_inhibitor" "network" "bluetooth" "cpu" "memory" "temperature" "pulseaudio" "pulseaudio#microphone" "clock"];
+        modules-right = ["tray" "idle_inhibitor" "network" "bluetooth" "cpu" "memory" "temperature" "pulseaudio" "pulseaudio#microphone" "clock"];
 
         # ---
         # module configs:
 
         "hyprland/workspaces" = {
           all-outputs = false;
-          disable-scroll = false;
           format = " {icon} ";
           format-icons = {
             urgent = "";
             focused = "";
             default = "";
           };
-          persistent_workspaces = {
+          on-scroll-up = "hyprctl dispatch workspace e+1";
+          on-scroll-down = "hyprctl dispatch workspace e-1";
+          persistent-workspaces = {
             "*" = 5; # show 5 workspaces by default
           };
         };
@@ -185,13 +186,15 @@ in {
           color: #ffffff;
           margin-right: 5px;
       }
-
       #workspaces button.focused {
-          color: #a6adc8;
+          color: #EBCB8B;
+      }
+      #workspaces button.active {
+          color: #EBCB8B;
       }
 
       #workspaces button.visible {
-          color: #cdd6f4;
+          color: #EBCB8B;
       }
 
       #workspaces button.urgent {

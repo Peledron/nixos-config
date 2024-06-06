@@ -8,7 +8,7 @@
 in {
   programs.wlogout = {
     enable = true;
-    package = pkgs.unstable.wlogout;
+    package = pkgs.wlogout;
     style = ''
        window {
           font-family: monospace;

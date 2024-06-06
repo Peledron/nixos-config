@@ -5,7 +5,7 @@
 }: {
   services.avizo = {
     enable = true;
-    package = pkgs.unstable.avizo;
+    package = pkgs.avizo;
     settings = {
       defaults = {
         time = 1.0;

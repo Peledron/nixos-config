@@ -6,7 +6,7 @@
   input,
   ...
 }: {
-  home.packages = with pkgs.unstable; [
+  home.packages = with pkgs; [
     # [applications]
     # -> term
     kitty
@@ -20,6 +20,12 @@
     # kdePackages.kdenetwork-filesharing
     lxqt.pcmanfm-qt # uses gvfs for folder mounts
     lxqt.lxqt-menu-data # add installed applications to the right click menu when selecting "open with"
+    # tumb
+    xfce.tumbler
+    webp-pixbuf-loader # webp
+    poppler # pdf tumbs
+    ffmpegthumbnailer
+    libgsf
 
     # vm client
     spicy
@@ -27,14 +33,20 @@
     # -> runner
     fuzzel
     # -> image viewer
-    nomacs
+    gnome.eog
     celluloid # video player, gtk frontend for mpv
     # -> archive manager
     lxqt.lxqt-archiver
+    # programs to allow for unzipping
+    unzrip
+    p7zip
+    unrar
+    lzop
+    lrzip
 
     # [sway related]
     # -> bar
-    waybar
+    # waybar # -> package enabled via config as unstable, to allow for hyprland integration
 
     # -> screenshots
     grim
@@ -43,9 +55,10 @@
     wf-recorder # screen recording for wayland
 
     # -> clipboard
-    wl-clipboard
+    unstable.wl-clipboard-rs
+    wl-clipboard-x11 # x11 wrapper for wl-clipboard
     #clipman
-    cliphist # -> is a better alternative to clipman cuz it supports images and such
+    unstable.cliphist # -> is a better alternative to clipman cuz it supports images and such
 
     # -> functionality
     pyprland # plugin package for hyprland, contains a lot of functionality https://github.com/hyprland-community/pyprland (and you dont need to sideload flakes into hyprland config)

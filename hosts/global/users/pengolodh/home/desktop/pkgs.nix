@@ -11,14 +11,21 @@
     # [wine]
     wineWowPackages.staging
     winetricks
+
+    # [cli]
+    # file sync
   ];
-  gui-install = with pkgs.unstable; [
+  gui-install = with pkgs; [
     # [networking]
-    winbox # mikrotik router management GUI
+    unstable.winbox # mikrotik router management GUI
+
+    # [remote desktop]
     remmina # spice,rdp and vnc client
+    unstable.lan-mouse # software kvm switch with support for wlroots and other wayland compositors, also windows
 
     # [security]
     gnome.seahorse
+    eid-mw # belgium eid middleware
 
     # [backup-solution]
     vorta
@@ -53,8 +60,12 @@
 
     # [file management]
     #rclone-browser # qt rclone frontend, might not work, repo seems to be dead but author seems to be alive so who knows
+    freefilesync # syncronisation client
   ];
   dev-install = with pkgs.unstable; [
+    # [environment]
+    boxbuddy # gui for distrobox (requires /hosts/global/modules/virt/podman.nix to be included)
+
     # [programming langs]
     python3
     go
