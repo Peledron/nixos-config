@@ -17,7 +17,7 @@ in {
   # setup container networks
   networking = {
     bridges."${br_local_container_name}".interfaces = ["${vlan_local_container_name}"];
-    interfaces."${br_local_container_name}".useDHCP = true;
+    #interfaces."${br_local_container_name}".useDHCP = true;
     /*
     nat = {
       enable = true;
