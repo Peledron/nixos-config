@@ -25,16 +25,24 @@ in {
         };
       };
     };
-    networks = {
+    networks = let
+      networkConfig = {
+        # we put global configuration that is valid for all network interfaces here
+        DHCP = "ipv4";
+        DNSOverTLS = "yes";
+        DNS = ["1.1.1.1" "1.0.0.1"];
+      };
+    in {
       "40-${vlan_local_container_name}_conf" = {
         networkConfig.Bridge = "${br_local_container_name}";
       };
 
       "50-${br_local_container_name}_conf" = {
         matchConfig.Name = "${br_local_container_name}";
+        inherit networkConfig;
         bridgeConfig = {};
-        linkConfig.RequiredForOnline = "carrier"; # or "routable" with IP addresses configured
-        networkConfig.LinkLocalAddressing = "no";
+        linkConfig.RequiredForOnline = "routable"; # carrier if no ipv4 or "routable" with IP addresses configured
+        #networkConfig.LinkLocalAddressing = "no"; # set this if you do not want ip addressing
       };
     };
   };
