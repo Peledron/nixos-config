@@ -253,7 +253,7 @@ in {
 
           compactor = {
             working_directory = "/var/lib/loki";
-            shared_store = "filesystem";
+           #shared_store = "filesystem";
             compactor_ring = {
               kvstore = {
                 store = "inmemory";
