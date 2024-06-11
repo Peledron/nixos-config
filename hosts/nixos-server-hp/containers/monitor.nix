@@ -41,7 +41,7 @@ in {
       services.resolved.enable = true;
       networking = {
         useDHCP = lib.mkForce true;
-        defaultGateway.address = 192.169 .1 .3;
+        defaultGateway.address = "192.169.1.3";
         #useNetworkd = true;
         firewall = {
           enable = true;
