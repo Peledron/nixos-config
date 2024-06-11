@@ -40,7 +40,7 @@ in {
       "50-${br_local_container_name}_conf" = {
         matchConfig.Name = "${br_local_container_name}";
         inherit networkConfig;
-        bridgeConfig = {};
+   #
         linkConfig.RequiredForOnline = "routable"; # carrier if no ipv4 or "routable" with IP addresses configured
         #networkConfig.LinkLocalAddressing = "no"; # set this if you do not want ip addressing
       };
