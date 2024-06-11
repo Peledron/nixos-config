@@ -12,7 +12,7 @@ in {
     extraFlags = ["-U"]; # run as user instead of root
     privateNetwork = true;
     hostBridge = "${br_local_container_name}";
-    #hostAddress = "172.24.1.1";
+    hostAddress = "192.168.1.3/24";
     localAddress = "192.168.1.10/24";
     #hostAddress6 = "fc00::1";
     #localAddress6 = "fc00::2";
