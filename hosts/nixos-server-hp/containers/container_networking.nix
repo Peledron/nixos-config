@@ -15,8 +15,31 @@ in {
   boot.kernel.sysctl."net.ipv4.ip_forward" = 1;
   #boot.kernel.sysctl."net.ipv6.ip_forward" = 1;
   # setup container networks
+  systemd.network = {
+    netdevs = {
+      # Create the bridge interface
+      "25-${br_local_container_name}_init" = {
+        netdevConfig = {
+          Kind = "bridge";
+          Name = "${br_local_container_name}";
+        };
+      };
+    };
+    networks = {
+      "40-${vlan_local_container_name}_conf" = {
+        networkConfig.Bridge = "${br_local_container_name}";
+      };
+
+      "50-${br_local_container_name}_conf" = {
+        matchConfig.Name = "${br_local_container_name}";
+        bridgeConfig = {};
+        linkConfig.RequiredForOnline = "carrier"; # or "routable" with IP addresses configured
+        networkConfig.LinkLocalAddressing = "no";
+      };
+    };
+  };
   networking = {
-    bridges."${br_local_container_name}".interfaces = ["${vlan_local_container_name}"];
+    #bridges."${br_local_container_name}".interfaces = ["${vlan_local_container_name}"];
     #interfaces."${br_local_container_name}".useDHCP = true;
     /*
     nat = {

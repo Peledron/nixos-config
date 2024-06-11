@@ -112,7 +112,7 @@ in {
       "40-${vlan_local_container_name}_conf" = {
         matchConfig.Name = "${vlan_local_container_name}";
         inherit networkConfig;
-        linkConfig.RequiredForOnline = "yes";
+        linkConfig.RequiredForOnline = "enslaved";
       };
     };
   };
