@@ -12,20 +12,13 @@
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    sops-nix = {
-      url = "github:Mic92/sops-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    agenix.url = "github:ryantm/agenix";
     impermanence.url = "github:nix-community/impermanence";
 
     # home-manager
     homeMan = {
       url = "github:nix-community/home-manager/release-24.05";
       inputs.nixpkgs.follows = "nixpkgs"; # sets home-manager to use the nix-package-manager packages instead of its own internal ones
-    };
-    # Nix User Repo
-    nur = {
-      url = "github:nix-community/NUR";
     };
 
     hyprland = {

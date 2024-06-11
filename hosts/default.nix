@@ -34,7 +34,7 @@
   home-manager = inputs.homeMan.nixosModules.home-manager;
   impermanence = inputs.impermanence.nixosModules.impermanence;
   disko = inputs.disko.nixosModules.disko;
-  sops = inputs.sops-nix.nixosModules.sops;
+  agenix = inputs.agenix.nixosModules.default;
   nix-index-db = inputs.nix-index-database.hmModules.nix-index; # -> note that this is a Homemanager module
 
   # DE related inputs
@@ -92,7 +92,7 @@ in {
     };
     modules = [
       # inputs
-      sops
+      agenix
       disko
       impermanence
       hyprland-coremod
@@ -150,51 +150,6 @@ in {
     ];
   };
 
-  # ---
-  nixos-macbook = lib.nixosSystem {
-    inherit system pkgs;
-    specialArgs = {
-      inherit inputs self;
-    };
-    modules = [
-      # inputs
-      sops
-      hyprland-coremod
-
-      # modules
-      global-coreconf
-      hyprland-coreconf
-
-      # -> host module
-      "${hostdir}/nixos-macbook"
-
-      # -> user modules
-      pengolodh-coreconf
-
-      #==================#
-      # system home-man:
-      home-manager
-      {
-        home-manager.useGlobalPkgs = true; # sets home-manager to use the nix-package-manager packages instead of its own internal ones
-        home-manager.useUserPackages = true; # packages will be installed per user;
-        home-manager.extraSpecialArgs = {
-          inherit (inputs);
-        };
-        home-manager.users.pengolodh = {
-          imports =
-            #[plasma-manager]  # add plasma-manager to home-man user imports as per https://github.com/pjones/plasma-manager/issues/5
-            [hyprland-homemod]
-            ++ [hyprland-homeconf]
-            # ++ [kde-homeconf]
-            ++ [pengolodh_global-homeconf]
-            ++ [pengolodh_desktop-homeconf]; # add more inports via [import module] ++ (import folder) or ++ [(import file)]
-        };
-        # ---
-        # add more users here:
-      }
-    ];
-  };
-  # ---
   nixos-laptop-asus = lib.nixosSystem {
     inherit system pkgs;
     specialArgs = {
@@ -202,7 +157,7 @@ in {
     };
     modules = [
       # inputs
-      sops
+      agenix
       #hyprland-coremod
 
       # modules
@@ -248,7 +203,7 @@ in {
     };
     modules = [
       # inputs
-      sops
+      agenix
       disko
       impermanence
 
@@ -280,57 +235,6 @@ in {
             ++ [pengolodh_server-homeconf]; # add more inports via [import module] ++ (import folder) or ++ [(import file)]
            home.stateVersion = "23.11";
 	};
-        # ---
-        # add more users here:
-      }
-    ];
-  };
-  # ---
-  #==================#
-  # vm-desktop:
-  #==================#
-  vm-nixos-desktop = lib.nixosSystem {
-    inherit system pkgs;
-    specialArgs = {
-      inherit inputs self;
-    };
-    modules = [
-      # inputs
-      sops
-      disko
-      impermanence
-
-      # modules
-      global-coreconf
-      global-desktopconf
-      sway-coreconf
-
-      # -> host module
-      "${hostdir}/vm-nixos-desktop"
-      {
-        _module.args.disks = ["/dev/vda"]; # change this to sda for vmware, you can add more drives in more "", for example "/dev/nvme0n1"
-      }
-
-      # -> hardware
-      "${hostdir}/vm-nixos-desktop/core/hardwareqemu.nix" # change this to hardwarevmware.nix for vmware
-
-      # -> user modules
-      pengolodh-coreconf
-      # add more users here:
-
-      #==================#
-      # system home-man:
-      home-manager
-      {
-        home-manager.useGlobalPkgs = true; # sets home-manager to use the nix-package-manager packages instead of its own internal ones
-        home-manager.useUserPackages = true; # packages will be installed per user;
-        home-manager.extraSpecialArgs = {};
-        home-manager.users.pengolodh = {
-          imports =
-            [sway-homeconf]
-            ++ [pengolodh_global-homeconf]
-            ++ [pengolodh_desktop-homeconf]; # add more inports via [import module] ++ (import folder) or ++ [(import file)]
-        };
         # ---
         # add more users here:
       }

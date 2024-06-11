@@ -50,6 +50,7 @@ in {
       port = 22001;
     }
   ]; # mngmt address, unable to let this be dynamically determined as dhcpd encodes its lease file...
+
   # we will use systemd networkd for the configuration of the network interface
   # --> see: https://nixos.wiki/wiki/Systemd-networkd
 
@@ -84,7 +85,7 @@ in {
         # we put global configuration that is valid for all network interfaces here
         DHCP = "ipv4";
         DNSOverTLS = "yes";
-        DNS = ["1.1.1.1" "1.0.0.1"];
+        DNS = ["1.1.1.2" "1.0.0.2"];
       };
     in {
       "30-${netport}_conf" = {
@@ -112,10 +113,12 @@ in {
       "40-${vlan_local_container_name}_conf" = {
         matchConfig.Name = "${vlan_local_container_name}";
         #inherit networkConfig;
-        linkConfig.RequiredForOnline = "enslaved";
+        linkConfig.RequiredForOnline = "enslaved"; # enslaved => the link is required by another link, in this case the container bridges
       };
     };
   };
-
+  # the basic logic of the networs is as follows router -> trunk switch -> laptop interface -> vlans -> bridges -> containers
+  # the bridges are in effect a "switch" that are linked to the vlan, the vlan is tags the packets coming from the bridges and sends them out the laptop interface
+  # in the case of mgmt this is not needed since we are not going to need more than 1 ip
   systemd.services."systemd-networkd".environment.SYSTEMD_LOG_LEVEL = "debug"; # enable higher loglevel on networkd (for troubleshooting)
 }
