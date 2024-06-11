@@ -33,7 +33,7 @@ in {
       services.resolved.enable = true;
       networking = {
         useDHCP = lib.mkForce true;
-        #useNetworkd = true;
+        useNetworkd = true;
         firewall = {
           enable = true;
           allowedTCPPorts = [80 443];
