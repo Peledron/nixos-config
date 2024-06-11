@@ -139,7 +139,7 @@ in {
             ++ [pengolodh_global-homeconf]
             ++ [pengolodh_desktop-homeconf]
             ++ [hyprland-homeconf];
-          	#++ [kde-homeconf];
+          #++ [kde-homeconf];
           # add more inports via [import module] ++ (import folder) or ++ [(import file)], variables behave like modules
           home.stateVersion = "23.11";
           #nixpkgs.config.allowUnfree = true;
@@ -272,7 +272,7 @@ in {
       {
         home-manager.useGlobalPkgs = true; # sets home-manager to use the nix-package-manager packages instead of its own internal ones
         home-manager.useUserPackages = true; # packages will be installed per user;
-        home-manager.extraSpecialArgs = {};
+        home-manager.extraSpecialArgs = {inherit inputs self system;};
         home-manager.users.pengolodh = {
           imports =
             [nix-index-db]

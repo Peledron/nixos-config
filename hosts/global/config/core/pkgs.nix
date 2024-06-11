@@ -20,6 +20,7 @@
     killall
     pciutils
     usbutils
+    inetutils
     lm_sensors
     powertop
     vim

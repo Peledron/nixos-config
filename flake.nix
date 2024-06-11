@@ -4,7 +4,7 @@
   #rev = "main";
   inputs = {
     # main nix repo
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-23.11";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
     # disko, auto disk partitioning tool using nix config... its perfect to replace scripts/prepare.sh (most of it at least)
@@ -20,7 +20,7 @@
 
     # home-manager
     homeMan = {
-      url = "github:nix-community/home-manager/release-23.11";
+      url = "github:nix-community/home-manager/release-24.05";
       inputs.nixpkgs.follows = "nixpkgs"; # sets home-manager to use the nix-package-manager packages instead of its own internal ones
     };
     # Nix User Repo

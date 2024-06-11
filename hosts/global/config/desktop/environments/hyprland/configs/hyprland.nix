@@ -31,7 +31,6 @@ in {
     plugins = [
       #inputs.hyprsplit.packages.${pkgs.system}.hyprsplit
     ];
-    enableNvidiaPatches = false;
     settings = {
       # see https://github.com/skbolton/nix-dotfiles/blob/main/home/capabilities/desktop/hyprland/default.nix for a good example of this type of config
       # [variables]

@@ -9,6 +9,6 @@
   imports =
     [(self + "/hosts/global/modules/virt/podman.nix")]
     ##++ [(self + "/hosts/global/modules/services/rkvmserver.nix")]
-    #++ [(self + "/hosts/global/modules/services/gns3.nix")]
+    ++ [(self + "/hosts/global/modules/services/gns3.nix")]
     ;
 }

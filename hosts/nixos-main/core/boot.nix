@@ -19,7 +19,7 @@
     ''; # nested virtualization and obs-studio virtual camera support
 
     # [early load]
-    kernelParams = ["splash" "quiet" "loglevel=3" "amd_pstate=active" "amdgpu.si_support=1" "amdgpu.ppfeaturemask=0xffffffff"];
+    kernelParams = ["amd_pstate=guided" "amdgpu.si_support=1" "amdgpu.ppfeaturemask=0xffffffff"];
     # kernel parameters used at boot,
     # -> amdgpu.si_support=1 and amdgpu.ppfeaturemask=0xffffffff is to enable overclocking support
 

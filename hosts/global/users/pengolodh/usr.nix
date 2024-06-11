@@ -18,7 +18,7 @@
         #hashedPasswordFile = config.sops.secrets.pengolodh-password.path;
         #hashedPassword =; # password hash generated via mkpasswd -m sha-512
         initialPassword = "nimbus"; # change this with passwd on login
-        extraGroups = ["wheel" "docker" "kvm" "libvirtd" "video" "networkmanager"]; # add user to groups for extra permissions like sudo access
+        extraGroups = ["wheel" "podman" "docker" "kvm" "libvirtd" "video" "networkmanager" "ubridge" "wireshark"]; # add user to groups for extra permissions like sudo access
 
         # ssh user specific settings:
         openssh = {

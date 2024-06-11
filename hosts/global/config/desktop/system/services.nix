@@ -68,10 +68,10 @@
 
   # enable either auto-cpufreq or tlp, tlp has more features like drive suspend, however auto-cpufreq seems to be better for cpu management (cooler and less power to my testing)
   services.auto-cpufreq = lib.mkDefault {
-    enable = true;
+    #package = pkgs.unstable.auto-cpufreq;
+    enable = false;
   };
- 
-  
+
   # You can tell the Linux kernel to use an interpreter (e.g. appimage-run) when executing certain binary files through the use of binfmt_misc, either by filename extension or magic number matching. Below NixOS configuration registers AppImage files (ELF files with magic number "AI" + 0x02) to be run with appimage-run as interpreter.
   # -> https://nixos.wiki/wiki/Appimage
   boot.binfmt.registrations.appimage = {

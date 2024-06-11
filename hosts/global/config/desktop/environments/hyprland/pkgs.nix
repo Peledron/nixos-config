@@ -55,10 +55,10 @@
     wf-recorder # screen recording for wayland
 
     # -> clipboard
-    unstable.wl-clipboard-rs
+    wl-clipboard
     wl-clipboard-x11 # x11 wrapper for wl-clipboard
     #clipman
-    unstable.cliphist # -> is a better alternative to clipman cuz it supports images and such
+    cliphist # -> is a better alternative to clipman cuz it supports images and such
 
     # -> functionality
     pyprland # plugin package for hyprland, contains a lot of functionality https://github.com/hyprland-community/pyprland (and you dont need to sideload flakes into hyprland config)
@@ -88,8 +88,8 @@
     networkmanagerapplet
 
     # [audio tools]
-    pamixer
-    lxqt.pavucontrol-qt
-    playerctl
+    pamixer # used to bind to volume keys in hyprland
+    myxer # ui for pulseaudio
+    playerctl # used to bind media functions to media keys in hyprland
   ];
 }

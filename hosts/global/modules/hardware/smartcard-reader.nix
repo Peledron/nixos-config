@@ -4,7 +4,13 @@
   lib,
   ...
 }: {
-  environment.systemPackages = with pkgs; [
-    acsccid
-  ];
+  services.pcscd = {
+    enable = true;
+    plugins = with pkgs.unstable; [
+      acsccid
+      ccid
+      libacr38u
+      scmccid
+    ];
+  };
 }
