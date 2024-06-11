@@ -278,7 +278,8 @@ in {
             [nix-index-db]
             ++ [pengolodh_global-homeconf]
             ++ [pengolodh_server-homeconf]; # add more inports via [import module] ++ (import folder) or ++ [(import file)]
-        };
+           home.stateVersion = "23.11";
+	};
         # ---
         # add more users here:
       }

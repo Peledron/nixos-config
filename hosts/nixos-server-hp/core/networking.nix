@@ -103,12 +103,12 @@ in
       };
       "40-${vlan_cloudflared_name}_conf" = {
         matchConfig.Name = "${vlan_cloudflared_name}";
-        inherit networkConfig;
+        #inherit networkConfig;
         linkConfig.RequiredForOnline = "yes";
       };
       "40-${vlan_local_container_name}_conf" = {
         matchConfig.Name = "${vlan_local_container_name}";
-        inherit networkConfig;
+        #inherit networkConfig;
         linkConfig.RequiredForOnline = "yes";
       };  
     };
