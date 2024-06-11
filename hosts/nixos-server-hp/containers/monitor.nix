@@ -13,7 +13,7 @@ in {
     privateNetwork = true;
     hostBridge = "${br_local_container_name}";
     #hostAddress = "192.168.1.10/24";
-    #localAddress = "172.64.1.2/24";
+    localAddress = "192.168.1.10/24";
     #hostAddress6 = "fc00::1";
     #localAddress6 = "fc00::2";
     /*
@@ -40,7 +40,7 @@ in {
 
       services.resolved.enable = true;
       networking = {
-        useDHCP = lib.mkForce true;
+        #useDHCP = lib.mkForce true;
         defaultGateway.address = "192.169.1.3";
         #useNetworkd = true;
         firewall = {
