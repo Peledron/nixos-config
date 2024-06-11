@@ -15,6 +15,8 @@ in {
   boot.kernel.sysctl."net.ipv4.ip_forward" = 1;
   #boot.kernel.sysctl."net.ipv6.ip_forward" = 1;
   # setup container networks
+  # -> we will create a bridge that will link all containers to the the container-vlan, each bridge will get a dhcp IP (that will be reserved in the router)
+  # the packets that go onto the bridge will be tagged with the vlan and send out the interface
   systemd.network = {
     netdevs = {
       # Create the bridge interface
@@ -30,7 +32,7 @@ in {
         # we put global configuration that is valid for all network interfaces here
         DHCP = "ipv4";
         DNSOverTLS = "yes";
-        DNS = ["1.1.1.1" "1.0.0.1"];
+        DNS = ["1.1.1.2" "1.0.0.2"];
       };
     in {
       "40-${vlan_local_container_name}_conf" = {
@@ -47,8 +49,6 @@ in {
     };
   };
   networking = {
-    #bridges."${br_local_container_name}".interfaces = ["${vlan_local_container_name}"];
-    #interfaces."${br_local_container_name}".useDHCP = true;
     /*
     nat = {
       enable = true;
