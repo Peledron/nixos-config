@@ -42,7 +42,7 @@ in {
         #inherit networkConfig;
         #
         linkConfig.RequiredForOnline = "carrier"; # carrier if no ipv4 or "routable" with IP addresses configured
-        networkConfig.LinkLocalAddressing = "no"; # set this if you do not want ip addressing
+        #networkConfig.LinkLocalAddressing = "no"; # set this if you do not want ip addressing
       };
     };
   };
