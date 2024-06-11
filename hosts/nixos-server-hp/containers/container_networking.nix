@@ -1,17 +1,24 @@
-{ config, lib, pkgs, system, inputs, netport, vlans, ... }:   
-let
+{
+  config,
+  lib,
+  pkgs,
+  system,
+  inputs,
+  netport,
+  vlans,
+  ...
+}: let
   vlan_local_container_name = "vlan${builtins.toString (builtins.elemAt vlans 2)}cont";
   br_local_container_name = "br0cont";
-in
-{
+in {
   # enable ip forwarding
-  boot.kernel.sysctl."net.ipv4.ip_forward" = 1; 
+  boot.kernel.sysctl."net.ipv4.ip_forward" = 1;
   #boot.kernel.sysctl."net.ipv6.ip_forward" = 1;
   # setup container networks
   networking = {
-    bridges."${br_local_container_name}".interfaces = [ "${vlan_local_container_name}" ];
+    bridges."${br_local_container_name}".interfaces = ["${vlan_local_container_name}"];
     interfaces."${br_local_container_name}".useDHCP = true;
-  /*
+    /*
     nat = {
       enable = true;
       internalInterfaces = ["ve-+" "vb-+"];
@@ -36,10 +43,11 @@ in
     '';
     */
     firewall = {
-      interfaces."${vlan_local_container_name }" = {
+      interfaces."${vlan_local_container_name}" = {
         # define allowed ports:
-        allowedTCPPorts = [  
+        allowedTCPPorts = [
           80 # grafana monitor container ingress
+          443
         ];
         allowedUDPPorts = [];
         # ---

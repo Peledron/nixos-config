@@ -20,6 +20,7 @@
       "/var/lib/nixos"
       "/var/lib/systemd/coredump" # perserve the coredump on reboots
       "/var/lib/docker"
+      "/var/lib/containers"
       "/var/lib/gns3"
       "/var/lib/upower"
       "/var/lib/bluetooth"

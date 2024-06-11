@@ -54,6 +54,7 @@
     directories = [
       "/etc/libvirt"
       "/var/lib/docker"
+      "/var/lib/containers"
       "/var/lib/upower"
     ];
     files = [

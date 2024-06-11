@@ -15,6 +15,8 @@
     shellIntegration.mode = "disabled"; #"no-sudo"; # fixes issues with doasnot understanding kitties TERMINFO variable (since we are using doas-sudo-shim)
 
     settings = {
+      # warn Disable the warning unless there are more things running than what you see.
+      confirm_os_window_close = 2;
       # [advanced]
       # --> set shell program to launch on start
       shell = "fish"; # . means default user shell
