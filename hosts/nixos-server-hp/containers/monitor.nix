@@ -187,7 +187,7 @@ in {
       # loki: port 3030 (8030)
       #
       services.loki = {
-        enable = true;
+        enable = false;
         configuration = {
           server.http_listen_port = 3030;
           auth_enabled = false;
@@ -253,7 +253,7 @@ in {
 
           compactor = {
             working_directory = "/var/lib/loki";
-           #shared_store = "filesystem";
+            #shared_store = "filesystem";
             compactor_ring = {
               kvstore = {
                 store = "inmemory";
