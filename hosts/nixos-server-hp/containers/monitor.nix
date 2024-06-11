@@ -6,14 +6,15 @@
   ...
 }: let
   br_local_container_name = "br0cont";
+  netport = "eth0";
 in {
   containers.monitor = {
     autoStart = true;
     extraFlags = ["-U"]; # run as user instead of root
     privateNetwork = true;
     hostBridge = "${br_local_container_name}";
-    hostAddress = "192.168.1.3/24";
-    localAddress = "192.168.1.10/24";
+    #hostAddress = "192.168.1.3/24";
+    #localAddress = "192.168.1.10/24";
     #hostAddress6 = "fc00::1";
     #localAddress6 = "fc00::2";
     /*
@@ -41,8 +42,34 @@ in {
       services.resolved.enable = true;
       networking = {
         #useDHCP = lib.mkForce true;
-        defaultGateway.address = "192.169.1.3";
-        #useNetworkd = true;
+        interfaces = {
+          ${netport}.ipv4.addresses = [
+            {
+              address = "192.168.1.10";
+              prefixLength = 24;
+            }
+          ];
+          /*
+          ${netport}.ipv6.addresses = [
+            {
+              address = "2a01:4f8:1c1b:16d0::1";
+              prefixLength = 64;
+            }
+          ];
+          */
+        };
+        defaultGateway = {
+          address = "192.168.1.3";
+          interface = "${netport}";
+        };
+        /*
+        defaultGateway6 = {
+          address = "fe80::1";
+          interface = "${netport}";
+        };
+        */
+
+        useNetworkd = true;
         firewall = {
           enable = true;
           allowedTCPPorts = [80 443];
