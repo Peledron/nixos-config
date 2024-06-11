@@ -42,7 +42,7 @@ in {
       networking = {
         useDHCP = lib.mkForce true;
         defaultGateway.address = 192.169 .1 .3;
-        useNetworkd = true;
+        #useNetworkd = true;
         firewall = {
           enable = true;
           allowedTCPPorts = [80 443];
