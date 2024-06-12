@@ -66,7 +66,7 @@ in {
         database.passwordFile = config.age.secrets.librenms_database-password.path;
       };
 
-      services.oxidized.enable = true;
+      #services.oxidized.enable = true;
       system.stateVersion = "23.11";
     };
   };
