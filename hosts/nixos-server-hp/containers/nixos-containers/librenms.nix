@@ -23,7 +23,7 @@ in {
       ...
     }: {
       # import database password with age
-      age.secrets.librenms_database-password.file = "${self}/.secrets/global/librenms_database-password.age";
+      age.secrets.librenms_database-password.file = "../../../../.secrets/global/librenms_database-password.age";
 
       time.timeZone = "Europe/Brussels"; # needs to be set for librenms
 
