@@ -16,6 +16,7 @@ in {
     extraFlags = ["-U"]; # run as user instead of root
     privateNetwork = true;
     hostBridge = "${br_local_container_name}";
+    bindMounts."/persist/ssh/ssh_host_ed25519_key".isReadOnly = true;
     config = {
       config,
       pkgs,
@@ -24,7 +25,6 @@ in {
     }: {
       imports = [inputs.agenix.nixosModules.default];
       # pass the private key to the container for agenix to decrypt the secret
-      bindMounts."/persist/ssh/ssh_host_ed25519_key".isReadOnly = true;
 
       # import database password with age
       age = {
