@@ -6,12 +6,8 @@
     # add packages here:
     environment.systemPackages = with pkgs; [
         # arion (docker-compose support)
-            arion
-            docker-client
-
-        # utils
-            # [system]
-            pciutils
+            #arion
+            #docker-client
         
         # filesystem related
             # [btrfs]
