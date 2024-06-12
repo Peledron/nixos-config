@@ -1,5 +1,12 @@
-[
-    ./container_networking.nix
-    #./grafana.nix
-
-]
+{
+  config,
+  lib,
+  pkgs,
+  system,
+  inputs,
+  ...
+}: {
+  imports =
+    [(import ./container_networking.nix)]
+    ++ (import ./nixos-containers);
+}

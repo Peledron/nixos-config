@@ -1,0 +1,3 @@
+[
+  ./librenms.nix
+]
