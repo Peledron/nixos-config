@@ -3,6 +3,7 @@
   lib,
   pkgs,
   self,
+  inputs,
   vlans,
   ...
 }: let
@@ -19,13 +20,22 @@ in {
       config,
       pkgs,
       lib,
-      self,
-      inputs,
       ...
     }: {
       import = [inputs.agenix.nixosModules.default];
+      # pass the private key to the container for agenix to decrypt the secret
+      bindMounts."/persist/ssh/ssh_host_ed25519_key".isReadOnly = true;
+
       # import database password with age
-      age.secrets.librenms_database-password.file = "../../../../.secrets/global/librenms_database-password.age";
+      age = {
+        identityPaths = ["/persist/ssh/ssh_host_ed25519_key"];
+        secrets = {
+          librenms_database-password = {
+            file = "${self}/.secrets/global/librenms_database-password.age";
+            owner = "librenms"; # set this to the librenms user
+          };
+        };
+      };
 
       time.timeZone = "Europe/Brussels"; # needs to be set for librenms
 
