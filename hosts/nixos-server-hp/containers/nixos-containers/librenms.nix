@@ -20,8 +20,10 @@ in {
       pkgs,
       lib,
       self,
+      inputs,
       ...
     }: {
+      import = [inputs.agenix.nixosModules.default];
       # import database password with age
       age.secrets.librenms_database-password.file = "../../../../.secrets/global/librenms_database-password.age";
 
