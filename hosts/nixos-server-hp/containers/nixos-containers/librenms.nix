@@ -20,7 +20,11 @@ in {
       lib,
       ...
     }: {
+      # import database password with age
+      age.secrets.librenms_database-password.file = "${self}/.secrets/global/librenms_database-password.age";
+
       time.timeZone = "Europe/Brussels"; # needs to be set for librenms
+
       services.resolved.enable = true;
       networking = {
         interfaces = {
@@ -45,6 +49,7 @@ in {
       };
       services.librenms = {
         enable = true;
+        database.passwordFile = config.age.secrets.librenms_database-password.path;
       };
 
       services.oxidized.enable = true;
