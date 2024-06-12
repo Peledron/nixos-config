@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  self,
   vlans,
   ...
 }: let
@@ -18,6 +19,7 @@ in {
       config,
       pkgs,
       lib,
+      self,
       ...
     }: {
       # import database password with age
