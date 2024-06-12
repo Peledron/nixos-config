@@ -8,7 +8,7 @@
   br_local_container_name = "br0cont";
   netport = "eth0";
 in {
-  containers.librenms_oxidized = {
+  containers.librenms-oxidized = {
     # librenms is a monitoring solution, oxidized is a network device configuration backup system
     autoStart = true;
     extraFlags = ["-U"]; # run as user instead of root
@@ -20,6 +20,7 @@ in {
       lib,
       ...
     }: {
+      time.timeZone = "Europe/Brussels"; # needs to be set for librenms
       services.resolved.enable = true;
       networking = {
         interfaces = {
