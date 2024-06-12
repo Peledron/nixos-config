@@ -6,7 +6,7 @@
   self,
   ...
 }: {
-  age.secrets.users_pengolodh_password.file = "${self}/.secrets/users_pengolodh_password.age";
+  age.secrets.users_pengolodh_password.file = "${self}/.secrets/users/pengolodh/password.age";
   # user system-level module imports:
   users = {
     users = {
@@ -16,7 +16,7 @@
       pengolodh = {
         isNormalUser = true;
         home = "/home/pengolodh"; # you can define a different home, /home/$USER is used by default
-        hashedPasswordFile = config.age.secrets.users_pengolodh_password.path;
+        hashedPasswordFile = config.age.secrets.users_pengolodh_password.path; # make sure that the password is hashed in the age file
         #hashedPassword =; # password hash generated via mkpasswd -m sha-512
         #initialPassword = "nimbus"; # change this with passwd on login
         extraGroups = ["wheel" "podman" "docker" "kvm" "libvirtd" "video" "networkmanager" "ubridge" "wireshark"]; # add user to groups for extra permissions like sudo access
