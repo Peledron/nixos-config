@@ -22,7 +22,7 @@ in {
       lib,
       ...
     }: {
-      import = [inputs.agenix.nixosModules.default];
+      imports = [inputs.agenix.nixosModules.default];
       # pass the private key to the container for agenix to decrypt the secret
       bindMounts."/persist/ssh/ssh_host_ed25519_key".isReadOnly = true;
 
