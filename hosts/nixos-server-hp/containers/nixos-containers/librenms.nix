@@ -32,7 +32,11 @@ in {
         secrets = {
           librenms_database-password = {
             file = "${self}/.secrets/global/librenms_database-password.age";
+            /*
+            mode = "760";
             owner = "librenms"; # set this to the librenms user
+            group = "librenms";
+            */
           };
         };
       };
@@ -63,7 +67,9 @@ in {
       };
       services.librenms = {
         enable = true;
-        database.passwordFile = config.age.secrets.librenms_database-password.path;
+        database = {
+          passwordFile = config.age.secrets.librenms_database-password.path;
+        };
       };
 
       #services.oxidized.enable = true;

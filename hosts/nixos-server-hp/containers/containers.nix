@@ -4,6 +4,7 @@
   pkgs,
   system,
   inputs,
+  self,
   ...
 }: {
   imports =
