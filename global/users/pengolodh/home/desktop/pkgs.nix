@@ -64,7 +64,7 @@
   ];
   dev-install = with pkgs.unstable; [
     # [environment]
-    boxbuddy # gui for distrobox (requires /hosts/global/modules/virt/podman.nix to be included)
+    boxbuddy # gui for distrobox (requires /global/modules/virt/podman.nix to be included)
 
     # [programming langs]
     python3

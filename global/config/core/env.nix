@@ -4,7 +4,7 @@
   pkgs,
   ...
 }: {
-  environment.variables = lib.mkDefault {
+  environment.sessionVariables = lib.mkDefault {
     EDITOR = "vim";
   };
 }

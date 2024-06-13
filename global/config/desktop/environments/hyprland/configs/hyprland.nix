@@ -6,8 +6,8 @@
   system,
   ...
 }: let
-  wallpaper = "${self}/hosts/global/config/desktop/environments/hyprland/configs/non-nix/wallpapers/wallpaper.png";
-  lockscreen = "${self}/hosts/global/config/desktop/environments/hyprland/configs/non-nix/wallpapers/lockscreen.png";
+  wallpaper = "${self}/global/config/desktop/environments/hyprland/configs/non-nix/wallpapers/wallpaper.png";
+  lockscreen = "${self}/global/config/desktop/environments/hyprland/configs/non-nix/wallpapers/lockscreen.png";
   wobsock = "$XDG_RUNTIME_DIR/wob.sock"; # file where values that wob needs for showing levels are stored
   mod = "SUPER";
 

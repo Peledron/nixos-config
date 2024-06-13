@@ -6,5 +6,5 @@
   self,
   ...
 }: {
-  imports = [(self + "/hosts/global/modules/services/tlp.nix")];
+  imports = [(self + "/global/modules/services/tlp.nix")];
 }

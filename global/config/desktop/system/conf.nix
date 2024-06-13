@@ -9,5 +9,5 @@
     [(import ./services.nix)]
     ++ [(import ./pkgs.nix)]
     # [module imports]
-    ++ [(self + "/hosts/global/modules/virt/desktop-virt.nix")];
+    ++ [(self + "/global/modules/virt/desktop-virt.nix")];
 }

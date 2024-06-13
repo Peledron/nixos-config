@@ -45,10 +45,11 @@
 
   # paths
   # -> main
-  hostdir = "${self}/hosts";
-  global-confdir = "${hostdir}/global/config";
-  global-moddir = "${hostdir}/modules";
-  global-usrdir = "${hostdir}/global/users";
+  hostdir = "${self}hosts";
+  globaldir = "${self}/global";
+  global-confdir = "${globaldir}/config";
+  global-moddir = "${globaldir}/modules";
+  global-usrdir = "${globaldir}/users";
   global-desktopdir = "${global-confdir}/desktop";
 
   global-coreconf = "${global-confdir}/conf.nix";
@@ -233,8 +234,8 @@ in {
             [nix-index-db]
             ++ [pengolodh_global-homeconf]
             ++ [pengolodh_server-homeconf]; # add more inports via [import module] ++ (import folder) or ++ [(import file)]
-           home.stateVersion = "23.11";
-	};
+          home.stateVersion = "23.11";
+        };
         # ---
         # add more users here:
       }

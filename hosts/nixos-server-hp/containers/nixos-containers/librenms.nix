@@ -32,11 +32,6 @@ in {
         secrets = {
           librenms_database-password = {
             file = "${self}/.secrets/global/librenms_database-password.age";
-            /*
-            mode = "760";
-            owner = "librenms"; # set this to the librenms user
-            group = "librenms";
-            */
           };
         };
       };
@@ -68,6 +63,8 @@ in {
       services.librenms = {
         enable = true;
         hostname = "monitor.home.pengolodh.be";
+        # the webportal username and password have to be configued impertivly via the following command
+          #lnms user:add --role=admin pengolodh
         database = {
           createLocally = true;
           passwordFile = config.age.secrets.librenms_database-password.path;

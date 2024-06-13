@@ -6,5 +6,5 @@
   self,
   ...
 }: {
-  #[(self + "/hosts/global/modules/programs/steam.nix")];
+  #[(self + "/global/modules/programs/steam.nix")];
 }

@@ -4,7 +4,7 @@
   self,
   ...
 }: let
-  logodir = "${self}/hosts/global/config/desktop/environments/hyprland/configs/non-nix/wlogout-logos";
+  logodir = "${self}/global/config/desktop/environments/hyprland/configs/non-nix/wlogout-logos";
 in {
   programs.wlogout = {
     enable = true;

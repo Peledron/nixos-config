@@ -27,6 +27,7 @@
       automatic = true;
       dates = ["daily"];
     };
+    /*
     # enable garbage collection on the nix-store (cleans old system versions)
     gc = {
       automatic = true; # enabling automatic without the lines below will run it daily by default (not really safe unless snapshots are used)
@@ -35,6 +36,7 @@
       options = "--delete-older-than 7d"; # set gc to delete nix-store generations of the previous week once a week as a compromise
       randomizedDelaySec = "45min"; # randomize the trigger time within this timeframe
     };
+    */ # -> gc is replaced by programs.nh.clean as thats a better solution
     # ---
 
     # add other nix settings:

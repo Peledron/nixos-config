@@ -27,6 +27,7 @@
       vim
       # [nix-tools]
       nix-ld # Run unpatched dynamic binaries on NixOS https://github.com/Mic92/nix-ld, very usefull for running specific software not available otherwise
+      nh # simplified nix cli
       # [security]
       # doas is enabled by default in security.nix
       gnupg
@@ -48,5 +49,16 @@
   programs.nix-ld = {
     enable = true;
     #libraries = []; # there is a default set defined, you can add more here
+  };
+  programs.nh = {
+    enable = true;
+    # clean is an alternative to nix-collect-garbage
+    clean = {
+      enable = true;
+      extraArgs = "--keep-since 7d --keep 3";
+    };
+  };
+  environment.variables = {
+    FLAKE = "$HOME/nixos-config";
   };
 }

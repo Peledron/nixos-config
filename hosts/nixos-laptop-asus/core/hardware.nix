@@ -8,8 +8,8 @@
 }: {
   imports =
     [(modulesPath + "/installer/scan/not-detected.nix")]
-    ++ [(self + "/hosts/global/modules/hardware/asus-laptop.nix")]
-    ++ [(self + "/hosts/global/modules/hardware/bluetooth.nix")];
+    ++ [(self + "/global/modules/hardware/asus-laptop.nix")]
+    ++ [(self + "/global/modules/hardware/bluetooth.nix")];
 
   # base:
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
