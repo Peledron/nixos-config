@@ -67,7 +67,9 @@ in {
       };
       services.librenms = {
         enable = true;
+        hostname = "monitor.home.pengolodh.be";
         database = {
+          createLocally = true;
           passwordFile = config.age.secrets.librenms_database-password.path;
         };
       };
