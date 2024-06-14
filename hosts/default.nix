@@ -45,7 +45,7 @@
 
   # paths
   # -> main
-  hostdir = "${self}hosts";
+  hostdir = "${self}/hosts";
   globaldir = "${self}/global";
   global-confdir = "${globaldir}/config";
   global-moddir = "${globaldir}/modules";
