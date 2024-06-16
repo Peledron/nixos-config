@@ -8,7 +8,7 @@
   br_local_container_name = "br0cont";
   netport = "eth0";
 in {
-  containers.monitor = {
+  containers.blocky = {
     autoStart = true;
     extraFlags = ["-U"]; # run as user instead of root
     privateNetwork = true;
