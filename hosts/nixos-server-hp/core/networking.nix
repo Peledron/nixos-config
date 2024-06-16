@@ -37,8 +37,8 @@ in {
 
       interfaces."${vlan_management_name}" = {
         # define allowed ports:
-        allowedTCPPorts = [22001];
-        allowedUDPPorts = [];
+        allowedTCPPorts = [22001 53];
+        allowedUDPPorts = [53];
         # ---
       };
     };
