@@ -4,7 +4,7 @@
   lib,
   ...
 }: {
-  # asus services
+  # asus services # asusd is also enabled by default in the nixos-hardware module
   # -> from https://asus-linux.org/wiki/nixos/
   services = {
     supergfxd = {

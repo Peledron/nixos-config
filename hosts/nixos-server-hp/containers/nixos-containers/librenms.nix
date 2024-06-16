@@ -64,13 +64,12 @@ in {
         enable = true;
         hostname = "monitor.home.pengolodh.be";
         # the webportal username and password have to be configued impertivly via the following command
-          #lnms user:add --role=admin pengolodh
+        #lnms user:add --role=admin pengolodh
         database = {
-          createLocally = true;
           passwordFile = config.age.secrets.librenms_database-password.path;
         };
       };
-
+      
       #services.oxidized.enable = true;
       system.stateVersion = "23.11";
     };

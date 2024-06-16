@@ -1,5 +1,5 @@
 {
-  description = "defines configuration.nix used by different hosts";
+  description = "main flake for home system configs";
   #url = "https://gitlab.com/pengolodh/nixos-config";
   #rev = "main";
   inputs = {
@@ -12,8 +12,14 @@
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    # encryption of secrets
     agenix.url = "github:ryantm/agenix";
+    # impermanent setup
     impermanence.url = "github:nix-community/impermanence";
+    persist-retro.url = "github:Geometer1729/persist-retro"; # persist-retro checks if a folder marked by already exists and moves the files to the peristent location
+
+    # hardware support for various devices
+    nixos-hardware.url = "github:NixOS/nixos-hardware/master"; # see https://github.com/NixOS/nixos-hardware for full list
 
     # home-manager
     homeMan = {
@@ -48,12 +54,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nix-alien.url = "github:thiagokokada/nix-alien"; # auto dependency installing for external binaries
-    /*
-    dotfiles = {
-        url = "gitlab:pengolodh/dotfiles";
-        flake = false;
-    };
-    */
   };
 
   outputs = inputs @ {

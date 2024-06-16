@@ -4,6 +4,18 @@
   pkgs,
   ...
 }: {
+  age.secrets = {
+    kvm-server_key = {
+      name = "key.pem"; # name of file after encryption
+      file = "${self}/.secrets/global/rkvm-server_key.age"; # location of encrypted file
+      mode = "400";
+    };
+    kvm-server_cert = {
+      name = "certificate.pem";
+      file = "${self}/.secrets/global/rkvm-server_cert.age";
+      mode = "444";
+    };
+  };
   services = {
     rkvm = {
       enable = true;

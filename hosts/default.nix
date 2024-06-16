@@ -33,8 +33,10 @@
   # aditional functionality
   home-manager = inputs.homeMan.nixosModules.home-manager;
   impermanence = inputs.impermanence.nixosModules.impermanence;
+  persist-retro = inputs.persist-retro.nixosModules.persist-retro;
   disko = inputs.disko.nixosModules.disko;
   agenix = inputs.agenix.nixosModules.default;
+  nixos-hardware = inputs.nixos-hardware.nixosModules;
   nix-index-db = inputs.nix-index-database.hmModules.nix-index; # -> note that this is a Homemanager module
 
   # DE related inputs
@@ -96,6 +98,7 @@ in {
       agenix
       disko
       impermanence
+      persist-retro
       hyprland-coremod
 
       # core configuration
@@ -164,6 +167,7 @@ in {
       # modules
       global-coreconf
       kde-coreconf
+      nixos-hardware.asus-zephyrus-ga402
 
       # -> host module
       "${hostdir}/nixos-laptop-asus"
@@ -207,6 +211,7 @@ in {
       agenix
       disko
       impermanence
+      persist-retro
 
       # modules
       global-coreconf

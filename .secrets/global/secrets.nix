@@ -11,4 +11,6 @@ let
 in {
   # the list tells agenix to encrypt the file with the specified public keys, each key will be able to decrypt the fil
   "librenms_database-password.age".publicKeys = [users.pengolodh systems.nixos-server-hp];
+  "rkvm-server_key.age".publicKeys = [systems.nixos-main];
+  "rkvm-server_cert.age".publicKeys = [systems.nixos-main];
 }

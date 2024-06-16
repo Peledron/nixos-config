@@ -17,7 +17,6 @@
 
       # extra drivers:
       extraPackages = with pkgs.unstable; [
-        mesa.drivers
         rocmPackages.clr
         rocmPackages.clr.icd
         rocmPackages.rocm-runtime
@@ -25,11 +24,11 @@
         amdvlk # amd pro driver -> in env RADV is enabled so this will only be used as fallback I think
       ];
       extraPackages32 = with pkgs.unstable; [
-        pkgsi686Linux.mesa.drivers
         driversi686Linux.amdvlk
       ];
     };
   };
+  services.xserver.videoDrivers = ["amdgpu"];
   environment = {
     variables = {
       # Configure AMD. Only required if you have AMD iGPU and/or dGPU

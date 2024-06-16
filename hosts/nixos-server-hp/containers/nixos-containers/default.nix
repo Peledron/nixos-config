@@ -1,3 +1,4 @@
 [
   ./librenms.nix
+  ./blocky.nix
 ]

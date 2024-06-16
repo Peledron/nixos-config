@@ -4,6 +4,7 @@
   lib,
   ...
 }: {
+  /*
   services.gns3-server = {
     enable = true;
     settings = {
@@ -48,9 +49,24 @@
         "/dev/kvm"
       ];
   };
+  */
+
+  # this only needs to be configured when the gns3-server is disabled above:
+  users.groups.ubridge = {}; # add your user to this group
+  security.wrappers.ubridge = {
+    source = "/run/current-system/sw/bin/ubridge";
+    capabilities = "cap_net_admin,cap_net_raw=ep";
+    owner = "root";
+    group = "ubridge";
+    permissions = "u+rx,g+rx,o+rx";
+  };
 
   environment.systemPackages = with pkgs; [
     gns3-gui
+    gns3-server
+    ubridge
+    vpcs
+    dynamips
     wireshark-qt
     virt-viewer
   ];
