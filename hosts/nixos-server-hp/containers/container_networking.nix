@@ -77,10 +77,13 @@ in {
       interfaces."${br_local_container_name}" = {
         # define allowed ports:
         allowedTCPPorts = [
-          80 # grafana monitor container ingress
+          80
           443
+          53
         ];
-        allowedUDPPorts = [];
+        allowedUDPPorts = [
+          53
+        ];
         # ---
       };
     };

@@ -38,14 +38,15 @@ in {
         useNetworkd = true;
         firewall = {
           enable = true;
-          allowedTCPPorts = [80 443];
+          allowedTCPPorts = [53];
+          allowedUDPPorts = [53];
         };
         useHostResolvConf = lib.mkForce false;
       };
       services.blocky = {
         enable = true;
         settings = {
-        # adapted from https://bayas.dev/posts/blocky-adblock-docker-setup
+          # adapted from https://bayas.dev/posts/blocky-adblock-docker-setup
           upstreams = {
             groups = {
               default = [
