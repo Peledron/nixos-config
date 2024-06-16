@@ -13,4 +13,5 @@ in {
   "librenms_database-password.age".publicKeys = [users.pengolodh systems.nixos-server-hp];
   "rkvm-server_key.age".publicKeys = [systems.nixos-main];
   "rkvm-server_cert.age".publicKeys = [systems.nixos-main];
+  #"rkvm-server_password.age".publicKeys = [systems.nixos-main]; # the password is not a file
 }
