@@ -48,7 +48,9 @@
         };
 
         clientGroupsBlock = {
-          default = "ads";
+          default = [
+            "ads"
+          ];
         };
         blockType = "zeroIp";
         blockTTL = "1m";
