@@ -55,12 +55,8 @@ in {
           upstreams = {
             groups = {
               default = [
-                # unecrypted
-                "1.1.1.2"
-                "1.0.0.2"
-                # encrypted DoH
-                "https://dns.nextdns.io"
-                "https://1.1.1.2/dns-query"
+                "tcp-tls:fdns1.dismail.de:853"
+                "tcp-tls:fdns2.dismail.de:853"
               ];
             };
             # blocky will pick the 2 fastest upstreams but you can also use the `strict` strategy
