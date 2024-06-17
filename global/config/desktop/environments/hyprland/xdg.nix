@@ -4,13 +4,13 @@
   pkgs,
   ...
 }: {
-  home.xdg = {
-    enable = true;
+  xdg = {
+    mime.enable = true;
     mimeApps = {
       enable = true;
       defaultApplications = lib.mkAfter {
         "inode/directory" = ["pcmanfm-qt.desktop"];
-        
+
         "image/png" = ["org.nomacs.ImageLounge.desktop"];
         "image/jpeg" = ["org.nomacs.ImageLounge.desktop"];
 

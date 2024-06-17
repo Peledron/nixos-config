@@ -4,8 +4,8 @@
   pkgs,
   ...
 }: {
-  home.xdg = {
-    enable = true;
+  xdg = {
+    mime.enable = true;
     # set the default applications for certain filetypes
     # see https://www.sitepoint.com/mime-types-complete-list/ for a full list of mimetypes
     mimeApps = {
@@ -25,7 +25,7 @@
         "application/x-extension-xhtml" = ["firefox.desktop"];
         "application/x-extension-xht" = ["firefox.desktop"];
       };
-      addedAssociations = {
+      associations.added = {
         "text/plain" = ["codium.desktop"];
         "application/pdf" = ["zathura.desktop"];
         # [default browser]
@@ -40,7 +40,7 @@
         "application/x-extension-xhtml" = ["firefox.desktop"];
         "application/x-extension-xht" = ["firefox.desktop"];
       };
-      removedAssociations = {
+      associations.removed = {
         "inode/directory" = "codium.desktop";
       };
     };

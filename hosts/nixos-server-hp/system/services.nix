@@ -42,7 +42,9 @@
         # I prefer the HaGeZi Light blocklist for set and forget setup, you can use any other blacklist nor whitelist you want
         # Blocky supports hosts, domains and regex syntax
         blackLists = {
-          ads = "https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/wildcard/multi.txt";
+          ads = [
+            "https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/wildcard/multi.txt"
+          ];
         };
 
         clientGroupsBlock = {
