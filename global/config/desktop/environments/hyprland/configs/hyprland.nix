@@ -152,9 +152,6 @@ in {
         pseudotile = true; # master switch for pseudotiling. Enabling is bound to {mod} + P in the keybinds section below
         preserve_split = true; # you probably want this
       };
-      master = {
-        new_is_master = true;
-      };
 
       # [look and feel]
       decoration = {

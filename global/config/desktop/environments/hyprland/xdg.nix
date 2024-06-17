@@ -8,7 +8,7 @@
     enable = true;
     mimeApps = {
       enable = true;
-      defaultApplications = {
+      defaultApplications = lib.mkAfter {
         "inode/directory" = ["pcmanfm-qt.desktop"];
         
         "image/png" = ["org.nomacs.ImageLounge.desktop"];
