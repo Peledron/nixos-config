@@ -34,7 +34,7 @@
         timeout = "2s";
       };
       # check if upstreams are working
-      startVerifyUpstream = true;
+      init.strategy = true;
       # we will not be using ipv6 for now
       connectIPVersion = "v4";
 
