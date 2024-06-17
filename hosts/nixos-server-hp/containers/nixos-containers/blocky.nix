@@ -20,7 +20,12 @@ in {
       lib,
       ...
     }: {
-      services.resolved.enable = lib.mkForce false;
+      services.resolved = {
+        # Disable local DNS stub listener on 127.0.0.53
+        extraConfig = ''
+          DNSStubListener=no
+        '';
+      };
       networking = {
         interfaces = {
           ${netport}.ipv4.addresses = [
