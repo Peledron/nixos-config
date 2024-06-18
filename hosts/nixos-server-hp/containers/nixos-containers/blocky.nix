@@ -73,6 +73,7 @@ in {
             # Blocky supports hosts, domains and regex syntax
             blackLists = {
               ads = [
+                # bear in mind that dismail also has their own blocklists enabled, this should simply block slightly more
                 "https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/wildcard/multi.txt"
               ];
             };
@@ -105,7 +106,8 @@ in {
             prefetchExpires = "24h";
             prefetchThreshold = 2;
           };
-          # use encrypted DNS for resolving upstreams
+          # the bootstrap dns is used to resolve the upstream dns addresses (like dismail.de)
+          # here we use the cloudflare family DoH server
           # same syntax as normal upstreams
           bootstrapDns = [
             "https://1.1.1.2/dns-query"

@@ -29,7 +29,7 @@ in {
       variables = ["-all"];
     };
     plugins = [
-      #inputs.hyprsplit.packages.${pkgs.system}.hyprsplit
+      inputs.hyprsplit.packages.${pkgs.system}.hyprsplit
     ];
     settings = {
       # see https://github.com/skbolton/nix-dotfiles/blob/main/home/capabilities/desktop/hyprland/default.nix for a good example of this type of config
@@ -316,10 +316,10 @@ in {
           "${mod} CTRL, down, resizeactive, 0 80"
 
           ## mouse keys
-          "${mod}, mouse_up, exec, workspace, current +1"
-          "${mod}, mouse_down, exec, workspace, current -1"
-          "${mod} SHIFT, mouse_up, exec, movetoworkspace, current +1"
-          "${mod} SHIFT, mouse_down, exec, movetoworkspace, current -1"
+          "${mod}, mouse_up, exec, split:workspace, current +1"
+          "${mod}, mouse_down, exec, split:workspace, current -1"
+          "${mod} SHIFT, mouse_up, exec, split:movetoworkspace, current +1"
+          "${mod} SHIFT, mouse_down, exec, split:movetoworkspace, current -1"
 
           ## special
           ### submaps are different keybind groups,
@@ -337,8 +337,8 @@ in {
                 in
                   builtins.toString (x + 1 - (c * 10));
               in [
-                "${mod}, ${ws}, workspace, ${toString (x + 1)}"
-                "${mod} SHIFT, ${ws}, movetoworkspace, ${toString (x + 1)}"
+                "${mod}, ${ws}, split:workspace, ${toString (x + 1)}"
+                "${mod} SHIFT, ${ws}, split:movetoworkspace, ${toString (x + 1)}"
               ]
             )
             10)

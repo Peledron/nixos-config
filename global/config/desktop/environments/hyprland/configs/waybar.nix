@@ -33,10 +33,11 @@ in {
             focused = "";
             default = "";
           };
-          on-scroll-up = "hyprctl dispatch workspace e+1";
-          on-scroll-down = "hyprctl dispatch workspace e-1";
+          on-scroll-up = "hyprctl dispatch split:workspace +1";
+          on-scroll-down = "hyprctl dispatch split:workspace -1";
           persistent-workspaces = {
-            "*" = 5; # show 5 workspaces by default
+            "DP-1" = 5; # show 5 workspaces by default
+            "DP-2" = 10;
           };
         };
 
@@ -114,16 +115,16 @@ in {
           format-alt-click = "click-right";
           format-muted = "|   |";
           format-icons = {
-            headphones = "";
+            headphones = "󰋋";
             handsfree = "󱡏";
             headset = "󰋎";
             hdmi = "󰡁";
             phone = "";
             portable = "";
             car = "";
-            default = ["" "" ""];
+            default = ["󰕿" "󰖀" "󰕾"];
           };
-          scroll-step = 10;
+          scroll-step = 2`;
           on-click = "pactl set-sink-mute @DEFAULT_SINK@ toggle";
           on-click-right = "pavucontrol";
           tooltip = true;
