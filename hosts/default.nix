@@ -31,13 +31,15 @@
   };
 
   # aditional functionality
-  home-manager = inputs.homeMan.nixosModules.home-manager;
   impermanence = inputs.impermanence.nixosModules.impermanence;
   persist-retro = inputs.persist-retro.nixosModules.persist-retro;
   disko = inputs.disko.nixosModules.disko;
   agenix = inputs.agenix.nixosModules.default;
   nixos-hardware = inputs.nixos-hardware.nixosModules;
+
+  home-manager = inputs.homeMan.nixosModules.home-manager;
   nix-index-db = inputs.nix-index-database.hmModules.nix-index; # -> note that this is a Homemanager module
+  stylix = inputs.stylix.nixosModules.stylix;
 
   # DE related inputs
   plasma-manager = inputs.plasmaMan.homeManagerModules.plasma-manager;
@@ -99,6 +101,7 @@ in {
       disko
       impermanence
       persist-retro
+      stylix
       hyprland-coremod
 
       # core configuration

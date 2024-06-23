@@ -148,9 +148,12 @@ in {
       # default layout selection is defined in general.layout, this defines the way that the layout works
       # See https://wiki.hyprland.org/Configuring/Master-Layout/
       dwindle = {
+        #  he split is determined dynamically with the W/H ratio of the parent node. If W > H, it’s side-by-side. If H > W, it’s top-and-bottom. You can make them permanent by enabling preserve_split
         no_gaps_when_only = false;
         pseudotile = true; # master switch for pseudotiling. Enabling is bound to {mod} + P in the keybinds section below
         preserve_split = true; # you probably want this
+        smart_split = true;
+        smart_resizing = true;
       };
 
       # [look and feel]
@@ -234,6 +237,8 @@ in {
         ## float programs
         "float, pavucontrol-qt"
         "float, pavucontrol"
+        "float, myxer"
+        "float, kcalc "
         "float, file-roller"
         "float, steam"
         "float, waypaper"

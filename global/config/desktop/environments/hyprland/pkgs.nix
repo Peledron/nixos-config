@@ -35,7 +35,11 @@
     # -> image viewer
     gnome.eog
     celluloid # video player, gtk frontend for mpv
-    # -> archive manager
+
+    # calculator
+    kdePackages.kcalc
+
+    # archive manager
     lxqt.lxqt-archiver
     # programs to allow for unzipping
     unzrip
@@ -44,7 +48,7 @@
     lzop
     lrzip
 
-    # [sway related]
+    # [hypr related]
     # -> bar
     # waybar # -> package enabled via config as unstable, to allow for hyprland integration
 

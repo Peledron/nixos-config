@@ -20,7 +20,7 @@ in {
         # Choose the order of the modules
         modules-left = ["hyprland/workspaces"];
         #"modules-center"= ["sway/window"];
-        modules-right = ["tray" "idle_inhibitor" "network" "bluetooth" "cpu" "memory" "temperature" "pulseaudio" "pulseaudio#microphone" "clock"];
+        modules-right = ["tray" "idle_inhibitor" "network" "cpu" "memory" "temperature" "pulseaudio" "pulseaudio#microphone" "clock"];
 
         # ---
         # module configs:
@@ -86,34 +86,34 @@ in {
         };
 
         "memory" = {
-          format = "| {}%   |";
+          format = "| {}%   |";
         };
 
         "temperature" = {
           # "thermal-zone"= 2;
-          # "hwmon-path"= "/sys/class/hwmon/hwmon2/temp1_input";
-          critical-threshold = 90;
+          "hwmon-path"= "/sys/class/hwmon/hwmon5/temp1_input";
+          critical-threshold = 95;
 
           format = "| {temperatureC}°C {icon} |";
-          format-icons = ["" "" ""];
-          # "format-critical"= "| {temperatureC}°C {icon} |";
+          format-icons = ["" "" ""];
+          format-critical= "| {temperatureC}°C {icon} |";
         };
 
         "network" = {
           # "interface"= "wlp2*"; # (Optional) To force the use of this interface
           format-wifi = "|    |";
-          format-ethernet = "| 󰈀   |";
-          format-linked = "| 󰈁   |";
-          format-disconnected = "| 󰈂  |";
+          format-ethernet = "| 󰈀  [ 󰇚 {bandwidthDownBytes} 󰕒 {bandwidthUpBytes} ] |";
+          format-linked = "| 󰈁 |";
+          format-disconnected = "| 󰈂 |";
           format-alt = "| {ifname} {essid} ({signalStrength}%) |";
           tooltip = false;
         };
 
         "pulseaudio" = {
           format = "| {volume}% {icon}  |";
-          format-bluetooth = "| {volume}% {icon}  |";
+          format-bluetooth = "| {volume}% {icon}  |";
           format-alt-click = "click-right";
-          format-muted = "|   |";
+          format-muted = "| 󰝟  |";
           format-icons = {
             headphones = "󰋋";
             handsfree = "󱡏";
@@ -124,15 +124,15 @@ in {
             car = "";
             default = ["󰕿" "󰖀" "󰕾"];
           };
-          scroll-step = 2`;
+          scroll-step = 2;
           on-click = "pactl set-sink-mute @DEFAULT_SINK@ toggle";
-          on-click-right = "pavucontrol";
+          on-click-right = "myxer";
           tooltip = true;
           ignored-sinks = ["Easy Effects Sink"]; # add audio devices that should be ignored
         };
         "pulseaudio#microphone" = {
-          format = "{format_source}";
-          format-source = " {volume}%";
+          format = "| {format_source} |";
+          format-source = "{volume}% ";
           format-source-muted = " Muted";
           on-click = "pamixer --default-source -t";
           on-scroll-up = "pamixer --default-source -i 5";

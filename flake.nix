@@ -26,6 +26,7 @@
       url = "github:nix-community/home-manager/release-24.05";
       inputs.nixpkgs.follows = "nixpkgs"; # sets home-manager to use the nix-package-manager packages instead of its own internal ones
     };
+    stylix.url = "github:danth/stylix"; # automatic styling of programs
 
     hyprland = {
       type = "git";
@@ -60,9 +61,11 @@
     self,
     nixpkgs,
     nixpkgs-unstable,
-    homeMan,
-    nur,
     impermanence,
+    persist-retro,
+    homeMan,
+    stylix,
+    nur,
     sops-nix,
     hyprland,
     hyprsplit,

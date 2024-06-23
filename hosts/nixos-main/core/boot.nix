@@ -53,18 +53,20 @@
         useOSProber = true; # tell grub to look for other os'es (windows for example)
         configurationLimit = 20; # limit amount of boot options in grub, also limits the amount of kernels kept in /boot (the default of 100 used up all of the 512MB), this ofc depends more on how many kernel versions are switched between rebuilds so...
         gfxmodeEfi = "3440x1440"; # the display resolution that grub runs at
-        theme = pkgs.nixos-grub2-theme; # default nixos grub theme
+        #theme = pkgs.nixos-grub2-theme; # default nixos grub theme
         memtest86.enable = true; # show an option for memtest
       };
       timeout = 2; # amount of time before default option is chosen
     };
     plymouth = {
       enable = true; # eenable boot spash screen
+      /*
       themePackages = with pkgs; [
         adi1090x-plymouth-themes # bunch of themes, see https://github.com/adi1090x/plymouth-themes
         nixos-bgrt-plymouth # similar to default, has the nixos snowflake spinning instead of the round thingy
       ];
       theme = "nixos-bgrt";
+      */ # -> replaced by ../system/style.nix
     };
   };
   #     # for secure boot see: https://github.com/nix-community/lanzaboote/blob/master/docs/QUICK_START.md and https://nixos.wiki/wiki/Secure_Boot
