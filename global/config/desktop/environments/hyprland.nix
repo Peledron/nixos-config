@@ -94,8 +94,8 @@
   # ---
   environment.sessionVariables = {
     # [qt theming]
-    QT_QPA_PLATFORMTHEME = "qt6ct";
-    QT_STYLE_OVERRIDE = "kvantum";
+    #QT_QPA_PLATFORMTHEME = "qt6ct";
+    #QT_STYLE_OVERRIDE = "kvantum";
     # [qt]
     QT_QPA_PLATFORM = "wayland;xcb";
     QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";

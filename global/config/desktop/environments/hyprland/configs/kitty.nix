@@ -5,13 +5,14 @@
 }: {
   programs.kitty = {
     enable = true;
-    package = pkgs.kitty;
+    /*
     theme = "Nord"; # can be any from https://github.com/kovidgoyal/kitty-themes/tree/master/themes
 
     font = {
       name = "Ubuntu Nerd Font Mono";
       size = 14.0;
     };
+    */
     shellIntegration.mode = "disabled"; #"no-sudo"; # fixes issues with doasnot understanding kitties TERMINFO variable (since we are using doas-sudo-shim)
 
     settings = {
@@ -122,7 +123,7 @@
       # [color scheme]
       # --> set background opacity
       # ranges from 0 for fully transparent to 1
-      background_opacity = "0.7";
+      #background_opacity = "0.7";
     };
     keybindings = {
       /*

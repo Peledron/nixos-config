@@ -5,29 +5,32 @@
   ...
 }: {
   home.packages = with pkgs; [
-    # font packages
-    ubuntu_font_family
-    font-awesome # font icons
-    noto-fonts
-    noto-fonts-emoji
     corefonts # ms fonts
-    (nerdfonts.override {
-      fonts = [
-        "FiraCode" # https://github.com/tonsky/FiraCode
-        "Ubuntu"
-        "UbuntuMono"
-      ]; # adds specific programming ligatures
-    })
   ];
+  fonts.fontconfig.enable = true; # enabling this auto-detects installed fonts in home.packages and environment.packages
 
-  fonts = lib.mkDefault {
-    fontconfig = {
-      enable = true; # enabling this auto-detects installed fonts in home.packages and environment.packages
+  stylix.fonts = {
+    emoji = {
+      name = "Noto Color Emoji";
+      package = pkgs.noto-fonts-color-emoji;
     };
-  };
-  gtk.font = {
-    name = "Ubuntu";
-    package = pkgs.ubuntu_font_family;
-    size = 12;
+    monospace = {
+      name = "UbuntuMono Nerd Font";
+      package = pkgs.nerdfonts.override {fonts = ["UbuntuMono"];};
+    };
+    sansSerif = {
+      name = "Ubuntu Nerd Font";
+      package = pkgs.nerdfonts.override {fonts = ["Ubuntu"];};
+    };
+    serif = {
+      name = "Ubuntu Nerd Font";
+      package = pkgs.nerdfonts.override {fonts = ["Ubuntu"];};
+    };
+    sizes = {
+      applications = 12;
+      terminal = 15;
+      desktop = 12;
+      popups = 12;
+    };
   };
 }
