@@ -167,6 +167,7 @@ in {
         user = "remote";
         passwordFile = config.age.secrets.blocky-mysql_database-password.path;
         nss = {};
+        database = "auth";
       };
     };
   };
