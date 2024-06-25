@@ -13,7 +13,6 @@ in {
     extraFlags = ["-U"]; # run as user instead of root
     privateNetwork = true;
     hostBridge = "${br_local_container_name}";
-
     config = {
       config,
       pkgs,
@@ -43,7 +42,7 @@ in {
         useNetworkd = true;
         firewall = {
           enable = true;
-          allowedTCPPorts = [53 4000];
+          allowedTCPPorts = [53 3306 4000];
           allowedUDPPorts = [53];
         };
         useHostResolvConf = lib.mkForce false;
@@ -51,7 +50,11 @@ in {
       services.blocky = {
         enable = true;
         settings = {
-          prometheus.enable = true;
+          prometheus.enable = true; # enable the prometheus endpoint
+          queryLog = {
+            type = "mysql";
+            target = "mysql://blocky@localhost/BlockyQuerryDB";
+          };
           ports = {
             dns = 53;
             http = 4000;
@@ -118,6 +121,23 @@ in {
             "https://1.1.1.2/dns-query"
           ];
         };
+      };
+      services.mysql = {
+        enable = true;
+        package = pkgs.mariadb;
+        # ensure options can only create the databases and users, not change them
+        # -> there is also "services.mysql.initial*", which executes on first startup of the mysql service (when it is first created?)
+        ensureDatabases = [
+          "BlockyQuerryDB"
+        ];
+        ensureUsers = [
+          {
+            name = "blocky";
+            ensurePermissions = {
+              "BlockyQuerryDB.*" = "ALL PRIVILEGES";
+            };
+          }
+        ];
       };
     };
   };
