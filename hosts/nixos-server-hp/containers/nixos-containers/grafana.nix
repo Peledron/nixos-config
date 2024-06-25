@@ -27,7 +27,7 @@ in {
         interfaces = {
           ${netport}.ipv4.addresses = [
             {
-              address = "192.168.1.10";
+              address = "192.168.1.12";
               prefixLength = 24;
             }
           ];
