@@ -137,7 +137,7 @@ in {
         enable = true;
 
         settings = {
-          disable_sanitize_html = true;
+          panels.disable_sanitize_html = true;
           analytics.reporting_enabled = false;
           server = {
             #rootUrl = "http://172.24.1.2:8010";
