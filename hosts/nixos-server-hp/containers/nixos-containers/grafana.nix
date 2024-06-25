@@ -179,9 +179,9 @@ in {
       services.prometheus = {
         enable = true;
         port = 9090;
-        global = {
-          scrape_interval = "10s";
-          evaluation_interval = "10s";
+        globalConfig = {
+          scrape_interval = "15s";
+          evaluation_interval = "15s";
         };
         exporters = {
           node = {
