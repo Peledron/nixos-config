@@ -51,6 +51,11 @@ in {
       services.blocky = {
         enable = true;
         settings = {
+          prometheus.enable = true;
+          ports = {
+            dns = 53;
+            http = 4000;
+          };
           # adapted from https://bayas.dev/posts/blocky-adblock-docker-setup
           upstreams = {
             groups = {
