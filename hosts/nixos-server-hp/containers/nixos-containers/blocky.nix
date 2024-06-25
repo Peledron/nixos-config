@@ -165,7 +165,7 @@ in {
         enable = true;
         host =  "localhost";
         user = "remote";
-        password = config.age.secrets.blocky-mysql_database-password.path;
+        passwordFile = config.age.secrets.blocky-mysql_database-password.path;
       };
     };
   };
