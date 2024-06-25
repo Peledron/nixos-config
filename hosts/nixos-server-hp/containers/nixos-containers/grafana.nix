@@ -13,24 +13,6 @@ in {
     extraFlags = ["-U"]; # run as user instead of root
     privateNetwork = true;
     hostBridge = "${br_local_container_name}";
-    #hostAddress = "192.168.1.3/24";
-    #localAddress = "192.168.1.10/24";
-    #hostAddress6 = "fc00::1";
-    #localAddress6 = "fc00::2";
-    /*
-    forwardPorts = [
-      {
-        protocol = "tcp";
-        hostPort = 80;
-        containerPort = 80;
-      }
-      {
-        protocol = "tcp";
-        hostPort = 443;
-        containerPort = 443;
-      }
-    ];
-    */
     config = {
       config,
       pkgs,
@@ -158,7 +140,7 @@ in {
           analytics.reporting_enabled = false;
           server = {
             #rootUrl = "http://172.24.1.2:8010";
-            domain = "grafana.nixos.local";
+            domain = "grafana.home.pengolodh.be";
             http_port = 2342;
             http_addr = "127.0.0.1";
           };
@@ -174,6 +156,7 @@ in {
               access = "proxy";
               url = "http://127.0.0.1:${toString config.services.prometheus.port}";
               editable = true;
+              jsonData.graphiteVersion = "1.1";
             }
 
             # loki
@@ -196,6 +179,10 @@ in {
       services.prometheus = {
         enable = true;
         port = 9090;
+        global = {
+          scrape_interval = "10s";
+          evaluation_interval = "10s";
+        };
         exporters = {
           node = {
             enable = true;
@@ -211,6 +198,10 @@ in {
                 targets = ["127.0.0.1:${toString config.services.prometheus.exporters.node.port}"];
               }
             ];
+          }
+          {
+            job_name = "blocky";
+            static_configs = [{targets = ["192.168.1.10:4000"];}];
           }
         ];
       };

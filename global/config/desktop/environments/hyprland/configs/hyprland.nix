@@ -14,7 +14,7 @@
   # applications
   term = "kitty";
   browser = "firefox";
-  file-man = "pcmanfm-qt";
+  file-man = "nemo";
   email = "thunderbird";
   runner = "fuzzel";
 in {
@@ -119,8 +119,8 @@ in {
         ## border
         no_border_on_floating = true;
         border_size = 2;
-        "col.active_border" = "rgba(33ccffee) rgba(00ff99ee) 45deg";
-        "col.inactive_border" = "rgba(595959aa)";
+        #"col.active_border" = "rgba(33ccffee) rgba(00ff99ee) 45deg";
+        #"col.inactive_border" = "rgba(595959aa)";
 
         ## allow tearing
         allow_tearing = true; # see https://wiki.hyprland.org/Configuring/Tearing/
@@ -169,7 +169,7 @@ in {
         shadow_offset = "2 2";
         shadow_range = 4;
         shadow_render_power = 2;
-        "col.shadow" = "0x66000000";
+        #"col.shadow" = "0x66000000";
 
         blur = {
           #popups = true; # whether to blur popups (e.g. right-click menus), this fixes issues with konsole and such

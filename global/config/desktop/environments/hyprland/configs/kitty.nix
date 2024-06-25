@@ -1,21 +1,21 @@
 {
   config,
+  lib,
   pkgs,
   ...
 }: {
+  stylix.targets.kitty.variant256Colors = true;
   programs.kitty = {
     enable = true;
-    /*
-    theme = "Nord"; # can be any from https://github.com/kovidgoyal/kitty-themes/tree/master/themes
+    theme = lib.mkDefault "Nord"; # can be any from https://github.com/kovidgoyal/kitty-themes/tree/master/themes
 
-    font = {
+    font = lib.mkDefault {
       name = "Ubuntu Nerd Font Mono";
       size = 14.0;
     };
-    */
     shellIntegration.mode = "disabled"; #"no-sudo"; # fixes issues with doasnot understanding kitties TERMINFO variable (since we are using doas-sudo-shim)
 
-    settings = {
+    settings =  {
       # warn Disable the warning unless there are more things running than what you see.
       confirm_os_window_close = 2;
       # [advanced]
@@ -111,7 +111,7 @@
 
       # --> tab powerline style configuration
       # can be either "angled", "round" or "slanted"
-      tab_powerline_style = "round";
+      tab_powerline_style = "angled";
 
       # -->  symbol to show when an active process is running within a tab
       tab_activity_symbol = "󱖏 ";

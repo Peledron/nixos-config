@@ -11,13 +11,13 @@ in {
     enable = true;
     autoEnable = false; # i will disable that since I want to manage most theming with homeManager
     base16Scheme = "${pkgs.base16-schemes}/share/themes/nord.yaml";
-    image = ${wallpaper};
+    image = "${wallpaper}";
     targets = {
       # enable boot theming
       grub.enable = true;
       plymouth = {
         enable = true; # the logo is nix by default and animated
-        logo = pkgs.nixos-bgrt-plymouth;
+        #logo = pkgs.nixos-bgrt-plymouth;
         logoAnimated = true;
       };
       # pre-graphical tty
@@ -40,13 +40,28 @@ in {
           name = "Adwaita";
           size = 24;
         };
-        image = ${wallpaper};
+        image = "${wallpaper}";
+        opacity = {
+          applications = 1.0;
+          terminal = 0.7;
+          desktop = 1.0;
+          popups = 1.0;
+        };
       };
+      home.packages = with pkgs; [
+        nordic
+        papirus-icon-theme
+      ];
       qt = {
         enable = true;
         platformTheme = "gtk";
-        style.name = "gtk2";
+        style.name = "Adwaita";
       };
+      gtk.iconTheme = {
+        name = "Papirus-Dark";
+        package = pkgs.papirus-icon-theme;
+      };
+      programs.fuzzel.settings.main.icon-theme = "Papirus-Dark";
     }
   ];
 }

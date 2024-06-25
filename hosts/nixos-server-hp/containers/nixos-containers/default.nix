@@ -1,4 +1,5 @@
 [
-  ./librenms.nix
+  #./librenms.nix
   ./blocky.nix
+  ./grafana.nix
 ]

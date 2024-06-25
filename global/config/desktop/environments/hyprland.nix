@@ -22,7 +22,7 @@
 
     # [polkit]
     # --> used to elevate certain programs
-    lxqt.lxqt-policykit
+    polkit_gnome
 
     xdg-utils
   ];
@@ -32,14 +32,14 @@
   # enable polkit
   security.polkit.enable = true;
   systemd = {
-    user.services.lxqt-policykit-agent = {
-      description = "lxqt-policykit-agent";
+    user.services.gnome-policykit-agent = {
+      description = "gnome-policykit-agent";
       wantedBy = ["graphical-session.target"];
       wants = ["graphical-session.target"];
       after = ["graphical-session.target"];
       serviceConfig = {
         Type = "simple";
-        ExecStart = "${pkgs.unstable.lxqt.lxqt-policykit}/libexec/lxqt-policykit-agent";
+        ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
         Restart = "on-failure";
         RestartSec = 1;
         TimeoutStopSec = 10;
@@ -65,13 +65,13 @@
 
   services.greetd = {
     enable = true;
-    package = pkgs.unstable.greetd;
+    package = pkgs.greetd;
     settings = {
       default_session = {
-        command = "${pkgs.unstable.greetd.greetd}/bin/agreety --cmd ${inputs.hyprland.packages.${pkgs.system}.hyprland}/bin/Hyprland";
+        command = "${pkgs.greetd.greetd}/bin/agreety --cmd ${inputs.hyprland.packages.${pkgs.system}.hyprland}/bin/Hyprland";
       };
       initial_session = {
-        command = "${inputs.hyprland.packages.${pkgs.system}.hyprland}/bin/Hyprland &> /dev/null";
+        command = "${pkgs.dbus}/bin/dbus-run-session ${inputs.hyprland.packages.${pkgs.system}.hyprland}/bin/Hyprland &> /dev/null";
         user = "pengolodh"; # not really config independant, but...
       }; # auto-login for user pengolodh
     };
@@ -81,15 +81,18 @@
   xdg.portal = {
     enable = true;
     wlr.enable = true;
-    extraPortals = [pkgs.unstable.xdg-desktop-portal-gtk];
-    config = {
-      Hyprland = {
-        default = [
-          "hyprland"
-          "gtk"
-        ];
-      };
-    };
+    extraPortals = [
+      pkgs.xdg-desktop-portal-gtk
+      pkgs.xdg-desktop-portal-wlr
+    ];
+    # config = {
+    #   Hyprland = {
+    #     default = [
+    #       "hyprland"
+    #       "gtk"
+    #     ];
+    #   };
+    #};
   };
   # ---
   environment.sessionVariables = {
@@ -107,7 +110,13 @@
     EGL_PLATFORM = "wayland";
     SDL_VIDEODRIVER = "wayland";
     CLUTTER_BACKEND = "wayland";
+    _JAVA_AWT_WM_NONREPARENTING = "1";
+    NIXOS_XDG_OPEN_USE_PORTAL = "1";
     NIXOS_OZONE_WL = "1"; # Hint Electon apps to use wayland
     MOZ_ENABLE_WAYLAND = "1";
+    # [hyprland]
+    XDG_CURRENT_DESKTOP = "Hyprland";
+    XDG_SESSION_DESKTOP = "Hyprland";
+    XDG_SESSION_TYPE = "wayland";
   }; # something is broken in qt theming if done by hone-manager sessionvariables, seems that this fixed it
 }

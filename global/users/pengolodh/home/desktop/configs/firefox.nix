@@ -4,6 +4,7 @@
   lib,
   ...
 }: {
+  stylix.targets.firefox.profileNames = ["pengolodh"];
   # a lot of these options come from: https://discourse.nixos.org/t/declare-firefox-extensions-and-settings/36265
   programs.firefox = {
     enable = true;
@@ -53,6 +54,16 @@
             install_url = "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi";
             installation_mode = "force_installed";
           };
+           # Privacy Badger:
+          "jid1-MnnxcxisBPnSXQ@jetpack" = {
+            install_url = "https://addons.mozilla.org/firefox/downloads/latest/privacy-badger17/latest.xpi";
+            installation_mode = "force_installed";
+          };
+          # localcdn:
+          "{b86e4813-687a-43e6-ab65-0bde4ab75758}" = {
+            install_url = "https://addons.mozilla.org/firefox/downloads/latest/localcdn-fork-of-decentraleyes/latest.xpi";
+            installation_mode = "force_installed";
+          };
           # sponsorblock:
           "sponsorBlocker@ajay.app" = {
             install_url = "https://addons.mozilla.org/firefox/downloads/latest/sponsorblock/latest.xpi";
@@ -63,20 +74,16 @@
             install_url = "https://addons.mozilla.org/firefox/downloads/latest/dearrow/latest.xpi";
             installation_mode = "force_installed";
           };
-          # Privacy Badger:
-          "jid1-MnnxcxisBPnSXQ@jetpack" = {
-            install_url = "https://addons.mozilla.org/firefox/downloads/latest/privacy-badger17/latest.xpi";
+          # return youtube dislike:
+          "{762f9885-5a13-4abd-9c77-433dcd38b8fd}" = {
+            install_url = "https://addons.mozilla.org/firefox/downloads/latest/return_youtube_dislikes/latest.xpi";
             installation_mode = "force_installed";
           };
-          # localcdn:
-          "{b86e4813-687a-43e6-ab65-0bde4ab75758}" = {
-            install_url = "https://addons.mozilla.org/firefox/downloads/latest/localcdn-fork-of-decentraleyes/latest.xpi";
-            installation_mode = "force_installed";
-          };
+         
           # bitwarden:
           "{446900e4-71c2-419f-a6a7-df9c091e268b}" = {
             install_url = "https://addons.mozilla.org/firefox/downloads/latest/bitwarden-password-manager/latest.xpi";
-            installation_mode = "force_installed";
+            installation_mode = "normal_installed"; # it seems to log itself out if there is an update otherwise
           };
           # darkreader:
           "addon@darkreader.org" = {
@@ -84,6 +91,14 @@
             installation_mode = "force_installed";
           };
           # go to playing tab:
+          "{c52f9e9f-dbe3-4ee4-9515-4cec6a51b551}" = {
+            install_url = "https://addons.mozilla.org/firefox/downloads/latest/go_to_playing_tab/latest.xpi";
+            installation_mode = "force_installed";
+          };
+          # blocktube:
+          #"{58204f8b-01c2-4bbc-98f8-9a90458fd9ef}" {
+
+          #};
         };
       };
     };
@@ -101,22 +116,22 @@
         # --> only usefull if you dont use an existing firefox profile..., also these will be disabled by default so... IDK how to actually enable them
         # find more at https://nur.nix-community.org/repos/rycee/
         #extensions = with pkgs.nur.repos.rycee.firefox-addons; [
-          # [privacy]
-          #multi-account-containers # --> seems to break the syncronized containers if this is enabled
-          # privacy-badger
-          # localcdn
-          # # [ad-blocking]
-          # ublock-origin
-          # sponsorblock
-          # # [passwords]
-          # bitwarden
-          # # [QoL]
-          # darkreader
-          # #bypass-paywalls-clean
-          # #fastforward
-          # #firefox-translations # translate webpages does not exist, uses offline translator so this is prob a better choice anyway
-          # return-youtube-dislikes
-          # reddit-enhancement-suite
+        # [privacy]
+        #multi-account-containers # --> seems to break the syncronized containers if this is enabled
+        # privacy-badger
+        # localcdn
+        # # [ad-blocking]
+        # ublock-origin
+        # sponsorblock
+        # # [passwords]
+        # bitwarden
+        # # [QoL]
+        # darkreader
+        # #bypass-paywalls-clean
+        # #fastforward
+        # #firefox-translations # translate webpages does not exist, uses offline translator so this is prob a better choice anyway
+        # return-youtube-dislikes
+        # reddit-enhancement-suite
         #];
         # ---
         search = {

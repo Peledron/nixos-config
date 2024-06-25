@@ -1,17 +1,17 @@
 {
   config,
   pkgs,
+  lib,
   ...
 }: {
   services.dunst = {
     enable = true;
-    package = pkgs.dunst;
-    iconTheme = {
+    iconTheme = lib.mkDefault {
       package = pkgs.papirus-icon-theme;
       name = "Papirus"; # change to installed theme
       size = "16x16";
     };
-    settings = {
+    settings = lib.mkDefault {
       # See dunst(5) for all configuration options
       global = {
         ### Display
@@ -105,7 +105,7 @@
         frame_width = 2;
 
         # Defines color of the frame around the notification window.
-        frame_color = "#33eeffee";
+        #frame_color = "#33eeffee";
 
         # Size of gap to display between notifications - requires a compositor.
         # If value is greater than 0, separator_height will be ignored and a border
@@ -119,7 +119,7 @@
         #  * foreground: use the same color as the foreground;
         #  * frame: use the same color as the frame;
         #  * anything else will be interpreted as a X color.
-        separator_color = "frame";
+        #separator_color = "frame";
 
         # Sort messages by urgency.
         sort = "yes";

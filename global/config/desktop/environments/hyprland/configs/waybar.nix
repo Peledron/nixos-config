@@ -1,5 +1,6 @@
 {
   config,
+  lib,
   pkgs,
   ...
 }: let
@@ -91,12 +92,12 @@ in {
 
         "temperature" = {
           # "thermal-zone"= 2;
-          "hwmon-path"= "/sys/class/hwmon/hwmon5/temp1_input";
+          "hwmon-path" = "/sys/class/hwmon/hwmon5/temp1_input";
           critical-threshold = 95;
 
           format = "| {temperatureC}°C {icon} |";
           format-icons = ["" "" ""];
-          format-critical= "| {temperatureC}°C {icon} |";
+          format-critical = "| {temperatureC}°C {icon} |";
         };
 
         "network" = {
@@ -142,8 +143,7 @@ in {
         # ---
       };
     };
-
-    style = ''
+    style = lib.mkDefault ''
       * {
           border:        none;
           border-radius: 0;
@@ -213,7 +213,6 @@ in {
       #custom-layout,
       #backlight {
           margin: 0px 6px 0px 10px;
-      /*    min-width: 30px;*/
       }
 
       #clock {

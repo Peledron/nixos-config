@@ -43,7 +43,7 @@ in {
         useNetworkd = true;
         firewall = {
           enable = true;
-          allowedTCPPorts = [53];
+          allowedTCPPorts = [53 4000];
           allowedUDPPorts = [53];
         };
         useHostResolvConf = lib.mkForce false;

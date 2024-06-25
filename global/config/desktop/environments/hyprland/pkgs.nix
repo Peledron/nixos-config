@@ -13,15 +13,16 @@
     # -> filemanager
     # kdePackages.dolphin
     # kdePackages.kdegraphics-thumbnailers # thumbnails, not sure if it needed with dolphin-plugins, doesnt seem to work with hyprland
-    # ffmpegthumbs
+    # # ffmpegthumbs
     # kdePackages.kio # important for kde applications
     # kdePackages.kio-extras
     # kio-fuse # fuse overlay for kio needed for network mounts/etc
     # kdePackages.kdenetwork-filesharing
-    lxqt.pcmanfm-qt # uses gvfs for folder mounts
-    lxqt.lxqt-menu-data # add installed applications to the right click menu when selecting "open with"
+    #lxqt.pcmanfm-qt # uses gvfs for folder mounts
+    #lxqt.lxqt-menu-data # add installed applications to the right click menu when selecting "open with"
     # tumb
-    xfce.tumbler
+    #xfce.tumbler
+    cinnamon.nemo-with-extensions
     webp-pixbuf-loader # webp
     poppler # pdf tumbs
     ffmpegthumbnailer
@@ -40,7 +41,8 @@
     kdePackages.kcalc
 
     # archive manager
-    lxqt.lxqt-archiver
+    #lxqt.lxqt-archiver
+    gnome.file-roller
     # programs to allow for unzipping
     unzrip
     p7zip

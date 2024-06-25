@@ -4,7 +4,6 @@
   ...
 }: {
   programs.swaylock = {
-    package = pkgs.swaylock;
     settings = {
       # [settings]
       daemonize = true;

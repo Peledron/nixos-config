@@ -1,18 +1,18 @@
 {
   config,
+  lib,
   pkgs,
   ...
 }: {
   programs.fuzzel = {
     enable = true;
-    package = pkgs.fuzzel;
     settings = {
       main = {
         # output="<not set>";
-        font = "UbuntuMono Nerd Font:size=14";
-        dpi-aware = true;
+        #font = "UbuntuMono Nerd Font:size=14";
+        #dpi-aware = true;
 
-        icon-theme = "Papirus-Dark";
+        #icon-theme = "Papirus-Dark";
         icons-enabled = true;
         # prompt="> ";
         # fields="filename,name,generic";
@@ -35,6 +35,7 @@
 
         # image-size-ratio=0.5
       };
+      /*
       colors = {
         background = "282a33AA";
         text = "efefefef";
@@ -43,7 +44,7 @@
         selection = "666666ff";
         selection-text = "efefefef";
         border = "33eeffee";
-      };
+      };*/
       border = {
         width = 2;
         radius = 3;
