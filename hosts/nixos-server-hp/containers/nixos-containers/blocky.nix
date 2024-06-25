@@ -2,6 +2,8 @@
   config,
   lib,
   pkgs,
+  self,
+  inputs,
   vlans,
   ...
 }: let
@@ -13,12 +15,26 @@ in {
     extraFlags = ["-U"]; # run as user instead of root
     privateNetwork = true;
     hostBridge = "${br_local_container_name}";
+    bindMounts."/persist/ssh/ssh_host_ed25519_key".isReadOnly = true;
     config = {
       config,
       pkgs,
       lib,
       ...
     }: {
+      imports = [inputs.agenix.nixosModules.default];
+      # pass the private key to the container for agenix to decrypt the secret
+
+      # import database password with age
+      age = {
+        identityPaths = ["/persist/ssh/ssh_host_ed25519_key"];
+        secrets = {
+          blocky-mysql_database-password = {
+            file = "${self}/.secrets/global/blocky-mysql_database-password.age";
+          };
+        };
+      };
+
       services.resolved = {
         # Disable local DNS stub listener on 127.0.0.53
         extraConfig = ''
@@ -137,7 +153,19 @@ in {
               "BlockyQuerryDB.*" = "ALL PRIVILEGES";
             };
           }
+          {
+            name = "remote";
+             ensurePermissions = {
+              "BlockyQuerryDB.*" = "SELECT";
+            };
+          }
         ];
+      };
+      users.mysql = {
+        enable = true;
+        host =  "localhost";
+        user = "remote";
+        password = config.age.secrets.blocky-mysql_database-password.path;
       };
     };
   };
