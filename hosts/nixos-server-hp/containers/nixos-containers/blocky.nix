@@ -160,13 +160,8 @@ in {
               "BlockyQuerryDB.*" = "ALL PRIVILEGES";
             };
           }
-          {
-            name = "remoteDB";
-            ensurePermissions = {
-              "BlockyQuerryDB.*" = "SELECT";
-            };
-          }
         ];
+        initialScript = ./container_data/blockyDB.SQL;
       };
       users = {
         users = {
@@ -175,19 +170,9 @@ in {
             isSystemUser = true;
             group = "blockyDB";
             password = "1234567"; # "security"
-
-          };
-          remoteDB = {
-            createHome = false;
-            isSystemUser = true;
-            password = "1234"; # extra "security" lol
-            group = "remoteDB";
           };
         };
-        groups = {
-          blockyDB = {};
-          remoteDB = {};
-        };
+        groups.blockyDB = {};
       };
     };
   };
