@@ -1,4 +1,4 @@
 CREATE USER 'remoteDB'@'%' IDENTIFIED BY '1234';
-CREATE USER 'remoteDB'@'localhost' IDENTIFIED BY '1234';
+CREATE USER 'blockyDB'@'localhost' IDENTIFIED BY '1234';
 GRANT ALL PRIVILEGES ON BlockyQuerryDB.* TO 'remoteDB'@'%' WITH GRANT OPTION;
 GRANT SELECT ON BlockyQuerryDB.* 'blockyDB'@'localhost' WITH GRANT OPTION;
