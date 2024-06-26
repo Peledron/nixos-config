@@ -19,10 +19,6 @@ in {
     hostBridge = "${br_local_container_name}";
     bindMounts = {
       "/persist/ssh/ssh_host_ed25519_key".isReadOnly = true;
-      "/var/lib/mysql" = {
-        hostPath = "${containerpath}/mysql";
-        isReadOnly = false;
-      };
     };
     config = {
       config,
@@ -65,7 +61,7 @@ in {
         useNetworkd = true;
         firewall = {
           enable = true;
-          allowedTCPPorts = [53 3306 4000];
+          allowedTCPPorts = [53 4000];
           allowedUDPPorts = [53];
         };
         useHostResolvConf = lib.mkForce false;
@@ -76,7 +72,7 @@ in {
           prometheus.enable = true; # enable the prometheus endpoint
           queryLog = {
             type = "mysql";
-            target = "blockyDB@localhost:3306/BlockyQuerryDB";
+            target = "remoteDB:1234@192.168.1.12:3306/BlockyQuerryDB";
           };
           ports = {
             dns = 53;
@@ -144,34 +140,6 @@ in {
             "https://1.1.1.2/dns-query"
           ];
         };
-      };
-      services.mysql = {
-        enable = true;
-        package = pkgs.mariadb;
-        # ensure options can only create the databases and users, not change them, note that this only does it to localhost and not
-        # -> there is also "services.mysql.initial*", which executes on first startup of the mysql service (when it is first created?)
-        ensureDatabases = [
-          "BlockyQuerryDB"
-        ];
-        ensureUsers = [
-          {
-            name = "blockyDB";
-            ensurePermissions = {
-              "BlockyQuerryDB.*" = "ALL PRIVILEGES";
-            };
-          }
-        ];
-        initialScript = ./container_data/blockyDB.SQL;
-      };
-      users = {
-        users = {
-          blockyDB = {
-            createHome = false;
-            isSystemUser = true;
-            group = "blockyDB";
-          };
-        };
-        groups.blockyDB = {};
       };
     };
   };
