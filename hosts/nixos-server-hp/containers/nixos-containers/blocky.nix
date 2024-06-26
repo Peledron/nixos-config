@@ -72,7 +72,7 @@ in {
           prometheus.enable = true; # enable the prometheus endpoint
           queryLog = {
             type = "mysql";
-            target = "remoteDB:1234@192.168.1.12:3306/BlockyQuerryDB";
+            target = "remoteDB:1234@tcp(192.168.1.12:3306)/BlockyQuerryDB";
           };
           ports = {
             dns = 53;
