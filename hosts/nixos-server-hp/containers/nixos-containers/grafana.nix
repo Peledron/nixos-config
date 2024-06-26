@@ -27,10 +27,6 @@ in {
         hostPath = "${containerpath}/loki";
         isReadOnly = false;
       };
-      "/var/lib/mysql" = {
-        hostPath = "${containerpath}/mysql";
-        isReadOnly = false;
-      };
     };
     config = {
       config,
@@ -372,26 +368,6 @@ in {
           ];
         };
         # extraFlags
-      };
-      services.mysql = {
-        enable = true;
-        package = pkgs.mariadb;
-        # ensure options can only create the databases and users, not change them, note that this only does it to localhost and not
-        # -> there is also "services.mysql.initial*", which executes on first startup of the mysql service (when it is first created?)
-        ensureDatabases = [
-          "BlockyQuerryDB"
-        ];
-        initialScript = ./container_data/blockyDB.SQL;
-      };
-      users = {
-        users = {
-          blockyDB = {
-            createHome = false;
-            isSystemUser = true;
-            group = "blockyDB";
-          };
-        };
-        groups.blockyDB = {};
       };
       system.stateVersion = "23.11";
     };
