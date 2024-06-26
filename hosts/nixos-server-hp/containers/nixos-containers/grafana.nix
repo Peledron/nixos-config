@@ -168,26 +168,38 @@ in {
           panels.disable_sanitize_html = true;
         };
 
-        provision.datasources.settings = {
-          apiVersion = 1;
-          datasources = [
-            # prometheus
-            {
-              name = "Prometheus";
-              type = "prometheus";
-              access = "proxy";
-              url = "http://127.0.0.1:${toString config.services.prometheus.port}";
-              editable = true;
-              jsonData.graphiteVersion = "1.1";
-            }
+        provision = {
+          datasources.settings = {
+            apiVersion = 1;
+            datasources = [
+              # prometheus
+              {
+                name = "Prometheus";
+                type = "prometheus";
+                access = "proxy";
+                url = "http://127.0.0.1:${toString config.services.prometheus.port}";
+                editable = true;
+                jsonData.graphiteVersion = "1.1";
+              }
 
-            # loki
+              # loki
+              {
+                name = "Loki";
+                type = "loki";
+                access = "proxy";
+                url = "http://127.0.0.1:${toString config.services.loki.configuration.server.http_listen_port}";
+                #editable = true;
+              }
+            ];
+          };
+          dashboards.settings.providers = [
             {
-              name = "Loki";
-              type = "loki";
-              access = "proxy";
-              url = "http://127.0.0.1:${toString config.services.loki.configuration.server.http_listen_port}";
-              #editable = true;
+              name = "blocky";
+              options.path = ./container_data/grafana-dashboards/blocky.json;
+            }
+            {
+              name = "blocky-querries";
+              options.path = ./container_data/grafana-dashboards/blocky-querries.json;
             }
           ];
         };
