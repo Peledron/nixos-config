@@ -11,7 +11,7 @@
 in {
   containers.monitor = {
     autoStart = true;
-    extraFlags = ["-U"]; # run as user instead of root
+    #extraFlags = ["-U"]; # run as user instead of root
     privateNetwork = true;
     hostBridge = "${br_local_container_name}";
     bindMounts = {

@@ -9,11 +9,12 @@
 }: let
   br_local_container_name = "br0cont";
   netport = "eth0";
-  containerpath = "/persist/var/lib/containerdata/blocky";
+  containername = "blocky";
+  containerpath = "/persist/var/lib/containerdata/${containername}";
 in {
   containers.blocky = {
     autoStart = true;
-    extraFlags = ["-U"]; # run as user instead of root
+    #extraFlags = ["-U"]; # run as user instead of root
     privateNetwork = true;
     hostBridge = "${br_local_container_name}";
     bindMounts = {
@@ -41,7 +42,6 @@ in {
           };
         };
       };
-
       services.resolved = {
         # Disable local DNS stub listener on 127.0.0.53
         extraConfig = ''

@@ -39,14 +39,13 @@
 
   home-manager = inputs.homeMan.nixosModules.home-manager;
   nix-index-db = inputs.nix-index-database.hmModules.nix-index; # -> note that this is a Homemanager module
-  stylix = inputs.stylix.nixosModules.stylix;
 
   # DE related inputs
   plasma-manager = inputs.plasmaMan.homeManagerModules.plasma-manager;
 
   hyprland-coremod = inputs.hyprland.nixosModules.default;
   hyprland-homemod = inputs.hyprland.homeManagerModules.default;
-
+  stylix = inputs.stylix.nixosModules.stylix;
   # paths
   # -> main
   hostdir = "${self}/hosts";
