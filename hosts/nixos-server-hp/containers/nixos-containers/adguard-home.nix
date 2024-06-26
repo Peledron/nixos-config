@@ -12,14 +12,19 @@
   containername = "adguard-home";
   containerpath = "/persist/var/lib/containerdata/${containername}";
 in {
+  systemd.tmpfiles.rules = [
+    "d ${containerpath}/querrylog 0750 root root -"
+  ];
   containers.${containername} = {
     autoStart = true;
     #extraFlags = ["-U"]; # run as user instead of root
     privateNetwork = true;
     hostBridge = "${br_local_container_name}";
-    "/var/lib/querrylog" = {
-      hostPath = "${containerpath}/querrylog";
-      isReadOnly = false;
+    bindMounts = {
+      "/var/lib/querrylog" = {
+        hostPath = "${containerpath}/querrylog";
+        isReadOnly = false;
+      };
     };
     config = {
       config,
