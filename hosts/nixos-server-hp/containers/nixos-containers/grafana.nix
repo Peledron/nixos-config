@@ -381,14 +381,6 @@ in {
         ensureDatabases = [
           "BlockyQuerryDB"
         ];
-        ensureUsers = [
-          {
-            name = "blockyDB";
-            ensurePermissions = {
-              "BlockyQuerryDB.*" = "ALL PRIVILEGES";
-            };
-          }
-        ];
         initialScript = ./container_data/blockyDB.SQL;
       };
       users = {
