@@ -192,6 +192,7 @@ in {
               }
             ];
           };
+          /*
           dashboards.settings.providers = [
             {
               name = "blocky";
@@ -201,7 +202,7 @@ in {
               name = "blocky-querries";
               options.path = ./container_data/grafana-dashboards/blocky-querries.json;
             }
-          ];
+          ];*/
         };
       };
       # ---
