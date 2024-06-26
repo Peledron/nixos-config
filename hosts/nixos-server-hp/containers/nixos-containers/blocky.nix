@@ -160,6 +160,12 @@ in {
               "BlockyQuerryDB.*" = "ALL PRIVILEGES";
             };
           }
+          {
+            name = "remote";
+            ensurePermissions = {
+              "BlockyQuerryDB.*" = "SELECT";
+            };
+          }
         ];
       };
     };
