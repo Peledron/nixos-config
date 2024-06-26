@@ -77,7 +77,7 @@
                     };
                   };
                 };
-                postCreateHook = "mount ${builtins.elemAt disks 1} /mnt ; mkdir -p /mnt/persist/sops; btrfs subvolume snapshot -r /mnt/root /mnt/root-blank; umount /mnt"; # create the initial empty subvolume snapshot that we will return to at each boot
+                postCreateHook = "mount ${builtins.elemAt disks 1} /mnt ; btrfs subvolume snapshot -r /mnt/root /mnt/root-blank; umount /mnt"; # create the initial empty subvolume snapshot that we will return to at each boot
               };
             }
             # declare more partitons here:
