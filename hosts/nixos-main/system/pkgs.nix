@@ -6,5 +6,5 @@
   self,
   ...
 }: {
-  #[(self + "/global/modules/programs/steam.nix")];
+  imports=[(self + "/global/modules/programs/steam.nix")];
 }

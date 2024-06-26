@@ -55,6 +55,7 @@
       "/etc/libvirt"
       "/var/lib/docker"
       "/var/lib/containers"
+      "/var/lib/containerdata"
       "/var/lib/machines"
       "/var/lib/upower"
     ];

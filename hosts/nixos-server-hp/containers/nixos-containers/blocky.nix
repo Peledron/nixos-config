@@ -9,13 +9,20 @@
 }: let
   br_local_container_name = "br0cont";
   netport = "eth0";
+  containerpath = "/persist/var/lib/containerdata/blocky";
 in {
   containers.blocky = {
     autoStart = true;
     extraFlags = ["-U"]; # run as user instead of root
     privateNetwork = true;
     hostBridge = "${br_local_container_name}";
-    bindMounts."/persist/ssh/ssh_host_ed25519_key".isReadOnly = true;
+    bindMounts = {
+      "/persist/ssh/ssh_host_ed25519_key".isReadOnly = true;
+      "/var/lib/mysql" = {
+        hostPath = "${containerpath}/mysql";
+        isReadOnly = false;
+      };
+    };
     config = {
       config,
       pkgs,
@@ -153,22 +160,7 @@ in {
               "BlockyQuerryDB.*" = "ALL PRIVILEGES";
             };
           }
-          {
-            name = "remote";
-             ensurePermissions = {
-              "BlockyQuerryDB.*" = "SELECT";
-            };
-          }
         ];
-      };
-      users.mysql = {
-        enable = true;
-        host =  "localhost";
-        user = "remote";
-        passwordFile = config.age.secrets.blocky-mysql_database-password.path;
-        nss = {};
-        pam = {};
-        database = "auth";
       };
     };
   };

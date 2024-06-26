@@ -7,12 +7,27 @@
 }: let
   br_local_container_name = "br0cont";
   netport = "eth0";
+  containerpath = "/persist/var/lib/containerdata/monitor";
 in {
   containers.monitor = {
     autoStart = true;
     extraFlags = ["-U"]; # run as user instead of root
     privateNetwork = true;
     hostBridge = "${br_local_container_name}";
+    bindMounts = {
+      "/var/lib/grafana" = {
+        hostPath = "${containerpath}/grafana";
+        isReadOnly = false;
+      };
+      "/var/lib/prometheus2" = {
+        hostPath = "${containerpath}/prometheus2";
+        isReadOnly = false;
+      };
+      "/var/lib/loki" = {
+        hostPath = "${containerpath}/loki";
+        isReadOnly = false;
+      };
+    };
     config = {
       config,
       pkgs,
@@ -133,18 +148,24 @@ in {
       #============#
       # grafana:
       #============#
+      # see https://gitlab.com/LongerHV/nixos-configuration/-/blob/master/modules/nixos/homelab/monitoring.nix for a good example config
       services.grafana = {
         enable = true;
-
+        declarativePlugins = with pkgs.grafanaPlugins; [grafana-piechart-panel];
         settings = {
-          panels.disable_sanitize_html = true;
-          analytics.reporting_enabled = false;
           server = {
             #rootUrl = "http://172.24.1.2:8010";
             domain = "grafana.home.pengolodh.be";
             http_port = 2342;
             http_addr = "127.0.0.1";
           };
+          analytics = {
+            reporting_enabled = false;
+            check_for_updates = false;
+            check_for_plugin_updates = false;
+          };
+          security.disable_gravatar = true;
+          panels.disable_sanitize_html = true;
         };
 
         provision.datasources.settings = {
@@ -190,6 +211,7 @@ in {
             enabledCollectors = ["systemd"];
             port = 9002;
           };
+          smartctl.enable = true;
         };
         scrapeConfigs = [
           {
