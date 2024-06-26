@@ -76,7 +76,7 @@ in {
           prometheus.enable = true; # enable the prometheus endpoint
           queryLog = {
             type = "mysql";
-            target = "mysql://blocky@localhost/BlockyQuerryDB";
+            target = "mysql://blockyDB:1234567@localhost/BlockyQuerryDB";
           };
           ports = {
             dns = 53;
@@ -168,15 +168,25 @@ in {
           }
         ];
       };
-      users.users = {
-        blockyDB = {
-          createHome = false;
-          isSystemUser = true;
+      users = {
+        users = {
+          blockyDB = {
+            createHome = false;
+            isSystemUser = true;
+            group = "blockyDB";
+            password = "1234567"; # "security"
+
+          };
+          remoteDB = {
+            createHome = false;
+            isSystemUser = true;
+            password = "1234"; # extra "security" lol
+            group = "remoteDB";
+          };
         };
-        remoteDB = {
-          createHome = false;
-          isSystemUser = true;
-          password = "1234";
+        groups = {
+          blockyDB = {};
+          remoteDB = {};
         };
       };
     };
