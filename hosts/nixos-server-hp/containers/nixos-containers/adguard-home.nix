@@ -93,13 +93,13 @@ in {
           filters = [
             {
               enabled = true;
-              urls = "https://adguardteam.github.io/HostlistsRegistry/assets/filter_1.tx"; # adguard standard list
+              urls = "https://adguardteam.github.io/HostlistsRegistry/assets/filter_1.txt"; # adguard standard list
               name = "AdGuard DNS filter";
               id = 1;
             }
             {
               enabled = true;
-              urls = "https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/adblock/multi.tx"; # adguard standard list
+              urls = "https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/adblock/multi.txt"; # adguard standard list
               name = "hagezi-normal";
               id = 1719424238;
             }
