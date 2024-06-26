@@ -85,7 +85,7 @@ in {
           tls = {
             enabled = true;
             server_name = "adguard.home.pengolodh.be";
-            force_https = true;
+            #force_https = true;
             port_https = 443;
           };
         };
