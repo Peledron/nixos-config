@@ -67,10 +67,12 @@ in {
         settings = {
           # you can add more settings here, they are merged with exisiting settings form webui
           # https://github.com/AdguardTeam/AdGuardHome/wiki/Configuration#configuration-file
-          users = {
-            name = "pengolodh";
-            password = "Adguard@Home";
-          };
+          users = [
+            {
+              name = "pengolodh";
+              password = "$2y$10$6T6TazxuJiOovjPTGJKIM.OHoUk411kjYJKeaR0PrJAnK1ug/DxD2"; # hash generated via htpasswd -B -C 10 -n -b %user% %password%
+            }
+          ];
           upstream_dns = [
             "tls://fdns1.dismail.de:853"
             "tls://fdns2.dismail.de:853"
@@ -85,8 +87,10 @@ in {
           tls = {
             enabled = true;
             server_name = "adguard.home.pengolodh.be";
-            #force_https = true;
+            force_https = true;
             port_https = 443;
+            port_dns_over_tls = 0;
+            port_dns_over_quick = 0;
           };
         };
       };
