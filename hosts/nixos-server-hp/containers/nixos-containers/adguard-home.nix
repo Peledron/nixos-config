@@ -92,19 +92,63 @@ in {
           filters = [
             {
               enabled = true;
-              urls = [
-                "https://adguardteam.github.io/HostlistsRegistry/assets/filter_1.txt"
-              ]; # adguard standard list
+              url = "https://adguardteam.github.io/HostlistsRegistry/assets/filter_1.txt"; # adguard standard list
               name = "AdGuard DNS filter";
               id = 1;
             }
             {
               enabled = true;
-              urls = [
-                "https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/adblock/multi.txt"
-              ]; # adguard standard list
-              name = "hagezi-normal";
+              url = "https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/adblock/multi.txt"; # adguard standard list
+              name = "HaGeZi's Normal Blocklist";
               id = 1719424238;
+            }
+            {
+              enabled = true;
+              url = "https://adguardteam.github.io/HostlistsRegistry/assets/filter_47.txt";
+              name = "HaGeZi's Gambling Blocklist";
+              id = 1719491000;
+            }
+            {
+              enabled = true;
+              url = "https://adguardteam.github.io/HostlistsRegistry/assets/filter_44.txt";
+              name = "HaGeZi's Threat Intelligence Feeds";
+              id = 1719491003;
+            }
+            {
+              enabled = true;
+              url = "https://adguardteam.github.io/HostlistsRegistry/assets/filter_55.txt";
+              name = "HaGeZi's Badware Hoster Blocklist"; # badware hosters = free hosting companies that host malicious files, might be overly aggressive
+              id = 1719491007;
+            }
+            {
+              enabled = true;
+              url = "https://adguardteam.github.io/HostlistsRegistry/assets/filter_52.txt";
+              name = "HaGeZi's Encrypted DNS/VPN/TOR/Proxy Bypass";
+              id = 1719491002;
+            }
+            {
+              enabled = true;
+              url = "https://adguardteam.github.io/HostlistsRegistry/assets/filter_7.txt";
+              name = "Perflyst and Dandelion Sprout's Smart-TV Blocklist";
+              id = 1719491001;
+            }
+             {
+              enabled = true;
+              url = "https://adguardteam.github.io/HostlistsRegistry/assets/filter_12.txt";
+              name = "Dandelion Sprout's Anti-Malware List";
+              id =1719491004;
+            }
+             {
+              enabled = true;
+              url = "https://adguardteam.github.io/HostlistsRegistry/assets/filter_9.txt";
+              name = "The Big List of Hacked Malware Web Sites";
+              id =1719491006;
+            }
+             {
+              enabled = true;
+              url = "https://adguardteam.github.io/HostlistsRegistry/assets/filter_9.txt";
+              name = "Phishing URL Blocklist (PhishTank and OpenPhish)";
+              id = 1719491005;
             }
           ];
 
