@@ -63,7 +63,7 @@ in {
       services.adguardhome = {
         enable = true;
         openFirewall = true; # opens port associated with port option (3000 by default)
-        mutableSettings = true; # Allow changes made on the AdGuard Home web interface to persist between service restarts.
+        mutableSettings = false; # Allow changes made on the AdGuard Home web interface to persist between service restarts.
         settings = {
           # you can add more settings here, they are merged with exisiting settings form webui if mutableSettings is true, these options are merged into the configuration file on start, taking precedence over configuration changes made on the web interface.
           # https://github.com/AdguardTeam/AdGuardHome/wiki/Configuration#configuration-file
@@ -88,18 +88,21 @@ in {
             cache_size = 268435456; # 256MiB
             cache_ttl_min = 15; # time in seconds, 15s
             cache_ttl_max = 28800; # time in seconds, 8h
-
           };
           filters = [
             {
               enabled = true;
-              urls = "https://adguardteam.github.io/HostlistsRegistry/assets/filter_1.txt"; # adguard standard list
+              urls = [
+                "https://adguardteam.github.io/HostlistsRegistry/assets/filter_1.txt"
+              ]; # adguard standard list
               name = "AdGuard DNS filter";
               id = 1;
             }
             {
               enabled = true;
-              urls = "https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/adblock/multi.txt"; # adguard standard list
+              urls = [
+                "https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/adblock/multi.txt"
+              ]; # adguard standard list
               name = "hagezi-normal";
               id = 1719424238;
             }
@@ -108,7 +111,7 @@ in {
           tls = {
             enabled = true;
             server_name = "adguard.home.pengolodh.be";
-            force_https = true;
+            force_https = false;
             port_https = 443;
             port_dns_over_tls = 0;
             port_dns_over_quick = 0;
@@ -125,7 +128,7 @@ in {
             parental_enabled = false;
             safebrowsing_enabled = false;
           };
-          querrylog.dir_path = "/var/lib/adguard-logs";
+          querylog.dir_path = "/var/lib/adguard-logs";
           log.file = "/var/lib/adguard-logs/adguardlog.log";
         };
       };
