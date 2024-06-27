@@ -98,7 +98,7 @@ in {
             }
             {
               enabled = true;
-              url = "https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/adblock/multi.txt"; # adguard standard list
+              url = "https://adguardteam.github.io/HostlistsRegistry/assets/filter_34.txt"; # adguard standard list
               name = "HaGeZi's Normal Blocklist";
               id = 1719424238;
             }
