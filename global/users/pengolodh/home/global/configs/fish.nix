@@ -21,7 +21,7 @@
       end
     '';
     functions = {
-      push-config = "cd $FLAKE; git add --all; git commit -m $argv; git push;";
+      push-config = ''pushd $FLAKE; git add --all; git commit -m "$argv"; git push; popd'';
     };
   };
   # ---
