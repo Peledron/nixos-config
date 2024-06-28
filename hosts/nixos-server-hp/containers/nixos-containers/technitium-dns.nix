@@ -34,6 +34,7 @@ in {
         secrets = {
           technitium-dns-server_admin-password = {
             file = "${self}/.secrets/global/technitium-dns-server_admin-password.age";
+            mode = "444";
           };
         };
       };
