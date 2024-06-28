@@ -85,7 +85,7 @@ in {
         DNS_SERVER_WEB_SERVICE_ENABLE_HTTPS = true;
         DNS_SERVER_WEB_SERVICE_USE_SELF_SIGNED_CERT = true;
         DNS_SERVER_RECURSION = "AllowOnlyForPrivateNetworks";
-        DNS_SERVER_BLOCK_LIST_URLS "https://adguardteam.github.io/HostlistsRegistry/assets/filter_34.txt, https://adguardteam.github.io/HostlistsRegistry/assets/filter_47.txt, https://adguardteam.github.io/HostlistsRegistry/assets/filter_44.txt, https://adguardteam.github.io/HostlistsRegistry/assets/filter_55.txt, https://adguardteam.github.io/HostlistsRegistry/assets/filter_52.txt, https://adguardteam.github.io/HostlistsRegistry/assets/filter_7.txt, https://adguardteam.github.io/HostlistsRegistry/assets/filter_12.txt, https://adguardteam.github.io/HostlistsRegistry/assets/filter_9.txt, https://adguardteam.github.io/HostlistsRegistry/assets/filter_30.txt, https://adguardteam.github.io/HostlistsRegistry/assets/filter_23.txt";
+        DNS_SERVER_BLOCK_LIST_URLS = "https://adguardteam.github.io/HostlistsRegistry/assets/filter_34.txt, https://adguardteam.github.io/HostlistsRegistry/assets/filter_47.txt, https://adguardteam.github.io/HostlistsRegistry/assets/filter_44.txt, https://adguardteam.github.io/HostlistsRegistry/assets/filter_55.txt, https://adguardteam.github.io/HostlistsRegistry/assets/filter_52.txt, https://adguardteam.github.io/HostlistsRegistry/assets/filter_7.txt, https://adguardteam.github.io/HostlistsRegistry/assets/filter_12.txt, https://adguardteam.github.io/HostlistsRegistry/assets/filter_9.txt, https://adguardteam.github.io/HostlistsRegistry/assets/filter_30.txt, https://adguardteam.github.io/HostlistsRegistry/assets/filter_23.txt";
       };
     };
   };
