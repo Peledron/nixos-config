@@ -72,14 +72,12 @@ in {
       services.technitium-dns-server = {
         enable = true;
         openFirewall = true; # Whether to open ports in the firewall. Standard ports are 53 (UDP and TCP, for DNS), 5380 and 53443 (TCP, HTTP and HTTPS for web interface). Specify different or additional ports in options firewallUDPPorts and firewallTCPPorts if necessary.
-        firewallTCPPorts = [53 80 443];
-        firewallUDPPorts = [53];
       };
       environment.variables = {
         DNS_SERVER_DOMAIN = "dns.home.pengolodh.be";
         DNS_SERVER_ADMIN_PASSWORD_FILE = "${config.age.secrets.technitium-dns-server_admin-password.path}";
-        DNS_SERVER_WEB_SERVICE_HTTP_PORT = 80;
-        DNS_SERVER_WEB_SERVICE_HTTPS_PORT = 443;
+        #DNS_SERVER_WEB_SERVICE_HTTP_PORT = 80;
+        #DNS_SERVER_WEB_SERVICE_HTTPS_PORT = 443;
         DNS_SERVER_WEB_SERVICE_ENABLE_HTTPS = "true";
         DNS_SERVER_WEB_SERVICE_USE_SELF_SIGNED_CERT = "true";
         DNS_SERVER_RECURSION = "AllowOnlyForPrivateNetworks";
