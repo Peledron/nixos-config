@@ -9,6 +9,11 @@
   netport = "eth0";
   containerpath = "/persist/var/lib/containerdata/monitor";
 in {
+   systemd.tmpfiles.rules = [
+    "d ${containerpath}/grafana 0750 root root -"
+    "d ${containerpath}/prometheus2 0750 root root -"
+    "d ${containerpath}/loki 0750 root root -"
+  ];
   containers.monitor = {
     autoStart = true;
     #extraFlags = ["-U"]; # run as user instead of root
