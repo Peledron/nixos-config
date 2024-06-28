@@ -17,7 +17,6 @@
   environment.systemPackages = with pkgs.unstable; [
     # deps
     xwayland
-    xdg-desktop-portal-hyprland
     xdg-desktop-portal-gtk
 
     # [polkit]
