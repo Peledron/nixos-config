@@ -56,6 +56,7 @@
       "/var/lib/docker"
       "/var/lib/containers"
       "/var/lib/containerdata"
+      "/var/lib/nixos-containers"
       "/var/lib/machines"
       "/var/lib/upower"
     ];

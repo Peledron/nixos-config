@@ -10,11 +10,7 @@
   br_local_container_name = "br0cont";
   netport = "eth0";
   containername = "technitium-dns";
-  containerpath = "/persist/var/lib/containerdata/${containername}";
 in {
-  systemd.tmpfiles.rules = [
-    "d ${containerpath} 0750 root root -"
-  ];
   containers.${containername} = {
     autoStart = true;
     #extraFlags = ["-U"]; # run as user instead of root
@@ -22,10 +18,6 @@ in {
     hostBridge = "${br_local_container_name}";
     bindMounts = {
       "/persist/ssh/ssh_host_ed25519_key".isReadOnly = true;
-      "/var/lib/technitium-dns-server" = {
-        hostPath = "${containerpath}";
-        isReadOnly = false;
-      };
     };
     config = {
       config,
@@ -76,7 +68,7 @@ in {
         firewallUDPPorts = [53];
       };
 
-      systemd.services.technitium-dns-server.environment = {
+      systemd.services.technitium-dns-server.environment = lib.mkAfter {
         # see https://github.com/TechnitiumSoftware/DnsServer/blob/master/DockerEnvironmentVariables.md for all options
         # -> note that these are only applied on initial load -> meaning when the service is first created
         DNS_SERVER_DOMAIN = "dns.home.pengolodh.be";

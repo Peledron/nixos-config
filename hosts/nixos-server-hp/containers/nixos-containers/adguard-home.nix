@@ -21,7 +21,7 @@ in {
     privateNetwork = true;
     hostBridge = "${br_local_container_name}";
     bindMounts = {
-      "/var/lib/AdGuardHome" = {
+      "/var/lib/adguard-logs" = {
         hostPath = "${containerpath}";
         isReadOnly = false;
       };
@@ -32,6 +32,9 @@ in {
       lib,
       ...
     }: {
+      systemd.tmpfiles.rules = [
+        "d /var/lib/adguard-logs 0750 root root -"
+      ];
       services.resolved = {
         # Disable local DNS stub listener on 127.0.0.53
         extraConfig = ''
@@ -174,8 +177,8 @@ in {
             parental_enabled = false;
             safebrowsing_enabled = false;
           };
-          querylog.dir_path = "/var/lib/AdGuardHome/logs";
-          log.file = "/var/lib/AdGuardHome/logs/adguardlog.log";
+          querylog.dir_path = "/var/lib/adguard-logs";
+          log.file = "/var/lib/adguard-logs/adguardlog.log";
         };
       };
     };
