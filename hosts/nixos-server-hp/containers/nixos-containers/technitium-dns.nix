@@ -22,7 +22,7 @@ in {
     hostBridge = "${br_local_container_name}";
     bindMounts = {
       "/persist/ssh/ssh_host_ed25519_key".isReadOnly = true;
-      "/var/lib/${containername}" = {
+      "/var/lib/technitium-dns-server" = {
         hostPath = "${containerpath}";
         isReadOnly = false;
       };
@@ -45,9 +45,7 @@ in {
           };
         };
       };
-      systemd.tmpfiles.rules = [
-        "d ${containerpath}/logs 0750 root root -"
-      ];
+
       services.resolved = {
         # Disable local DNS stub listener on 127.0.0.53
         extraConfig = ''
