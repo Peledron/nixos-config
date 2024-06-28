@@ -71,16 +71,24 @@ in {
       };
       services.technitium-dns-server = {
         enable = true;
+        package = pkgs.unstable.technitium-dns-server;
         openFirewall = true; # Whether to open ports in the firewall. Standard ports are 53 (UDP and TCP, for DNS), 5380 and 53443 (TCP, HTTP and HTTPS for web interface). Specify different or additional ports in options firewallUDPPorts and firewallTCPPorts if necessary.
+        firewallTCPPorts = [53 80 443];
+        firewallUDPPorts = [53];
       };
-      environment.variables = {
+
+      systemd.services.technitium-dns-server.environment = {
+        # see https://github.com/TechnitiumSoftware/DnsServer/blob/master/DockerEnvironmentVariables.md for all options
+        # -> note that these are only applied on initial load -> meaning when the service is first created
         DNS_SERVER_DOMAIN = "dns.home.pengolodh.be";
         DNS_SERVER_ADMIN_PASSWORD_FILE = "${config.age.secrets.technitium-dns-server_admin-password.path}";
-        #DNS_SERVER_WEB_SERVICE_HTTP_PORT = 80;
-        #DNS_SERVER_WEB_SERVICE_HTTPS_PORT = 443;
+        DNS_SERVER_WEB_SERVICE_HTTP_PORT = 80;
+        DNS_SERVER_WEB_SERVICE_HTTPS_PORT = 443;
         DNS_SERVER_WEB_SERVICE_ENABLE_HTTPS = "true";
         DNS_SERVER_WEB_SERVICE_USE_SELF_SIGNED_CERT = "true";
-        DNS_SERVER_RECURSION = "AllowOnlyForPrivateNetworks";
+        DNS_SERVER_FORWARDERS = "fdns1.dismail.de:853, 159.69.114.157:853"; # dismail dns servers
+        DNS_SERVER_FORWARDER_PROTOCOL = "Tls";
+        DNS_SERVER_RECURSION = "AllowOnlyForPrivateNetworks"; #  #Recursion options: Allow, Deny, AllowOnlyForPrivateNetworks, UseSpecifiedNetworks.
         DNS_SERVER_BLOCK_LIST_URLS = "https://adguardteam.github.io/HostlistsRegistry/assets/filter_34.txt, https://adguardteam.github.io/HostlistsRegistry/assets/filter_47.txt, https://adguardteam.github.io/HostlistsRegistry/assets/filter_44.txt, https://adguardteam.github.io/HostlistsRegistry/assets/filter_55.txt, https://adguardteam.github.io/HostlistsRegistry/assets/filter_52.txt, https://adguardteam.github.io/HostlistsRegistry/assets/filter_7.txt, https://adguardteam.github.io/HostlistsRegistry/assets/filter_12.txt, https://adguardteam.github.io/HostlistsRegistry/assets/filter_9.txt, https://adguardteam.github.io/HostlistsRegistry/assets/filter_30.txt, https://adguardteam.github.io/HostlistsRegistry/assets/filter_23.txt";
       };
     };
