@@ -53,4 +53,9 @@
     enableSystemSlice = false;
     enableUserSlices = true;
   };
+  services.locate = {
+    enable = true;
+    package = pkgs.plocate;
+    interval = "daily";
+  };
 }

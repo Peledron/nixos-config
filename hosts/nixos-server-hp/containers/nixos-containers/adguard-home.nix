@@ -13,7 +13,7 @@
   containerpath = "/persist/var/lib/containerdata/${containername}";
 in {
   systemd.tmpfiles.rules = [
-    "d ${containerpath}/logs 0750 root root -"
+    "d ${containerpath} 0750 root root -"
   ];
   containers.${containername} = {
     autoStart = true;
@@ -32,6 +32,9 @@ in {
       lib,
       ...
     }: {
+      systemd.tmpfiles.rules = [
+        "d ${containerpath}/logs 0750 root root -"
+      ];
       services.resolved = {
         # Disable local DNS stub listener on 127.0.0.53
         extraConfig = ''
@@ -62,6 +65,7 @@ in {
       };
       services.adguardhome = {
         enable = true;
+        port = 80;
         openFirewall = true; # opens port associated with port option (3000 by default)
         mutableSettings = false; # Allow changes made on the AdGuard Home web interface to persist between service restarts.
         settings = {
@@ -98,7 +102,7 @@ in {
             }
             {
               enabled = true;
-              url = "https://adguardteam.github.io/HostlistsRegistry/assets/filter_34.txt"; # adguard standard list
+              url = "https://adguardteam.github.io/HostlistsRegistry/assets/filter_34.txt";
               name = "HaGeZi's Normal Blocklist";
               id = 1719424238;
             }
@@ -132,21 +136,21 @@ in {
               name = "Perflyst and Dandelion Sprout's Smart-TV Blocklist";
               id = 1719491001;
             }
-             {
+            {
               enabled = true;
               url = "https://adguardteam.github.io/HostlistsRegistry/assets/filter_12.txt";
               name = "Dandelion Sprout's Anti-Malware List";
-              id =1719491004;
+              id = 1719491004;
             }
-             {
+            {
               enabled = true;
               url = "https://adguardteam.github.io/HostlistsRegistry/assets/filter_9.txt";
               name = "The Big List of Hacked Malware Web Sites";
-              id =1719491006;
+              id = 1719491006;
             }
-             {
+            {
               enabled = true;
-              url = "https://adguardteam.github.io/HostlistsRegistry/assets/filter_9.txt";
+              url = "https://adguardteam.github.io/HostlistsRegistry/assets/filter_30.txt";
               name = "Phishing URL Blocklist (PhishTank and OpenPhish)";
               id = 1719491005;
             }
@@ -161,6 +165,7 @@ in {
             port_dns_over_quick = 0;
           };
           filtering = {
+            filtering_enabled = true;
             rewrites = [
               {
                 domain = "adguard.home.penglodh.be";

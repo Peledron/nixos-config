@@ -40,6 +40,8 @@
       "/var/lib/NetworkManager/secret_key"
       "/var/lib/NetworkManager/seen-bssids"
       "/var/lib/NetworkManager/timestamps"
+      # locatedb cache
+      "/var/cache/locatedb"
       #
       {
         file = "/var/keys/secret_file";

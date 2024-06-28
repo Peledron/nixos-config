@@ -34,11 +34,11 @@
     # -> runner
     fuzzel
     # -> image viewer
-    gnome.eog
+    shotwell
     celluloid # video player, gtk frontend for mpv
 
     # calculator
-    kdePackages.kcalc
+    qalculate-gtk
 
     # archive manager
     #lxqt.lxqt-archiver
