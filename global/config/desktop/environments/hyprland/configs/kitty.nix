@@ -150,8 +150,8 @@
       "ctrl+shift+h" = "show_scrollback";
 
       # [Window management]
-      "ctrl+n" = "new_os_window";
-      "ctrl+x" = "close_window";
+      #"ctrl+n" = "new_os_window";
+      #"ctrl+x" = "close_window";
       "ctrl+shift+enter" = "new_window";
       "ctrl+shift+]" = "next_window";
       "ctrl+shift+[" = "previous_window";
