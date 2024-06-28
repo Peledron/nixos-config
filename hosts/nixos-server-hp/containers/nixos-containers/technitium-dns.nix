@@ -22,8 +22,8 @@ in {
     hostBridge = "${br_local_container_name}";
     bindMounts = {
       "/persist/ssh/ssh_host_ed25519_key".isReadOnly = true;
-      "/var/lib/dnslogs" = {
-        hostPath = "${containerpath}/logs";
+      "/var/lib/${containername}" = {
+        hostPath = "${containerpath}";
         isReadOnly = false;
       };
     };
