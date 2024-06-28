@@ -49,7 +49,7 @@ in {
         interfaces = {
           ${netport}.ipv4.addresses = [
             {
-              address = "192.168.1.14";
+              address = "192.168.1.10";
               prefixLength = 24;
             }
           ];
@@ -78,7 +78,7 @@ in {
         DNS_SERVER_WEB_SERVICE_HTTPS_PORT = "443";
         DNS_SERVER_WEB_SERVICE_ENABLE_HTTPS = "true";
         DNS_SERVER_WEB_SERVICE_USE_SELF_SIGNED_CERT = "true";
-        DNS_SERVER_FORWARDERS = "fdns1.dismail.de:853, 159.69.114.157:853"; # dismail dns servers
+        DNS_SERVER_FORWARDERS = "fdns1.dismail.de:853, fdns2.dismail.de:853"; # dismail dns servers
         DNS_SERVER_FORWARDER_PROTOCOL = "Tls";
         DNS_SERVER_RECURSION = "AllowOnlyForPrivateNetworks"; #  #Recursion options: Allow, Deny, AllowOnlyForPrivateNetworks, UseSpecifiedNetworks.
         DNS_SERVER_BLOCK_LIST_URLS = "https://adguardteam.github.io/HostlistsRegistry/assets/filter_34.txt, https://adguardteam.github.io/HostlistsRegistry/assets/filter_47.txt, https://adguardteam.github.io/HostlistsRegistry/assets/filter_44.txt, https://adguardteam.github.io/HostlistsRegistry/assets/filter_55.txt, https://adguardteam.github.io/HostlistsRegistry/assets/filter_52.txt, https://adguardteam.github.io/HostlistsRegistry/assets/filter_7.txt, https://adguardteam.github.io/HostlistsRegistry/assets/filter_12.txt, https://adguardteam.github.io/HostlistsRegistry/assets/filter_9.txt, https://adguardteam.github.io/HostlistsRegistry/assets/filter_30.txt, https://adguardteam.github.io/HostlistsRegistry/assets/filter_23.txt";
