@@ -30,7 +30,7 @@ in {
     networks = let
       networkConfig = {
         # we put global configuration that is valid for all network interfaces here
-        DHCP = "ipv4";
+        DHCP = "yes";
         DNSOverTLS = "yes";
         DNS = ["1.1.1.2" "1.0.0.2"];
       };
