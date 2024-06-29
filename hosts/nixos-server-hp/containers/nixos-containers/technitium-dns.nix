@@ -47,18 +47,20 @@ in {
       };
       networking = {
         interfaces = {
-          ${netport}.ipv4.addresses = [
-            {
-              address = "192.168.1.10";
-              prefixLength = 24;
-            }
-          ];
-          ${netport}.ipv6.addresses = [
-            {
-              address = ""; # empty will use dhcp and generate a static address from the mac address
-              prefixLength = 64;
-            }
-          ];
+          ${netport} = {
+            ipv4.addresses = [
+              {
+                address = "192.168.1.10";
+                prefixLength = 24;
+              }
+            ];
+            ipv6.addresses = [
+              {
+                address = ""; # empty will use dhcp and generate a static address from the mac address
+                prefixLength = 64;
+              }
+            ];
+          };
         };
         defaultGateway = {
           address = "192.168.1.3";
