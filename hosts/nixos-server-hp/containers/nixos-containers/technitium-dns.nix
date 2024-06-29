@@ -53,12 +53,21 @@ in {
               prefixLength = 24;
             }
           ];
+          ${netport}.ipv6.addresses = [
+            {
+              address = ""; # empty will use dhcp and generate a static address from the mac address
+              prefixLength = 64;
+            }
+          ];
         };
         defaultGateway = {
           address = "192.168.1.3";
           interface = "${netport}";
         };
-
+        defaultGateway6 = {
+          address = "fe80::98a2:faff:fe80:bdea";
+          interface = "${netport}";
+        };
         useNetworkd = true;
         useHostResolvConf = lib.mkForce false;
       };
