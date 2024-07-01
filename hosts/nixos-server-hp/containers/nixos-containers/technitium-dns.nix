@@ -63,7 +63,7 @@ in {
           };
         };
         defaultGateway = {
-          address = "192.168.1.3";
+          address = "192.168.1.2";
           interface = "${netport}";
         };
         defaultGateway6 = {
