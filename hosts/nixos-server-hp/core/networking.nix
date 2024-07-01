@@ -103,7 +103,7 @@ in {
       "40-${vlan_management_name}_conf" = {
         matchConfig.Name = "${vlan_management_name}";
         address = ["192.168.0.130/30"];
-        routers = [{routeConfig.Gateway = "192.168.0.129";}];
+        routes = [{routeConfig.Gateway = "192.168.0.129";}];
         inherit networkConfig;
         linkConfig.RequiredForOnline = "yes";
       };
