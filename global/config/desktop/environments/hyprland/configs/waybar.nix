@@ -143,7 +143,7 @@ in {
         # ---
       };
     };
-    style = lib.mkDefault ''
+    style =''
       * {
           border:        none;
           border-radius: 0;

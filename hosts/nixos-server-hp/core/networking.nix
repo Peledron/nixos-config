@@ -83,7 +83,7 @@ in {
     networks = let
       networkConfig = {
         # we put global configuration that is valid for all network interfaces here
-        DHCP = "ipv4";
+        #DHCP = "ipv4";
         DNSOverTLS = "yes";
         DNS = ["1.1.1.2" "1.0.0.2"];
       };
@@ -102,6 +102,8 @@ in {
       };
       "40-${vlan_management_name}_conf" = {
         matchConfig.Name = "${vlan_management_name}";
+        address = ["192.168.0.130/30"];
+        routers = [{routeConfig.Gateway = "192.168.0.129";}];
         inherit networkConfig;
         linkConfig.RequiredForOnline = "yes";
       };
