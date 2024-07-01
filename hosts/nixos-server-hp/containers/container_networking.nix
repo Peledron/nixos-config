@@ -48,6 +48,7 @@ in {
         ];
         routes = [
           {routeConfig.Gateway = "192.168.0.129";}
+          {routeConfig.Gateway = "2a02:1812:1137:9383::1";}
           {routeConfig.Gateway = "fe80::de2c:6eff:feeb:6bfc9";}
         ];
         inherit networkConfig;
