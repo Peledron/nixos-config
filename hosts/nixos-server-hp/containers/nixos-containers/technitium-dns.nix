@@ -67,7 +67,7 @@ in {
           interface = "${netport}";
         };
         defaultGateway6 = {
-          address = "fe80::98a2:faff:fe80:bdea";
+          address = "2a02:1812:1137:9383::1";
           interface = "${netport}";
         };
         useNetworkd = true;
