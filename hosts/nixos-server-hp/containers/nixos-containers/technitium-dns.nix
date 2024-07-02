@@ -56,7 +56,11 @@ in {
             ];
             ipv6.addresses = [
               {
-                address = "2a02:1812:1137:9383::10"; # empty will use dhcp and generate a static address from the mac address
+                address = "fd00:1::10"; # empty will use dhcp and generate a static address from the mac address
+                prefixLength = 64;
+              }
+              {
+                address = ""; # empty will use dhcp 
                 prefixLength = 64;
               }
             ];
@@ -67,7 +71,7 @@ in {
           interface = "${netport}";
         };
         defaultGateway6 = {
-          address = "2a02:1812:1137:9383::1";
+          address = "fd00:1::1";
           interface = "${netport}";
         };
         useNetworkd = true;

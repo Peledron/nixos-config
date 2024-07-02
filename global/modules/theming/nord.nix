@@ -47,16 +47,12 @@ in {
           desktop = 1.0;
           popups = 1.0;
         };
+        targets.kitty.variant256Colors = true;
       };
       home.packages = with pkgs; [
         nordic
         papirus-icon-theme
       ];
-      qt = {
-        enable = true;
-        platformTheme = "gtk";
-        style.name = "Adwaita";
-      };
       gtk.iconTheme = {
         name = "Papirus-Dark";
         package = pkgs.papirus-icon-theme;

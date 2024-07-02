@@ -43,13 +43,9 @@ in {
         matchConfig.Name = "${br_local_container_name}";
         address = [
           "192.168.1.2/24"
-          "2a02:1812:1137:9383::2/64"
-          "fe80::98a2:faff:fe80:bdea/64"
         ];
         routes = [
           {routeConfig.Gateway = "192.168.0.129";}
-          {routeConfig.Gateway = "2a02:1812:1137:9383::1";}
-          #{routeConfig.Gateway = "fe80::de2c:6eff:feeb:6bfc9";}
         ];
         inherit networkConfig;
         #
