@@ -256,7 +256,7 @@ in {
       # loki: port 3030 (8030)
       #
       services.loki = {
-        enable = false;
+        enable = true;
         configuration = {
           server.http_listen_port = 3030;
           auth_enabled = false;
