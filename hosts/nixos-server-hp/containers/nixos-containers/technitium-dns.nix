@@ -71,7 +71,7 @@ in {
           interface = "${netport}";
         };
         defaultGateway6 = {
-          address = "fd00:1::1";
+          address = "fd00:3::1";
           interface = "${netport}";
         };
         useNetworkd = true;
