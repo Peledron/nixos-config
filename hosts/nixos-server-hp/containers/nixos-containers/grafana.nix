@@ -186,7 +186,7 @@ in {
                 editable = true;
                 jsonData.graphiteVersion = "1.1";
               }
-
+              /*
               # loki
               {
                 name = "Loki";
@@ -195,6 +195,7 @@ in {
                 url = "http://127.0.0.1:${toString config.services.loki.configuration.server.http_listen_port}";
                 #editable = true;
               }
+              */
             ];
           };
           /*
@@ -256,7 +257,7 @@ in {
       # loki: port 3030 (8030)
       #
       services.loki = {
-        enable = true;
+        enable = false;
         configuration = {
           server.http_listen_port = 3030;
           auth_enabled = false;
