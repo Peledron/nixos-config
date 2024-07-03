@@ -58,7 +58,7 @@
   # enable autoupgrade (runs every day)
   system.autoUpgrade = {
     enable = lib.mkDefault true;
-    #allowReboot = true;
+    allowReboot = lib.mkDefault false;
     #channel = "https://nixos.org/channels/nixos-unstable"; # --> not needed with flakes channels are declared as input
     flake = self.outPath;
     flags = [

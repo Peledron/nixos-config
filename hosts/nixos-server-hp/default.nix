@@ -10,5 +10,5 @@
     (import ./core)
     ++ (import ./system)
     ++ [(import ./containers/containers.nix)];
-  system.autoUpgrade = false;
+  system.autoUpgrade.enable = false;
 }
