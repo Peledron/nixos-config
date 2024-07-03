@@ -54,7 +54,7 @@
             install_url = "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi";
             installation_mode = "force_installed";
           };
-           # Privacy Badger:
+          # Privacy Badger:
           "jid1-MnnxcxisBPnSXQ@jetpack" = {
             install_url = "https://addons.mozilla.org/firefox/downloads/latest/privacy-badger17/latest.xpi";
             installation_mode = "force_installed";
@@ -79,7 +79,7 @@
             install_url = "https://addons.mozilla.org/firefox/downloads/latest/return_youtube_dislikes/latest.xpi";
             installation_mode = "force_installed";
           };
-         
+
           # bitwarden:
           "{446900e4-71c2-419f-a6a7-df9c091e268b}" = {
             install_url = "https://addons.mozilla.org/firefox/downloads/latest/bitwarden-password-manager/latest.xpi";
@@ -141,13 +141,8 @@
             "searx" = {
               urls = [
                 {
-                  template = "https://searx.rhscz.eu";
+                  template = "https://searx.rhscz.eu/search";
                   params = [
-                    {
-                      name = "preferences";
-                      # very long string ahead, contains all settings that are configued
-                      value = "eJx1WMmS5LgN_RrnRdEZM25HOHzI04THP9B3BUQiJbRIQs0lM1Vfb1BLiixVH0pVfOACYnkAS0HEnj1huPXo0IO5GHB9gh5vYGTACgze0F0gRVZsJ4MRbz1zb_BCVua1k-fXfPvhE14sxoH17X___XEJcMeA4NVw--MSB7R4C5SXXzyGZGJo2bUOn22E7vY3mIAXzdSKkM0D_Y1Bhlf2_WVd1oY4iyZZjYtCF9G3YKh3Vv7e1oN-gFOo2-3cFf2V0M8tuTZSlA0WPcndyVGUTZVnY1ZwXZXVUqtVZtnIoIqreOA44hxuGu8g-l80BeiMnIauJycG_E8PfdsGVgSmsagJ_vHPv8A5CE3emB7YtncyGDI8jY0l79mXmFyzkW8TIvtysgPFTkPbUszDMLbt5i0ZdmQo_7TtgzRyWKDYJTVi3FZ0U1etiJr6_th_0fWqlLpqLHZR0-Txjh7FpttGYq0QBJRrKsr4ij31g8STxREzTp-GzRIsQTZafm-gBIBA-Zt3St4QVprC4Aa-l5BG_BDftzYFUss4RIgku7BEmc-I7htxUnYwsQvlYhRdSR9TnzSShgjVAWK5_NPz1-j5IoVsNV5hxEJW3bXAnwhZnUOrNRAsTDJdvllvyz9pym46Zv35KlS4a8_5YrtL5fY6DhCt5F05zSM2ge_xCR4bTV6iO8f56t27JzcSqHLBPBfm6iWDoNtjgTV26PttKDKUIGK7j5m1R9CFY1bWaCYDcw7zcKhbSixLMJUmtJKNPucUqcWdb-X6ibUuY2GAzkP-bDoMIEngV7uvAL7ekSy7hivxNiaru0NTsn3yxUnkoFCInPxJnMLX2K7NTwoDH3tKlnrwc5NjKlBx-SzA6MEFIzqVQWe4CxGvfldf6BXUBG4f8sdA5Xz7tJ0pATft7nAzwHEk6zlgmes8oTBpxELfDHmcuNB0EntCT2HnFeGHjTSLM9_gOVEO0Z4nXy2r8mRKnbDSYzvQo9YUTyTrOUYpAyyRwlgE3LqhnQPVdhXqVimE6zRLudqtqUDrOQewTcIce05M9G1ggyd83TrnQJM_b9SCi6SaoGQV-JInhaZ8nHLBLDSJPM4cWQJlzG7dDR2zwWQPSNXkAt3ME6uwfVI3lwukdL_AaU8VwWXS65jH8Bn8lbi2UwYDJ6_O6IRqydLfwMe1Myz1PCymq2c_eP5kjiebuwcLZhoqlf_8_v3fr8M8Oml0pZs_HNgqEfgn4nhGziG54VXMLQw0keF4nOHgkZnm2NCnbu7R7qk5IfqYujKnluiU5WMujk_sCtEMqrJGHp9180nSudzRiCWDJGGJPflFIztJkibMjt2cCf-wDI6-vtwKnc5a4VP5Cj-n6_QsbS1EpWKpe3j0mSaKvR5Sigy5tHNt9rWVclzdOFlr5mNf4cZHzX3UHcS3BuGQ4lFcKu4Y-2vPO09c0NWN2cIqi0JNVmVvo7wkaqE1-Bc9ysjtJHUU2Olg9Lx6q8Jl_-X6z-OzfRe0csSCnAyeWTenS1m11YD3kTPL7taSTim3ZXPdGD1IyEeuVbYmnCtgM6S9akexyFwZGuNs2Yl5iri5G1JjWQBlOpW1rc90u9dOKf3HAWspLw_YivvJJBteGWXDTmbZ8C9oddjOWw4fRW0IZW1Fa-dmJ--Vmurasc5IAf3vZFIC4-9keWcxxVn88W2r93Wdzw0A32WZk6QJpTXEAf2jCiwL8g7Q7H6j3Fs8QBikNHwxQ787BXopw0kfDpQ6NRLujVKOOpBuMPfCAWNF4LtMKrFEBWw9dS0XVkCM0qvuDeukMxUekyZ5PeVKu0kpv98wlJE65cwqPL6Mr4u6h9YT5batg8Kq0gMqsYT0u7m32wNYlLV5u0KDedoz_9dT8qS09ALUgbhCp5hd4VN4epDer-nkdRHKfjRIFYG9Qzo4lZMQS-0OaQ7UyJL4d8PP452XuuRi2lvUbDQnLeD6mPyqxUgT-hTebpWnNGlp8P0aorvJkgvSaYehfIvBUFPqAtQmmTl9qnBv5P0YAzLCJjlGimkPsrmxPEqW0Gi1swB5yZIt5dMsZ5dE2_XkhlJ4ckYphKRzi18S-C5arFH0FKTiB7uKuawUUyvvo-bdneu6W_Ha0XjoLJQY88srO-BTLj7BmEFKnCtvEaO_kvtUBM-3XeHTPVe4rinxX_u7_vj_xGSS1MFwy4H4um6jqwKjklyJ90b5EA1CeNJQYStJb2CNrC8nhJOEoV3_i_P00nOfxAHNvSV355NE9GilzqnxJMnE3QphSnJI_L-L-9e3yly4ic5H-OU52CZvREGbs-0i_bew1-3_XQcwKA==&q=%s";
-                    }
                     {
                       name = "q";
                       value = "{searchTerms}";
@@ -155,6 +150,11 @@
                     {
                       name = "safesearch";
                       value = "0";
+                    }
+                    {
+                      name = "preferences";
+                      # very long string ahead, contains all settings that are configued
+                      value = "eJx1WMmS4zgO_ZrxRVGO6SViYg6-zER3_0DfFRAJSyiRhIqLbeXXN6jFIlNZh1QmH0kQxPIApoKIPXvCcOvRoQdzMeD6BD3enPn2vz8uhhUYvKG7QIqs2E4GI9565t7ghaysbCfPr_n2t094sRgH1re__vj7EuCOAcGr4fbvSxzQ4i1Q3n7xGJKJoWXXOny2Ebp1s2ZqZY7NA_2NQYZX9v1l3dWGOIsiGvx4Uegi-hYM9c7K3-t20A9wCnW7nfonmICXHwn93JJrI0XZv6wkdydHUWQqz8as4LorK6VWq8wiyKDapA8cR5zDTeMdRPuLpgCdkdPQ9eTEgP_toW_bwIrANBY1wb9-_T84B6HJgumBbXsngyHD09hY8p59icktG_k2IbIvFztQ7DS0LcU8DGPbbt6SYUeG8k_bPkgjhwWKXVIjxm1HN3XVjqip7w_5i65XpdRVYyFFTZPHO3oUm26CxFohCCjXVJTxFXvqB4kfiyNmnD4NmyVUgghafm-guF-g_M2SkjeElaYwuIHvJaQRP8T1rU2B1DIOESKJFJYY8xnRfSNOyg4mdqHcjKIr6WPpk0bSEKE6QCyXf3r-Gj1fpJhbjVcYsZir7lrgT4SszqHVGggWJlku36y35e80ZTcdq355FSrcted8sd2lcnsdB4hWsq5c5hGbwPf4BI-NJi_RneN89e7dkxsJVLlhngtz9ZJB0O2xwBo79P02lDmUIGK7j5m1R9CFY1bOaCYDcw7zcKhbzliWYCpNaCUbfc4pUos738r1E2tdxsIAnYf82XQYQJLAr3ZfAXy9I1mkhivxNiaru0NTsn3yxUnkoFCInPxJnMLX2K7NdwoDHzIlSz34uckxFai4fJ7A6MEFIzqVQWe4CxGvfldfyBXUBG4f8sdA5Xr7tJ0pATft7nAzwHEk6zlgmes8oRBpxELfDHmcuNB0EntCT2HnFeGHjTSLM9_gOVGOqT1PvtpW5cmUOmGlx3agR60pnkjWc4xSBVgihbEIuFWgnQPVdhXqVimE6zRLsdqtqUDrOQewTcIce05M9G1ggyd8FZ1zoMmfN2rBRVJNULILfMmTQlM-TrlcFppEHmeOLIEyZrfuho7ZYCIDUrW4QDfzxCpsn9TN5QYp3C9w2lNFcJn0OuYxfAZ_JK7tlMHAyaszOqFasvQn8HHtDEs5D4vp6tUPnj-Z48nm7sGCmYZK5V9---0_r8M8Oml0pZs_HNgqEfg74nhGziG54VXMLQw0keF4nOHgkZnmEOhTN_do99ScEH1MXZlTS3TK9jEXxyd2xdQMqrJGHp9180nSuZRoxJJBkrDEnvyikZ0kSRNmx27OhH9YBkdfX26FTmet8Kl8he_TdXqWthaiUrHUPTz6TBOFrIeUIkMu7VybfW2lHFc3Ttaa-ZAr3PiouY-6g_jWIBxSPIpLxR1jf-1554kLuroxW1hlUajJquxtlJdELbQG_6JHGbmdpI4COx2MnndvVbjsv1z_eXy274JWjliQk8Ez6-Z0Kau2GvA-cmbZ3VrSKeW2bK4bowcJ-ci1ytaEcwVshrRX7SgWmStDY5wtOzFPETd3Q2osC6Asp7K29Zlu99oppf84YC3l5QFbcT-ZZMMro2zYySwb_gWtDtt5y-GjqA2hrK1o7dzs5L1SU1071hUpoP_ZnJTA-LO5LFlMcZ7--LbV-7rO5waA77LNSdKE0hrigP5RBZYFeQdodj9R7j09QBikNHyxQr87BXopw0kfDpQ6NRLujVKOOpBuMPfCAWNF4PucVGKJCth66npeWAExSq-6N6yTzlR4LJrk9ZQr7TZL-fmGoYzUKWdW4fFlfF3UPbSeKLdtHRRWlR5QiSWk38293R7AoqzN4goN5mnP_B9PyZPS0gtQB-IKnWJ2hU_h6UF6v6aT10Uo-9EgVQT2DungVE5CLLU7pDlQI0vi3w0_j3de6pKLaW9Rs9GctIDrY_KrFiNN6FN4u1Ve0qSlwfdriO4mSy5Ipx2G8i0GQ02pC1CbZOb0qcK9kfdjDMgIm-QYKZY9yObG8ihZQqOVZAHyliVbyqdZzi6JtuvJDeXkyRnlJCSdW_ySwPepxRpFT0EqfrCrmMtKMbXyPmre3bmuuxWvHY2HzkKJMb-8sgM-5eITjBmkxLnyFjH6K7lPRfB82xU-3XOF65oSf9_f9cf_JyaTpA6GWw7E13UbXQdhNemasJXMNrCGz5cLwmmGoV3_U_P00lifpgOae0vuzqcZCcVWipka3yX6a90UGJXE3OzPWuW4XQdn8X5577XJG1HO5nQ6rclloBX6lTnJpov038Jet38A8Vcv0A==";
                     }
                   ];
                 }

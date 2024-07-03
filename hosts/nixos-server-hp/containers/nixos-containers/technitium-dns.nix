@@ -56,7 +56,7 @@ in {
             ];
             ipv6.addresses = [
               {
-                address = "fd00:1::10"; # empty will use dhcp and generate a static address from the mac address`
+                address = "fd00:3::10"; # empty will use dhcp and generate a static address from the mac address`
                 prefixLength = 64;
               }
               {
