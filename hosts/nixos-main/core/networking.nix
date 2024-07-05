@@ -3,8 +3,10 @@
   config,
   lib,
   pkgs,
+  self,
   ...
 }: {
+  age.secrets.mullvad-wireguard_private-key.file = "${self}/.secrets/global/mullvad-wireguard_private-key.age";
   networking = {
     useDHCP = lib.mkDefault true; # set all interfaces to use dhcp by default
     # define hostname and enable networkmanager
@@ -20,30 +22,35 @@
       # define allowed ports:
       allowedTCPPorts = [
         22001 # ssh port
-        22424 # lan-mouse port
-        #52581 # rkvm port, see services.nix in system
+        #22424 # lan-mouse port
+        52581 # rkvm port, see services.nix in system
       ];
       allowedUDPPorts = [
-        #51820 # wireguard port
+        51820 # wireguard port
       ];
       # ---
     };
     # ---
-
-    # set wireguard config
     /*
+    # set wireguard config
     wg-quick.interfaces = {
       wg0 = {
-        address = [ "172.16.0.6/32" ];
-        dns = [ "1.1.1.1" ];
-        privateKeyFile = "/root/wireguard-keys/wg_asus-nixos.key";
-
+        # Device: Exotic Fish
+        # --> on mullvad
+        address = ["10.64.165.7/32" "fc00:bbbb:bbbb:bb01::1:a506/128"];
+        dns = ["100.64.0.23"];
+        privateKeyFile = config.age.mullvad-wireguard_private-key.path;
+        postUp = ''
+          ${pkgs.iptables}/bin/iptables -I OUTPUT ! -o %i -m mark ! --mark $(wg show %i fwmark) -m addrtype ! --dst-type LOCAL -j REJECT && ip6tables -I OUTPUT ! -o %i -m mark ! --mark $(wg show %i fwmark) -m addrtype ! --dst-type LOCAL -j REJECT
+        '';
+        preDown = ''
+          ${pkgs.iptables}/bin/iptables -D OUTPUT ! -o %i -m mark ! --mark $(wg show %i fwmark) -m addrtype ! --dst-type LOCAL -j REJECT && ip6tables -D OUTPUT ! -o %i -m mark ! --mark $(wg show %i fwmark) -m addrtype ! --dst-type LOCAL -j REJECT
+        '';
         peers = [
           {
-            publicKey = "TiW1dNArzZIudtHrtIYXHtogDNRZY4lGjfeNw1qJ9jk=";
-            #presharedKeyFile = "/root/wireguard-keys/preshared_from_peer0_key";
-            allowedIPs = [ "0.0.0.0/0"];
-            endpoint = ":13231";
+            publicKey = "b5A1ela+BVI+AbNXz7SWekZHvdWWpt3rqUKTJj0SqCU=";
+            allowedIPs = ["0.0.0.0/0" "::0/0"];
+            endpoint = "[2001:ac8:27:92::a03f]:51820";
             persistentKeepalive = 25;
           }
         ];
