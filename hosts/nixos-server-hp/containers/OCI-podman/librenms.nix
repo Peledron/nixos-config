@@ -11,13 +11,13 @@
   datalocation = "/var/lib/containerdata/librenms";
 in {
   age.secrets = {
-    librenms_COMMON_env.file = "${self}/.secrets/global/containers/librenms_COMMON_env.age";
-    librenms_MARIADB_env.file = "${self}/.secrets/global/containers/librenms_MARIADB_env.age";
-    librenms_LIBRENMS_env.file = "${self}/.secrets/global/containers/librenms_LIBRENMS_env.age";
-    librenms_MSMTPD_env.file = "${self}/.secrets/global/containers/librenms_MSMTPD_env.age";
-    librenms_DISPATCHER_env.file = "${self}/.secrets/global/containers/librenms_DISPATCHER_env.age";
-    librenms_SYSLOGNG_env.file = "${self}/.secrets/global/containers/librenms_SYSLOGNG_env.age";
-    librenms_SNMPTRAPD_env.file = "${self}/.secrets/global/containers/librenms_SNMPTRAPD_env.age";
+    librenms_COMMON_env.file = "${self}/.secrets/global/containers/librenms/librenms_COMMON_env.age";
+    librenms_MARIADB_env.file = "${self}/.secrets/global/containers/librenms/librenms_MARIADB_env.age";
+    librenms_LIBRENMS_env.file = "${self}/.secrets/global/containers/librenms/librenms_LIBRENMS_env.age";
+    librenms_MSMTPD_env.file = "${self}/.secrets/global/containers/librenms/librenms_MSMTPD_env.age";
+    librenms_DISPATCHER_env.file = "${self}/.secrets/global/containers/librenms/librenms_DISPATCHER_env.age";
+    librenms_SYSLOGNG_env.file = "${self}/.secrets/global/containers/librenms/librenms_SYSLOGNG_env.age";
+    librenms_SNMPTRAPD_env.file = "${self}/.secrets/global/containers/librenms/librenms_SNMPTRAPD_env.age";
   };
   systemd = {
     tmpfiles.rules = [
@@ -44,7 +44,7 @@ in {
           ExecStop = "podman network rm -f librenms_default";
         };
         script = ''
-          podman network exists librenms_default || podman network create -d macvlan --ipv6 --ipam-driver=host-local --subnet=fd00:3:a::/64 --gateway=fd00:3::1 -o isolate=1 -o parent=${vlan_local_container_name} librenms_default
+          podman network exists librenms_default || podman network create -d macvlan --ipv6 --ipam-driver=host-local --subnet=fd00:3:a::/64 --gateway=fd00:3::1 -o parent=${vlan_local_container_name} librenms_default
         '';
         partOf = ["podman-compose-librenms-root.target"];
         wantedBy = ["podman-compose-librenms-root.target"];
