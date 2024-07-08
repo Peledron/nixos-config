@@ -16,6 +16,7 @@
     directories = [
       "/etc/libvirt" # persist the libvirt configuration directory
       "/etc/NetworkManager/system-connections"
+      "/etc/mullvad-vpn"
       "/var/log" # perserve the system logs
       "/var/lib/nixos"
       "/var/lib/systemd/coredump" # perserve the coredump on reboots
@@ -36,7 +37,7 @@
       # systemd unique machine id and ntp time adjust
       "/etc/machine-id"
       "/etc/adjtime"
-      # network manager is enabled so we need the following files to be persistent for wifi
+      # network manager is enabled so we need the following files t`o be persistent for wifi
       "/var/lib/NetworkManager/secret_key"
       "/var/lib/NetworkManager/seen-bssids"
       "/var/lib/NetworkManager/timestamps"

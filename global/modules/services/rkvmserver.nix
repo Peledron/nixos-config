@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  self,
   ...
 }: {
   age.secrets = {
@@ -13,7 +14,7 @@
     kvm-server_cert = {
       name = "certificate.pem";
       file = "${self}/.secrets/global/rkvm-server_cert.age";
-      mode = "440";
+      mode = "444";
     };
   };
   services = {
@@ -36,4 +37,5 @@
       };
     };
   };
+  networking.firewall.allowedTCPPorts = [52581];
 }

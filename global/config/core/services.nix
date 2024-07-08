@@ -46,12 +46,15 @@
   # ---
 
   # oomkiller
-  systemd.oomd = lib.mkForce {
-    enable = true;
-    # fedora's defaults
-    enableRootSlice = true;
-    enableSystemSlice = false;
-    enableUserSlices = true;
+  systemd = {
+    enableUnifiedCgroupHierarchy = true;
+    oomd = {
+      enable = true;
+      # fedora's defaults
+      enableRootSlice = true;
+      enableSystemSlice = false;
+      enableUserSlices = true;
+    };
   };
   services.locate = {
     enable = true;

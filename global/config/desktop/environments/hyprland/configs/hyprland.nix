@@ -93,6 +93,7 @@ in {
         "vorta -d"
         "nm-applet"
         "blueman-applet"
+        "mullvad-vpn"
         #"nextcloud --background"
       ];
       exec = [

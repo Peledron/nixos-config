@@ -22,11 +22,9 @@
       # define allowed ports:
       allowedTCPPorts = [
         22001 # ssh port
-        #22424 # lan-mouse port
-        52581 # rkvm port, see services.nix in system
       ];
       allowedUDPPorts = [
-        51820 # wireguard port
+        #51820 # wireguard port
       ];
       # ---
     };
@@ -34,18 +32,22 @@
     /*
     # set wireguard config
     wg-quick.interfaces = {
-      wg0 = {
+      wg0-mullvad = {
         # Device: Exotic Fish
         # --> on mullvad
         address = ["10.64.165.7/32" "fc00:bbbb:bbbb:bb01::1:a506/128"];
         dns = ["100.64.0.23"];
-        privateKeyFile = config.age.mullvad-wireguard_private-key.path;
-        postUp = ''
-          ${pkgs.iptables}/bin/iptables -I OUTPUT ! -o %i -m mark ! --mark $(wg show %i fwmark) -m addrtype ! --dst-type LOCAL -j REJECT && ip6tables -I OUTPUT ! -o %i -m mark ! --mark $(wg show %i fwmark) -m addrtype ! --dst-type LOCAL -j REJECT
-        '';
-        preDown = ''
-          ${pkgs.iptables}/bin/iptables -D OUTPUT ! -o %i -m mark ! --mark $(wg show %i fwmark) -m addrtype ! --dst-type LOCAL -j REJECT && ip6tables -D OUTPUT ! -o %i -m mark ! --mark $(wg show %i fwmark) -m addrtype ! --dst-type LOCAL -j REJECT
-        '';
+        privateKeyFile = config.age.secrets.mullvad-wireguard_private-key.path;
+        # killswitch. doesnt seem to work
+        
+        #postUp = ''
+        #  ${pkgs.iptables}/bin/iptables -I OUTPUT ! -o %i -m mark ! --mark $(wg show %i fwmark) -m addrtype ! --dst-type LOCAL -j REJECT && ip6tables -I OUTPUT ! -o %i -m mark ! --mark $(wg show %i fwmark) -m addrtype ! --dst-type LOCAL -j REJECT
+        #'';
+        #preDown = ''
+        #  ${pkgs.iptables}/bin/iptables -D OUTPUT ! -o %i -m mark ! --mark $(wg show %i fwmark) -m addrtype ! --dst-type LOCAL -j REJECT && ip6tables -D OUTPUT ! -o %i -m mark ! --mark $(wg show %i fwmark) -m addrtype ! --dst-type LOCAL -j REJECT
+        #'';
+        
+        # ---
         peers = [
           {
             publicKey = "b5A1ela+BVI+AbNXz7SWekZHvdWWpt3rqUKTJj0SqCU=";

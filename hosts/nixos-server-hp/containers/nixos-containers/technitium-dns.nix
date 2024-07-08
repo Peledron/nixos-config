@@ -33,7 +33,7 @@ in {
         identityPaths = ["/persist/ssh/ssh_host_ed25519_key"];
         secrets = {
           technitium-dns-server_admin-password = {
-            file = "${self}/.secrets/global/technitium-dns-server_admin-password.age";
+            file = "${self}/.secrets/global/containers/technitium/technitium-dns-server_admin-password.age";
             mode = "444";
           };
         };
@@ -60,7 +60,7 @@ in {
                 prefixLength = 64;
               }
               {
-                address = ""; # empty will use dhcp 
+                address = ""; # empty will use dhcp
                 prefixLength = 64;
               }
             ];
@@ -93,9 +93,11 @@ in {
         DNS_SERVER_WEB_SERVICE_HTTPS_PORT = "443";
         DNS_SERVER_WEB_SERVICE_ENABLE_HTTPS = "true";
         DNS_SERVER_WEB_SERVICE_USE_SELF_SIGNED_CERT = "true";
-        DNS_SERVER_FORWARDERS = "zero.dns0.eu"; #"fdns1.dismail.de:853, fdns2.dismail.de:853"; # dismail dns servers # from https://www.dns0.eu/zero, they also have a DoQ implementation but nixos does not have the libmsquic package yet
-        DNS_SERVER_FORWARDER_PROTOCOL = "Tls";
-        DNS_SERVER_RECURSION = "AllowOnlyForPrivateNetworks"; #  #Recursion options: Allow, Deny, AllowOnlyForPrivateNetworks, UseSpecifiedNetworks.
+        DNS_SERVER_PREFER_IPV6 = "true";
+        DNS_SERVER_FORWARDERS = "https://dns.quad9.net/dns-query"; #"fdns1.dismail.de:853, fdns2.dismail.de:853"; # dismail dns servers # from https://www.dns0.eu/zero, they also have a DoQ implementation but nixos does not have the libmsquic package yet
+        DNS_SERVER_FORWARDER_PROTOCOL = "Https";
+        DNS_SERVER_RECURSION = "UseSpecifiedNetworks"; #  #Recursion options: Allow, Deny, AllowOnlyForPrivateNetworks, UseSpecifiedNetworks.
+        DNS_SERVER_RECURSION_ALLOWED_NET = "10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16, 2a02:1812:1137:9380::/57, fc00::/7";
         DNS_SERVER_BLOCK_LIST_URLS = "https://big.oisd.nl, https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/multi.txt, https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/tif-onlydomains.txt, https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/doh.txt, https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/hoster-onlydomains.txt, https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/gambling-onlydomains.txt, https://adguardteam.github.io/HostlistsRegistry/assets/filter_7.txt, https://adguardteam.github.io/HostlistsRegistry/assets/filter_12.txt, https://adguardteam.github.io/HostlistsRegistry/assets/filter_9.txt, https://adguardteam.github.io/HostlistsRegistry/assets/filter_30.txt";
       };
       #environment.systemPackages = with pkgs; [libmsquic];
