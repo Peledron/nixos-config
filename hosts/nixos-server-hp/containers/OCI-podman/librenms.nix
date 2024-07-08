@@ -234,7 +234,7 @@ in {
       volumes = "/var/lib/containerdata/librenms/db:/var/lib/mysql";
       environmentFiles = [
         config.age.secrets.librenms_COMMON_env.path
-        config.age.librenms_MARIADB_env.path
+        config.age.secrets.librenms_MARIADB_env.path
       ];
       log-driver = "journald";
       extraOptions = [
