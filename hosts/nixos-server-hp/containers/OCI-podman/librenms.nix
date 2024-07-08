@@ -4,10 +4,10 @@
   pkgs,
   self,
   inputs,
+  netport,
   vlans,
   ...
 }: let
-  vlan_local_container_name = "vlan${builtins.toString (builtins.elemAt vlans 2)}cont";
   datalocation = "/var/lib/containerdata/librenms";
 in {
   age.secrets = {
@@ -44,7 +44,7 @@ in {
           ExecStop = "podman network rm -f librenms_default";
         };
         script = ''
-          podman network exists librenms_default || podman network create -d macvlan --ipv6 --ipam-driver=host-local --subnet=fd00:3::/64 --gateway=fd00:3::1 -o parent=${vlan_local_container_name} librenms_default
+          podman network exists librenms_default || podman network create -d macvlan --ipv6 --ipam-driver=host-local --subnet=fd00:3::/64 --gateway=fd00:3::1 -o parent=${netport} -o vlan=${builtins.elemAt vlans 2} librenms_default
         '';
         partOf = ["podman-compose-librenms-root.target"];
         wantedBy = ["podman-compose-librenms-root.target"];
