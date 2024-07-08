@@ -231,7 +231,9 @@ in {
         "--character-set-server=utf8mb4"
         "--collation-server=utf8mb4_unicode_ci"
       ];
-      volumes = "/var/lib/containerdata/librenms/db:/var/lib/mysql";
+      volumes = [
+        "${datalocation}/db:/var/lib/mysql"
+      ];
       environmentFiles = [
         config.age.secrets.librenms_COMMON_env.path
         config.age.secrets.librenms_MARIADB_env.path
