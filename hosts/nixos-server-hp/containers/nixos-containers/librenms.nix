@@ -10,7 +10,7 @@
   br_local_container_name = "br0cont";
   netport = "eth0";
 in {
-  containers.librenms-oxidized = {
+  containers.librenms = {
     # librenms is a monitoring solution, oxidized is a network device configuration backup system
     autoStart = true;
     extraFlags = ["-U"]; # run as user instead of root
@@ -99,6 +99,9 @@ in {
           #addSSL = true;
           forceSSL = true;
           enableACME = true; #requests a letsencrypt certificate for the webserver
+        };
+        settings = {
+          sections.webui.style.name = "dark";
         };
         #environmentFile = config.age.secrets.librenms_LIBRENMS_env.path;
       };
