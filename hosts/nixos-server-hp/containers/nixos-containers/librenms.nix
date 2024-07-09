@@ -96,7 +96,7 @@ in {
           passwordFile = config.age.secrets.librenms_DB_password.path;
         };
         nginx = {
-          addSSL = true;
+          #addSSL = true;
           forceSSL = true;
           enableACME = true; #requests a letsencrypt certificate for the webserver
         };
