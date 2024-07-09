@@ -46,7 +46,7 @@ in {
           ExecStop = "podman network rm -f librenms_default";
         };
         script = ''
-          podman network exists librenms_default || podman network create --ipv6 --interface-name=${br_local_container_name} -o isolate=1 librenms_default
+          podman network exists librenms_default || podman network create --ipv6 -o isolate=1 librenms_default
         '';
         partOf = ["podman-compose-librenms-root.target"];
         wantedBy = ["podman-compose-librenms-root.target"];
