@@ -90,6 +90,7 @@ in {
         hostname = "netmon.home.pengolodh.be";
         user = "librenms";
         group = "librenms";
+        enableOneMinutePolling = true;
         database = {
           createLocally = true; # automatically create the database (creates a mySQL server wth the librenms user)
           passwordFile = config.age.secrets.librenms_DB_password.path;
@@ -97,13 +98,14 @@ in {
         nginx = {
           addSSL = true;
           #forceSSL = true;
-          enableACME = true;
+          enableACME = true; #requests a letsencrypt certificate for the webserver
         };
         #environmentFile = config.age.secrets.librenms_LIBRENMS_env.path;
       };
       security.acme = {
+        # needed for enableACME option
         acceptTerms = true;
-        defaults.email = "lysander.deloore@gmail.com";
+        defaults.email = "pengolodh.noldor@gmail.com";
       };
       #services.redis.servers.librenms-redis.enable = true; # -> memcached is enabled by default
       services.syslog-ng.enable = true; #
