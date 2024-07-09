@@ -45,7 +45,7 @@ in {
           ExecStop = "podman network rm -f librenms_default";
         };
         script = ''
-          podman network exists librenms_default || podman network create --ipv6 --subnet=fd00:3::/64 --gateway=fd00:3::1 -o vlan=${builtins.toString (builtins.elemAt vlans 2)} librenms_default
+          podman network exists librenms_default || podman network create --ipv6 -o vlan=${builtins.toString (builtins.elemAt vlans 2)} librenms_default
         '';
         partOf = ["podman-compose-librenms-root.target"];
         wantedBy = ["podman-compose-librenms-root.target"];

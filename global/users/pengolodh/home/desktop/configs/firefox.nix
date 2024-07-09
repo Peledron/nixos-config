@@ -43,43 +43,92 @@
         # we can install extentions for all profiles here:
         ExtensionSettings = {
           # Check about:support for extension/add-on ID strings.
-          # Valid strings for installation_mode are "allowed", "blocked", blocked blocks all addons except the ones specified below
-          # "force_installed" and "normal_installed".
+          # https://mozilla.github.io/policy-templates/#extensionsettings
+          # "force_installed" and "normal_installed" both auto-install the addon, the differnce is that force = the user cannot disable the addon
           # the url follows the pattern: https://addons.mozilla.org/firefox/downloads/latest/<addon name>/latest.xpi
           # -> addon name is with'-'instead of'_' you can find it in the link of "add to firefox" in the addon store https://addons.mozilla.org/en-US/firefox
           #---
-          "*".installation_mode = "allowed";
+          "*".installation_mode = "allowed"; # Valid strings for installation_mode are "allowed", "blocked", blocked blocks all addons except the ones specified below
+          # [adds and tracker removers]
           # uBlock Origin:
           "uBlock0@raymondhill.net" = {
             install_url = "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi";
             installation_mode = "force_installed";
+            default_area = "navbar";
           };
           # Privacy Badger:
           "jid1-MnnxcxisBPnSXQ@jetpack" = {
             install_url = "https://addons.mozilla.org/firefox/downloads/latest/privacy-badger17/latest.xpi";
             installation_mode = "force_installed";
+            default_area = "navbar";
           };
           # localcdn:
           "{b86e4813-687a-43e6-ab65-0bde4ab75758}" = {
             install_url = "https://addons.mozilla.org/firefox/downloads/latest/localcdn-fork-of-decentraleyes/latest.xpi";
             installation_mode = "force_installed";
+            default_area = "navbar";
           };
+          # Firefox Multi-Account Containers:
+          "@testpilot-containers" = {
+            install_url = "https://addons.mozilla.org/firefox/downloads/latest/multi-account-containers/latest.xpi";
+            installation_mode = "normal_installed";
+            default_area = "navbar";
+          };
+          # facebook container:
+          "@contain-facebook" = {
+            install_url = "https://addons.mozilla.org/firefox/downloads/latest/facebook-container/latest.xpi";
+            installation_mode = "force_installed";
+          };
+
+          # [annoyance remover]
+          # I still don't care about cookies:
+          "idcac-pub@guus.ninja" = {
+            install_url = "https://addons.mozilla.org/firefox/downloads/latest/istilldontcareaboutcookies/latest.xpi";
+            installation_mode = "force_installed";
+          };
+          # Auto Mute Plus:
+          "autoMutePlus@rogerskeie" = {
+            install_url = "https://addons.mozilla.org/firefox/downloads/latest/auto-mute-plus/latest.xpi";
+            installation_mode = "force_installed";
+            default_area = "navbar";
+          };
+          # Unpaywall:
+          "{f209234a-76f0-4735-9920-eb62507a54cd}" = {
+            install_url = "https://addons.mozilla.org/firefox/downloads/latest/unpaywall/latest.xpi";
+            installation_mode = "force_installed";
+          };
+          # bypass paywalls clean
+          "magnolia@12.34" = {
+            install_url = "https://github.com/bpc-clone/bpc_updates/releases/download/latest/bypass_paywalls_clean-latest.xpi";
+            installation_mode = "force_installed";
+          };
+
+          # [youtube related]
           # sponsorblock:
           "sponsorBlocker@ajay.app" = {
             install_url = "https://addons.mozilla.org/firefox/downloads/latest/sponsorblock/latest.xpi";
             installation_mode = "force_installed";
+            default_area = "navbar";
           };
           # dearrow:
           "deArrow@ajay.app" = {
             install_url = "https://addons.mozilla.org/firefox/downloads/latest/dearrow/latest.xpi";
             installation_mode = "force_installed";
+            default_area = "navbar";
           };
           # return youtube dislike:
           "{762f9885-5a13-4abd-9c77-433dcd38b8fd}" = {
-            install_url = "https://addons.mozilla.org/firefox/downloads/latest/return_youtube_dislikes/latest.xpi";
+            install_url = "https://addons.mozilla.org/firefox/downloads/latest/return-youtube-dislikes/latest.xpi";
             installation_mode = "force_installed";
           };
+          # blocktube:
+          "{58204f8b-01c2-4bbc-98f8-9a90458fd9ef}" = {
+            install_url = "https://addons.mozilla.org/firefox/downloads/latest/blocktube/latest.xpi";
+            installation_mode = "force_installed";
+            default_area = "navbar";
+          };
 
+          # [functionality]
           # bitwarden:
           "{446900e4-71c2-419f-a6a7-df9c091e268b}" = {
             install_url = "https://addons.mozilla.org/firefox/downloads/latest/bitwarden-password-manager/latest.xpi";
@@ -89,16 +138,35 @@
           "addon@darkreader.org" = {
             install_url = "https://addons.mozilla.org/firefox/downloads/latest/darkreader/latest.xpi";
             installation_mode = "force_installed";
+            default_area = "navbar";
           };
           # go to playing tab:
           "{c52f9e9f-dbe3-4ee4-9515-4cec6a51b551}" = {
-            install_url = "https://addons.mozilla.org/firefox/downloads/latest/go_to_playing_tab/latest.xpi";
+            install_url = "https://addons.mozilla.org/firefox/downloads/latest/go-to-playing-tab/latest.xpi";
+            installation_mode = "force_installed";
+            default_area = "navbar";
+          };
+          # Image Search Options:
+          "{4a313247-8330-4a81-948e-b79936516f78}" = {
+            install_url = "https://addons.mozilla.org/firefox/downloads/latest/image-search-options/latest.xpi";
             installation_mode = "force_installed";
           };
-          # blocktube:
-          #"{58204f8b-01c2-4bbc-98f8-9a90458fd9ef}" {
-
-          #};
+          # TWP - Translate Web Pages:
+          "{036a55b4-5e72-4d05-a06c-cba2dfcc134a}" = {
+            install_url = "https://addons.mozilla.org/firefox/downloads/latest/traduzir-paginas-web/latest.xpi";
+            installation_mode = "force_installed";
+          };
+          # WebToEpub:
+          "WebToEpub@Baka-tsuki.org" = {
+            install_url = "https://addons.mozilla.org/firefox/downloads/latest/webtoepub-for-baka-tsuki/latest.xpi";
+            installation_mode = "force_installed";
+            default_area = "navbar";
+          };
+          # Reddit Enhancement Suite
+          "jid1-xUfzOsOFlzSOXg@jetpack" = {
+            install_url = "https://addons.mozilla.org/firefox/downloads/latest/reddit-enhancement-suite/latest.xpi";
+            installation_mode = "force_installed";
+          };
         };
       };
     };
@@ -212,11 +280,15 @@
             "Home Options search" = {
               urls = [
                 {
-                  template = "https://mipmip.github.io/home-manager-option-search";
+                  template = "https://home-manager-options.extranix.com/";
                   params = [
                     {
                       name = "query";
                       value = "{searchTerms}";
+                    }
+                    {
+                      name = "release";
+                      value = "master";
                     }
                   ];
                 }
