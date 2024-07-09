@@ -94,6 +94,11 @@ in {
           createLocally = true; # automatically create the database (creates a mySQL server wth the librenms user)
           passwordFile = config.age.secrets.librenms_DB_password.path;
         };
+        nginx = {
+          addSSL = true;
+          #forceSSL = true;
+          enableACME = true;
+        };
         #environmentFile = config.age.secrets.librenms_LIBRENMS_env.path;
       };
       #services.redis.servers.librenms-redis.enable = true; # -> memcached is enabled by default
