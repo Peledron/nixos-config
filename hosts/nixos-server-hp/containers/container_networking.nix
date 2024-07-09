@@ -43,9 +43,11 @@ in {
         matchConfig.Name = "${br_local_container_name}";
         address = [
           "192.168.1.2/24"
+          "fd00:3::2/64"
         ];
         routes = [
           {routeConfig.Gateway = "192.168.0.129";}
+          {routeConfig.Gateway = "fd00:3::1";}
         ];
         inherit networkConfig;
         #

@@ -9,6 +9,7 @@
   ...
 }: let
   datalocation = "/var/lib/containerdata/librenms";
+  br_local_container_name = "br0cont";
 in {
   age.secrets = {
     librenms_COMMON_env.file = "${self}/.secrets/global/containers/librenms/librenms_COMMON_env.age";
@@ -46,7 +47,7 @@ in {
           ExecStop = "podman network rm -f librenms_default";
         };
         script = ''
-          podman network exists librenms_default || podman network create --ipv6 -o vlan=${builtins.toString (builtins.elemAt vlans 2)} librenms_default
+          podman network exists librenms_default || podman network create --ipv6 --interface-name=${br_local_container_name} -o isolate=1 librenms_default
         '';
         partOf = ["podman-compose-librenms-root.target"];
         wantedBy = ["podman-compose-librenms-root.target"];
@@ -217,7 +218,7 @@ in {
         "--cap-add=NET_RAW"
         "--network-alias=librenms"
         "--network=librenms_default"
-        "--ip6=fd00:3::3"
+        #"--ip6=fd00:3::3"
       ];
       autoStart = true;
     };
