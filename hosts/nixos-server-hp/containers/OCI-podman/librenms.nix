@@ -20,6 +20,7 @@ in {
     librenms_SYSLOGNG_env.file = "${self}/.secrets/global/containers/librenms/librenms_SYSLOGNG_env.age";
     librenms_SNMPTRAPD_env.file = "${self}/.secrets/global/containers/librenms/librenms_SNMPTRAPD_env.age";
   };
+  networking.firewall.allowedTCPPorts = [8000];
   systemd = {
     tmpfiles.rules = [
       "d ${datalocation} 0750 root root -"
