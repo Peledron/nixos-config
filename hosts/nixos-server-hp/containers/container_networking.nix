@@ -86,6 +86,7 @@ in {
         # define allowed ports:
         allowedTCPPorts = [
           80
+          8000
           443
           53
         ];
