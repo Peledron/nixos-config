@@ -97,7 +97,7 @@ in {
         };
         nginx = {
           addSSL = true;
-          #forceSSL = true;
+          forceSSL = true;
           enableACME = true; #requests a letsencrypt certificate for the webserver
         };
         #environmentFile = config.age.secrets.librenms_LIBRENMS_env.path;
