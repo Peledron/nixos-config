@@ -101,6 +101,10 @@ in {
         };
         #environmentFile = config.age.secrets.librenms_LIBRENMS_env.path;
       };
+      security.acme = {
+        acceptTerms = true;
+        defaults.email = "lysander.deloore@gmail.com";
+      };
       #services.redis.servers.librenms-redis.enable = true; # -> memcached is enabled by default
       services.syslog-ng.enable = true; #
       #services.oxidized.enable = true;
