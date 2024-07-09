@@ -5,6 +5,7 @@ let
   allSystems = builtins.attrValues systems;
 in {
   # the list tells agenix to encrypt the file with the specified public keys, each key will be able to decrypt the fil
+  "librenms_DB_password.age".publicKeys = [users.pengolodh systems.nixos-server-hp];
   "librenms_COMMON_env.age".publicKeys = [users.pengolodh systems.nixos-server-hp];
   "librenms_MARIADB_env.age".publicKeys = [users.pengolodh systems.nixos-server-hp];
   "librenms_LIBRENMS_env.age".publicKeys = [users.pengolodh systems.nixos-server-hp];
