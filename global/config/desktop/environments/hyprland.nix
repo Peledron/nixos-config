@@ -67,10 +67,10 @@
     package = pkgs.greetd;
     settings = {
       default_session = {
-        command = "${pkgs.greetd.greetd}/bin/agreety --cmd ${inputs.hyprland.packages.${pkgs.system}.hyprland}/bin/Hyprland";
+        command = "${pkgs.greetd.greetd}/bin/agreety --cmd '${pkgs.systemd}/bin/systemd-cat ${inputs.hyprland.packages.${pkgs.system}.hyprland}/bin/Hyprland'";
       };
       initial_session = {
-        command = "${pkgs.dbus}/bin/dbus-run-session ${inputs.hyprland.packages.${pkgs.system}.hyprland}/bin/Hyprland &> /dev/null";
+        command = "${pkgs.systemd}/bin/systemd-cat ${inputs.hyprland.packages.${pkgs.system}.hyprland}/bin/Hyprland &> /dev/null";
         user = "pengolodh"; # not really config independant, but...
       }; # auto-login for user pengolodh
     };
