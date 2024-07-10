@@ -13,7 +13,7 @@ in {
   containers.librenms = {
     # librenms is a monitoring solution, oxidized is a network device configuration backup system
     autoStart = true;
-    extraFlags = ["-U"]; # run as user instead of root
+    #extraFlags = ["-U"]; # run as user instead of root
     privateNetwork = true;
     hostBridge = "${br_local_container_name}";
     bindMounts."/persist/ssh/ssh_host_ed25519_key".isReadOnly = true;
@@ -101,7 +101,7 @@ in {
           enableACME = true; #requests a letsencrypt certificate for the webserver
         };
         settings = {
-          sections.webui.style.name = "dark";
+          webui.style.name = "dark";
         };
         #environmentFile = config.age.secrets.librenms_LIBRENMS_env.path;
       };
