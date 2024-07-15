@@ -42,6 +42,7 @@ in {
   # set programs to be managed by home-manager:
   # --> program configs are within ./configs
   programs = {
+    man.generateCaches = true; # generate man-db
     nix-index = {
       enable = true; # setting this to true enables the shell integrations as well as command-not-found, which ironically makes command not found less legible cuz it adds all this fluff like .out, however the nice thing is that it uses the index provided by nix-index
     };

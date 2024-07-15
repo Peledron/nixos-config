@@ -27,7 +27,7 @@
     gnome.seahorse
     eid-mw # belgium eid middleware
     mullvad-vpn
-    
+
     # [backup-solution]
     vorta
 
@@ -38,7 +38,9 @@
     # [gaming]
     #heroic # -> i am using the flatpak
     prismlauncher
-
+    glfw-wayland-minecraft
+    #kdePackages.kmousetool # autoclicker
+    xclicker
     # [chat]
     # armcord # -> i am using the flatpak
 
@@ -63,6 +65,7 @@
     # [file management]
     #rclone-browser # qt rclone frontend, might not work, repo seems to be dead but author seems to be alive so who knows
     freefilesync # syncronisation client
+  
   ];
   dev-install = with pkgs.unstable; [
     # [environment]

@@ -12,6 +12,7 @@
       # ---
       # basic tools
       # [system]
+      fish
       git
       wget
       curl
@@ -41,7 +42,16 @@
   # in order to use a program with sudo you should do: program.$program.enable = true;
   # --> nix takes over management of the package, it also imports a configured module for the program
   # (see all using https://search.nixos.org/options?channel=unstable&from=0&size=50&sort=relevance&type=packages&query=programs)
-  programs.fish.vendor.completions.enable = true; # autoload completions provided by other nix packages
+  programs.fish = {
+    enable = true;
+    vendor = {
+      # these are defaults, but I like to specify things
+      config.enable = true;
+      completions.enable = true; # autoload completions provided by other nix packages
+      functions.enable = true;
+    };
+  };
+  documentation.man.generateCaches = true; # NixOS
   programs.gnupg.agent = {
     enable = true;
     enableSSHSupport = true;

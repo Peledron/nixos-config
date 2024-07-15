@@ -57,6 +57,7 @@ in {
           popups = 1.0;
         };
         targets.kitty.variant256Colors = true;
+        targets.fish.enable = false; # the nord theme is too low contrast with kitty to be readable
       };
       home.packages = [
         icon-theme

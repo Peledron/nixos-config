@@ -34,7 +34,8 @@
     # -> runner
     fuzzel
     # -> image viewer
-    shotwell
+    digikam
+    kdePackages.gwenview
     celluloid # video player, gtk frontend for mpv
 
     # calculator
