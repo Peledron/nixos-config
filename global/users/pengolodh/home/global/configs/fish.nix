@@ -23,7 +23,7 @@
     functions = {
       pull-config = ''pushd $FLAKE; git pull; popd'';
       push-config = ''pushd $FLAKE; git add --all; git commit -m "$argv"; git push; popd'';
-      help = ''$argv --help 2>&1 | bat --language=help'' # from https://github.com/wimpysworld/nix-config/blob/main/home-manager/_mixins/configs/help.fish
+      help = ''$argv --help 2>&1 | bat --language=help''; # from https://github.com/wimpysworld/nix-config/blob/main/home-manager/_mixins/configs/help.fish
     };
   };
   # ---
