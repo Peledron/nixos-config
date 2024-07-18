@@ -91,8 +91,10 @@ in {
         https = true;
         configureRedis = true;
         maxUploadSize = "1G";
-        adminuser = "admin";
-        adminpassFile = config.age.secrets.nextcloud-ADMIN-password.path;
+        config = {
+          adminuser = "admin";
+          adminpassFile = config.age.secrets.nextcloud-ADMIN-password.path;
+        };
         database.createLocally = true;
         extraOptions.enabledPreviewProviders = [
           "OC\\Preview\\BMP"
