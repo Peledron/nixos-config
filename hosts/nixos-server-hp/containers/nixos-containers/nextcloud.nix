@@ -44,6 +44,7 @@ in {
           };
           storage-share_sync-pengolodh_credentials = {
             file = "${secret-location}/storage-share_sync-pengolodh_credentials.age";
+            name = "storagebox-sync.conf";
             mode = "440";
           };
         };
@@ -114,19 +115,26 @@ in {
           "OC\\Preview\\HEIC"
         ];
       };
-      environment.systemPackages = [pkgs.cifs-utils];
-      fileSystems."/mnt/share" = {
-        device = "//u326125-sub3.your-storagebox.de/u326125-sub3";
-        fsType = "cifs";
-        options = let
-          # this line prevents hanging on network split
-          automount_opts = "iocharset=utf8,rw,x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
-        in ["${automount_opts},credentials=${config.age.secrets.storage-share_sync-pengolodh_credentials.path}"];
+      environment.systemPackages = [pkgs.rclone];
+      environment.etc."rclone-mnt.conf".source = config.age.secrets.storage-share_sync-pengolodh_credentials.path;
+
+      fileSystems."/mnt" = {
+        device = "storagebox-sync:";
+        fsType = "rclone";
+        options = [
+          "nodev"
+          "nofail"
+          "allow_other"
+          "args2env"
+          "config=${config.age.secrets.storage-share_sync-pengolodh_credentials.path}"
+        ];
       };
+
       services.nginx.virtualHosts.${config.services.nextcloud.hostName} = {
         forceSSL = true;
         enableACME = true;
       };
+      services.cachefilesd.enable = true;
       security.acme = {
         acceptTerms = true;
         certs = {

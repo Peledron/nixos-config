@@ -69,7 +69,7 @@
       "nixpkgs"
       # -> note that flags need to be in a correct order, the resulting command is nixos-rebuild switch --flag1 --flag2 --... --flake {self} --update 
     ];
-    dates = "daily";
+    dates = "weekly";
     randomizedDelaySec = "15min";
   };
 }
