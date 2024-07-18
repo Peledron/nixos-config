@@ -25,10 +25,12 @@
     ];
   };
 
+  /*
   nur-no-pkgs = import inputs.nur {
     # so we can import overlapping modules
     nurpkgs = import inputs.nixpkgs {inherit system;};
   };
+  */
 
   # aditional functionality
   impermanence = inputs.impermanence.nixosModules.impermanence;

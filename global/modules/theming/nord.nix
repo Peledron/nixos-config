@@ -10,6 +10,9 @@
   icon-theme-name = "Papirus-Dark";
   qt-theme = pkgs.nordic;
   qt-theme-name = "Nordic";
+  # it seems some kde apps have broken icons when not using breeze
+  qt-icon-theme = pkgs.kdePackages.breeze-icons;
+  qt-icon-theme-name = "Breeze-Dark";
 in {
   stylix = {
     enable = true;
@@ -61,6 +64,7 @@ in {
       };
       home.packages = [
         icon-theme
+        qt-icon-theme
       ];
       gtk.iconTheme = {
         name = "${icon-theme-name}";
@@ -79,7 +83,7 @@ in {
           [Appearance]
           color_scheme_path=${pkgs.libsForQt5.qt5ct}/share/qt5ct/colors/darker.conf
           custom_palette=false
-          icon_theme=${icon-theme-name}
+          icon_theme=${qt-icon-theme-name}
           standard_dialogs=default
           style=kvantum-dark
 
@@ -114,7 +118,7 @@ in {
           [Appearance]
           color_scheme_path=${pkgs.kdePackages.qt6ct}/share/qt6ct/colors/darker.conf
           custom_palette=false
-          icon_theme=${icon-theme-name}
+          icon_theme=${qt-icon-theme-name}
           standard_dialogs=default
           style=kvantum-dark
 

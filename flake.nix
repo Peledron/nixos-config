@@ -60,17 +60,6 @@
   outputs = inputs @ {
     self,
     nixpkgs,
-    nixpkgs-unstable,
-    impermanence,
-    persist-retro,
-    homeMan,
-    stylix,
-    nur,
-    sops-nix,
-    hyprland,
-    hyprsplit,
-    nix-index-database,
-    nix-alien,
     ...
   }:
   # the @ declares the names of the variables that can be used (instead of input.nixpkgs we can just do nixpkgs), the only one that is truly needed is self

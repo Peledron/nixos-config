@@ -27,21 +27,6 @@
               mountOptions = ["defaults"];
             };
           };
-          cr_nixos-main = {
-            size = "60G";
-            content = {
-              type = "luks";
-              name = "cr_nixos-main";
-              settings.allowDiscards = true;
-              passwordFile = "/tmp/nixos-main.passwd"; # if you want this to be a password use echo -n "password" > /tmp/nixos-main.key , the -n is very important as it removes the trailing newline, the /tmp is only for the installer, this file is only used when the disk is partitioned by disko
-              # no keyfile will be specified as there will only be a password for this disk
-              content = {
-                type = "filesystem";
-                format = "xfs";
-                mountpoint = "/nix";
-              };
-            };
-          };
           cr_swap = {
             size = "16G";
             content = {
@@ -49,21 +34,28 @@
               randomEncryption = true;
             };
           };
-          cr_nixos-persist = {
+          cr_nixos-main = {
             size = "100%";
             content = {
               type = "luks";
-              name = "cr_nixos-persist";
-              passwordFile = "/tmp/nixos-main.passwd"; # the password will be the same as /nix, this will only prompt for 1 password and reuse the given one at boot
-              additionalKeyFiles = ["/tmp/nixos-persist.key"];
-              settings = {
-                allowDiscards = true;
-                #keyFile = "/nix/keys/nixos-persist.key"; # generated using openssl-genrsa -out
-              };
+              name = "cr_nixos-main";
+              settings.allowDiscards = true;
+              passwordFile = "/tmp/nixos-main.passwd"; # if you want this to be a password use echo -n "password" > /tmp/nixos-main.key , the -n is very important as it removes the trailing newline, the /tmp is only for the installer, this file is only used when the disk is partitioned by disko
+              # no keyfile will be specified as there will only be a password for this disk
               content = {
-                type = "filesystem";
-                format = "xfs";
-                mountpoint = "/persist";
+                type = "btrfs";
+                extraArgs = ["-f"]; # force create the partition
+                subvolumes = {
+                  "SYSTEM" = { };
+                  "SYSTEM/nix" = {
+                    mountpoint = "/nix";
+                    mountOptions = ["compress=zstd" "noatime"];
+                  };
+                  "SYSTEM/persist" = {
+                    mountpoint = "/persist";
+                    mountOptions = ["compress=zstd" "noatime"];
+                  };
+                };
               };
             };
           };
@@ -90,7 +82,7 @@
               initrdUnlock = false; # do not add this drive to the initrd devices mounted during boot, we will do this in stage 2 using systemd crypttab file instead (see below)
               content = {
                 type = "btrfs";
-                extraArgs = ["-f"]; # force create the partition
+                #extraArgs = ["-f"]; # force Override existing partition
                 subvolumes = {
                   "/home" = {
                     mountpoint = "/home";
@@ -162,6 +154,6 @@
   services.btrfs.autoScrub = {
     enable = true;
     interval = "weekly";
-    fileSystems = ["/home"]; # does not need to be done on the nested sub-volumes
+    fileSystems = ["/nix" "/persist" "/home"]; # does not need to be done on the nested sub-volumes
   };
 }

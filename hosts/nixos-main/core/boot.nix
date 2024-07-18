@@ -19,8 +19,9 @@
     ''; # nested virtualization and obs-studio virtual camera support
 
     # [early load]
-    kernelParams = ["amd_pstate=guided" "amdgpu.si_support=1" "amdgpu.ppfeaturemask=0xffffffff"];
+    kernelParams = ["8250.nr_uarts=0" "amd_pstate=guided" "amdgpu.si_support=1" "amdgpu.ppfeaturemask=0xffffffff"];
     # kernel parameters used at boot,
+    # -> "8250.nr_uarts=0"  disables the serial devices at boot, there seems to be an issue slowing down boot times
     # -> amdgpu.si_support=1 and amdgpu.ppfeaturemask=0xffffffff is to enable overclocking support
 
     initrd = {
