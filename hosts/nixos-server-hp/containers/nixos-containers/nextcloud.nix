@@ -14,7 +14,7 @@ in {
   containers.nextcloud = {
     # librenms is a monitoring solution, oxidized is a network device configuration backup system
     autoStart = true;
-    #extraFlags = ["-U"]; # run as user instead of root
+    extraFlags = ["-U"]; # run as user instead of root
     privateNetwork = true;
     hostBridge = "${br_local_container_name}";
     bindMounts."/persist/ssh/ssh_host_ed25519_key".isReadOnly = true; # pass the private key to the container for agenix to decrypt the secret
@@ -33,10 +33,14 @@ in {
           nextcloud-DB-password = {
             file = "${secret-location}/nextcloud-DB-password.age";
             mode = "440";
+            user = "nextcloud";
+            group = "nextcloud";
           };
           nextcloud-ADMIN-password = {
             file = "${secret-location}/nextcloud-ADMIN-password.age";
             mode = "440";
+            user = "nextcloud";
+            group = "nextcloud";
           };
           storage-share_sync-pengolodh_credentials = {
             file = "${secret-location}/storage-share_sync-pengolodh_credentials.age";
