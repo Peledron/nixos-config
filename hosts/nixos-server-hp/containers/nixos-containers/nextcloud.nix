@@ -14,7 +14,7 @@ in {
   containers.nextcloud = {
     # librenms is a monitoring solution, oxidized is a network device configuration backup system
     autoStart = true;
-    extraFlags = ["-U"]; # run as user instead of root
+    #extraFlags = ["-U"]; # run as user instead of root
     privateNetwork = true;
     hostBridge = "${br_local_container_name}";
     bindMounts."/persist/ssh/ssh_host_ed25519_key".isReadOnly = true; # pass the private key to the container for agenix to decrypt the secret
