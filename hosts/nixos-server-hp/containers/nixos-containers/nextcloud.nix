@@ -33,13 +33,13 @@ in {
           nextcloud-DB-password = {
             file = "${secret-location}/nextcloud-DB-password.age";
             mode = "440";
-            user = "nextcloud";
+            owner = "nextcloud";
             group = "nextcloud";
           };
           nextcloud-ADMIN-password = {
             file = "${secret-location}/nextcloud-ADMIN-password.age";
             mode = "440";
-            user = "nextcloud";
+            owner = "nextcloud";
             group = "nextcloud";
           };
           storage-share_sync-pengolodh_credentials = {
