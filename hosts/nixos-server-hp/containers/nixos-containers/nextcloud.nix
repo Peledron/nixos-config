@@ -11,13 +11,39 @@
   netport = "eth0";
   secret-location = "${self}/.secrets/global/containers/nextcloud";
 in {
+  #environment.systemPackages = with pkgs; [fuse-common rclone];
+  storage-share_sync-pengolodh_credentials = {
+    file = "${secret-location}/storage-share_sync-pengolodh_credentials.age";
+    name = "storagebox-sync.conf";
+    mode = "440";
+  };
+  fileSystems."/mnt/nextcloud/storageshare" = {
+    device = "storagebox-sync:";
+    fsType = "rclone";
+    options = [
+      "nodev"
+      "nofail"
+      "allow_other"
+      "args2env"
+      "vfs_cache_mode=full"
+      "vfs_cache_max_age=1d"
+      "vfs_cache_max_size=50G"
+      "config=${config.age.secrets.storage-share_sync-pengolodh_credentials.path}" # --> dont forget that you need to obscure the password with 'echo "secretpassword" | rclone obscure -'
+    ];
+  };
   containers.nextcloud = {
     # librenms is a monitoring solution, oxidized is a network device configuration backup system
     autoStart = true;
     #extraFlags = ["-U"]; # run as user instead of root
     privateNetwork = true;
     hostBridge = "${br_local_container_name}";
-    bindMounts."/persist/ssh/ssh_host_ed25519_key".isReadOnly = true; # pass the private key to the container for agenix to decrypt the secret
+    bindMounts = {
+      storageshare = {
+        mountPoint = "/mnt/share";
+        hostPath = "/mnt/nextcloud/storageshare";
+      };
+      "/persist/ssh/ssh_host_ed25519_key".isReadOnly = true; # pass the private key to the container for agenix to decrypt the secret
+    };
     config = {
       config,
       pkgs,
@@ -41,11 +67,6 @@ in {
             mode = "440";
             owner = "nextcloud";
             group = "nextcloud";
-          };
-          storage-share_sync-pengolodh_credentials = {
-            file = "${secret-location}/storage-share_sync-pengolodh_credentials.age";
-            name = "storagebox-sync.conf";
-            mode = "440";
           };
         };
       };
@@ -113,23 +134,6 @@ in {
           "OC\\Preview\\TXT"
           "OC\\Preview\\XBitmap"
           "OC\\Preview\\HEIC"
-        ];
-      };
-      environment.systemPackages = with pkgs; [fuse-common rclone];
-      environment.etc."rclone-mnt.conf".source = config.age.secrets.storage-share_sync-pengolodh_credentials.path;
-      # --> dont forget that you need to obscure the password with 'echo "secretpassword" | rclone obscure -'
-      fileSystems."/mnt" = {
-        device = "storagebox-sync:/";
-        fsType = "rclone";
-        options = [
-          "nodev"
-          "nofail"
-          "allow_other"
-          "args2env"
-          "vfs_cache_mode=full"
-          "vfs_cache_max_age=1d"
-          "vfs_cache_max_size=50G"
-          "config=${config.age.secrets.storage-share_sync-pengolodh_credentials.path}"
         ];
       };
 
