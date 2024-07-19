@@ -115,17 +115,20 @@ in {
           "OC\\Preview\\HEIC"
         ];
       };
-      environment.systemPackages = [pkgs.rclone];
+      environment.systemPackages = with pkgs; [fuse-common rclone];
       environment.etc."rclone-mnt.conf".source = config.age.secrets.storage-share_sync-pengolodh_credentials.path;
       # --> dont forget that you need to obscure the password with 'echo "secretpassword" | rclone obscure -'
       fileSystems."/mnt" = {
-        device = "storagebox-sync:";
+        device = "storagebox-sync:/";
         fsType = "rclone";
         options = [
           "nodev"
           "nofail"
           "allow_other"
           "args2env"
+          "vfs_cache_mode=full"
+          "vfs_cache_max_age=1d"
+          "vfs_cache_max_size=50G"
           "config=${config.age.secrets.storage-share_sync-pengolodh_credentials.path}"
         ];
       };
