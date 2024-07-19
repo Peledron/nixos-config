@@ -134,7 +134,7 @@ in {
         forceSSL = true;
         enableACME = true;
       };
-      services.cachefilesd.enable = true;
+      #services.cachefilesd.enable = true;
       security.acme = {
         acceptTerms = true;
         certs = {
