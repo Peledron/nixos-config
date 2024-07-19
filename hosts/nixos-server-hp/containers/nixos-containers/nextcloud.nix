@@ -117,7 +117,7 @@ in {
       };
       environment.systemPackages = [pkgs.rclone];
       environment.etc."rclone-mnt.conf".source = config.age.secrets.storage-share_sync-pengolodh_credentials.path;
-
+      # --> dont forget that you need to obscure the password with 'echo "secretpassword" | rclone obscure -'
       fileSystems."/mnt" = {
         device = "storagebox-sync:";
         fsType = "rclone";
