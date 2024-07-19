@@ -12,7 +12,7 @@
   secret-location = "${self}/.secrets/global/containers/nextcloud";
 in {
   #environment.systemPackages = with pkgs; [fuse-common rclone];
-  storage-share_sync-pengolodh_credentials = {
+  age.secrets.storage-share_sync-pengolodh_credentials = {
     file = "${secret-location}/storage-share_sync-pengolodh_credentials.age";
     name = "storagebox-sync.conf";
     mode = "440";
