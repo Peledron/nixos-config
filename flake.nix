@@ -69,9 +69,11 @@
       inherit self inputs;
     };
   in {
+    nixosConfigurations = {
       # as we are passing some variables to the configuraiton we need to define them here
       nixos-main = hostConfigs.nixos-main;
       nixos-laptop-asus = hostConfigs.nixos-laptop-asus;
       nixos-server-hp = hostConfigs.nixos-server-hp;
+    };
   };
 }
