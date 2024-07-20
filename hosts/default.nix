@@ -7,7 +7,6 @@
 }: let
   # package modules
   system = "x86_64-linux"; # System architecture
-  lib = inputs.nixpkgs.lib;
 
   overlay-unstable = final: prev: {
     unstable = import inputs.nixpkgs-unstable {
@@ -15,6 +14,7 @@
       config.allowUnfree = true;
     };
   };
+
   pkgs = import inputs.nixpkgs {
     inherit system;
     config.allowUnfree = true;
@@ -30,6 +30,7 @@
     inputs.disko.nixosModules.disko
     inputs.agenix.nixosModules.default
   ];
+
   nixos-hardware = inputs.nixos-hardware.nixosModules;
 
   home-manager = inputs.homeMan.nixosModules.home-manager;
@@ -45,15 +46,15 @@
   mkPath = base: path: "${base}/${path}";
   hostPath = mkPath self "hosts";
   globalPath = mkPath self "global";
-  configPath = mkPath (globalPath "config");
-  userPath = mkPath (globalPath "users");
-  desktopPath = mkPath (configPath "desktop");
+  configPath = mkPath globalPath "config";
+  userPath = mkPath globalPath "users";
+  desktopPath = mkPath configPath "desktop";
 
   # Generated paths
-  global-coreconf = configPath "conf.nix";
-  global-desktopconf = configPath "desktop/system/conf.nix";
+  global-coreconf = mkPath configPath "conf.nix";
+  global-desktopconf = mkPath configPath "desktop/system/conf.nix";
 
-  desktop_envdir = desktopPath "environments";
+  desktop_envdir = mkPath desktopPath "environments";
 
   # Desktop environment paths
   mkDesktopPath = de: mkPath desktop_envdir de;
@@ -78,7 +79,7 @@
   };
 
   # the following imports global/users/default.nix
-  userModules = import (self + "/global/users") {inherit lib self;};
+  userModules = import "${self}/global/users" {inherit lib self;};
 
   # make a new function with the following variable inputs
   mkUserConfig = username: {
@@ -86,7 +87,7 @@
     isDesktop ? true, # isdesktop, set to true by default
     desktopEnv ? null, # what desktop environment, null by default
   }: extraImports: let
-    # a list of additional module inports
+    # a list of additional module imports
     baseUserConfig = userModules.mkUserConfig username; # the base user config, for nixos itself, username is from the variable username passed to the function
     homeManagerConfig = {
       # home manager config for the user
@@ -98,14 +99,14 @@
             (userModules.getUserHomePath username "global/home.nix")
           ]
           ++ (
-            # create an if fucntion that sees if the isDesktop variable is set to true (defalt) or false
+            # create an if function that sees if the isDesktop variable is set to true (default) or false
             if isDesktop
             then
               [(userModules.getUserHomePath username "desktop/home.nix")]
               # import home mod and home conf if they exist (see desktopConfigs above)
               ++ lib.optional (desktopEnv != null && desktopConfigs.${desktopEnv}.homemod != null) desktopConfigs.${desktopEnv}.homemod
               ++ lib.optional (desktopEnv != null && desktopConfigs.${desktopEnv}.homeconf != null) desktopConfigs.${desktopEnv}.homeconf
-            else [(userModules.getUserHomePath username "server/home.nix")] # inport the server home config if isDesktop is false
+            else [(userModules.getUserHomePath username "server/home.nix")] # import the server home config if isDesktop is false
           )
           ++ extraImports; # add the extra modules in the []
         home.stateVersion = "23.11";
@@ -126,13 +127,12 @@ in {
       modules =
         global-inputs
         ++ [
-          # inputs
           stylix
           (lib.optional (desktopConfigs.${desktopEnv}.coremod != null) desktopConfigs.${desktopEnv}.coremod)
 
           # core configuration
           global-coreconf
-          "${hostPath "nixos-main"}"
+          "${hostPath}/nixos-main"
           {
             _module.args.disks = [
               "/dev/disk/by-id/nvme-SAMSUNG_MZVLW512HMJP-000H1_S36ENX0HA25227"
@@ -187,7 +187,7 @@ in {
           desktopConfigs.${desktopEnv}.coreconf
           nixos-hardware.asus-zephyrus-ga402
 
-          "${hostPath "nixos-laptop-asus"}"
+          "${hostPath}/nixos-laptop-asus"
           userModules.mkUserConfig
           "pengolodh"
 
@@ -215,7 +215,7 @@ in {
       ++ [
         global-coreconf
 
-        "${hostPath "nixos-server-hp"}"
+        "${hostPath}/nixos-server-hp"
         {
           _module.args.disks = ["/dev/disk/by-id/ata-SanDisk_SD8SBAT128G1002_162092404193" "/dev/disk/by-id/ata-SanDisk_SD8SBAT128G1002_162092404193-part1"];
           _module.args.netport = "eno1";
