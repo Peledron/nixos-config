@@ -123,9 +123,8 @@ in {
       specialArgs = {
         inherit inputs self;
       };
-      modules = [
+      modules = global-inputs ++ [
         # inputs
-        common-modules
         stylix
         (lib.optional (desktopConfigs.${desktopEnv}.coremod != null) desktopConfigs.${desktopEnv}.coremod)
 
@@ -175,8 +174,7 @@ in {
       specialArgs = {
         inherit inputs self;
       };
-      modules = [
-        common-modules
+      modules =  global-inputs ++ [
         stylix
         (lib.optional (desktopConfigs.${desktopEnv}.coremod != null) desktopConfigs.${desktopEnv}.coremod)
 
@@ -208,9 +206,7 @@ in {
     specialArgs = {
       inherit inputs self;
     };
-    modules = [
-      common-modules
-
+    modules = global-inputs ++ [
       global-coreconf
 
       "${hostPath "nixos-server-hp"}"
