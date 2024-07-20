@@ -78,6 +78,71 @@
     xfce = {coreconf = mkDesktopPath "xfce.nix";};
   };
 
+  makeModules = {
+    isImpermanent ? false,
+    isDesktop ? false,
+    desktopEnv ? null,
+    extraModules ? [],
+  }:
+    global-inputs
+    ++ global-coreconf
+    ++ (lib.optionals isImpermanent impermanence-inputs)
+    # check if isDesktop is true, if it is import desktop-inputs
+    ++ (lib.optionals isDesktop desktop-inputs)
+    ++ (lib.optionals isDesktop global-desktopconf)
+    # check if isDesktop is true, desktopEnv has a value and desktopConfigs.${desktopEnv}.core* exist, if so inport those relevant core* files
+    ++ (lib.optional (isDesktop && desktopEnv != null && desktopConfigs.${desktopEnv}.coremod != null) desktopConfigs.${desktopEnv}.coremod)
+    ++ (lib.optional (isDesktop && desktopEnv != null && desktopConfigs.${desktopEnv}.coreconf != null) desktopConfigs.${desktopEnv}.coreconf)
+    # add extra modules (host unique)
+    ++ extraModules;
+  # Function to create a NixOS configuration for a host
+
+  mkHostConfig = {
+    name,
+    desktopEnv ? null,
+    extraConfig ? {},
+  }:
+  # This function returns another function that can optionally override the desktopEnv
+  {desktopEnv ? desktopEnv}:
+  # Create a NixOS system configuration
+    lib.nixosSystem {
+      # Inherit system and pkgs from the outer scope
+      inherit system pkgs;
+      # Pass additional special arguments to the modules
+      specialArgs = {
+        inherit inputs self;
+      };
+      # Define the modules for this NixOS configuration
+      modules = [
+        # Add a module to set up _module.args
+        {
+          _module.args = extraConfig._module.args or {};
+        }
+        (makeModules {
+          # Set up impermanence for all configurations
+          isImpermanent = true;
+          # Determine if this is a desktop configuration
+          isDesktop = desktopEnv != null;
+          # Pass the desktop environment setting
+          inherit desktopEnv;
+
+          # Additional modules specific to this host
+          extraModules = [
+            # Import the host-specific configuration
+            "${./hosts}/${name}"
+            # Apply any extra configuration passed to mkHostConfig
+            extraConfig
+            # Create user configuration for "pengolodh"
+            (mkUserConfig "pengolodh" {
+              isDesktop = desktopEnv != null;
+              # Pass the desktop environment setting to the user config
+              inherit desktopEnv;
+            } []) # Empty list for any additional user-specific modules
+          ];
+        })
+      ];
+    };
+
   # the following imports global/users/default.nix
   userModules = import "${self}/global/users" {inherit lib self;};
 
@@ -119,104 +184,40 @@
     };
   in
     baseUserConfig // homeManagerConfig; # combine the base user config and the home manager config, // stands for merge
-
-  makeModules = {
-    isImpermanent ? false,
-    isDesktop ? false,
-    desktopEnv ? null,
-    extraModules ? [],
-  }:
-    global-inputs
-    ++ (lib.optionals isImpermanent impermanence-inputs)
-    ++ global-coreconf
-    # check if isDesktop is true, if it is import desktop-inputs
-    ++ (lib.optionals isDesktop desktop-inputs)
-    ++ (lib.optionals isDesktop global-desktopconf)
-    # check if isDesktop is true, desktopEnv has a value and desktopConfigs.${desktopEnv}.core* exist, if so inport those relevant core* files
-    ++ (lib.optional (isDesktop && desktopEnv != null && desktopConfigs.${desktopEnv}.coremod != null) desktopConfigs.${desktopEnv}.coremod)
-    ++ (lib.optional (isDesktop && desktopEnv != null && desktopConfigs.${desktopEnv}.coreconf != null) desktopConfigs.${desktopEnv}.coreconf)
-    # add extra modules (host unique)
-    ++ extraModules;
 in {
   #==================#
   # hardware:
   #==================#
-  nixos-main = {desktopEnv ? "hyprland"}:
-    lib.nixosSystem rec {
-      inherit system pkgs;
-      specialArgs = {
-        inherit inputs self;
-      };
-      modules = makeModules {
-        isImpermanent = true;
-        isDesktop = true;
-        desktopEnv = desktopEnv;
-        extraModules = [
-          "${hostPath}/nixos-main"
-          {
-            _module.args.disks = [
-              "/dev/disk/by-id/nvme-SAMSUNG_MZVLW512HMJP-000H1_S36ENX0HA25227"
-              "/dev/disk/by-id/nvme-SAMSUNG_MZVLB1T0HALR-00000_S3W6NX0N701285"
-              "/dev/disk/by-id/nvme-Samsung_SSD_980_PRO_2TB_S69ENX0TB18294T-part3"
-              "/dev/mapper/big--data-data--games"
-              "/dev/disk/by-id/ata-TOSHIBA_DT01ACA300_95QGT6KGS-part2"
-              "/dev/disk/by-id/ata-ST1000DM003-1ER162_Z4YC0ZWB-part1"
-            ];
-            _module.args.rocmgpu = "GPU-8beaa8932431d436";
-          }
-
-          (mkUserConfig "pengolodh" {
-              isDesktop = true;
-              desktopEnv = desktopEnv;
-            } [
-              /*
-              additional home modules
-              */
-            ])
-        ];
-      };
-    };
-
-  nixos-laptop-asus = {desktopEnv ? "kde"}:
-    lib.nixosSystem {
-      inherit system pkgs;
-      specialArgs = {
-        inherit inputs self;
-      };
-      modules = makeModules {
-        isImpermanent = true;
-        isDesktop = true;
-        desktopEnv = desktopEnv;
-        extraModules = [
-          nixos-hardware.asus-zephyrus-ga402
-
-          "${hostPath}/nixos-laptop-asus"
-          (mkUserConfig "pengolodh" {
-            isDesktop = true;
-            desktopEnv = desktopEnv;
-          } [])
-        ];
-      };
-    };
-
-  nixos-server-hp = lib.nixosSystem {
-    inherit system pkgs;
-    specialArgs = {
-      inherit inputs self;
-    };
-    modules = makeModules {
-      isDesktop = false;
-      isImpermanent = true;
-      extraModules = [
-        "${hostPath}/nixos-server-hp"
-        {
-          _module.args.disks = ["/dev/disk/by-id/ata-SanDisk_SD8SBAT128G1002_162092404193" "/dev/disk/by-id/ata-SanDisk_SD8SBAT128G1002_162092404193-part1"];
-          _module.args.netport = "eno1";
-          _module.args.vlans = [112 113 114];
-        }
-
-        (mkUserConfig "pengolodh" {isDesktop = false;} [])
+  nixos-main = mkHostConfig {
+    name = "nixos-main";
+    desktopEnv = "hyprland";
+    extraConfig = {
+      _module.args.disks = [
+        "/dev/disk/by-id/nvme-SAMSUNG_MZVLW512HMJP-000H1_S36ENX0HA25227"
+        "/dev/disk/by-id/nvme-SAMSUNG_MZVLB1T0HALR-00000_S3W6NX0N701285"
+        "/dev/disk/by-id/nvme-Samsung_SSD_980_PRO_2TB_S69ENX0TB18294T-part3"
+        "/dev/mapper/big--data-data--games"
+        "/dev/disk/by-id/ata-TOSHIBA_DT01ACA300_95QGT6KGS-part2"
+        "/dev/disk/by-id/ata-ST1000DM003-1ER162_Z4YC0ZWB-part1"
       ];
+      _module.args.rocmgpu = "GPU-8beaa8932431d436";
+    };
+  };
+
+  nixos-laptop-asus = mkHostConfig {
+    name = "nixos-laptop-asus";
+    desktopEnv = "kde";
+    extraConfig = {
+      imports = [nixos-hardware.asus-zephyrus-ga402];
+    };
+  };
+
+  nixos-server-hp = mkHostConfig {
+    name = "nixos-server-hp";
+    extraConfig = {
+      _module.args.disks = ["/dev/disk/by-id/ata-SanDisk_SD8SBAT128G1002_162092404193" "/dev/disk/by-id/ata-SanDisk_SD8SBAT128G1002_162092404193-part1"];
+      _module.args.netport = "eno1";
+      _module.args.vlans = [112 113 114];
     };
   };
 }
