@@ -10,8 +10,6 @@
   lib = inputs.nixpkgs.lib;
 
   overlay-unstable = final: prev: {
-    #unstable = inputs.nixpkgs-unstable.legacyPackages.${prev.system};
-    # use this variant if unfree packages are needed:
     unstable = import inputs.nixpkgs-unstable {
       inherit system;
       config.allowUnfree = true;
@@ -25,251 +23,212 @@
     ];
   };
 
-  /*
-  nur-no-pkgs = import inputs.nur {
-    # so we can import overlapping modules
-    nurpkgs = import inputs.nixpkgs {inherit system;};
-  };
-  */
-
-  # aditional functionality
-  impermanence = inputs.impermanence.nixosModules.impermanence;
-  persist-retro = inputs.persist-retro.nixosModules.persist-retro;
-  disko = inputs.disko.nixosModules.disko;
-  agenix = inputs.agenix.nixosModules.default;
+  # additional functional
+  global-inputs = [
+    inputs.impermanence.nixosModules.impermanence
+    inputs.persist-retro.nixosModules.persist-retro
+    inputs.disko.nixosModules.disko
+    inputs.agenix.nixosModules.default
+  ];
   nixos-hardware = inputs.nixos-hardware.nixosModules;
 
   home-manager = inputs.homeMan.nixosModules.home-manager;
-  nix-index-db = inputs.nix-index-database.hmModules.nix-index; # -> note that this is a Homemanager module
+  nix-index-db = inputs.nix-index-database.hmModules.nix-index;
 
   # DE related inputs
   plasma-manager = inputs.plasmaMan.homeManagerModules.plasma-manager;
-
   hyprland-coremod = inputs.hyprland.nixosModules.default;
   hyprland-homemod = inputs.hyprland.homeManagerModules.default;
   stylix = inputs.stylix.nixosModules.stylix;
-  # paths
-  # -> main
-  hostdir = "${self}/hosts";
-  globaldir = "${self}/global";
-  global-confdir = "${globaldir}/config";
-  global-moddir = "${globaldir}/modules";
-  global-usrdir = "${globaldir}/users";
-  global-desktopdir = "${global-confdir}/desktop";
 
-  global-coreconf = "${global-confdir}/conf.nix";
-  global-desktopconf = "${global-confdir}/desktop/system/conf.nix";
+  # Path generation functions
+  mkPath = base: path: "${base}/${path}";
+  hostPath = mkPath self "hosts";
+  globalPath = mkPath self "global";
+  configPath = mkPath (globalPath "config");
+  userPath = mkPath (globalPath "users");
+  desktopPath = mkPath (configPath "desktop");
 
-  # -> Desktop environments
-  desktop_envdir = "${global-desktopdir}/environments";
+  # Generated paths
+  global-coreconf = configPath "conf.nix";
+  global-desktopconf = configPath "desktop/system/conf.nix";
 
-  ## => hyprland
-  hyprland-coreconf = "${desktop_envdir}/hyprland.nix";
-  hyprland-homeconf = "${desktop_envdir}/hyprland/home.nix";
+  desktop_envdir = desktopPath "environments";
 
-  ## => sway
-  sway-coreconf = "${desktop_envdir}/sway.nix";
-  sway-homeconf = "${desktop_envdir}/sway/home.nix";
+  # Desktop environment paths
+  mkDesktopPath = de: mkPath desktop_envdir de;
+  desktopConfigs = {
+    hyprland = {
+      coreconf = mkDesktopPath "hyprland.nix";
+      homeconf = mkDesktopPath "hyprland/home.nix";
+      coremod = hyprland-coremod;
+      homemod = hyprland-homemod;
+    };
+    kde = {
+      coreconf = mkDesktopPath "kde.nix";
+      homeconf = mkDesktopPath "kde/home.nix";
+      homemod = plasma-manager;
+    };
+    gnome = {coreconf = mkDesktopPath "gnome.nix";};
+    sway = {
+      coreconf = mkDesktopPath "sway.nix";
+      homeconf = mkDesktopPath "sway/home.nix";
+    };
+    xfce = {coreconf = mkDesktopPath "xfce.nix";};
+  };
 
-  ## => gnome
-  gnome-coreconf = "${desktop_envdir}/gnome.nix";
+  # the following imports global/users/default.nix
+  userModules = import (self + "/global/users") {inherit lib self;};
 
-  ## => kde
-  kde-coreconf = "${desktop_envdir}/kde.nix";
-  kde-homeconf = "${desktop_envdir}/kde/home.nix";
-
-  ## => xfce
-  xfce-coreconf = "${desktop_envdir}/xfce.nix";
-
-  # user specific modules
-  # -> pengolodh
-  pengolodh-coreconf = "${global-usrdir}/pengolodh/usr.nix";
-  pengolodh_global-homeconf = "${global-usrdir}/pengolodh/home/global/home.nix";
-  pengolodh_desktop-homeconf = "${global-usrdir}/pengolodh/home/desktop/home.nix";
-  pengolodh_server-homeconf = "${global-usrdir}/pengolodh/home/server/home.nix";
+  # make a new function with the following variable inputs
+  mkUserConfig = username: {
+    # username
+    isDesktop ? true, # isdesktop, set to true by default
+    desktopEnv ? null, # what desktop environment, null by default
+  }: extraImports: let
+    # a list of additional module inports
+    baseUserConfig = userModules.mkUserConfig username; # the base user config, for nixos itself, username is from the variable username passed to the function
+    homeManagerConfig = {
+      # home manager config for the user
+      home-manager.users.${username} = {
+        imports =
+          # define global inputs for all users
+          [
+            inputs.nix-index-database.hmModules.nix-index
+            (userModules.getUserHomePath username "global/home.nix")
+          ]
+          ++ (
+            # create an if fucntion that sees if the isDesktop variable is set to true (defalt) or false
+            if isDesktop
+            then
+              [(userModules.getUserHomePath username "desktop/home.nix")]
+              # import home mod and home conf if they exist (see desktopConfigs above)
+              ++ lib.optional (desktopEnv != null && desktopConfigs.${desktopEnv}.homemod != null) desktopConfigs.${desktopEnv}.homemod
+              ++ lib.optional (desktopEnv != null && desktopConfigs.${desktopEnv}.homeconf != null) desktopConfigs.${desktopEnv}.homeconf
+            else [(userModules.getUserHomePath username "server/home.nix")] # inport the server home config if isDesktop is false
+          )
+          ++ extraImports; # add the extra modules in the []
+        home.stateVersion = "23.11";
+      };
+    };
+  in
+    baseUserConfig // homeManagerConfig; # combine the base user config and the home manager config, // stands for merge
 in {
   #==================#
   # hardware:
   #==================#
-  nixos-main = lib.nixosSystem rec {
-    inherit system pkgs;
-    specialArgs = {
-      inherit inputs self;
+  nixos-main = {desktopEnv ? "hyprland"}:
+    lib.nixosSystem rec {
+      inherit system pkgs;
+      specialArgs = {
+        inherit inputs self;
+      };
+      modules = [
+        # inputs
+        common-modules
+        stylix
+        (lib.optional (desktopConfigs.${desktopEnv}.coremod != null) desktopConfigs.${desktopEnv}.coremod)
+
+        # core configuration
+        global-coreconf
+        "${hostPath "nixos-main"}"
+        {
+          _module.args.disks = [
+            "/dev/disk/by-id/nvme-SAMSUNG_MZVLW512HMJP-000H1_S36ENX0HA25227"
+            "/dev/disk/by-id/nvme-SAMSUNG_MZVLB1T0HALR-00000_S3W6NX0N701285"
+            "/dev/disk/by-id/nvme-Samsung_SSD_980_PRO_2TB_S69ENX0TB18294T-part3"
+            "/dev/mapper/big--data-data--games"
+            "/dev/disk/by-id/ata-TOSHIBA_DT01ACA300_95QGT6KGS-part2"
+            "/dev/disk/by-id/ata-ST1000DM003-1ER162_Z4YC0ZWB-part1"
+          ];
+          _module.args.rocmgpu = "GPU-8beaa8932431d436";
+        }
+
+        # desktop configuration
+        global-desktopconf
+        desktopConfigs.${desktopEnv}.coreconf
+
+        userModules.mkUserConfig
+        "pengolodh"
+
+        # Home-manager configuration
+        inputs.homeMan.nixosModules.home-manager
+        {
+          home-manager.useGlobalPkgs = true;
+          home-manager.useUserPackages = true;
+          home-manager.extraSpecialArgs = {inherit inputs self system;};
+        }
+        (mkUserConfig "pengolodh" {
+            isDesktop = true;
+            desktopEnv = desktopEnv;
+          } [
+            /*
+            additional modules
+            */
+          ])
+      ];
     };
-    modules = [
-      # inputs
-      agenix
-      disko
-      impermanence
-      persist-retro
-      stylix
-      hyprland-coremod
 
-      # core configuration
-      global-coreconf
-      "${hostdir}/nixos-main"
-      {
-        _module.args.disks = [
-          # system disks
-          "/dev/disk/by-id/nvme-SAMSUNG_MZVLW512HMJP-000H1_S36ENX0HA25227" # 512GB root drive
-          "/dev/disk/by-id/nvme-SAMSUNG_MZVLB1T0HALR-00000_S3W6NX0N701285" # 1TB home drive
-          # existing system partitions
-          "/dev/disk/by-id/nvme-Samsung_SSD_980_PRO_2TB_S69ENX0TB18294T-part3" # 2 TB windows root partition
-          # existing data partitions
-          "/dev/mapper/big--data-data--games" # 4TB linux-game drive (luks on lvm, once day ill consolidate all these old hard drives into a 2 10tb drives...)
-          "/dev/disk/by-id/ata-TOSHIBA_DT01ACA300_95QGT6KGS-part2" # 3tb windows-data drive (ntfs)
-          "/dev/disk/by-id/ata-ST1000DM003-1ER162_Z4YC0ZWB-part1" #1TB windows-mod drive (ntfs)
-        ];
-        _module.args.rocmgpu = "GPU-8beaa8932431d436"; # obtained trough rocminfo, there is a bug where rocm prefers igpu over dgpu, this is from https://github.com/vosen/ZLUDA
-      }
+  nixos-laptop-asus = {desktopEnv ? "kde"}:
+    lib.nixosSystem {
+      inherit system pkgs;
+      specialArgs = {
+        inherit inputs self;
+      };
+      modules = [
+        common-modules
+        stylix
+        (lib.optional (desktopConfigs.${desktopEnv}.coremod != null) desktopConfigs.${desktopEnv}.coremod)
 
-      # desktop configuration
-      global-desktopconf
-      hyprland-coreconf
-      #kde-coreconf
+        global-coreconf
+        global-desktopconf
+        desktopConfigs.${desktopEnv}.coreconf
+        nixos-hardware.asus-zephyrus-ga402
 
-      # -> user modules
-      pengolodh-coreconf
-      # add more users here:
+        "${hostPath "nixos-laptop-asus"}"
+        userModules.mkUserConfig
+        "pengolodh"
 
-      #==================#
-      # system home-man:
-      home-manager
-      {
-        home-manager.useGlobalPkgs = true; # sets home-manager to use the nix-package-manager packages instead of its own internal ones, otherwise it duplicates dependancies
-        home-manager.useUserPackages = true; # packages will be installed per user;
-        home-manager.extraSpecialArgs = {inherit inputs self system;};
-        home-manager.users.pengolodh = {
-          imports =
-            [hyprland-homemod]
-            ++ [nix-index-db]
-            #[plasma-manager]
-            ++ [pengolodh_global-homeconf]
-            ++ [pengolodh_desktop-homeconf]
-            ++ [hyprland-homeconf];
-          #++ [kde-homeconf];
-          # add more inports via [import module] ++ (import folder) or ++ [(import file)], variables behave like modules
-          home.stateVersion = "23.11";
-          #nixpkgs.config.allowUnfree = true;
-        };
-        # ---
-        # add more users here:
-      }
-    ];
-  };
-
-  nixos-laptop-asus = lib.nixosSystem {
-    inherit system pkgs;
-    specialArgs = {
-      inherit inputs self;
+        # Home-manager configuration
+        inputs.homeMan.nixosModules.home-manager
+        {
+          home-manager.useGlobalPkgs = true;
+          home-manager.useUserPackages = true;
+          home-manager.extraSpecialArgs = {inherit inputs self system;};
+        }
+        (mkUserConfig "pengolodh" {
+          isDesktop = true;
+          desktopEnv = desktopEnv;
+        } [])
+      ];
     };
-    modules = [
-      # inputs
-      agenix
-      #hyprland-coremod
 
-      # modules
-      global-coreconf
-      kde-coreconf
-      nixos-hardware.asus-zephyrus-ga402
-
-      # -> host module
-      "${hostdir}/nixos-laptop-asus"
-
-      # -> user modules
-      pengolodh-coreconf
-
-      #==================#
-      # system home-man:
-      home-manager
-      {
-        home-manager.useGlobalPkgs = true; # sets home-manager to use the nix-package-manager packages instead of its own internal ones
-        home-manager.useUserPackages = true; # packages will be installed per user;
-        home-manager.extraSpecialArgs = {
-          inherit (inputs);
-        };
-        home-manager.users.pengolodh = {
-          imports =
-            # [hyprland-homemod]
-            [plasma-manager] # add plasma-manager to home-man user imports as per https://github.com/pjones/plasma-manager/issues/5
-            ++ [kde-homeconf]
-            ++ [pengolodh_global-homeconf]
-            ++ [pengolodh_desktop-homeconf]; # add more inports via [import module] ++ (import folder) or ++ [(import file)]
-        };
-        # ---
-        # add more users here:
-      }
-    ];
-  };
-
-  #==================#
-  # hardware-server:
-  #==================#
   nixos-server-hp = lib.nixosSystem {
     inherit system pkgs;
     specialArgs = {
       inherit inputs self;
     };
     modules = [
-      # inputs
-      agenix
-      disko
-      impermanence
-      persist-retro
+      common-modules
 
-      # modules
       global-coreconf
 
-      # -> host module
-      "${hostdir}/nixos-server-hp"
+      "${hostPath "nixos-server-hp"}"
       {
-        _module.args.disks = ["/dev/disk/by-id/ata-SanDisk_SD8SBAT128G1002_162092404193" "/dev/disk/by-id/ata-SanDisk_SD8SBAT128G1002_162092404193-part1"]; # you can add more drives in more "", for example "/dev/nvme0n1", or you can specifiy partitions
-        _module.args.netport = "eno1"; # the physical ethernet port
-        _module.args.vlans = [112 113 114]; # the incoming vlan tags
+        _module.args.disks = ["/dev/disk/by-id/ata-SanDisk_SD8SBAT128G1002_162092404193" "/dev/disk/by-id/ata-SanDisk_SD8SBAT128G1002_162092404193-part1"];
+        _module.args.netport = "eno1";
+        _module.args.vlans = [112 113 114];
       }
 
-      # -> user modules
       pengolodh-coreconf
 
-      #==================#
-      # system home-man:
       home-manager
       {
-        home-manager.useGlobalPkgs = true; # sets home-manager to use the nix-package-manager packages instead of its own internal ones
-        home-manager.useUserPackages = true; # packages will be installed per user;
+        home-manager.useGlobalPkgs = true;
+        home-manager.useUserPackages = true;
         home-manager.extraSpecialArgs = {inherit inputs self system;};
-        home-manager.users.pengolodh = {
-          imports =
-            [nix-index-db]
-            ++ [pengolodh_global-homeconf]
-            ++ [pengolodh_server-homeconf]; # add more inports via [import module] ++ (import folder) or ++ [(import file)]
-          home.stateVersion = "23.11";
-        };
-        # ---
-        # add more users here:
       }
+      (mkUserConfig "pengolodh" {isDesktop = false;} [])
     ];
   };
-  # ---
-
-  #==================#
-  # vm-server:
-  #==================#
-  # ---
-  # home-manager can also be done as a standalone:
-  # (not really recommended as it recuires more steps)
-  /*
-  homeConfigurations = {
-    pengolodh = home-manager.lib.homeManagerConfiguration {
-      inherit system pkgs;
-        username = "pengolodh";
-        homeDirectory = "/home/pengolodh";
-        configuration = {
-          imports = [ ./nixos-desktop-pengolodh/pengolodh/home.nix ];
-        };
-    };
-    #  ---
-    # add more users here:
-  };
-  */
 }
