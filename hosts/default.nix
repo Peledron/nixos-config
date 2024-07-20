@@ -123,49 +123,51 @@ in {
       specialArgs = {
         inherit inputs self;
       };
-      modules = global-inputs ++ [
-        # inputs
-        stylix
-        (lib.optional (desktopConfigs.${desktopEnv}.coremod != null) desktopConfigs.${desktopEnv}.coremod)
+      modules =
+        global-inputs
+        ++ [
+          # inputs
+          stylix
+          (lib.optional (desktopConfigs.${desktopEnv}.coremod != null) desktopConfigs.${desktopEnv}.coremod)
 
-        # core configuration
-        global-coreconf
-        "${hostPath "nixos-main"}"
-        {
-          _module.args.disks = [
-            "/dev/disk/by-id/nvme-SAMSUNG_MZVLW512HMJP-000H1_S36ENX0HA25227"
-            "/dev/disk/by-id/nvme-SAMSUNG_MZVLB1T0HALR-00000_S3W6NX0N701285"
-            "/dev/disk/by-id/nvme-Samsung_SSD_980_PRO_2TB_S69ENX0TB18294T-part3"
-            "/dev/mapper/big--data-data--games"
-            "/dev/disk/by-id/ata-TOSHIBA_DT01ACA300_95QGT6KGS-part2"
-            "/dev/disk/by-id/ata-ST1000DM003-1ER162_Z4YC0ZWB-part1"
-          ];
-          _module.args.rocmgpu = "GPU-8beaa8932431d436";
-        }
+          # core configuration
+          global-coreconf
+          "${hostPath "nixos-main"}"
+          {
+            _module.args.disks = [
+              "/dev/disk/by-id/nvme-SAMSUNG_MZVLW512HMJP-000H1_S36ENX0HA25227"
+              "/dev/disk/by-id/nvme-SAMSUNG_MZVLB1T0HALR-00000_S3W6NX0N701285"
+              "/dev/disk/by-id/nvme-Samsung_SSD_980_PRO_2TB_S69ENX0TB18294T-part3"
+              "/dev/mapper/big--data-data--games"
+              "/dev/disk/by-id/ata-TOSHIBA_DT01ACA300_95QGT6KGS-part2"
+              "/dev/disk/by-id/ata-ST1000DM003-1ER162_Z4YC0ZWB-part1"
+            ];
+            _module.args.rocmgpu = "GPU-8beaa8932431d436";
+          }
 
-        # desktop configuration
-        global-desktopconf
-        desktopConfigs.${desktopEnv}.coreconf
+          # desktop configuration
+          global-desktopconf
+          desktopConfigs.${desktopEnv}.coreconf
 
-        userModules.mkUserConfig
-        "pengolodh"
+          userModules.mkUserConfig
+          "pengolodh"
 
-        # Home-manager configuration
-        inputs.homeMan.nixosModules.home-manager
-        {
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-          home-manager.extraSpecialArgs = {inherit inputs self system;};
-        }
-        (mkUserConfig "pengolodh" {
-            isDesktop = true;
-            desktopEnv = desktopEnv;
-          } [
-            /*
-            additional modules
-            */
-          ])
-      ];
+          # Home-manager configuration
+          inputs.homeMan.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.extraSpecialArgs = {inherit inputs self system;};
+          }
+          (mkUserConfig "pengolodh" {
+              isDesktop = true;
+              desktopEnv = desktopEnv;
+            } [
+              /*
+              additional modules
+              */
+            ])
+        ];
     };
 
   nixos-laptop-asus = {desktopEnv ? "kde"}:
@@ -174,31 +176,33 @@ in {
       specialArgs = {
         inherit inputs self;
       };
-      modules =  global-inputs ++ [
-        stylix
-        (lib.optional (desktopConfigs.${desktopEnv}.coremod != null) desktopConfigs.${desktopEnv}.coremod)
+      modules =
+        global-inputs
+        ++ [
+          stylix
+          (lib.optional (desktopConfigs.${desktopEnv}.coremod != null) desktopConfigs.${desktopEnv}.coremod)
 
-        global-coreconf
-        global-desktopconf
-        desktopConfigs.${desktopEnv}.coreconf
-        nixos-hardware.asus-zephyrus-ga402
+          global-coreconf
+          global-desktopconf
+          desktopConfigs.${desktopEnv}.coreconf
+          nixos-hardware.asus-zephyrus-ga402
 
-        "${hostPath "nixos-laptop-asus"}"
-        userModules.mkUserConfig
-        "pengolodh"
+          "${hostPath "nixos-laptop-asus"}"
+          userModules.mkUserConfig
+          "pengolodh"
 
-        # Home-manager configuration
-        inputs.homeMan.nixosModules.home-manager
-        {
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-          home-manager.extraSpecialArgs = {inherit inputs self system;};
-        }
-        (mkUserConfig "pengolodh" {
-          isDesktop = true;
-          desktopEnv = desktopEnv;
-        } [])
-      ];
+          # Home-manager configuration
+          inputs.homeMan.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.extraSpecialArgs = {inherit inputs self system;};
+          }
+          (mkUserConfig "pengolodh" {
+            isDesktop = true;
+            desktopEnv = desktopEnv;
+          } [])
+        ];
     };
 
   nixos-server-hp = lib.nixosSystem {
@@ -206,25 +210,26 @@ in {
     specialArgs = {
       inherit inputs self;
     };
-    modules = global-inputs ++ [
-      global-coreconf
+    modules =
+      global-inputs
+      ++ [
+        global-coreconf
 
-      "${hostPath "nixos-server-hp"}"
-      {
-        _module.args.disks = ["/dev/disk/by-id/ata-SanDisk_SD8SBAT128G1002_162092404193" "/dev/disk/by-id/ata-SanDisk_SD8SBAT128G1002_162092404193-part1"];
-        _module.args.netport = "eno1";
-        _module.args.vlans = [112 113 114];
-      }
-
-      pengolodh-coreconf
-
-      home-manager
-      {
-        home-manager.useGlobalPkgs = true;
-        home-manager.useUserPackages = true;
-        home-manager.extraSpecialArgs = {inherit inputs self system;};
-      }
-      (mkUserConfig "pengolodh" {isDesktop = false;} [])
-    ];
+        "${hostPath "nixos-server-hp"}"
+        {
+          _module.args.disks = ["/dev/disk/by-id/ata-SanDisk_SD8SBAT128G1002_162092404193" "/dev/disk/by-id/ata-SanDisk_SD8SBAT128G1002_162092404193-part1"];
+          _module.args.netport = "eno1";
+          _module.args.vlans = [112 113 114];
+        }
+        userModules.mkUserConfig
+        "pengolodh"
+        home-manager
+        {
+          home-manager.useGlobalPkgs = true;
+          home-manager.useUserPackages = true;
+          home-manager.extraSpecialArgs = {inherit inputs self system;};
+        }
+        (mkUserConfig "pengolodh" {isDesktop = false;} [])
+      ];
   };
 }
