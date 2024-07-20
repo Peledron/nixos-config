@@ -4,9 +4,6 @@
   inputs,
   ...
 }: let
-  # package modules
-  system = "x86_64-linux"; # System architecture
-
   overlay-unstable = final: prev: {
     unstable = import inputs.nixpkgs-unstable {
       inherit system;
