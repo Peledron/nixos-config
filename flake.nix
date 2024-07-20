@@ -61,16 +61,17 @@
     self,
     nixpkgs,
     ...
-  }: {
-    nixosConfigurations = let
-      hostConfigs = import ./hosts {
+  }:
+  # the @ declares the names of the variables that can be used (instead of input.nixpkgs we can just do nixpkgs), the only one that is truly needed is self
+  {
+    # declare nixos configs here:
+    nixosConfigurations = (
+      # see hosts for all the individual configs, we will import that into the flake like:
+      import ./hosts {
+        # inherit passes the variables in the flake to the packages in ./hosts (they can )
         inherit (nixpkgs) lib;
         inherit self inputs;
-      };
-    in {
-      nixos-main = hostConfigs.nixos-main;
-      nixos-laptop-asus = hostConfigs.nixos-laptop-asus;
-      nixos-server-hp = hostConfigs.nixos-server-hp;
-    };
+      }
+    );
   };
 }
