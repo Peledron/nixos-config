@@ -62,18 +62,14 @@
     self,
     nixpkgs,
     ...
-  }: let
-    hostConfigs = import ./hosts {
-      # inherit passes the variables in the flake to the packages in ./hosts (they can )
-      inherit (nixpkgs) lib; # same as nixpkgs.lib, defines it that way
-      inherit self inputs;
-    };
-  in {
-    nixosConfigurations = {
-      # as we are passing some variables to the configuraiton we need to define them here
-      nixos-main = hostConfigs.nixos-main {};
-      nixos-laptop-asus = hostConfigs.nixos-laptop-asus {};
-      nixos-server-hp = hostConfigs.nixos-server-hp {};
-    };
+  }: {
+    nixosConfigurations = (
+      # see hosts for all the individual configs, we will import that into the flake like:
+      import ./hosts {
+        # inherit passes the variables in the flake to the packages in ./hosts (they can )
+        inherit (nixpkgs) lib;
+        inherit self inputs;
+      }
+    );
   };
 }
