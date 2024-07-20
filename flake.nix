@@ -65,13 +65,27 @@
   # the @ declares the names of the variables that can be used (instead of input.nixpkgs we can just do nixpkgs), the only one that is truly needed is self
   {
     # declare nixos configs here:
-    nixosConfigurations = (
-      # see hosts for all the individual configs, we will import that into the flake like:
-      import ./hosts {
-        # inherit passes the variables in the flake to the packages in ./hosts (they can )
-        inherit (nixpkgs) lib;
-        inherit self inputs;
-      }
-    );
+    nixosConfigurations = {
+      nixos-main =
+        (import ./hosts {
+          inherit (nixpkgs) lib;
+          inherit self inputs;
+        })
+        .nixos-main {desktopEnv = "hyprland";};
+
+      nixos-laptop-asus =
+        (import ./hosts {
+          inherit (nixpkgs) lib;
+          inherit self inputs;
+        })
+        .nixos-laptop-asus {desktopEnv = "kde";};
+
+      nixos-server-hp =
+        (import ./hosts {
+          inherit (nixpkgs) lib;
+          inherit self inputs;
+        })
+        .nixos-server-hp;
+    };
   };
 }
