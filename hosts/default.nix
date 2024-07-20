@@ -56,7 +56,6 @@
   desktop-inputs = [
     inputs.homeMan.nixosModules.home-manager
     inputs.stylix.nixosModules.stylix
-    global-desktopconf
   ];
 
   # Desktop environment paths
@@ -122,14 +121,23 @@
     };
   in
     baseUserConfig // homeManagerConfig; # combine the base user config and the home manager config, // stands for merge
+
   makeModules = {
-    isDesktop ? false,
     isImpermanent ? false,
+    isDesktop ? false,
+    desktopEnv ? null,
     extraModules ? [],
   }:
     global-inputs
     ++ (lib.optionals isImpermanent impermanence-inputs)
+    ++ global-coreconf
+    # check if isDesktop is true, if it is import desktop-inputs
     ++ (lib.optionals isDesktop desktop-inputs)
+    ++ (lib.optionals isDesktop global-desktopconf)
+    # check if isDesktop is true, desktopEnv has a value and desktopConfigs.${desktopEnv}.core* exist, if so inport those relevant core* files
+    ++ (lib.optional (isDesktop && desktopEnv != null && desktopConfigs.${desktopEnv}.coremod != null) desktopConfigs.${desktopEnv}.coremod)
+    ++ (lib.optional (isDesktop && desktopEnv != null && desktopConfigs.${desktopEnv}.coreconf != null) desktopConfigs.${desktopEnv}.coreconf)
+    # add extra modules (host unique)
     ++ extraModules;
 in {
   #==================#
@@ -142,11 +150,10 @@ in {
         inherit inputs self;
       };
       modules = makeModules {
-        isDesktop = true;
         isImpermanent = true;
+        isDesktop = true;
+        desktopEnv = desktopEnv;
         extraModules = [
-          # core configuration
-          global-coreconf
           "${hostPath}/nixos-main"
           {
             _module.args.disks = [
@@ -160,15 +167,12 @@ in {
             _module.args.rocmgpu = "GPU-8beaa8932431d436";
           }
 
-          # desktop configuration
-          desktopConfigs.${desktopEnv}.coreconf
-
           (mkUserConfig "pengolodh" {
               isDesktop = true;
               desktopEnv = desktopEnv;
             } [
               /*
-              additional modules
+              additional home modules
               */
             ])
         ];
@@ -182,16 +186,13 @@ in {
         inherit inputs self;
       };
       modules = makeModules {
-        isDesktop = true;
         isImpermanent = true;
+        isDesktop = true;
+        desktopEnv = desktopEnv;
         extraModules = [
-          global-coreconf
-          "${hostPath}/nixos-laptop-asus"
-
-          global-desktopconf
-          desktopConfigs.${desktopEnv}.coreconf
           nixos-hardware.asus-zephyrus-ga402
 
+          "${hostPath}/nixos-laptop-asus"
           (mkUserConfig "pengolodh" {
             isDesktop = true;
             desktopEnv = desktopEnv;
@@ -209,8 +210,6 @@ in {
       isDesktop = false;
       isImpermanent = true;
       extraModules = [
-        global-coreconf
-
         "${hostPath}/nixos-server-hp"
         {
           _module.args.disks = ["/dev/disk/by-id/ata-SanDisk_SD8SBAT128G1002_162092404193" "/dev/disk/by-id/ata-SanDisk_SD8SBAT128G1002_162092404193-part1"];
