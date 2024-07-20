@@ -1,4 +1,3 @@
-# declare the hosts for the flake, default.nix will always be used when importing a directory
 {
   lib,
   self,
@@ -106,7 +105,7 @@
               # import home mod and home conf if they exist (see desktopConfigs above)
               ++ lib.optional (desktopEnv != null && desktopConfigs.${desktopEnv}.homemod != null) desktopConfigs.${desktopEnv}.homemod
               ++ lib.optional (desktopEnv != null && desktopConfigs.${desktopEnv}.homeconf != null) desktopConfigs.${desktopEnv}.homeconf
-            else [(userModules.getUserHomePath username "server/home.nix")] # import the server home config if isDesktop is false
+            else [(userModules.getUserHomePath username "server/home.nix")]
           )
           ++ extraImports; # add the extra modules in the []
         home.stateVersion = "23.11";
