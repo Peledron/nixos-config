@@ -22,24 +22,22 @@
     ];
   };
 
-  # additional functional
   global-inputs = [
-    inputs.impermanence.nixosModules.impermanence
-    inputs.persist-retro.nixosModules.persist-retro
     inputs.disko.nixosModules.disko
     inputs.agenix.nixosModules.default
   ];
+  impermanence-inputs = [
+    inputs.impermanence.nixosModules.impermanence
+    inputs.persist-retro.nixosModules.persist-retro
+  ];
 
-  nixos-hardware = inputs.nixos-hardware.nixosModules;
-
-  home-manager = inputs.homeMan.nixosModules.home-manager;
-  nix-index-db = inputs.nix-index-database.hmModules.nix-index;
+  # additional functionality
+  nixos-hardware = inputs.nixos-hardware.nixosModules; # contains a host of pre-written hardware-configuration.nix files for various laptops and SBCs
 
   # DE related inputs
   plasma-manager = inputs.plasmaMan.homeManagerModules.plasma-manager;
   hyprland-coremod = inputs.hyprland.nixosModules.default;
   hyprland-homemod = inputs.hyprland.homeManagerModules.default;
-  stylix = inputs.stylix.nixosModules.stylix;
 
   # Path generation functions
   mkPath = base: path: "${base}/${path}";
@@ -54,6 +52,12 @@
   global-desktopconf = mkPath configPath "desktop/system/conf.nix";
 
   desktop_envdir = mkPath desktopPath "environments";
+
+  desktop-inputs = [
+    inputs.homeMan.nixosModules.home-manager
+    inputs.stylix.nixosModules.stylix
+    global-desktopconf
+  ];
 
   # Desktop environment paths
   mkDesktopPath = de: mkPath desktop_envdir de;
@@ -90,29 +94,43 @@
     baseUserConfig = userModules.mkUserConfig username; # the base user config, for nixos itself, username is from the variable username passed to the function
     homeManagerConfig = {
       # home manager config for the user
-      home-manager.users.${username} = {
-        imports =
-          # define global inputs for all users
-          [
-            inputs.nix-index-database.hmModules.nix-index
-            (userModules.getUserHomePath username "global/home.nix")
-          ]
-          ++ (
-            # create an if function that sees if the isDesktop variable is set to true (default) or false
-            if isDesktop
-            then
-              [(userModules.getUserHomePath username "desktop/home.nix")]
-              # import home mod and home conf if they exist (see desktopConfigs above)
-              ++ lib.optional (desktopEnv != null && desktopConfigs.${desktopEnv}.homemod != null) desktopConfigs.${desktopEnv}.homemod
-              ++ lib.optional (desktopEnv != null && desktopConfigs.${desktopEnv}.homeconf != null) desktopConfigs.${desktopEnv}.homeconf
-            else [(userModules.getUserHomePath username "server/home.nix")]
-          )
-          ++ extraImports; # add the extra modules in the []
-        home.stateVersion = "23.11";
+      inputs.homeMan.nixosModules.home-manager = {
+        useGlobalPkgs = true;
+        useUserPackages = true;
+        extraSpecialArgs = {inherit inputs self system;};
+        users.${username} = {
+          imports =
+            # define global inputs for all users
+            [
+              inputs.nix-index-database.hmModules.nix-index
+              (userModules.getUserHomePath username "global/home.nix")
+            ]
+            ++ (
+              # create an if function that sees if the isDesktop variable is set to true (default) or false
+              if isDesktop
+              then
+                [(userModules.getUserHomePath username "desktop/home.nix")]
+                # import home mod and home conf if they exist (see desktopConfigs above)
+                ++ lib.optional (desktopEnv != null && desktopConfigs.${desktopEnv}.homemod != null) desktopConfigs.${desktopEnv}.homemod
+                ++ lib.optional (desktopEnv != null && desktopConfigs.${desktopEnv}.homeconf != null) desktopConfigs.${desktopEnv}.homeconf
+              else [(userModules.getUserHomePath username "server/home.nix")]
+            )
+            ++ extraImports; # add the extra modules in the []
+          home.stateVersion = "23.11";
+        };
       };
     };
   in
     baseUserConfig // homeManagerConfig; # combine the base user config and the home manager config, // stands for merge
+  makeModules = {
+    isDesktop ? false,
+    isImpermanent ? false,
+    extraModules ? [],
+  }:
+    global-inputs
+    ++ (lib.optionals isImpermanent impermanence-inputs)
+    ++ (lib.optionals isDesktop desktop-inputs)
+    ++ extraModules;
 in {
   #==================#
   # hardware:
@@ -123,12 +141,10 @@ in {
       specialArgs = {
         inherit inputs self;
       };
-      modules =
-        global-inputs
-        ++ [
-          stylix
-          (lib.optional (desktopConfigs.${desktopEnv}.coremod != null) desktopConfigs.${desktopEnv}.coremod)
-
+      modules = makeModules {
+        isDesktop = true;
+        isImpermanent = true;
+        extraModules = [
           # core configuration
           global-coreconf
           "${hostPath}/nixos-main"
@@ -145,19 +161,8 @@ in {
           }
 
           # desktop configuration
-          global-desktopconf
           desktopConfigs.${desktopEnv}.coreconf
 
-          userModules.mkUserConfig
-          "pengolodh"
-
-          # Home-manager configuration
-          inputs.homeMan.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.extraSpecialArgs = {inherit inputs self system;};
-          }
           (mkUserConfig "pengolodh" {
               isDesktop = true;
               desktopEnv = desktopEnv;
@@ -167,6 +172,7 @@ in {
               */
             ])
         ];
+      };
     };
 
   nixos-laptop-asus = {desktopEnv ? "kde"}:
@@ -175,33 +181,23 @@ in {
       specialArgs = {
         inherit inputs self;
       };
-      modules =
-        global-inputs
-        ++ [
-          stylix
-          (lib.optional (desktopConfigs.${desktopEnv}.coremod != null) desktopConfigs.${desktopEnv}.coremod)
-
+      modules = makeModules {
+        isDesktop = true;
+        isImpermanent = true;
+        extraModules = [
           global-coreconf
+          "${hostPath}/nixos-laptop-asus"
+
           global-desktopconf
           desktopConfigs.${desktopEnv}.coreconf
           nixos-hardware.asus-zephyrus-ga402
 
-          "${hostPath}/nixos-laptop-asus"
-          userModules.mkUserConfig
-          "pengolodh"
-
-          # Home-manager configuration
-          inputs.homeMan.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.extraSpecialArgs = {inherit inputs self system;};
-          }
           (mkUserConfig "pengolodh" {
             isDesktop = true;
             desktopEnv = desktopEnv;
           } [])
         ];
+      };
     };
 
   nixos-server-hp = lib.nixosSystem {
@@ -209,9 +205,10 @@ in {
     specialArgs = {
       inherit inputs self;
     };
-    modules =
-      global-inputs
-      ++ [
+    modules = makeModules {
+      isDesktop = false;
+      isImpermanent = true;
+      extraModules = [
         global-coreconf
 
         "${hostPath}/nixos-server-hp"
@@ -220,15 +217,9 @@ in {
           _module.args.netport = "eno1";
           _module.args.vlans = [112 113 114];
         }
-        userModules.mkUserConfig
-        "pengolodh"
-        home-manager
-        {
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-          home-manager.extraSpecialArgs = {inherit inputs self system;};
-        }
+
         (mkUserConfig "pengolodh" {isDesktop = false;} [])
       ];
+    };
   };
 }
