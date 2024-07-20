@@ -102,15 +102,13 @@
     desktopEnv ? null,
     extraConfig ? {},
   }:
-  # This function returns another function that can optionally override the desktopEnv
-  {desktopEnv ? desktopEnv}:
   # Create a NixOS system configuration
     lib.nixosSystem {
       # Inherit system and pkgs from the outer scope
       inherit system pkgs;
       # Pass additional special arguments to the modules
       specialArgs = {
-        inherit inputs self;
+        inherit inputs self name;
       };
       # Define the modules for this NixOS configuration
       modules = [
