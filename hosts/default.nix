@@ -127,7 +127,7 @@
           # Additional modules specific to this host
           extraModules = [
             # Import the host-specific configuration
-            "${./hosts}/${name}"
+            "${self}/hosts/${name}"
             # Apply any extra configuration passed to mkHostConfig
             extraConfig
             # Create user configuration for "pengolodh"
