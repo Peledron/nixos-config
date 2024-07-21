@@ -3,6 +3,7 @@
   config,
   lib,
   pkgs,
+  hostName,
   ...
 }: let
   vlan_management_name = "vlan${builtins.toString (builtins.elemAt config.vlans 0)}mngmnt";
@@ -17,7 +18,7 @@ in {
   };
 
   networking = {
-    hostName = "nixos-server-hp";
+    hostName = "${hostName}";
     useNetworkd = true;
     /*
     vlans = {

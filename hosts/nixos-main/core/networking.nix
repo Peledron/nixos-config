@@ -4,6 +4,7 @@
   lib,
   pkgs,
   self,
+  hostName,
   ...
 }: {
   age.secrets.mullvad-wireguard_private-key.file = "${self}/.secrets/global/mullvad-wireguard_private-key.age";
@@ -12,7 +13,7 @@
     useDHCP = lib.mkDefault true; # set all interfaces to use dhcp by default
     # define hostname and enable networkmanager
     #hostId="1e772256"; # needed for zfs, so it knows which device to mount to, command used: head -c 8 /etc/machine-id
-    hostName = "nixos-main"; # Define your hostname
+    hostName = "${hostName}"; # Define your hostname
     networkmanager.enable = true; # Easiest to use and most distros use this by default
     # ---
 
