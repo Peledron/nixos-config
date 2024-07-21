@@ -99,25 +99,22 @@
 
   mkHostConfig = {
     hostName,
+    impermanence ? false,
     desktopEnv ? null,
     extraConfig ? {},
   }:
   # Create a NixOS system configuration
     lib.nixosSystem {
-      # Inherit system and pkgs from the outer scope
       inherit system pkgs;
-      # Pass additional special arguments to the modules
       specialArgs = {
-        inherit inputs self hostName;
+        inherit inputs self hostName; # Pass additional special arguments to the modules
       };
-      # Define the modules for this NixOS configuration
-      modules = [
+      modules =
         # Add a module to set up _module.args
         # Apply any extra configuration passed to mkHostConfig
-        extraConfig
-        (makeModules {
+        makeModules {
           # Set up impermanence for all configurations
-          isImpermanent = true;
+          isImpermanent = impermanence;
           # Determine if this is a desktop configuration
           isDesktop = desktopEnv != null;
           # Pass the desktop environment setting
@@ -125,6 +122,12 @@
 
           # Additional modules specific to this host
           extraModules = [
+            # Convert extraConfig to a function if it's an attrset
+            (
+              if builtins.isAttrs extraConfig
+              then (_: extraConfig)
+              else extraConfig
+            )
             # Import the host-specific configuration
             "${hostPath}/${hostName}"
 
@@ -135,8 +138,7 @@
               inherit desktopEnv;
             } []) # Empty list for any additional user-specific modules
           ];
-        })
-      ];
+        };
     };
 
   # the following imports global/users/default.nix
@@ -186,7 +188,9 @@ in {
   #==================#
   nixos-main = mkHostConfig {
     hostName = "nixos-main";
+    impermanence = true;
     desktopEnv = "hyprland";
+
     extraConfig = {
       config = {
         disks = [
@@ -204,7 +208,9 @@ in {
 
   nixos-laptop-asus = mkHostConfig {
     hostName = "nixos-laptop-asus";
+    impermanence = true;
     desktopEnv = "kde";
+
     extraConfig = {
       imports = [nixos-hardware.asus-zephyrus-ga402];
     };
@@ -212,6 +218,8 @@ in {
 
   nixos-server-hp = mkHostConfig {
     hostName = "nixos-server-hp";
+    impermanence = true;
+
     extraConfig = {
       config = {
         disks = [
