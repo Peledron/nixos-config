@@ -83,7 +83,7 @@
     desktopEnv ? null,
     extraModules ? [],
   }: let
-    modules = [
+    modules = lib.flatten [
       global-inputs
       (lib.optionals isImpermanent impermanence-inputs)
       global-coreconf
@@ -97,9 +97,9 @@
 
       # Extra modules to import
       extraModules
-    ];
+    ]; # lib.flatten makes sure that there are no nested lists https://noogle.dev/f/lib/lists/flatten
   in
-    lib.flatten modules; # return the modules as a list, lib.flatten makes sure that there are no nested lists https://noogle.dev/f/lib/lists/flatten
+    modules; # return the modules as a list
 
   # the following imports global/users/default.nix
   userConfigModules = import "${self}/global/users" {inherit lib self;};
@@ -158,7 +158,7 @@
     lib.nixosSystem {
       inherit system pkgs;
       specialArgs = {
-        inherit inputs self hostName; # inherit the variables 
+        inherit inputs self hostName; # inherit the variables
       };
       modules =
         # makemodules adds a list of all modules that are globally enabled, some are only imported depending on the inputs of mkhostconfig
@@ -168,8 +168,8 @@
           inherit desktopEnv;
 
           # Additional modules specific to this host
-          extraModules = [
-            extraConfig
+          extraModules = lib.flatten [
+            [extraConfig]
             # Import the host-specific configuration
             "${hostPath}/${hostName}"
           ];
