@@ -97,6 +97,48 @@
     ++ extraModules;
   # Function to create a NixOS configuration for a host
 
+  # the following imports global/users/default.nix
+  userModules = import "${self}/global/users" {inherit lib self;};
+
+  # make a new function with the following variable inputs
+  mkUserConfig = username: {
+    # username
+    isDesktop ? true, # isdesktop, set to true by default
+    desktopEnv ? null, # what desktop environment, null by default
+  }: extraImports: let
+    # a list of additional module imports
+    baseUserConfig = userModules.mkUserConfig username; # the base user config, for nixos itself, username is from the variable username passed to the function
+    homeManagerConfig = {
+      # home manager config for the user
+      inputs.homeMan.nixosModules.home-manager = {
+        useGlobalPkgs = true;
+        useUserPackages = true;
+        extraSpecialArgs = {inherit inputs self system;};
+        users.${username} = {
+          imports =
+            # define global inputs for all users
+            [
+              inputs.nix-index-database.hmModules.nix-index
+              (userModules.getUserHomePath username "global/home.nix")
+            ]
+            ++ (
+              # create an if function that sees if the isDesktop variable is set to true (default) or false
+              if isDesktop
+              then
+                [(userModules.getUserHomePath username "desktop/home.nix")]
+                # import home mod and home conf if they exist (see desktopConfigs above)
+                ++ lib.optional (desktopEnv != null && desktopConfigs.${desktopEnv}.homemod != null) desktopConfigs.${desktopEnv}.homemod
+                ++ lib.optional (desktopEnv != null && desktopConfigs.${desktopEnv}.homeconf != null) desktopConfigs.${desktopEnv}.homeconf
+              else [(userModules.getUserHomePath username "server/home.nix")]
+            )
+            ++ extraImports; # add the extra modules in the []
+          home.stateVersion = "23.11";
+        };
+      };
+    };
+  in
+    baseUserConfig // homeManagerConfig; # combine the base user config and the home manager config, // stands for merge
+
   mkHostConfig = {
     hostName,
     impermanence ? false,
@@ -140,48 +182,6 @@
           ];
         };
     };
-
-  # the following imports global/users/default.nix
-  userModules = import "${self}/global/users" {inherit lib self;};
-
-  # make a new function with the following variable inputs
-  mkUserConfig = username: {
-    # username
-    isDesktop ? true, # isdesktop, set to true by default
-    desktopEnv ? null, # what desktop environment, null by default
-  }: extraImports: let
-    # a list of additional module imports
-    baseUserConfig = userModules.mkUserConfig username; # the base user config, for nixos itself, username is from the variable username passed to the function
-    homeManagerConfig = {
-      # home manager config for the user
-      inputs.homeMan.nixosModules.home-manager = {
-        useGlobalPkgs = true;
-        useUserPackages = true;
-        extraSpecialArgs = {inherit inputs self system;};
-        users.${username} = {
-          imports =
-            # define global inputs for all users
-            [
-              inputs.nix-index-database.hmModules.nix-index
-              (userModules.getUserHomePath username "global/home.nix")
-            ]
-            ++ (
-              # create an if function that sees if the isDesktop variable is set to true (default) or false
-              if isDesktop
-              then
-                [(userModules.getUserHomePath username "desktop/home.nix")]
-                # import home mod and home conf if they exist (see desktopConfigs above)
-                ++ lib.optional (desktopEnv != null && desktopConfigs.${desktopEnv}.homemod != null) desktopConfigs.${desktopEnv}.homemod
-                ++ lib.optional (desktopEnv != null && desktopConfigs.${desktopEnv}.homeconf != null) desktopConfigs.${desktopEnv}.homeconf
-              else [(userModules.getUserHomePath username "server/home.nix")]
-            )
-            ++ extraImports; # add the extra modules in the []
-          home.stateVersion = "23.11";
-        };
-      };
-    };
-  in
-    baseUserConfig // homeManagerConfig; # combine the base user config and the home manager config, // stands for merge
 in {
   #==================#
   # hardware:
