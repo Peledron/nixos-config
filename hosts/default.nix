@@ -78,29 +78,6 @@
     xfce = {coreconf = mkDesktopPath "xfce.nix";};
   };
 
-  makeModules = {
-    isImpermanent ? false,
-    desktopEnv ? null,
-    extraModules ? [],
-  }: let
-    modules = lib.flatten [
-      global-inputs
-      (lib.optionals isImpermanent impermanence-inputs)
-      global-coreconf
-      # if desktopEnv value is not null (aka its kde, gnome or something) inport desktop related inputs and global config
-      (lib.optionals (desktopEnv != null) desktop-inputs)
-      (lib.optionals (desktopEnv != null) global-desktopconf)
-
-      # check if desktop env has a value, and if it does check if the core-mod and conf files exist, if they do import them
-      (lib.optionals (desktopEnv != null && desktopConfigs.${desktopEnv}.coremod != null) desktopConfigs.${desktopEnv}.coremod)
-      (lib.optionals (desktopEnv != null && desktopConfigs.${desktopEnv}.coreconf != null) desktopConfigs.${desktopEnv}.coreconf)
-
-      # Extra modules to import
-      extraModules
-    ]; # lib.flatten makes sure that there are no nested lists https://noogle.dev/f/lib/lists/flatten
-  in
-    modules; # return the modules as a list
-
   # the following imports global/users/default.nix
   userConfigModules = import "${self}/global/users" {inherit lib self;};
 
@@ -161,22 +138,25 @@
         inherit inputs self hostName; # inherit the variables
       };
       modules =
-        # makemodules adds a list of all modules that are globally enabled, some are only imported depending on the inputs of mkhostconfig
-        makeModules {
-          # pass desktopENV and ispermament to the makemodules function
-          inherit isImpermanent;
-          inherit desktopEnv;
+        lib.flatten [
+          global-inputs
+          (lib.optionals isImpermanent impermanence-inputs)
+          global-coreconf
+          # if desktopEnv value is not null (aka its kde, gnome or something) inport desktop related inputs and global config
+          (lib.optionals (desktopEnv != null) desktop-inputs)
+          (lib.optionals (desktopEnv != null) global-desktopconf)
 
-          # Additional modules specific to this host
-          extraModules = lib.flatten [
-            [extraConfig]
-            # Import the host-specific configuration
-            "${hostPath}/${hostName}"
-          ];
-        }
+          # check if desktop env has a value, and if it does check if the core-mod and conf files exist, if they do import them
+          (lib.optionals (desktopEnv != null && desktopConfigs.${desktopEnv}.coremod != null) desktopConfigs.${desktopEnv}.coremod)
+          (lib.optionals (desktopEnv != null && desktopConfigs.${desktopEnv}.coreconf != null) desktopConfigs.${desktopEnv}.coreconf)
+          extraConfig
+          # Import the host-specific configuration
+          "${hostPath}/${hostName}"
+        ] # lib.flatten makes sure that there are no nested lists https://noogle.dev/f/lib/lists/flatten
         ++ [
           mkUserConfig
           {
+            inherit inputs self system;
             # pass variables to mkUserConfig function
             inherit mainUser;
             inherit desktopEnv;

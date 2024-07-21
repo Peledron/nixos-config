@@ -40,7 +40,6 @@
     prismlauncher
     glfw-wayland-minecraft
     #kdePackages.kmousetool # autoclicker
-    xclicker
     # [chat]
     # armcord # -> i am using the flatpak
 
@@ -91,9 +90,7 @@
 
     # [nix-tools]
     alejandra # .nix auto-formatter
-    #nix-index # https://github.com/nix-community/nix-index --> this allows to find what binaries belong to what packages, also see https://github.com/nix-community/nix-index-database
-    #comma # tool to make using nix-shell faster, you can do ", program" and it will run that program, regardless if it is installed or not, if installed here it conflicts with nix-index-database comma
-    #nix-alien # -> see below, needs to be installed via flake
+    nil # nix language server
 
     # [editors]
     vscodium-fhs # fhs variant allows for plugins
