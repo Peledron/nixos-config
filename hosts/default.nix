@@ -163,7 +163,9 @@
           inherit desktopEnv;
 
           # Additional modules specific to this host
-          extraModules = [
+          /*
+             extraModules = [
+
             # Convert extraConfig to a function if it's an attrset
             (
               if builtins.isAttrs extraConfig
@@ -180,6 +182,7 @@
               inherit desktopEnv;
             } []) # Empty list for any additional user-specific modules
           ];
+          */
         };
     };
 in {
