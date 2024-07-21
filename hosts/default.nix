@@ -112,6 +112,9 @@
       };
       # Define the modules for this NixOS configuration
       modules = [
+        # Add a module to set up _module.args
+        # Apply any extra configuration passed to mkHostConfig
+        extraConfig
         (makeModules {
           # Set up impermanence for all configurations
           isImpermanent = true;
@@ -124,8 +127,7 @@
           extraModules = [
             # Import the host-specific configuration
             "${hostPath}/${hostName}"
-            # Apply any extra configuration passed to mkHostConfig
-            extraConfig
+
             # Create user configuration for "pengolodh"
             (mkUserConfig "pengolodh" {
               isDesktop = desktopEnv != null;
