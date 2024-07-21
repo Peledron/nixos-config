@@ -2,7 +2,6 @@
   config,
   pkgs,
   lib,
-  rocmgpu,
   ...
 }: {
   hardware = {
@@ -40,7 +39,7 @@
       RADV_PERFTEST = "rt";
       ## -> these are from # from https://asus-linux.org/blog/updates-2022-04-16/
       # rocm related
-      ROCR_VISIBLE_DEVICES = "${rocmgpu}";
+      ROCR_VISIBLE_DEVICES = config.rocmgpu;
     };
     systemPackages = with pkgs.unstable; [
       rocmPackages.rocm-smi

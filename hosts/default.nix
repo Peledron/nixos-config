@@ -80,110 +80,109 @@
 
   makeModules = {
     isImpermanent ? false,
-    isDesktop ? false,
     desktopEnv ? null,
     extraModules ? [],
-  }:
-    global-inputs
-    ++ global-coreconf
-    ++ (lib.optionals isImpermanent impermanence-inputs)
-    # check if isDesktop is true, if it is import desktop-inputs
-    ++ (lib.optionals isDesktop desktop-inputs)
-    ++ (lib.optionals isDesktop global-desktopconf)
-    # check if isDesktop is true, desktopEnv has a value and desktopConfigs.${desktopEnv}.core* exist, if so inport those relevant core* files
-    ++ (lib.optional (isDesktop && desktopEnv != null && desktopConfigs.${desktopEnv}.coremod != null) desktopConfigs.${desktopEnv}.coremod)
-    ++ (lib.optional (isDesktop && desktopEnv != null && desktopConfigs.${desktopEnv}.coreconf != null) desktopConfigs.${desktopEnv}.coreconf)
-    # add extra modules (host unique)
-    ++ extraModules;
-  # Function to create a NixOS configuration for a host
+  }: let
+    modules = [
+      global-inputs
+      (lib.optionals isImpermanent impermanence-inputs)
+      global-coreconf
+      # if desktopEnv value is not null (aka its kde, gnome or something) inport desktop related inputs and global config
+      (lib.optionals (desktopEnv != null) desktop-inputs)
+      (lib.optionals (desktopEnv != null) global-desktopconf)
+
+      # check if desktop env has a value, and if it does check if the core-mod and conf files exist, if they do import them
+      (lib.optionals (desktopEnv != null && desktopConfigs.${desktopEnv}.coremod != null) desktopConfigs.${desktopEnv}.coremod)
+      (lib.optionals (desktopEnv != null && desktopConfigs.${desktopEnv}.coreconf != null) desktopConfigs.${desktopEnv}.coreconf)
+
+      # Extra modules to import
+      extraModules
+    ];
+  in
+    lib.flatten modules; # return the modules as a list, lib.flatten makes sure that there are no nested lists https://noogle.dev/f/lib/lists/flatten
 
   # the following imports global/users/default.nix
-  userModules = import "${self}/global/users" {inherit lib self;};
+  userConfigModules = import "${self}/global/users" {inherit lib self;};
 
   # make a new function with the following variable inputs
-  mkUserConfig = username: {
-    # username
-    isDesktop ? true, # isdesktop, set to true by default
-    desktopEnv ? null, # what desktop environment, null by default
-  }: extraImports: let
+  mkUserConfig = {
+    mainUser,
+    desktopEnv, # what desktop environment, null by default
+    extraHomeModules,
+  }: let
     # a list of additional module imports
-    baseUserConfig = userModules.mkUserConfig username; # the base user config, for nixos itself, username is from the variable username passed to the function
+    baseUserConfig = userConfigModules.mkUserConfig mainUser; # the base user config, for nixos itself, username is from the variable username passed to the function
     homeManagerConfig = {
       # home manager config for the user
       inputs.homeMan.nixosModules.home-manager = {
-        useGlobalPkgs = true;
-        useUserPackages = true;
-        extraSpecialArgs = {inherit inputs self system;};
-        users.${username} = {
-          imports =
-            # define global inputs for all users
-            [
-              inputs.nix-index-database.hmModules.nix-index
-              (userModules.getUserHomePath username "global/home.nix")
-            ]
-            ++ (
-              # create an if function that sees if the isDesktop variable is set to true (default) or false
-              if isDesktop
-              then
-                [(userModules.getUserHomePath username "desktop/home.nix")]
-                # import home mod and home conf if they exist (see desktopConfigs above)
-                ++ lib.optional (desktopEnv != null && desktopConfigs.${desktopEnv}.homemod != null) desktopConfigs.${desktopEnv}.homemod
-                ++ lib.optional (desktopEnv != null && desktopConfigs.${desktopEnv}.homeconf != null) desktopConfigs.${desktopEnv}.homeconf
-              else [(userModules.getUserHomePath username "server/home.nix")]
-            )
-            ++ extraImports; # add the extra modules in the []
-          home.stateVersion = "23.11";
+        home-manager = {
+          useGlobalPkgs = true;
+          useUserPackages = true;
+          extraSpecialArgs = {inherit inputs self system;};
+          users.${mainUser} = {
+            imports =
+              # define global inputs for all users
+              [
+                inputs.nix-index-database.hmModules.nix-index
+                (userConfigModules.getUserHomePath mainUser "global/home.nix")
+              ]
+              ++ (
+                # create an if function that sees if the isDesktop variable is set to true (default) or false
+                if desktopEnv != null
+                then
+                  [(userConfigModules.getUserHomePath mainUser "desktop/home.nix")]
+                  # import home mod and home conf if they exist (see desktopConfigs above)
+                  ++ [(lib.optional (desktopConfigs.${desktopEnv}.homemod != null) desktopConfigs.${desktopEnv}.homemod)]
+                  ++ [(lib.optional (desktopConfigs.${desktopEnv}.homeconf != null) desktopConfigs.${desktopEnv}.homeconf)]
+                else [(userConfigModules.getUserHomePath mainUser "server/home.nix")]
+              )
+              ++ extraHomeModules; # add the extra modules in the []
+            home.stateVersion = "23.11";
+          };
         };
       };
     };
   in
     baseUserConfig // homeManagerConfig; # combine the base user config and the home manager config, // stands for merge
 
+  # Function to create a NixOS configuration for a host
   mkHostConfig = {
     hostName,
-    impermanence ? false,
+    isImpermanent ? false,
+    mainUser ? "pengolodh",
     desktopEnv ? null,
     extraConfig ? {},
+    extraHomeModules ? [],
   }:
   # Create a NixOS system configuration
     lib.nixosSystem {
       inherit system pkgs;
       specialArgs = {
-        inherit inputs self hostName; # Pass additional special arguments to the modules
+        inherit inputs self hostName; # inherit the variables 
       };
       modules =
-        # Add a module to set up _module.args
-        # Apply any extra configuration passed to mkHostConfig
+        # makemodules adds a list of all modules that are globally enabled, some are only imported depending on the inputs of mkhostconfig
         makeModules {
-          # Set up impermanence for all configurations
-          isImpermanent = impermanence;
-          # Determine if this is a desktop configuration
-          isDesktop = desktopEnv != null;
-          # Pass the desktop environment setting
+          # pass desktopENV and ispermament to the makemodules function
+          inherit isImpermanent;
           inherit desktopEnv;
 
           # Additional modules specific to this host
-          /*
-             extraModules = [
-
-            # Convert extraConfig to a function if it's an attrset
-            (
-              if builtins.isAttrs extraConfig
-              then (_: extraConfig)
-              else extraConfig
-            )
+          extraModules = [
+            extraConfig
             # Import the host-specific configuration
             "${hostPath}/${hostName}"
-
-            # Create user configuration for "pengolodh"
-            (mkUserConfig "pengolodh" {
-              isDesktop = desktopEnv != null;
-              # Pass the desktop environment setting to the user config
-              inherit desktopEnv;
-            } []) # Empty list for any additional user-specific modules
           ];
-          */
-        };
+        }
+        ++ [
+          mkUserConfig
+          {
+            # pass variables to mkUserConfig function
+            inherit mainUser;
+            inherit desktopEnv;
+            inherit extraHomeModules;
+          }
+        ];
     };
 in {
   #==================#
@@ -191,7 +190,7 @@ in {
   #==================#
   nixos-main = mkHostConfig {
     hostName = "nixos-main";
-    impermanence = true;
+    isImpermanent = true;
     desktopEnv = "hyprland";
 
     extraConfig = {
@@ -211,7 +210,7 @@ in {
 
   nixos-laptop-asus = mkHostConfig {
     hostName = "nixos-laptop-asus";
-    impermanence = true;
+    isImpermanent = true;
     desktopEnv = "kde";
 
     extraConfig = {
@@ -221,7 +220,7 @@ in {
 
   nixos-server-hp = mkHostConfig {
     hostName = "nixos-server-hp";
-    impermanence = true;
+    isImpermanent = true;
 
     extraConfig = {
       config = {
