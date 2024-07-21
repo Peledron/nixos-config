@@ -112,11 +112,6 @@
       };
       # Define the modules for this NixOS configuration
       modules = [
-        # Add a module to set up _module.args
-        {
-          # Apply extraConfig settings to config
-          config = extraConfig.config or {}; 
-        }
         (makeModules {
           # Set up impermanence for all configurations
           isImpermanent = true;
