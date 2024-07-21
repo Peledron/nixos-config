@@ -98,7 +98,7 @@
   # Function to create a NixOS configuration for a host
 
   mkHostConfig = {
-    name,
+    hostName,
     desktopEnv ? null,
     extraConfig ? {},
   }:
@@ -108,7 +108,7 @@
       inherit system pkgs;
       # Pass additional special arguments to the modules
       specialArgs = {
-        inherit inputs self name;
+        inherit inputs self hostName;
       };
       # Define the modules for this NixOS configuration
       modules = [
@@ -127,7 +127,7 @@
           # Additional modules specific to this host
           extraModules = [
             # Import the host-specific configuration
-            ["${hostPath}/${name}"]
+            ["${hostPath}/${hostName}"]
             # Apply any extra configuration passed to mkHostConfig
             extraConfig
             # Create user configuration for "pengolodh"
@@ -187,7 +187,7 @@ in {
   # hardware:
   #==================#
   nixos-main = mkHostConfig {
-    name = "nixos-main";
+    hostName = "nixos-main";
     desktopEnv = "hyprland";
     extraConfig = {
       _module.args.disks = [
@@ -203,7 +203,7 @@ in {
   };
 
   nixos-laptop-asus = mkHostConfig {
-    name = "nixos-laptop-asus";
+    hostName = "nixos-laptop-asus";
     desktopEnv = "kde";
     extraConfig = {
       imports = [nixos-hardware.asus-zephyrus-ga402];
@@ -211,7 +211,7 @@ in {
   };
 
   nixos-server-hp = mkHostConfig {
-    name = "nixos-server-hp";
+    hostName = "nixos-server-hp";
     extraConfig = {
       _module.args.disks = ["/dev/disk/by-id/ata-SanDisk_SD8SBAT128G1002_162092404193" "/dev/disk/by-id/ata-SanDisk_SD8SBAT128G1002_162092404193-part1"];
       _module.args.netport = "eno1";
