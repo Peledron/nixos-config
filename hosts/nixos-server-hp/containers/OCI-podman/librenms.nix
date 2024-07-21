@@ -5,7 +5,6 @@
   self,
   inputs,
   netport,
-  vlans,
   ...
 }: let
   datalocation = "/var/lib/containerdata/librenms";

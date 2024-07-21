@@ -2,7 +2,6 @@
   config,
   lib,
   pkgs,
-  vlans,
   ...
 }: let
   br_local_container_name = "br0cont";

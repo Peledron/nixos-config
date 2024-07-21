@@ -4,11 +4,9 @@
   pkgs,
   system,
   inputs,
-  netport,
-  vlans,
   ...
 }: let
-  vlan_local_container_name = "vlan${builtins.toString (builtins.elemAt vlans 2)}cont";
+  vlan_local_container_name = "vlan${builtins.toString (builtins.elemAt config.vlans 2)}cont";
   br_local_container_name = "br0cont";
 in {
   # enable ip forwarding
