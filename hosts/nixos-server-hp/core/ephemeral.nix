@@ -6,7 +6,7 @@
   inputs,
   impermanence,
   disko,
-  disks,
+  extraConfig,
   ...
 }: {
   # clear root subvolume on each boot as per https://grahamc.com/blog/erase-your-darlings/ and https://nixos.wiki/wiki/Btrfs
