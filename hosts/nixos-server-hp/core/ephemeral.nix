@@ -16,7 +16,7 @@
 
     # We first mount the btrfs root to /mnt
     # so we can manipulate btrfs subvolumes.
-    mount -o subvol=/ ${builtins.elemAt disks 1} /mnt
+    mount -o subvol=/ ${builtins.elemAt extraConfig.disks 1} /mnt
 
     # While we're tempted to just delete /root and create
     # a new snapshot from /root-blank, /root is already

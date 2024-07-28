@@ -2,9 +2,9 @@
 
 { config, lib, pkgs, netport, vlans, ... }:
 let
-  vlan_management_name = "vlan${builtins.toString (builtins.elemAt vlans 0)}mngmnt";
-  vlan_cloudflared_name = "vlan${builtins.toString (builtins.elemAt vlans 1)}cloudfld";
-  vlan_local_container_name = "vlan${builtins.toString (builtins.elemAt vlans 2)}cont";
+  vlan_management_name = "vlan${builtins.toString (builtins.elemAt extraConfig.vlans 0)}mngmnt";
+  vlan_cloudflared_name = "vlan${builtins.toString (builtins.elemAt extraConfig.vlans 1)}cloudfld";
+  vlan_local_container_name = "vlan${builtins.toString (builtins.elemAt extraConfig.vlans 2)}cont";
 in
 {
   
@@ -46,21 +46,21 @@ in
           Kind = "vlan";
           Name = "${vlan_management_name}";
         };
-        vlanConfig.Id = builtins.elemAt vlans 0;
+        vlanConfig.Id = builtins.elemAt extraConfig.vlans 0;
       };
       "20-${vlan_cloudflared_name}_init" = {
         netdevConfig = {
           Kind = "vlan";
           Name = "${vlan_cloudflared_name}";
         };
-        vlanConfig.Id = builtins.elemAt vlans 1;
+        vlanConfig.Id = builtins.elemAt extraConfig.vlans 1;
       };
       "20-${vlan_local_container_name}_init" = {
         netdevConfig = {
           Kind = "vlan";
           Name = "${vlan_local_container_name}";
         };
-        vlanConfig.Id = builtins.elemAt vlans 2;
+        vlanConfig.Id = builtins.elemAt extraConfig.vlans 2;
       };
       "30-br0_init" = {
          netdevConfig = {
