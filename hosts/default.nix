@@ -20,11 +20,11 @@
     ];
   };
 
-  global-inputs = [
+  globalImports = [
     inputs.disko.nixosModules.disko
     inputs.agenix.nixosModules.default
   ];
-  impermanence-inputs = [
+  impermanenceImports = [
     inputs.impermanence.nixosModules.impermanence
     inputs.persist-retro.nixosModules.persist-retro
   ];
@@ -49,15 +49,14 @@
   global-coreconf = mkPath configPath "conf.nix";
   global-desktopconf = mkPath configPath "desktop/system/conf.nix";
 
-  desktop_envdir = mkPath desktopPath "environments";
+  desktopEnvPath = mkPath desktopPath "environments";
 
-  desktop-inputs = [
-    inputs.homeMan.nixosModules.home-manager
+  desktopImports = [
     inputs.stylix.nixosModules.stylix
   ];
 
   # Desktop environment paths
-  mkDesktopPath = de: mkPath desktop_envdir de;
+  mkDesktopPath = de: mkPath desktopEnvPath de;
   desktopConfigs = {
     hyprland = {
       coreconf = mkDesktopPath "hyprland.nix";
@@ -78,20 +77,37 @@
     xfce = {coreconf = mkDesktopPath "xfce.nix";};
   };
 
-  # the following imports global/users/default.nix
-  userConfigModules = import "${self}/global/users" {inherit lib self;};
+  mkCoreDesktopConfig = desktopEnv:
+  # this function allows for error handling of desktop environments, it will check if the value given to the function (aka the name of the desktop env) exists in the desktopConfigs
+    if !(desktopConfigs ? ${desktopEnv})
+    then builtins.trace "Warning: Unknown desktop environment '${desktopEnv}'" []
+    else
+      # after that
+      let
+        desktopEnvConfig = desktopConfigs.${desktopEnv};
+      in
+        desktopImports
+        ++ [
+          global-desktopconf
+          (lib.optional (desktopEnvConfig ? coremod && desktopEnvConfig.coremod != null) desktopEnvConfig.coremod)
+          (lib.optional (desktopEnvConfig ? coreconf && desktopEnvConfig.coreconf != null) desktopEnvConfig.coreconf)
+        ];
 
   # make a new function with the following variable inputs
   mkUserConfig = {
     mainUser,
     desktopEnv, # what desktop environment, null by default
     extraHomeModules,
+    ... # this allows other parameters to enter the function (like self and such)
   }: let
-    # a list of additional module imports
-    baseUserConfig = userConfigModules.mkUserConfig mainUser; # the base user config, for nixos itself, username is from the variable username passed to the function
-    homeManagerConfig = {
+    # args captures all the inputs in a single variable
+    userDir = "${self}/global/users/${mainUser}";
+    userHomeDir = "${userDir}/home";
+    baseUserConfig = ["${userDir}/usr.nix"]; # the base user config, for nixos itself, username is from the variable username passed to the function
+    homeUserConfig = [
       # home manager config for the user
-      inputs.homeMan.nixosModules.home-manager = {
+      inputs.homeMan.nixosModules.home-manager
+      {
         home-manager = {
           useGlobalPkgs = true;
           useUserPackages = true;
@@ -101,26 +117,27 @@
               # define global inputs for all users
               [
                 inputs.nix-index-database.hmModules.nix-index
-                (userConfigModules.getUserHomePath mainUser "global/home.nix")
+                "${userHomeDir}/global/home.nix"
               ]
               ++ (
                 # create an if function that sees if the isDesktop variable is set to true (default) or false
                 if desktopEnv != null
                 then
-                  [(userConfigModules.getUserHomePath mainUser "desktop/home.nix")]
-                  # import home mod and home conf if they exist (see desktopConfigs above)
-                  ++ [(lib.optional (desktopConfigs.${desktopEnv}.homemod != null) desktopConfigs.${desktopEnv}.homemod)]
-                  ++ [(lib.optional (desktopConfigs.${desktopEnv}.homeconf != null) desktopConfigs.${desktopEnv}.homeconf)]
-                else [(userConfigModules.getUserHomePath mainUser "server/home.nix")]
+                  ["${userHomeDir}/desktop/home.nix"]
+                  # import home mod and home conf if they exist and are not empty (see desktopConfigs above)
+                  ++ (lib.optional (desktopConfigs.${desktopEnv} ? homemod && desktopConfigs.${desktopEnv}.homemod != null) desktopConfigs.${desktopEnv}.homemod)
+                  ++ (lib.optional (desktopConfigs.${desktopEnv} ? homeconf && desktopConfigs.${desktopEnv}.homeconf != null) desktopConfigs.${desktopEnv}.homeconf)
+                else ["${userHomeDir}/server/home.nix"]
               )
               ++ extraHomeModules; # add the extra modules in the []
             home.stateVersion = "23.11";
           };
         };
-      };
-    };
+      }
+    ];
   in
-    baseUserConfig // homeManagerConfig; # combine the base user config and the home manager config, // stands for merge
+    baseUserConfig ++ (lib.optionals (lib.pathExists userHomeDir) homeUserConfig);
+  
 
   # Function to create a NixOS configuration for a host
   mkHostConfig = {
@@ -129,41 +146,33 @@
     mainUser ? "pengolodh",
     desktopEnv ? null,
     extraConfig ? {},
+    extraImports ? [],
     extraHomeModules ? [],
+    ... # this allows other parameters to enter the function (like self and such)
   }:
-  # Create a NixOS system configuration
-    lib.nixosSystem {
-      inherit system pkgs;
-      specialArgs = {
-        inherit inputs self hostName; # inherit the variables
-      };
-      modules =
-        lib.flatten [
-          global-inputs
-          (lib.optionals isImpermanent impermanence-inputs)
-          global-coreconf
-          # if desktopEnv value is not null (aka its kde, gnome or something) inport desktop related inputs and global config
-          (lib.optionals (desktopEnv != null) desktop-inputs)
-          (lib.optionals (desktopEnv != null) global-desktopconf)
+    assert builtins.isAttrs extraConfig || builtins.trace "Warning: extraConfig should be an attribute set" true; # ensures that extraconfig is an attribute set
+    
+      lib.nixosSystem {
+        inherit system pkgs;
+        specialArgs = {
+          inherit inputs self hostName extraConfig; # inherit the variables
+        };
+        modules =
+          lib.flatten [
+            globalImports
+            extraImports
+            (lib.optionals isImpermanent impermanenceImports)
+            (mkCoreDesktopConfig desktopEnv)
 
-          # check if desktop env has a value, and if it does check if the core-mod and conf files exist, if they do import them
-          (lib.optionals (desktopEnv != null && desktopConfigs.${desktopEnv}.coremod != null) desktopConfigs.${desktopEnv}.coremod)
-          (lib.optionals (desktopEnv != null && desktopConfigs.${desktopEnv}.coreconf != null) desktopConfigs.${desktopEnv}.coreconf)
-          extraConfig
-          # Import the host-specific configuration
-          "${hostPath}/${hostName}"
-        ] # lib.flatten makes sure that there are no nested lists https://noogle.dev/f/lib/lists/flatten
-        ++ [
-          mkUserConfig
-          {
-            inherit inputs self system;
-            # pass variables to mkUserConfig function
-            inherit mainUser;
-            inherit desktopEnv;
-            inherit extraHomeModules;
-          }
-        ];
-    };
+            # Import the host-specific configuration
+            "${hostPath}/${hostName}"
+          ] # lib.flatten makes sure that there are no nested lists https://noogle.dev/f/lib/lists/flatten
+          ++ (mkUserConfig
+            {
+              # pass variables to mkUserConfig function
+              inherit mainUser desktopEnv extraHomeModules;
+            });
+      };
 in {
   #==================#
   # hardware:
@@ -174,17 +183,15 @@ in {
     desktopEnv = "hyprland";
 
     extraConfig = {
-      config = {
-        disks = [
-          "/dev/disk/by-id/nvme-SAMSUNG_MZVLW512HMJP-000H1_S36ENX0HA25227"
-          "/dev/disk/by-id/nvme-SAMSUNG_MZVLB1T0HALR-00000_S3W6NX0N701285"
-          "/dev/disk/by-id/nvme-Samsung_SSD_980_PRO_2TB_S69ENX0TB18294T-part3"
-          "/dev/mapper/big--data-data--games"
-          "/dev/disk/by-id/ata-TOSHIBA_DT01ACA300_95QGT6KGS-part2"
-          "/dev/disk/by-id/ata-ST1000DM003-1ER162_Z4YC0ZWB-part1"
-        ];
-        rocmgpu = "GPU-8beaa8932431d436";
-      };
+      disks = [
+        "/dev/disk/by-id/nvme-SAMSUNG_MZVLW512HMJP-000H1_S36ENX0HA25227"
+        "/dev/disk/by-id/nvme-SAMSUNG_MZVLB1T0HALR-00000_S3W6NX0N701285"
+        "/dev/disk/by-id/nvme-Samsung_SSD_980_PRO_2TB_S69ENX0TB18294T-part3"
+        "/dev/mapper/big--data-data--games"
+        "/dev/disk/by-id/ata-TOSHIBA_DT01ACA300_95QGT6KGS-part2"
+        "/dev/disk/by-id/ata-ST1000DM003-1ER162_Z4YC0ZWB-part1"
+      ];
+      rocmgpu = "GPU-8beaa8932431d436";
     };
   };
 
@@ -192,9 +199,8 @@ in {
     hostName = "nixos-laptop-asus";
     isImpermanent = true;
     desktopEnv = "kde";
-
+    extraImports = [nixos-hardware.asus-zephyrus-ga402];
     extraConfig = {
-      imports = [nixos-hardware.asus-zephyrus-ga402];
     };
   };
 
@@ -203,14 +209,12 @@ in {
     isImpermanent = true;
 
     extraConfig = {
-      config = {
-        disks = [
-          "/dev/disk/by-id/ata-SanDisk_SD8SBAT128G1002_162092404193"
-          "/dev/disk/by-id/ata-SanDisk_SD8SBAT128G1002_162092404193-part1"
-        ];
-        netport = "eno1";
-        vlans = [112 113 114];
-      };
+      disks = [
+        "/dev/disk/by-id/ata-SanDisk_SD8SBAT128G1002_162092404193"
+        "/dev/disk/by-id/ata-SanDisk_SD8SBAT128G1002_162092404193-part1"
+      ];
+      netport = "eno1";
+      vlans = [112 113 114];
     };
   };
 }

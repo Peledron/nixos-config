@@ -38,6 +38,7 @@ in {
     XDG_CURRENT_DESKTOP = "Hyprland";
     XDG_SESSION_DESKTOP = "Hyprland";
     XDG_SESSION_TYPE = "wayland";
+    TERM = "${term}";
   }; # something is broken in qt theming if done by hone-manager sessionvariables, seems that this fixed it
   # [hyprland config]
   wayland.windowManager.hyprland = {
