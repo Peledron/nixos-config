@@ -20,22 +20,13 @@
     ];
   };
 
-  globalImports = [
-    inputs.disko.nixosModules.disko
-    inputs.agenix.nixosModules.default
-  ];
-  impermanenceImports = [
-    inputs.impermanence.nixosModules.impermanence
-    inputs.persist-retro.nixosModules.persist-retro
-  ];
-
   # additional functionality
-  nixos-hardware = inputs.nixos-hardware.nixosModules; # contains a host of pre-written hardware-configuration.nix files for various laptops and SBCs
+  nixosHardware = inputs.nixos-hardware.nixosModules; # contains a host of pre-written hardware-configuration.nix files for various laptops and SBCs
 
   # DE related inputs
-  plasma-manager = inputs.plasmaMan.homeManagerModules.plasma-manager;
-  hyprland-coremod = inputs.hyprland.nixosModules.default;
-  hyprland-homemod = inputs.hyprland.homeManagerModules.default;
+  plasmaManager = inputs.plasmaMan.homeManagerModules.plasma-manager;
+  hyprlandCoreMod = inputs.hyprland.nixosModules.default;
+  hyprlandHomeMod = inputs.hyprland.homeManagerModules.default;
 
   # Path generation functions
   mkPath = base: path: "${base}/${path}";
@@ -46,11 +37,20 @@
   desktopPath = mkPath configPath "desktop";
 
   # Generated paths
-  global-coreconf = mkPath configPath "conf.nix";
-  global-desktopconf = mkPath configPath "desktop/system/conf.nix";
+  globalCoreConf = mkPath configPath "conf.nix";
+  globalDesktopConf = mkPath configPath "desktop/system/conf.nix";
 
   desktopEnvPath = mkPath desktopPath "environments";
 
+  globalImports = [
+    inputs.disko.nixosModules.disko
+    inputs.agenix.nixosModules.default
+    globalCoreConf
+  ];
+  impermanenceImports = [
+    inputs.impermanence.nixosModules.impermanence
+    inputs.persist-retro.nixosModules.persist-retro
+  ];
   desktopImports = [
     inputs.stylix.nixosModules.stylix
   ];
@@ -59,22 +59,22 @@
   mkDesktopPath = de: mkPath desktopEnvPath de;
   desktopConfigs = {
     hyprland = {
-      coreconf = mkDesktopPath "hyprland.nix";
-      homeconf = mkDesktopPath "hyprland/home.nix";
-      coremod = hyprland-coremod;
-      homemod = hyprland-homemod;
+      coreConf = mkDesktopPath "hyprland.nix";
+      homeConf = mkDesktopPath "hyprland/home.nix";
+      coreMod = hyprlandCoreMod;
+      homeMod = hyprlandHomeMod;
     };
     kde = {
-      coreconf = mkDesktopPath "kde.nix";
-      homeconf = mkDesktopPath "kde/home.nix";
-      homemod = plasma-manager;
+      coreConf = mkDesktopPath "kde.nix";
+      homeConf = mkDesktopPath "kde/home.nix";
+      homeMod = plasmaManager;
     };
-    gnome = {coreconf = mkDesktopPath "gnome.nix";};
+    gnome = {coreConf = mkDesktopPath "gnome.nix";};
     sway = {
-      coreconf = mkDesktopPath "sway.nix";
-      homeconf = mkDesktopPath "sway/home.nix";
+      coreConf = mkDesktopPath "sway.nix";
+      homeConf = mkDesktopPath "sway/home.nix";
     };
-    xfce = {coreconf = mkDesktopPath "xfce.nix";};
+    xfce = {coreConf = mkDesktopPath "xfce.nix";};
   };
 
   mkCoreDesktopConfig = desktopEnv:
@@ -88,9 +88,9 @@
       in
         desktopImports
         ++ [
-          global-desktopconf
-          (lib.optional (desktopEnvConfig ? coremod && desktopEnvConfig.coremod != null) desktopEnvConfig.coremod)
-          (lib.optional (desktopEnvConfig ? coreconf && desktopEnvConfig.coreconf != null) desktopEnvConfig.coreconf)
+          globalDesktopConf
+          (lib.optional (desktopEnvConfig ? coreMod && desktopEnvConfig.coreMod != null) desktopEnvConfig.coreMod)
+          (lib.optional (desktopEnvConfig ? coreConf && desktopEnvConfig.coreConf != null) desktopEnvConfig.coreConf)
         ];
 
   # make a new function with the following variable inputs
@@ -125,8 +125,8 @@
                 then
                   ["${userHomeDir}/desktop/home.nix"]
                   # import home mod and home conf if they exist and are not empty (see desktopConfigs above)
-                  ++ (lib.optional (desktopConfigs.${desktopEnv} ? homemod && desktopConfigs.${desktopEnv}.homemod != null) desktopConfigs.${desktopEnv}.homemod)
-                  ++ (lib.optional (desktopConfigs.${desktopEnv} ? homeconf && desktopConfigs.${desktopEnv}.homeconf != null) desktopConfigs.${desktopEnv}.homeconf)
+                  ++ (lib.optional (desktopConfigs.${desktopEnv} ? homeMod && desktopConfigs.${desktopEnv}.homeMod != null) desktopConfigs.${desktopEnv}.homeMod)
+                  ++ (lib.optional (desktopConfigs.${desktopEnv} ? homeConf && desktopConfigs.${desktopEnv}.homeConf != null) desktopConfigs.${desktopEnv}.homeConf)
                 else ["${userHomeDir}/server/home.nix"]
               )
               ++ extraHomeModules; # add the extra modules in the []
@@ -137,7 +137,6 @@
     ];
   in
     baseUserConfig ++ (lib.optionals (lib.pathExists userHomeDir) homeUserConfig);
-  
 
   # Function to create a NixOS configuration for a host
   mkHostConfig = {
@@ -162,7 +161,7 @@
             globalImports
             extraImports
             (lib.optionals isImpermanent impermanenceImports)
-            (lib.optionals (desktopEnv != null ) (mkCoreDesktopConfig desktopEnv))
+            (lib.optionals (desktopEnv != null) (mkCoreDesktopConfig desktopEnv))
 
             # Import the host-specific configuration
             "${hostPath}/${hostName}"
@@ -199,7 +198,7 @@ in {
     hostName = "nixos-laptop-asus";
     isImpermanent = true;
     desktopEnv = "kde";
-    extraImports = [nixos-hardware.asus-zephyrus-ga402];
+    extraImports = [nixosHardware.asus-zephyrus-ga402];
     extraConfig = {
     };
   };

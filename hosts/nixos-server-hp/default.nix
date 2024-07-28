@@ -11,4 +11,5 @@
     ++ (import ./system)
     ++ [(import ./containers/containers.nix)];
   system.autoUpgrade.enable = false;
+  system.stateVersion = "24.05";
 }
