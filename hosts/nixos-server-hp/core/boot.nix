@@ -4,7 +4,7 @@
   pkgs,
   system,
   inputs,
-  disks,
+  extraConfig,
   ...
 }: {
   boot = {
