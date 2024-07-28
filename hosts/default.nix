@@ -162,7 +162,7 @@
             globalImports
             extraImports
             (lib.optionals isImpermanent impermanenceImports)
-            (mkCoreDesktopConfig desktopEnv)
+            (lib.optionals (desktopEnv != null ) (mkCoreDesktopConfig desktopEnv))
 
             # Import the host-specific configuration
             "${hostPath}/${hostName}"
