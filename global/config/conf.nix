@@ -9,9 +9,8 @@
 }: {
   imports =
     import ./core; # --> the [(import file.nix)] ++ (import ./folder) imports the things seperatly, this prevents errors related to nested imports
-
-  #nixpkgs.config.allowunfree = true; # allow propietary software --> not needed when inheriting pkgs with allowfree = true; in flake
   system.stateVersion = "23.11"; # initial system state
+  #nixpkgs.config.allowunfree = true; # allow propietary software --> not needed when inheriting pkgs with allowfree = true; in flake
   # nix specific settings:
   nix = {
     # enable flakes so we can easily update the nixos config from a github repo
@@ -36,7 +35,8 @@
       options = "--delete-older-than 7d"; # set gc to delete nix-store generations of the previous week once a week as a compromise
       randomizedDelaySec = "45min"; # randomize the trigger time within this timeframe
     };
-    */ # -> gc is replaced by programs.nh.clean as thats a better solution
+    */
+    # -> gc is replaced by programs.nh.clean as thats a better solution
     # ---
 
     # add other nix settings:
@@ -67,7 +67,7 @@
       "--no-write-lock-file"
       "--update-input"
       "nixpkgs"
-      # -> note that flags need to be in a correct order, the resulting command is nixos-rebuild switch --flag1 --flag2 --... --flake {self} --update 
+      # -> note that flags need to be in a correct order, the resulting command is nixos-rebuild switch --flag1 --flag2 --... --flake {self} --update
     ];
     dates = "weekly";
     randomizedDelaySec = "15min";

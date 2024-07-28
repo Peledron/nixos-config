@@ -35,7 +35,7 @@ in {
       nixos-icons.enable = true; # no idea what this does
     };
   };
-  environment.sessionVariables = {
+  environment.sessionVariables = lib.mkForce {
     # [qt theming]
     QT_QPA_PLATFORMTHEME = "qt5ct";
     QT_STYLE_OVERRIDE = "kvantum";
