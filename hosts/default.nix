@@ -39,7 +39,7 @@
   globalCoreConf = mkPath globalPath "coreConfig";
 
   # desktop config
-  desktopGlobalConf = mkPath desktopPath "global";
+  desktopGlobalCoreConf = mkPath desktopPath "coreConf";
   desktopEnvPath = mkPath desktopPath "environments";
   desktopCoreConfPath = mkPath desktopEnvPath "core";
   desktopHomeConfPath = mkPath desktopEnvPath "home";
@@ -55,7 +55,7 @@
   ];
   desktopImports = [
     inputs.stylix.nixosModules.stylix
-    desktopGlobalConf
+    desktopGlobalCoreConf
   ];
 
   # Desktop environment paths, these 2 functions take in de as input variable and add that variable to the end of the paths, to reduce redundant mkPath functions
