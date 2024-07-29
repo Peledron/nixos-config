@@ -3,8 +3,11 @@
   config,
   lib,
   pkgs,
+  self,
   ...
 }: {
+  imports = [(self + "/global/modules/virt/desktop-virt.nix")];
+
   # nice daemon
   services.ananicy = {
     package = pkgs.unstable.ananicy-cpp;
@@ -68,7 +71,7 @@
 
   # enable either auto-cpufreq or tlp, tlp has more features like drive suspend, however auto-cpufreq seems to be better for cpu management (cooler and less power to my testing)
   services.auto-cpufreq = lib.mkDefault {
-    #package = pkgs.unstable.auto-cpufreq;
+    package = pkgs.unstable.auto-cpufreq;
     enable = false;
   };
 

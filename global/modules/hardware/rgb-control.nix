@@ -6,6 +6,6 @@
 }: {
   services.hardware.openrgb = {
     enable = true;
-    package = pkgs.openrgb-with-all-plugins;
+    package = pkgs.unstable.openrgb-with-all-plugins;
   };
 }

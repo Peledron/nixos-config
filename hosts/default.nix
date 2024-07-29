@@ -28,19 +28,21 @@
   hyprlandCoreMod = inputs.hyprland.nixosModules.default;
   hyprlandHomeMod = inputs.hyprland.homeManagerModules.default;
 
-  # Path generation functions
+  # base paths
   mkPath = base: path: "${base}/${path}";
   hostPath = mkPath self "hosts";
   globalPath = mkPath self "global";
-  configPath = mkPath globalPath "config";
+  desktopPath = mkPath self "desktop";
   userPath = mkPath globalPath "users";
-  desktopPath = mkPath configPath "desktop";
 
-  # Generated paths
-  globalCoreConf = mkPath configPath "conf.nix";
-  globalDesktopConf = mkPath configPath "desktop/system/conf.nix";
+  # global base config
+  globalCoreConf = mkPath globalPath "coreConfig";
 
+  # desktop config
+  desktopGlobalConf = mkPath desktopPath "global";
   desktopEnvPath = mkPath desktopPath "environments";
+  desktopCoreConfPath = mkPath desktopEnvPath "core";
+  desktopHomeConfPath = mkPath desktopEnvPath "home";
 
   globalImports = [
     inputs.disko.nixosModules.disko
@@ -53,28 +55,31 @@
   ];
   desktopImports = [
     inputs.stylix.nixosModules.stylix
+    desktopGlobalConf
   ];
 
-  # Desktop environment paths
-  mkDesktopPath = de: mkPath desktopEnvPath de;
+  # Desktop environment paths, these 2 functions take in de as input variable and add that variable to the end of the paths, to reduce redundant mkPath functions
+  mkDesktopCoreConf = de: mkPath desktopCoreConfPath de;
+  mkDestopHomeConf = de: mkPath desktopHomeConfPath de;
+
   desktopConfigs = {
     hyprland = {
-      coreConf = mkDesktopPath "hyprland.nix";
-      homeConf = mkDesktopPath "hyprland/home.nix";
+      coreConf = mkDesktopCoreConf "hyprland.nix";
+      homeConf = mkDestopHomeConf "hyprland/home.nix";
       coreMod = hyprlandCoreMod;
       homeMod = hyprlandHomeMod;
     };
     kde = {
-      coreConf = mkDesktopPath "kde.nix";
-      homeConf = mkDesktopPath "kde/home.nix";
+      coreConf = mkDesktopCoreConf "kde.nix";
+      homeConf = mkDestopHomeConf "kde/home.nix";
       homeMod = plasmaManager;
     };
-    gnome = {coreConf = mkDesktopPath "gnome.nix";};
+    gnome = {coreConf = mkDesktopCoreConf "gnome.nix";};
     sway = {
-      coreConf = mkDesktopPath "sway.nix";
-      homeConf = mkDesktopPath "sway/home.nix";
+      coreConf = mkDesktopCoreConf "sway.nix";
+      homeConf = mkDestopHomeConf "sway/home.nix";
     };
-    xfce = {coreConf = mkDesktopPath "xfce.nix";};
+    xfce = {coreConf = mkDesktopCoreConf "xfce.nix";};
   };
 
   mkCoreDesktopConfig = desktopEnv:
@@ -87,11 +92,8 @@
         desktopEnvConfig = desktopConfigs.${desktopEnv};
       in
         desktopImports
-        ++ [
-          globalDesktopConf
-          (lib.optional (desktopEnvConfig ? coreMod && desktopEnvConfig.coreMod != null) desktopEnvConfig.coreMod)
-          (lib.optional (desktopEnvConfig ? coreConf && desktopEnvConfig.coreConf != null) desktopEnvConfig.coreConf)
-        ];
+        ++ (lib.optional (desktopEnvConfig ? coreMod && desktopEnvConfig.coreMod != null) desktopEnvConfig.coreMod)
+        ++ (lib.optional (desktopEnvConfig ? coreConf && desktopEnvConfig.coreConf != null) desktopEnvConfig.coreConf);
 
   # make a new function with the following variable inputs
   mkUserConfig = {
@@ -101,7 +103,7 @@
     ... # this allows other parameters to enter the function (like self and such)
   }: let
     # args captures all the inputs in a single variable
-    userDir = "${self}/global/users/${mainUser}";
+    userDir = "${userPath}/${mainUser}";
     userHomeDir = "${userDir}/home";
     baseUserConfig = ["${userDir}/usr.nix"]; # the base user config, for nixos itself, username is from the variable username passed to the function
     homeUserConfig = [
@@ -111,7 +113,7 @@
         home-manager = {
           useGlobalPkgs = true;
           useUserPackages = true;
-          extraSpecialArgs = {inherit inputs self system;};
+          extraSpecialArgs = {inherit inputs self system mainUser;};
           users.${mainUser} = {
             imports =
               # define global inputs for all users
@@ -160,8 +162,8 @@
           lib.flatten [
             globalImports
             extraImports
-            (lib.optionals isImpermanent impermanenceImports)
-            (lib.optionals (desktopEnv != null) (mkCoreDesktopConfig desktopEnv))
+            (lib.optional isImpermanent impermanenceImports)
+            (lib.optional (desktopEnv != null) (mkCoreDesktopConfig desktopEnv))
 
             # Import the host-specific configuration
             "${hostPath}/${hostName}"
@@ -196,7 +198,7 @@ in {
 
   nixos-laptop-asus = mkHostConfig {
     hostName = "nixos-laptop-asus";
-    isImpermanent = true;
+    isImpermanent = false;
     desktopEnv = "kde";
     extraImports = [nixosHardware.asus-zephyrus-ga402];
     extraConfig = {

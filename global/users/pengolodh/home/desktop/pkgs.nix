@@ -49,7 +49,7 @@
     entangle # tethered camera control
 
     # [pdf]
-    zathura
+    kdePackages.okular
 
     # [documents]
     libreoffice-qt
@@ -64,7 +64,7 @@
     # [file management]
     #rclone-browser # qt rclone frontend, might not work, repo seems to be dead but author seems to be alive so who knows
     freefilesync # syncronisation client
-  
+    nextcloud-client
   ];
   dev-install = with pkgs.unstable; [
     # [environment]

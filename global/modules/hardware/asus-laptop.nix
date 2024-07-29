@@ -7,10 +7,7 @@
   # asus services # asusd is also enabled by default in the nixos-hardware module
   # -> from https://asus-linux.org/wiki/nixos/
   services = {
-    supergfxd = {
-      enable = true;
-      path = [pkgs.pciutils];
-    };
+    supergfxd.enable = true;
     asusd = {
       enable = true;
       enableUserService = true;

@@ -11,8 +11,8 @@
   qt-theme = pkgs.nordic;
   qt-theme-name = "Nordic";
   # it seems some kde apps have broken icons when not using breeze
-  qt-icon-theme = pkgs.kdePackages.breeze-icons;
-  qt-icon-theme-name = "Breeze-Dark";
+  qt-icon-theme = pkgs.papirus-icon-theme;
+  qt-icon-theme-name = "Papirus-Dark";
 in {
   stylix = {
     enable = true;
@@ -72,7 +72,7 @@ in {
       };
       qt = {
         enable = true;
-        platformTheme = "qtct";
+        platformTheme.name = "qtct";
         style.name = "kvantum";
       };
       programs.fuzzel.settings.main.icon-theme = "${icon-theme-name}";

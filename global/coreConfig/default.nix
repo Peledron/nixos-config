@@ -1,4 +1,5 @@
 [
+    ./conf.nix
     ./pkgs.nix
     ./security.nix
     ./locale.nix

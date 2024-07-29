@@ -5,24 +5,16 @@
   pkgs,
   lib,
   inputs,
+  mainUser,
   ...
 }: {
   nix.settings = {
     substituters = ["https://hyprland.cachix.org"];
     trusted-public-keys = ["hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="];
   };
-  #programs.hyprland.enable = true;
-  # deps and env
 
-  environment.systemPackages = with pkgs.unstable; [
-    # deps
-    xwayland
-    xdg-desktop-portal-gtk
-
-    # [polkit]
-    # --> used to elevate certain programs
+  environment.systemPackages = with pkgs; [
     polkit_gnome
-
     xdg-utils
   ];
   services.blueman.enable = true; # enable blueman daemon
@@ -71,8 +63,8 @@
       };
       initial_session = {
         command = "${pkgs.systemd}/bin/systemd-cat ${inputs.hyprland.packages.${pkgs.system}.hyprland}/bin/Hyprland &> /dev/null";
-        user = "pengolodh"; # not really config independant, but...
-      }; # auto-login for user pengolodh
+        user = "${mainUser}"; # not really config independant, but...
+      }; 
     };
   };
 
@@ -81,17 +73,17 @@
     enable = true;
     wlr.enable = true;
     extraPortals = [
-      pkgs.xdg-desktop-portal-gtk
-      pkgs.xdg-desktop-portal-wlr
+      pkgs.unstable.xdg-desktop-portal-gtk
+      pkgs.unstable.xdg-desktop-portal-hyprland
     ];
-    # config = {
-    #   Hyprland = {
-    #     default = [
-    #       "hyprland"
-    #       "gtk"
-    #     ];
-    #   };
-    #};
+    config = {
+      Hyprland = {
+        default = [
+          "hyprland"
+          "gtk"
+        ];
+      };
+    };
   };
   # ---
   environment.sessionVariables = {

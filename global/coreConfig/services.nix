@@ -60,5 +60,6 @@
     enable = true;
     package = pkgs.plocate;
     interval = "daily";
+    localuser = null; # silences a warning that updatedb cannot use any other user than root
   };
 }

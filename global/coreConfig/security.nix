@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  mainUser,
   ...
 }: {
   security = lib.mkDefault {
@@ -22,7 +23,7 @@
       */
       # -> extraRules does not seem to apply in doas.conf so I'll use extraConfig instead
       extraConfig = ''
-        permit persist keepenv pengolodh
+        permit persist keepenv ${mainUser}
       '';
     };
     # securty wrappers specify ownership,capabilities, etc... of certain files

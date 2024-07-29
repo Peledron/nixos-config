@@ -53,8 +53,7 @@
 
     # [hypr related]
     # -> bar
-    # waybar # -> package enabled via config as unstable, to allow for hyprland integration
-
+    # waybar 
     # -> screenshots
     grim
     slurp

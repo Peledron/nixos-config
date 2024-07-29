@@ -7,12 +7,11 @@
   self,
   ...
 }: {
-  imports =
-    import ./core; # --> the [(import file.nix)] ++ (import ./folder) imports the things seperatly, this prevents errors related to nested imports
   system.stateVersion = "23.11"; # initial system state
   #nixpkgs.config.allowunfree = true; # allow propietary software --> not needed when inheriting pkgs with allowfree = true; in flake
   # nix specific settings:
   nix = {
+    channel.enable = lib.mkForce true;
     # enable flakes so we can easily update the nixos config from a github repo
     package = pkgs.nixFlakes;
     registry.nixpkgs.flake = inputs.nixpkgs;
@@ -54,22 +53,4 @@
     # ---
   };
   # ---
-
-  # enable autoupgrade (runs every day)
-  system.autoUpgrade = {
-    enable = lib.mkDefault true;
-    allowReboot = lib.mkDefault false;
-    #channel = "https://nixos.org/channels/nixos-unstable"; # --> not needed with flakes channels are declared as input
-    flake = self.outPath;
-    flags = [
-      "-L" # print build logs
-      "--recreate-lock-file"
-      "--no-write-lock-file"
-      "--update-input"
-      "nixpkgs"
-      # -> note that flags need to be in a correct order, the resulting command is nixos-rebuild switch --flag1 --flag2 --... --flake {self} --update
-    ];
-    dates = "weekly";
-    randomizedDelaySec = "15min";
-  };
 }
