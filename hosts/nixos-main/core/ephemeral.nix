@@ -5,14 +5,12 @@
   system,
   inputs,
   impermanence,
-  disko,
-  disks,
   ...
 }: {
   # root partition is hosted on tmpfs, it is cleared by default on reboots (since it resides in memory)
 
   environment.persistence."/persist" = {
-    hideMounts = true; # For added security and less clutter in the system
+    hideMounts = true; # For added "security" and less clutter in the system
     directories = [
       "/etc/libvirt" # persist the libvirt configuration directory
       "/etc/NetworkManager/system-connections"

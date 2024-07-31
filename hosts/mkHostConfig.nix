@@ -2,27 +2,10 @@
   lib,
   self,
   inputs,
+  system,
+  pkgs,
   ...
 }: let
-  system = "x86_64-linux";
-  overlay-unstable = final: prev: {
-    unstable = import inputs.nixpkgs-unstable {
-      inherit system;
-      config.allowUnfree = true;
-    };
-  };
-
-  pkgs = import inputs.nixpkgs {
-    inherit system;
-    config.allowUnfree = true;
-    overlays = [
-      overlay-unstable
-    ];
-  };
-
-  # additional functionality
-  nixosHardware = inputs.nixos-hardware.nixosModules; # contains a host of pre-written hardware-configuration.nix files for various laptops and SBCs
-
   # DE related inputs
   plasmaManager = inputs.plasmaMan.homeManagerModules.plasma-manager;
   hyprlandCoreMod = inputs.hyprland.nixosModules.default;
@@ -139,8 +122,9 @@
     ];
   in
     baseUserConfig ++ (lib.optionals (lib.pathExists userHomeDir) homeUserConfig);
-
-  # Function to create a NixOS configuration for a host
+in {
+  # Function to create a NixOS configuration for a host, it is not in let in as the scope is used by other modules (aka ../hosts.nix)
+  #functions in the let in are limited to this file and cannot be called by other modules except when inherited
   mkHostConfig = {
     hostName,
     isImpermanent ? false,
@@ -174,48 +158,4 @@
               inherit mainUser desktopEnv extraHomeModules;
             });
       };
-in {
-  #==================#
-  # hardware:
-  #==================#
-  nixos-main = mkHostConfig {
-    hostName = "nixos-main";
-    isImpermanent = true;
-    desktopEnv = "hyprland";
-
-    extraConfig = {
-      disks = [
-        "/dev/disk/by-id/nvme-SAMSUNG_MZVLW512HMJP-000H1_S36ENX0HA25227"
-        "/dev/disk/by-id/nvme-SAMSUNG_MZVLB1T0HALR-00000_S3W6NX0N701285"
-        "/dev/disk/by-id/nvme-Samsung_SSD_980_PRO_2TB_S69ENX0TB18294T-part3"
-        "/dev/mapper/big--data-data--games"
-        "/dev/disk/by-id/ata-TOSHIBA_DT01ACA300_95QGT6KGS-part2"
-        "/dev/disk/by-id/ata-ST1000DM003-1ER162_Z4YC0ZWB-part1"
-      ];
-      rocmgpu = "GPU-8beaa8932431d436";
-    };
-  };
-
-  nixos-laptop-asus = mkHostConfig {
-    hostName = "nixos-laptop-asus";
-    isImpermanent = false;
-    desktopEnv = "kde";
-    extraImports = [nixosHardware.asus-zephyrus-ga402];
-    extraConfig = {
-    };
-  };
-
-  nixos-server-hp = mkHostConfig {
-    hostName = "nixos-server-hp";
-    isImpermanent = true;
-
-    extraConfig = {
-      disks = [
-        "/dev/disk/by-id/ata-SanDisk_SD8SBAT128G1002_162092404193"
-        "/dev/disk/by-id/ata-SanDisk_SD8SBAT128G1002_162092404193-part1"
-      ];
-      netport = "eno1";
-      vlans = [112 113 114];
-    };
-  };
 }

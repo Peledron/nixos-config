@@ -65,9 +65,9 @@
   }: {
     nixosConfigurations = (
       # see hosts for all the individual configs, we will import that into the flake like:
-      import ./hosts {
-        # inherit passes the variables in the flake to the packages in ./hosts (they can )
-        inherit (nixpkgs) lib;
+      import ./hosts.nix {
+        # inherit passes inputs of the flake to the modules
+        inherit (nixpkgs) lib; # inherit nixpkgs.lib as lib
         inherit self inputs;
       }
     );
