@@ -1,5 +1,7 @@
-[
-  ./services.nix
-  ./pkgs.nix
-  ./services.nix
-]
+{...}: {
+  imports = [
+    ./services.nix
+    ./pkgs.nix
+    ./services.nix
+  ];
+}

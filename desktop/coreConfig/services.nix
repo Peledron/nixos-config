@@ -71,7 +71,6 @@
 
   # enable either auto-cpufreq or tlp, tlp has more features like drive suspend, however auto-cpufreq seems to be better for cpu management (cooler and less power to my testing)
   services.auto-cpufreq = lib.mkDefault {
-    package = pkgs.unstable.auto-cpufreq;
     enable = false;
   };
 

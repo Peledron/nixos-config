@@ -1,10 +1,4 @@
-{
-  config,
-  pkgs,
-  callPackage,
-  lib,
-  ...
-}: {
+{pkgs, ...}: {
   # enable the xserver:
   services = {
     displayManager = {

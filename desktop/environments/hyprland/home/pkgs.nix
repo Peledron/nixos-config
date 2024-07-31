@@ -1,9 +1,5 @@
 {
-  config,
   pkgs,
-  lib,
-  system,
-  input,
   ...
 }: {
   home.packages = with pkgs; [

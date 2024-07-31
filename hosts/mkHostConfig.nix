@@ -22,10 +22,8 @@
   globalCoreConf = mkPath globalPath "coreConfig";
 
   # desktop config
-  desktopGlobalCoreConf = mkPath desktopPath "coreConf";
+  desktopSharedCoreConf = mkPath desktopPath "coreConfig";
   desktopEnvPath = mkPath desktopPath "environments";
-  desktopCoreConfPath = mkPath desktopEnvPath "core";
-  desktopHomeConfPath = mkPath desktopEnvPath "home";
 
   globalImports = [
     inputs.disko.nixosModules.disko
@@ -38,31 +36,28 @@
   ];
   desktopImports = [
     inputs.stylix.nixosModules.stylix
-    desktopGlobalCoreConf
+    desktopSharedCoreConf
   ];
 
-  # Desktop environment paths, these 2 functions take in de as input variable and add that variable to the end of the paths, to reduce redundant mkPath functions
-  mkDesktopCoreConf = de: mkPath desktopCoreConfPath de;
-  mkDestopHomeConf = de: mkPath desktopHomeConfPath de;
 
   desktopConfigs = {
     hyprland = {
-      coreConf = mkDesktopCoreConf "hyprland.nix";
-      homeConf = mkDestopHomeConf "hyprland/home.nix";
+      coreConf = desktopEnvPath "hyprland/coreConfig.nix";
+      homeConf = desktopEnvPath "hyprland/home";
       coreMod = hyprlandCoreMod;
       homeMod = hyprlandHomeMod;
     };
     kde = {
-      coreConf = mkDesktopCoreConf "kde.nix";
-      homeConf = mkDestopHomeConf "kde/home.nix";
+      coreConf = desktopEnvPath "kde/coreConfig.nix";
+      homeConf = desktopEnvPath "kde/home";
       homeMod = plasmaManager;
     };
-    gnome = {coreConf = mkDesktopCoreConf "gnome.nix";};
+    gnome = {coreConf = desktopEnvPath "gnome/coreConfig.nix";};
     sway = {
-      coreConf = mkDesktopCoreConf "sway.nix";
-      homeConf = mkDestopHomeConf "sway/home.nix";
+      coreConf = desktopEnvPath "sway/coreConfig.nix";
+      homeConf = desktopEnvPath "sway/home";
     };
-    xfce = {coreConf = mkDesktopCoreConf "xfce.nix";};
+    xfce = {coreConf = desktopEnvPath "xfce/coreConfig.nix";};
   };
 
   mkCoreDesktopConfig = desktopEnv:
@@ -140,7 +135,7 @@ in {
       lib.nixosSystem {
         inherit system pkgs;
         specialArgs = {
-          inherit inputs self hostName extraConfig; # inherit the variables
+          inherit inputs self hostName mainUser extraConfig; # inherit the variables
         };
         modules =
           lib.flatten [

@@ -1,4 +1,5 @@
-[
+{...}: {
+  imports = [
     ./conf.nix
     ./pkgs.nix
     ./security.nix
@@ -6,4 +7,5 @@
     ./services.nix
     ./env.nix
     ./usr.nix
-]
+  ];
+}

@@ -58,7 +58,9 @@ in {
     desktopEnv = "kde";
     extraImports = [inputs.nixos-hardware.nixosModules.asus-zephyrus-ga402];
     extraConfig = {
-      gpu = "amd";
+      hardware = {
+        gpu = "amd";
+      };
     };
   };
 

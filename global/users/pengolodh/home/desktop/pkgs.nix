@@ -66,16 +66,16 @@
     freefilesync # syncronisation client
     nextcloud-client
   ];
-  dev-install = with pkgs.unstable; [
+  dev-install = with pkgs; [
     # [environment]
     boxbuddy # gui for distrobox (requires /global/modules/virt/podman.nix to be included)
 
     # [programming langs]
     python3
-    go
+    unstable.go
     openjdk
     gcc
-    rustc
+    unstable.rustc
 
     # [programming tools]
     meld # qt diff tool
@@ -93,7 +93,8 @@
     nil # nix language server
 
     # [editors]
-    vscodium-fhs # fhs variant allows for plugins
+    unstable.vscodium-fhs # fhs variant allows for plugins
+    unstable.zed-editor
   ];
 
   gstreamer-install = with pkgs.gst_all_1; [
