@@ -38,26 +38,26 @@
     inputs.stylix.nixosModules.stylix
     desktopSharedCoreConf
   ];
-
-
+  # Desktop environment paths, this function takes in "de" as input variable and adds that variable to the end of the paths, to reduce redundant mkPath functions
+  mkDesktopConfig = de: mkPath desktopEnvPath de;
   desktopConfigs = {
     hyprland = {
-      coreConf = desktopEnvPath "hyprland/coreConfig.nix";
-      homeConf = desktopEnvPath "hyprland/home";
+      coreConf = mkDesktopConfig "hyprland/coreConfig.nix";
+      homeConf = mkDesktopConfig "hyprland/home";
       coreMod = hyprlandCoreMod;
       homeMod = hyprlandHomeMod;
     };
     kde = {
-      coreConf = desktopEnvPath "kde/coreConfig.nix";
-      homeConf = desktopEnvPath "kde/home";
+      coreConf = mkDesktopConfig "kde/coreConfig.nix";
+      homeConf = mkDesktopConfig "kde/home";
       homeMod = plasmaManager;
     };
-    gnome = {coreConf = desktopEnvPath "gnome/coreConfig.nix";};
+    gnome = {coreConf = mkDesktopConfig "gnome/coreConfig.nix";};
     sway = {
-      coreConf = desktopEnvPath "sway/coreConfig.nix";
-      homeConf = desktopEnvPath "sway/home";
+      coreConf = mkDesktopConfig "sway/coreConfig.nix";
+      homeConf = mkDesktopConfig "sway/home";
     };
-    xfce = {coreConf = desktopEnvPath "xfce/coreConfig.nix";};
+    xfce = {coreConf = mkDesktopConfig "xfce/coreConfig.nix";};
   };
 
   mkCoreDesktopConfig = desktopEnv:
@@ -65,7 +65,6 @@
     if !(desktopConfigs ? ${desktopEnv})
     then builtins.trace "Warning: Unknown desktop environment '${desktopEnv}'" []
     else
-      # after that
       let
         desktopEnvConfig = desktopConfigs.${desktopEnv};
       in

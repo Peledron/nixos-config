@@ -36,46 +36,41 @@ in {
       nixos-icons.enable = true; # no idea what this does
     };
   };
-  home-manager.sharedModules = [
-    {
-      stylix = {
-        enable = true;
-        autoEnable = true;
-        base16Scheme = "${pkgs.base16-schemes}/share/themes/nord.yaml";
-        polarity = "dark";
-        cursor = {
-          package = pkgs.gnome.adwaita-icon-theme;
-          name = "Adwaita";
-          size = 24;
+  home-manager.sharedModules = lib.mkMerge [
+    (lib.mkDefault [
+      {
+        stylix = {
+          enable = true;
+          autoEnable = true;
+          base16Scheme = "${pkgs.base16-schemes}/share/themes/nord.yaml";
+          polarity = "dark";
+          cursor = {
+            package = pkgs.gnome.adwaita-icon-theme;
+            name = "Adwaita";
+            size = 24;
+          };
+          image = "${wallpaper}";
+          opacity = {
+            applications = 1.0;
+            terminal = 0.7;
+            desktop = 1.0;
+            popups = 1.0;
+          };
+          targets.kitty.variant256Colors = true;
+          targets.fish.enable = false; # the nord theme is too low contrast with kitty to be readable
         };
-        image = "${wallpaper}";
-        opacity = {
-          applications = 1.0;
-          terminal = 0.7;
-          desktop = 1.0;
-          popups = 1.0;
+        home.packages = [
+          icon-theme
+          qt-icon-theme
+        ];
+        gtk.iconTheme = {
+          name = "${icon-theme-name}";
+          package = icon-theme;
         };
-        targets.kitty.variant256Colors = true;
-        targets.fish.enable = false; # the nord theme is too low contrast with kitty to be readable
-      };
-      home.packages = [
-        icon-theme
-        qt-icon-theme
-      ];
-      gtk.iconTheme = {
-        name = "${icon-theme-name}";
-        package = icon-theme;
-      };
-    }
-  ];
-  # make the following config only if kde is not used
-  config = lib.mkIf plasma6Disabled {
-    environment.sessionVariables = {
-      # [qt theming]
-      QT_QPA_PLATFORMTHEME = "qt5ct";
-      QT_STYLE_OVERRIDE = "kvantum";
-    };
-    home-manager.sharedModules = [
+      }
+    ])
+    # enable the following oiny if plasma6 is not enabled
+    (lib.mkIf plasma6Disabled [
       {
         qt = {
           enable = true;
@@ -158,6 +153,11 @@ in {
             ignored_applications=@Invalid()'';
         }; # from https://discourse.nixos.org/t/guide-to-installing-qt-theme/35523/2 and https://discourse.nixos.org/t/guide-to-installing-qt-theme/35523/3
       }
-    ];
+    ])
+  ];
+  environment.sessionVariables = lib.mkIf plasma6Disabled {
+    # [qt theming]
+    QT_QPA_PLATFORMTHEME = "qt5ct";
+    QT_STYLE_OVERRIDE = "kvantum";
   };
 }

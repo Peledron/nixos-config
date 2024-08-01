@@ -39,12 +39,12 @@ in {
     XDG_SESSION_DESKTOP = "Hyprland";
     XDG_SESSION_TYPE = "wayland";
     TERM = "${term}";
-  }; # something is broken in qt theming if done by hone-manager sessionvariables, seems that this fixed it
+  }; # something is broken in qt theming if done by hone-manager sessionvariables, switching to environment.sessionVariables fixed it
   # [hyprland config]
   wayland.windowManager.hyprland = {
     enable = true;
     package = inputs.hyprland.packages.${pkgs.system}.hyprland;
-    xwayland.enable = true; #
+    xwayland.enable = true;
     systemd = {
       # activates the dbus environment for hyprland on graphical-target, this is added to the conf file
       enable = true;
@@ -68,24 +68,16 @@ in {
       "$brightup" = "brightnessctl -q set +5% && ( echo $((`brightnessctl get` * 100 / `brightnessctl m`)) > ${wobsock} )"; # -> you need to have brightnessctl installed
       "$brightdown" = "brightnessctl -q set 5%- && ( echo $((`brightnessctl get` * 100 / `brightnessctl m`)) > ${wobsock} )";
 
-      # [env]
-      # -> best set this in ../env.nix, ill put some here cuz they are temporary
-      env = [
-        #"WLR_DRM_NO_ATOMIC,1" # for tearing support, not needed after kernel 6.8
-      ];
-
       # [exec]
       exec-once = [
         ## theming related
-        "configure-gtk" # -> see ../theming.nix for what this does
         "waypaper --restore"
         ## basic
-        "pypr"
         "dunst"
         "waybar"
         "sleep 2; pkill -USR1 waybar" # hides waybar on reload
         #"swayidle timeout 900 hyprlock timeout 1200 'hyprctl dispatch dpms off' resume 'hyprctl dispatch dpms on' timeout 1800 'systemctl suspend' before-sleep hyprlock"
-        "exec swayidle -w timeout 300 swaylock -f -i ${lockscreen} timeout 600 'hyprctl dispatch dpms off' resume 'hyprctl dispatch dpms on' before-sleep swaylock -f -i ${lockscreen}"
+        "swayidle -w timeout 300 swaylock -f -i ${lockscreen} timeout 600 'hyprctl dispatch dpms off' resume 'hyprctl dispatch dpms on' before-sleep swaylock -f -i ${lockscreen}"
         ## clipboard
         #"wl-paste -t text --watch clipman store --no-persist --max-items=999999" # -> clipman
         "wl-paste --type text --watch cliphist store" # cliphist, Stores only text data
@@ -95,10 +87,9 @@ in {
         "nm-applet"
         "blueman-applet"
         "mullvad-vpn"
-        #"nextcloud --background"
+        "nextcloud --background"
       ];
       exec = [
-        ## basic
         "rm -f ${wobsock} && mkfifo ${wobsock} && tail -f ${wobsock} | wob"
         #"swaybg -m fill -i ${wallpaper}"
       ];
@@ -142,8 +133,6 @@ in {
         ## border
         no_border_on_floating = true;
         border_size = 2;
-        #"col.active_border" = "rgba(33ccffee) rgba(00ff99ee) 45deg";
-        #"col.inactive_border" = "rgba(595959aa)";
 
         ## allow tearing
         allow_tearing = true; # see https://wiki.hyprland.org/Configuring/Tearing/
@@ -151,11 +140,11 @@ in {
       misc = {
         ## hypr related
         disable_hyprland_logo = true;
-        disable_splash_rendering = false;
+        disable_splash_rendering = true;
 
         ## window swallowing
         enable_swallow = true; # swallowing closes a program when a new program is launched from it, the new program "swallows" it
-        swallow_regex = "^(${term})$"; # swallow_regex only applies swallowing to the following, in this case my terminal application
+        swallow_regex = "^(${term})$"; # swallow_regex only applies swallowing to the following, in this case my terminal application, swallowing means that the window will be replaced by the application launched within
 
         ## performance/dispay
         mouse_move_enables_dpms = true;
@@ -171,12 +160,12 @@ in {
       # default layout selection is defined in general.layout, this defines the way that the layout works
       # See https://wiki.hyprland.org/Configuring/Master-Layout/
       dwindle = {
-        #  he split is determined dynamically with the W/H ratio of the parent node. If W > H, it’s side-by-side. If H > W, it’s top-and-bottom. You can make them permanent by enabling preserve_split
-        no_gaps_when_only = false;
+        #  the split is determined dynamically with the W/H ratio of the parent node. If W > H, it’s side-by-side. If H > W, it’s top-and-bottom. You can make them permanent by enabling preserve_split
+        no_gaps_when_only = 1; # whether to apply gaps when there is only one window on a workspace, aka. smart gaps. (default: disabled - 0) no border - 1, with border - 2 [0/1/2]
         pseudotile = true; # master switch for pseudotiling. Enabling is bound to {mod} + P in the keybinds section below
-        preserve_split = true; # you probably want this
-        smart_split = true;
-        smart_resizing = true;
+        preserve_split = false; # if enabled, the split (side/top) will not change regardless of what happens to the container, default is false, this means that if you close a window and repopen it, it will stay in the same split position
+        smart_split = true; # this overrides preserve_split, it will split the window at the position of the mouse cursor
+        smart_resizing = true; 
       };
 
       # [look and feel]
@@ -192,7 +181,6 @@ in {
         shadow_offset = "2 2";
         shadow_range = 4;
         shadow_render_power = 2;
-        #"col.shadow" = "0x66000000";
 
         blur = {
           #popups = true; # whether to blur popups (e.g. right-click menus), this fixes issues with konsole and such
@@ -408,7 +396,8 @@ in {
     "hypr/hyprgame.sh".text = ''
       #!/usr/bin/env bash
 
-    '';*/
+    '';
+    */
     "hypr/hyprlock.conf".text = ''
       general {
         grace = 10

@@ -15,9 +15,14 @@
     polkit_gnome
     xdg-utils
   ];
-  programs.dconf.enable = true; # better compatiblity for costum setups (gnome apps)
+  programs = {
+    hyprland = {
+      enable = true;
+      package = inputs.hyprland.packages.${pkgs.system}.hyprland;
+    };
+    dconf.enable = true; # better compatiblity for costum setups (gnome apps)
+  };
 
-  #
   services = {
     blueman.enable = true; # enable blueman daemon
     gvfs.enable = true; # enable the virtual file system, so that u can see and mount local/remote disks in gtk based filemanagers (and pcmanfm-qt)
