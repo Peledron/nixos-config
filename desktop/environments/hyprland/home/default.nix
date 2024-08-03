@@ -13,8 +13,7 @@
 in {
   imports =
     [
-      ./pkgs.nix
-      ./xdg.nix
+      ./pkgs.nix 
       #(lib.mkIf (extraConfig.hardware.gpu == "nvidia") ./nvidia.nix)
     ]
     ++ (importDir ./configs);

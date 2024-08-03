@@ -122,7 +122,7 @@ in {
           adminpassFile = config.age.secrets.nextcloud-ADMIN-password.path;
         };
         database.createLocally = true;
-        extraOptions.enabledPreviewProviders = [
+        settings.enabledPreviewProviders = [
           "OC\\Preview\\BMP"
           "OC\\Preview\\GIF"
           "OC\\Preview\\JPEG"

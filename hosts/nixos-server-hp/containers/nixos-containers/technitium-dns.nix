@@ -100,6 +100,7 @@ in {
         DNS_SERVER_BLOCK_LIST_URLS = "https://big.oisd.nl, https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/multi.txt, https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/tif-onlydomains.txt, https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/doh.txt, https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/hoster-onlydomains.txt, https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/gambling-onlydomains.txt, https://adguardteam.github.io/HostlistsRegistry/assets/filter_7.txt, https://adguardteam.github.io/HostlistsRegistry/assets/filter_12.txt, https://adguardteam.github.io/HostlistsRegistry/assets/filter_9.txt, https://adguardteam.github.io/HostlistsRegistry/assets/filter_30.txt";
       };
       #environment.systemPackages = with pkgs; [libmsquic];
+      system.stateVersion = "24.05";
     };
   };
 }

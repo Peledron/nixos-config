@@ -1,6 +1,5 @@
 # networking options
 {
-  config,
   lib,
   pkgs,
   self,

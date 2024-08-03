@@ -4,10 +4,8 @@
   pkgs,
   ...
 }: {
-  stylix.targets.kitty.variant256Colors = true;
   programs.kitty = {
     enable = true;
-    theme = lib.mkDefault "Nord"; # can be any from https://github.com/kovidgoyal/kitty-themes/tree/master/themes
 
     font = lib.mkDefault {
       name = "Ubuntu Nerd Font Mono";
