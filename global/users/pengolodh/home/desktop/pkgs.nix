@@ -21,7 +21,7 @@
 
     # [remote desktop]
     remmina # spice,rdp and vnc client
-    unstable.lan-mouse # software kvm switch with support for wlroots and other wayland compositors, also windows
+    #unstable.lan-mouse # software kvm switch with support for wlroots and other wayland compositors, also windows
 
     # [security]
     gnome.seahorse
@@ -39,9 +39,10 @@
     #heroic # -> i am using the flatpak
     prismlauncher
     glfw-wayland-minecraft
-    #kdePackages.kmousetool # autoclicker
+
     # [chat]
-    # armcord # -> i am using the flatpak
+    unstable.armcord 
+    unstable.fluffychat #matrix
 
     # [steaming]
     #obs-studio # -> if I enable it here it collides with the unwrapped version provided by programs.obs in ./configs/obs.nix
@@ -63,7 +64,7 @@
 
     # [file management]
     #rclone-browser # qt rclone frontend, might not work, repo seems to be dead but author seems to be alive so who knows
-    freefilesync # syncronisation client
+    freefilesync # syncronisation software
     nextcloud-client
   ];
   dev-install = with pkgs; [
@@ -94,7 +95,6 @@
 
     # [editors]
     unstable.vscodium-fhs # fhs variant allows for plugins
-    unstable.zed-editor
   ];
 
   gstreamer-install = with pkgs.gst_all_1; [

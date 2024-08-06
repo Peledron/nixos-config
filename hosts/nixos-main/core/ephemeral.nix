@@ -4,7 +4,6 @@
   pkgs,
   system,
   inputs,
-  impermanence,
   ...
 }: {
   # root partition is hosted on tmpfs, it is cleared by default on reboots (since it resides in memory)

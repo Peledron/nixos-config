@@ -3,7 +3,7 @@
   #url = "https://gitlab.com/pengolodh/nixos-config";
   #rev = "main";
   inputs = {
-    # main nix repo
+    # main nixpkgs repos
     nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
@@ -17,6 +17,11 @@
     # impermanent setup
     impermanence.url = "github:nix-community/impermanence";
     persist-retro.url = "github:Geometer1729/persist-retro"; # persist-retro checks if a folder marked by already exists and moves the files to the peristent location
+    # secure boot support
+    lanzaboote = {
+      url = "github:nix-community/lanzaboote";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
 
     # hardware support for various devices
     nixos-hardware.url = "github:NixOS/nixos-hardware/master"; # see https://github.com/NixOS/nixos-hardware for full list
@@ -27,7 +32,8 @@
       inputs.nixpkgs.follows = "nixpkgs"; # sets home-manager to use the nix-package-manager packages instead of its own internal ones
     };
     stylix.url = "github:danth/stylix"; # automatic styling of programs
-
+    
+    # hyprland stuff
     hyprland = {
       type = "git";
       url = "https://github.com/hyprwm/Hyprland";

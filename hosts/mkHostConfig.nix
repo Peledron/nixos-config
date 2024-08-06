@@ -34,6 +34,9 @@
     inputs.impermanence.nixosModules.impermanence
     inputs.persist-retro.nixosModules.persist-retro
   ];
+  secureBootImports = [
+    inputs.lanzaboote.nixosModules.lanzaboote
+  ];
   desktopImports = [
     inputs.stylix.nixosModules.stylix
     desktopSharedCoreConf
@@ -122,6 +125,7 @@ in {
   mkHostConfig = {
     hostName,
     isImpermanent ? false,
+    secureBoot ? false,
     mainUser ? "pengolodh",
     desktopEnv ? null,
     extraConfig ? {},
@@ -134,13 +138,14 @@ in {
       lib.nixosSystem {
         inherit system pkgs;
         specialArgs = {
-          inherit inputs self hostName mainUser extraConfig; # inherit the variables
+          inherit inputs self hostName mainUser extraConfig isImpermanent; # inherit the variables
         };
         modules =
           lib.flatten [
             globalImports
             extraImports
             (lib.optional isImpermanent impermanenceImports)
+            (lib.optional secureBoot secureBootImports)
             (lib.optional (desktopEnv != null) (mkCoreDesktopConfig desktopEnv))
 
             # Import the host-specific configuration

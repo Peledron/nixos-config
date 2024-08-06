@@ -5,6 +5,10 @@
   mainUser,
   ...
 }: {
+  networking.firewall = lib.mkDefault {
+    enable = true;
+    allowedTCPPorts = config.services.openssh.ports;
+  };
   security = lib.mkDefault {
     polkit.enable = true;
     sudo.enable = false; # disable sudo by default
