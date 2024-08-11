@@ -19,10 +19,19 @@
     hyprland = {
       enable = true;
       package = inputs.hyprland.packages.${pkgs.system}.hyprland;
+      portalPackage = pkgs.xdg-desktop-portal-wlr;
     };
     dconf.enable = true; # better compatiblity for costum setups (gnome apps)
   };
-
+  xdg.portal = {
+    enable = true;
+    xdgOpenUsePortal = true;
+    wlr.enable = true; 
+    extraPortals = [
+      pkgs.xdg-desktop-portal-gtk
+    ];
+    config.hyprland.default = ["wlr" "gtk"]; # wlr portal is less featured but actually works, both for screencasting and opening links
+  };
   services = {
     blueman.enable = true; # enable blueman daemon
     gvfs.enable = true; # enable the virtual file system, so that u can see and mount local/remote disks in gtk based filemanagers (and pcmanfm-qt)
@@ -42,7 +51,7 @@
         };
         initial_session = {
           command = "${pkgs.systemd}/bin/systemd-cat ${inputs.hyprland.packages.${pkgs.system}.hyprland}/bin/Hyprland &> /dev/null";
-          user = "${mainUser}"; # not really config independant, but...
+          user = "${mainUser}"; 
         };
       };
     };

@@ -4,5 +4,4 @@
     ./filesystems.nix
     ./ephemeral.nix
     ./networking.nix
-    ./env.nix
 ]

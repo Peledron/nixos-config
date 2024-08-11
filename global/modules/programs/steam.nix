@@ -1,5 +1,4 @@
 {
-  config,
   lib,
   pkgs,
   ...
@@ -15,14 +14,7 @@
             libnotify
           ];
       };
-      gamescopeSession = {
-        enable = true;
-        args = [
-          "-r 144"
-          "--rt" # force real time
-          "--adaptive-sync"
-        ];
-      };
+      gamescopeSession.enable = true;
     };
     gamescope = {
       enable = true;
@@ -36,8 +28,6 @@
     };
   };
   environment.systemPackages = with pkgs; [
-    gamescope
-    gamemode
     protontricks
   ];
 }

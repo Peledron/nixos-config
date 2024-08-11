@@ -6,8 +6,8 @@
   system,
   ...
 }: let
-  wallpaper = "${self}/global/config/desktop/environments/hyprland/configs/non-nix/wallpapers/wallpaper.png";
-  lockscreen = "${self}/global/config/desktop/environments/hyprland/configs/non-nix/wallpapers/lockscreen.png";
+  wallpaper = ./non-nix/wallpapers/wallpaper.png;
+  lockscreen = ./non-nix/wallpapers/lockscreen.png;
   wobsock = "$XDG_RUNTIME_DIR/wob.sock"; # file where values that wob needs for showing levels are stored
   mod = "SUPER";
 
@@ -75,7 +75,7 @@ in {
         ## basic
         "dunst"
         "waybar"
-        "sleep 2; pkill -USR1 waybar" # hides waybar on reload
+        #"sleep 2; pkill -USR1 waybar" # hides waybar on reload
         #"swayidle timeout 900 hyprlock timeout 1200 'hyprctl dispatch dpms off' resume 'hyprctl dispatch dpms on' timeout 1800 'systemctl suspend' before-sleep hyprlock"
         "swayidle -w timeout 300 swaylock -f -i ${lockscreen} timeout 600 'hyprctl dispatch dpms off' resume 'hyprctl dispatch dpms on' before-sleep swaylock -f -i ${lockscreen}"
         ## clipboard
@@ -86,7 +86,7 @@ in {
         "vorta -d"
         "nm-applet"
         "blueman-applet"
-        "mullvad-vpn"
+        #"mullvad-vpn"
         "nextcloud --background"
       ];
       exec = [
@@ -131,7 +131,7 @@ in {
         gaps_in = 3;
         gaps_out = 3;
         ## border
-        no_border_on_floating = true;
+        no_border_on_floating = false;
         border_size = 2;
 
         ## allow tearing

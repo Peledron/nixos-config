@@ -11,7 +11,6 @@
     # [wine]
     wineWowPackages.staging
     winetricks
-
     # [cli]
     # file sync
   ];
@@ -21,12 +20,12 @@
 
     # [remote desktop]
     remmina # spice,rdp and vnc client
-    #unstable.lan-mouse # software kvm switch with support for wlroots and other wayland compositors, also windows
+    freerdp3 # im using this for winapps, see https://nowsci.com/#/winapps/?id=winapps-for-linux
 
     # [security]
     gnome.seahorse
     eid-mw # belgium eid middleware
-    mullvad-vpn
+    #mullvad-vpn
 
     # [backup-solution]
     vorta
@@ -42,7 +41,7 @@
 
     # [chat]
     unstable.armcord 
-    unstable.fluffychat #matrix
+    unstable.element-desktop-wayland #matrix
 
     # [steaming]
     #obs-studio # -> if I enable it here it collides with the unwrapped version provided by programs.obs in ./configs/obs.nix

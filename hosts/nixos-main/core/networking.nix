@@ -5,20 +5,10 @@
   hostName,
   ...
 }: {
-  networking = {
-    useDHCP = lib.mkDefault true; # set all interfaces to use dhcp by default
+  networking = lib.mkDefault {
+    useDHCP = true; # set all interfaces to use dhcp by default
     hostName = "${hostName}"; # Define your hostname
     networkmanager.enable = true; # Easiest to use and most distros use this by default
-    # ---
-
-    firewall = lib.mkAfter {
-      # define allowed ports:
-      allowedTCPPorts = [
-
-      ];
-      allowedUDPPorts = [
-      ];
-    };
   };
   systemd.network.wait-online.timeout = 1; # Time to wait for the network to come online, in seconds. Set to 0 to disable, it slows down boot and since this is a desktop machine there is no need for this service (as far as I understand)
 }
