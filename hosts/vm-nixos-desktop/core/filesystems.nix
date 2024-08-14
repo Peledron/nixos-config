@@ -21,7 +21,7 @@
     disk = {
       root = {
         type = "disk";
-        device = builtins.elemAt extraConfig.disks 0; # this selects the first entry in the disks array that we defined in ${self}/default.nix
+        device = builtins.elemAt extraVar.disks 0; # this selects the first entry in the disks array that we defined in ${self}/default.nix
         content = {
           type = "gpt"; # set the partition table
 

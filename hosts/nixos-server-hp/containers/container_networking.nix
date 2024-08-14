@@ -4,10 +4,10 @@
   pkgs,
   system,
   inputs,
-  extraConfig,
+  extraVar,
   ...
 }: let
-  vlan_local_container_name = "vlan${builtins.toString (builtins.elemAt extraConfig.vlans 2)}cont";
+  vlan_local_container_name = "vlan${builtins.toString (builtins.elemAt extraVar.vlans 2)}cont";
   br_local_container_name = "br0cont";
 in {
   # enable ip forwarding

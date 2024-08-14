@@ -1,6 +1,6 @@
 {
   lib,
-  extraConfig,
+  extraVar,
   ...
 }: let
   # this function will import any .nix files in the given directory, it will exclude anything else (like sub-directories)
@@ -13,8 +13,8 @@
 in {
   imports =
     [
-      ./pkgs.nix 
-      #(lib.mkIf (extraConfig.hardware.gpu == "nvidia") ./nvidia.nix)
+      ./pkgs.nix
+      #(lib.mkIf (extraVar.hardware.gpu == "nvidia") ./nvidia.nix)
     ]
     ++ (importDir ./configs);
 }

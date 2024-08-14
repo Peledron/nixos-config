@@ -28,6 +28,7 @@
   globalImports = [
     inputs.disko.nixosModules.disko
     inputs.agenix.nixosModules.default
+    "${hostPath}/hardwareConfig.nix"
     globalCoreConf
   ];
   impermanenceImports = [
@@ -67,13 +68,12 @@
   # this function allows for error handling of desktop environments, it will check if the value given to the function (aka the name of the desktop env) exists in the desktopConfigs
     if !(desktopConfigs ? ${desktopEnv})
     then builtins.trace "Warning: Unknown desktop environment '${desktopEnv}'" []
-    else
-      let
-        desktopEnvConfig = desktopConfigs.${desktopEnv};
-      in
-        desktopImports
-        ++ (lib.optional (desktopEnvConfig ? coreMod && desktopEnvConfig.coreMod != null) desktopEnvConfig.coreMod)
-        ++ (lib.optional (desktopEnvConfig ? coreConf && desktopEnvConfig.coreConf != null) desktopEnvConfig.coreConf);
+    else let
+      desktopEnvConfig = desktopConfigs.${desktopEnv};
+    in
+      desktopImports
+      ++ (lib.optional (desktopEnvConfig ? coreMod && desktopEnvConfig.coreMod != null) desktopEnvConfig.coreMod)
+      ++ (lib.optional (desktopEnvConfig ? coreConf && desktopEnvConfig.coreConf != null) desktopEnvConfig.coreConf);
 
   # make a new function with the following variable inputs
   mkUserConfig = {
@@ -128,17 +128,18 @@ in {
     secureBoot ? false,
     mainUser ? "pengolodh",
     desktopEnv ? null,
-    extraConfig ? {},
+    moduleConfig ? {},
+    extraVar ? {},
     extraImports ? [],
     extraHomeModules ? [],
     ... # this allows other parameters to enter the function (like self and such)
   }:
-    assert builtins.isAttrs extraConfig || builtins.trace "Warning: extraConfig should be an attribute set" true; # ensures that extraconfig is an attribute set
+    assert builtins.isAttrs extraVar || builtins.trace "Warning: extraVar should be an attribute set" true; # ensures that extraconfig is an attribute set
     
       lib.nixosSystem {
         inherit system pkgs;
         specialArgs = {
-          inherit inputs self hostName mainUser extraConfig isImpermanent; # inherit the variables
+          inherit inputs self hostName mainUser extraVar isImpermanent; # inherit the variables
         };
         modules =
           lib.flatten [

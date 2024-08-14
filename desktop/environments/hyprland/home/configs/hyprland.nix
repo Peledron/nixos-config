@@ -49,6 +49,7 @@ in {
       # activates the dbus environment for hyprland on graphical-target, this is added to the conf file
       enable = true;
       variables = ["--all"];
+      enableXdgAutostart = true; # Whether to enable autostart of applications using {manpage}systemd-xdg-autostart-generator(8).
     };
     plugins = [
       inputs.hyprsplit.packages.${pkgs.system}.hyprsplit

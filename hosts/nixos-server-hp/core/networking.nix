@@ -4,12 +4,12 @@
   lib,
   pkgs,
   hostName,
-  extraConfig,
+  extraVar,
   ...
 }: let
-  vlan_management_name = "vlan${builtins.toString (builtins.elemAt extraConfig.vlans 0)}mngmnt";
-  vlan_cloudflared_name = "vlan${builtins.toString (builtins.elemAt extraConfig.vlans 1)}cloudfld";
-  vlan_local_container_name = "vlan${builtins.toString (builtins.elemAt extraConfig.vlans 2)}cont";
+  vlan_management_name = "vlan${builtins.toString (builtins.elemAt extraVar.vlans 0)}mngmnt";
+  vlan_cloudflared_name = "vlan${builtins.toString (builtins.elemAt extraVar.vlans 1)}cloudfld";
+  vlan_local_container_name = "vlan${builtins.toString (builtins.elemAt extraVar.vlans 2)}cont";
 in {
   services.cloudflared = {
     enable = true;
@@ -23,9 +23,9 @@ in {
     useNetworkd = true;
     /*
     vlans = {
-      ${vlan_management_name} = { id= builtins.elemAt extraConfig.vlans 0 ; interface="${extraConfig.netport}"; };
-      ${vlan_cloudflared_name} = { id=builtins.elemAt extraConfig.vlans 1; interface="${extraConfig.netport}"; };
-      ${vlan_local_container_name} = { id=builtins.elemAt extraConfig.vlans 2; interface="${extraConfig.netport}"; };
+      ${vlan_management_name} = { id= builtins.elemAt extraVar.vlans 0 ; interface="${extraVar.netport}"; };
+      ${vlan_cloudflared_name} = { id=builtins.elemAt extraVar.vlans 1; interface="${extraVar.netport}"; };
+      ${vlan_local_container_name} = { id=builtins.elemAt extraVar.vlans 2; interface="${extraVar.netport}"; };
     };
     */
     # set firewall settings:
@@ -62,21 +62,21 @@ in {
           Kind = "vlan";
           Name = "${vlan_management_name}";
         };
-        vlanConfig.Id = builtins.elemAt extraConfig.vlans 0;
+        vlanConfig.Id = builtins.elemAt extraVar.vlans 0;
       };
       "20-${vlan_cloudflared_name}_init" = {
         netdevConfig = {
           Kind = "vlan";
           Name = "${vlan_cloudflared_name}";
         };
-        vlanConfig.Id = builtins.elemAt extraConfig.vlans 1;
+        vlanConfig.Id = builtins.elemAt extraVar.vlans 1;
       };
       "20-${vlan_local_container_name}_init" = {
         netdevConfig = {
           Kind = "vlan";
           Name = "${vlan_local_container_name}";
         };
-        vlanConfig.Id = builtins.elemAt extraConfig.vlans 2;
+        vlanConfig.Id = builtins.elemAt extraVar.vlans 2;
       };
     };
 
@@ -88,8 +88,8 @@ in {
         DNS = ["1.1.1.2" "1.0.0.2"];
       };
     in {
-      "30-${extraConfig.netport}_conf" = {
-        matchConfig.Name = "${extraConfig.netport}";
+      "30-${extraVar.netport}_conf" = {
+        matchConfig.Name = "${extraVar.netport}";
         vlan = [
           "${vlan_management_name}"
           "${vlan_cloudflared_name}"

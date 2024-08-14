@@ -4,13 +4,13 @@
   lib,
   pkgs,
   disko,
-  extraConfig,
+  extraVar,
   ...
 }: {
   # we use disko to define the system disks we want nixos to be installed on, this way they will be partitioned automatically when we use a tool like nixos-anywhere
   disko.devices = {
     disk.nixos-root = {
-      device = extraConfig.disks.linuxRoot;
+      device = extraVar.disks.linuxRoot;
       type = "disk";
       content = {
         type = "gpt";
@@ -71,7 +71,7 @@
       };
     };
     disk.home = {
-      device = extraConfig.disks.linuxHome;
+      device = extraVar.disks.linuxHome;
       type = "disk";
       content = {
         type = "gpt";
@@ -128,19 +128,19 @@
       depends = ["home"];
     };
     "/home/pengolodh/Data/Windows/windows-root" = {
-      device = extraConfig.disks.windowsRoot;
+      device = extraVar.disks.windowsRoot;
       fsType = "ntfs";
       options = ["defaults" "noatime" "nofail" "uid=1000" "gid=1000" "rw" "user" "exec" "umask=000"];
       depends = ["/home"];
     };
     "/home/pengolodh/Data/Windows/windows-data-main" = {
-      device = extraConfig.disks.windowsDataMain;
+      device = extraVar.disks.windowsDataMain;
       fsType = "ntfs";
       options = ["defaults" "noatime" "nofail" "uid=1000" "gid=1000" "rw" "user" "exec" "umask=000"];
       depends = ["/home"];
     };
     "/home/pengolodh/Data/Windows/windows-data-mods" = {
-      device = extraConfig.disks.windowsDataMods;
+      device = extraVar.disks.windowsDataMods;
       fsType = "ntfs";
       options = ["defaults" "noatime" "nofail" "uid=1000" "gid=1000" "rw" "user" "exec" "umask=000"];
       depends = ["/home"];
@@ -152,8 +152,8 @@
   environment.etc.crypttab = {
     enable = true;
     text = ''
-      cr_home ${extraConfig.disks.linuxHome}-part1 /nix/keys/data-home.key luks,discard
-      cr_games ${extraConfig.disks.linuxDataGames} /nix/keys/data-games.key luks
+      cr_home ${extraVar.disks.linuxHome}-part1 /nix/keys/data-home.key luks,discard
+      cr_games ${extraVar.disks.linuxDataGames} /nix/keys/data-games.key luks
     '';
   };
   # ---

@@ -4,7 +4,7 @@
   lib,
   pkgs,
   disko,
-  extraConfig,
+  extraVar,
   ...
 }: {
   # set encrypted volume to be mounted as nixos-main at boot
@@ -21,7 +21,7 @@
     disk = {
       root = {
         type = "disk";
-        device = builtins.elemAt extraConfig.disks 0; # this selects the first entry in the disks array that we defined in ${self}/hosts/default.nix
+        device = builtins.elemAt extraVar.disks 0; # this selects the first entry in the disks array that we defined in ${self}/hosts/default.nix
         content = {
           type = "table"; # set the partition table
           format = "msdos";
@@ -84,7 +84,7 @@
                     };
                   };
                 };
-                postCreateHook = "mount ${builtins.elemAt extraConfig.disks 1} /mnt ; btrfs subvolume snapshot -r /mnt/root /mnt/root-blank; umount /mnt"; # create the initial empty subvolume snapshot that we will return to at each boot
+                postCreateHook = "mount ${builtins.elemAt extraVar.disks 1} /mnt ; btrfs subvolume snapshot -r /mnt/root /mnt/root-blank; umount /mnt"; # create the initial empty subvolume snapshot that we will return to at each boot
               };
             }
             # declare more partitons here:
