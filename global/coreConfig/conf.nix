@@ -7,7 +7,10 @@
   self,
   ...
 }: {
-  system.stateVersion = "23.11"; # initial system state
+  system = {
+    stateVersion = "23.11"; # initial system state
+    autoUpgrade = {};
+  };
   #nixpkgs.config.allowunfree = true; # allow propietary software --> not needed when inheriting pkgs with allowfree = true; in flake
   # nix specific settings:
   nix = {
@@ -43,14 +46,11 @@
       #enable deduplication on the nix-store:
       # --> is generally safe, note that it will take up a bit of cpu and io recourses so disable it if your pc is too slow to handle it (if you are experience io-delay or high cpu usage)
       auto-optimise-store = true;
-      # ---
 
       # set users as trusted to run nix commands (@group allows entire group)
       trusted-users = [
         "@wheel"
       ];
     };
-    # ---
   };
-  # ---
 }

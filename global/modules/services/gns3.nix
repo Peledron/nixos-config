@@ -62,12 +62,10 @@
   };
 
   environment.systemPackages = with pkgs; [
-    gns3-gui
     gns3-server
     ubridge
     vpcs
     dynamips
-    wireshark-qt
-    virt-viewer
   ];
+  # add     wireshark-qt and virt-viewer to your home-manager package list
 }

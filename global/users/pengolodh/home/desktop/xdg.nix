@@ -12,7 +12,7 @@
       enable = true;
       defaultApplications = {
         "text/plain" = ["codium.desktop"];
-        "application/pdf" = ["org.pwmt.zathura-pdf-mupdf.desktop"];
+        "application/pdf" = ["org.kde.okular.desktop"];
         # [default browser]
         "text/html" = ["firefox.desktop"];
         "x-scheme-handler/http" = ["firefox.desktop"];
@@ -27,7 +27,7 @@
       };
       associations.added = {
         "text/plain" = ["codium.desktop"];
-        "application/pdf" = ["org.pwmt.zathura-pdf-mupdf.desktop"];
+        "application/pdf" = ["org.kde.okular.desktop"];
         # [default browser]
         "text/html" = ["firefox.desktop"];
         "x-scheme-handler/http" = ["firefox.desktop"];

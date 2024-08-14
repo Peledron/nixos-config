@@ -12,7 +12,7 @@
     wineWowPackages.staging
     winetricks
     # [cli]
-    # file sync
+    
   ];
   gui-install = with pkgs; [
     # [networking]
@@ -65,6 +65,8 @@
     #rclone-browser # qt rclone frontend, might not work, repo seems to be dead but author seems to be alive so who knows
     freefilesync # syncronisation software
     nextcloud-client
+    # [hardware-control]
+    via # keyboard control software
   ];
   dev-install = with pkgs; [
     # [environment]

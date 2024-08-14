@@ -10,6 +10,12 @@
   cli-install = with pkgs; [
     # [shell]
     fish
+    wget
+    curl
+    rsync
+    rclone
+    tree
+    inetutils # package containing various network tools like traceroute
     bat # cat replacement with syntax highlighting, etc
     eza # colorfull ls, easier to read
     zoxide # cd replacement, allows for cd-ing into subdirectories, etc..

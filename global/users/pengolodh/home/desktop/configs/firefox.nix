@@ -2,9 +2,10 @@
   config,
   pkgs,
   lib,
+  mainUser,
   ...
 }: {
-  stylix.targets.firefox.profileNames = ["pengolodh"];
+  stylix.targets.firefox.profileNames = [mainUser];
   # a lot of these options come from: https://discourse.nixos.org/t/declare-firefox-extensions-and-settings/36265
   programs.firefox = {
     enable = true;
@@ -175,9 +176,9 @@
     # --> needed for extention settings to work
     profiles = {
       # see https://mipmip.github.io/home-manager-option-search/ firefox for more options
-      pengolodh = {
+      ${mainUser} = {
         id = 0;
-        name = "pengolodh";
+        name = mainUser;
         isDefault = true;
 
         # extentions :
@@ -298,7 +299,7 @@
               definedAliases = ["@ho"];
             };
             "NixOS Wiki" = {
-              urls = [{template = "https://nixos.wiki/index.php?search={searchTerms}";}];
+              urls = [{template = "https://wiki.nixos.org/w/index.php?search={searchTerms}";}];
               iconUpdateURL = "https://nixos.wiki/favicon.png";
               updateInterval = 24 * 60 * 60 * 1000; # every 24 hrs (in ms)
               definedAliases = ["@nw"];
@@ -339,12 +340,10 @@
 
           # [video accel]
           # --> for nvidia see https://github.com/pop-os/nvidia-vaapi-driver#firefox
-          #"gfx.x11-egl.force-enabled" = true;
           "media.av1.enabled" = true; # set to true if your gpu supports av1 decoding
           "media.ffmpeg.vaapi.enabled" = true;
           "media.hardware-video-decoding.force-enabled" = true;
           "media.rdd-ffmpeg.enabled" = true;
-          # "widget.dmabuf.force-enabled" = true; #  only enable on older nvidia cards (pre pascal or using 470 driver)
 
           # [others]
           "widget.use-xdg-desktop-portal" = true; # tells firefox to use xdg-desktop-portal

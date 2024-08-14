@@ -9,30 +9,17 @@
   environment.systemPackages = with pkgs;
     [
       home-manager
-      # ---
       # basic tools
       # [system]
-      fish
-      git
-      wget
-      curl
-      rsync
-      rclone
-      tree
-      killall
       pciutils
       usbutils
-      inetutils # package containing various network tools like traceroute
       lm_sensors
-      powertop
-      vim
       # [nix-tools]
       nix-ld # Run unpatched dynamic binaries on NixOS https://github.com/Mic92/nix-ld, very usefull for running specific software not available otherwise
       nh # simplified nix cli
       # [security]
       # doas is enabled by default in security.nix
       gnupg
-      fail2ban
       # [filesystem]
       fuse
       cifs-utils

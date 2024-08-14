@@ -4,6 +4,7 @@
   config,
   lib,
   pkgs,
+  mainUser,
   ...
 }: {
   # see all options  on https://search.nixos.org/options?channel=unstable&from=0&size=50&sort=relevance&type=packages&query=services
@@ -15,9 +16,12 @@
       PasswordAuthentication = false;
       KbdInteractiveAuthentication = false; # Change to false to disable passwords entirely
       PermitRootLogin = "no";
+      X11Forwarding = false;
+      AllowUsers = [mainUser];
     };
     ports = [22001];
   };
+  networking.firewall.allowedTCPPorts = config.services.openssh.ports;
   # ----
 
   # fail2ban
@@ -34,6 +38,13 @@
       # external IP's
       #"8.8.8.8"
     ];
+    bantime = "24h"; # Ban IPs for one day on the first ban
+    bantime-increment = {
+      enable = true; # Enable increment of bantime after each violation
+      multipliers = "1 2 4 8 16 32 64"; # each incriment will chrange the multiplier to the next entry in this list, so 1*2 1*4, etc
+      maxtime = "168h"; # Do not ban for more than 1 week
+      overalljails = true; # Calculate the bantime based on all the violations
+    };
   };
   # ---
 
@@ -42,7 +53,7 @@
   # ---
 
   # zramswap
-  zramSwap.enable = true;
+  zramSwap.enable = true; # will create a compressed swapdevice with half the system ram by default
   # ---
 
   # oomkiller
