@@ -28,7 +28,6 @@
   globalImports = [
     inputs.disko.nixosModules.disko
     inputs.agenix.nixosModules.default
-    "${hostPath}/hardwareConfig.nix"
     globalCoreConf
   ];
   impermanenceImports = [
@@ -139,7 +138,7 @@ in {
       lib.nixosSystem {
         inherit system pkgs;
         specialArgs = {
-          inherit inputs self hostName mainUser extraVar isImpermanent; # inherit the variables
+          inherit inputs self hostName mainUser extraVar isImpermanent secureBoot; # inherit the variables
         };
         modules =
           lib.flatten [

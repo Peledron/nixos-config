@@ -49,7 +49,7 @@ in {
       # activates the dbus environment for hyprland on graphical-target, this is added to the conf file
       enable = true;
       variables = ["--all"];
-      enableXdgAutostart = true; # Whether to enable autostart of applications using {manpage}systemd-xdg-autostart-generator(8).
+      #enableXdgAutostart = true; # Whether to enable autostart of applications using {manpage}systemd-xdg-autostart-generator(8)., meaning applications put in to the autostart folder (when selected as start with system)
     };
     plugins = [
       inputs.hyprsplit.packages.${pkgs.system}.hyprsplit
@@ -388,17 +388,6 @@ in {
 
   # [pyprland plugin config]
   xdg.configFile = {
-    /*
-    "hypr/pyprland.toml".text = ''
-      [pyprland]
-        plugins = [
-        ]
-    '';
-    "hypr/hyprgame.sh".text = ''
-      #!/usr/bin/env bash
-
-    '';
-    */
     "hypr/hyprlock.conf".text = ''
       general {
         grace = 10

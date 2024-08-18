@@ -5,9 +5,14 @@
   isImpermanent,
   ...
 }: {
-  environment.systemPackages = with pkgs; [
-    sbctl
-  ];
+  environment = {
+    systemPackages = with pkgs; [
+      sbctl
+    ];
+    persistence."/persist".directories = lib.mkIf isImpermanent [
+      "/etc/secureboot"
+    ];
+  };
 
   # Lanzaboote currently replaces the systemd-boot module.
   # This setting is usually set to true in configuration.nix
@@ -18,10 +23,5 @@
   boot.lanzaboote = {
     enable = true;
     pkiBundle = "/etc/secureboot";
-  };
-  environment = lib.mkIf isImpermanent {
-    persistence."/persist".directories = [
-      "/etc/secureboot"
-    ];
   };
 }

@@ -11,6 +11,7 @@
       home-manager
       # basic tools
       # [system]
+      git # needs to be installed for flakes to work at sudo level
       pciutils
       usbutils
       lm_sensors
@@ -39,10 +40,6 @@
     };
   };
   documentation.man.generateCaches = true; # NixOS
-  programs.gnupg.agent = {
-    enable = true;
-    enableSSHSupport = true;
-  };
   programs.nix-ld = {
     enable = true;
     #libraries = []; # there is a default set defined, you can add more here

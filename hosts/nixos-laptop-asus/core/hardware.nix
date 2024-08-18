@@ -8,7 +8,7 @@
 }: {
   imports =
     [(modulesPath + "/installer/scan/not-detected.nix")]
-    ++ [(self + "/global/modules/hardware/asus-laptop.nix")]
+    ++ [(self + "/global/modules/hardware/asusLaptop.nix")]
     ++ [(self + "/global/modules/hardware/bluetooth.nix")];
 
   # base:

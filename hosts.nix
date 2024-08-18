@@ -27,7 +27,7 @@ in {
     hostName = "nixos-main";
     isImpermanent = true;
     desktopEnv = "hyprland";
-    moduleConfig = {
+    moduleConfig.host = {
       hardware = {
         gpu = "amd";
         keychron = true;

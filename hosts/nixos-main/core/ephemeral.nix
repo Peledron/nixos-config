@@ -49,7 +49,7 @@
   };
 
   # disable sudo lecture, it is the warning message that displays the first time you use the sudo command
-  security.sudo.extraVar = ''
+  security.sudo.extraConfig = ''
     # rollback results in sudo lectures after each reboot
     Defaults lecture = never
   '';

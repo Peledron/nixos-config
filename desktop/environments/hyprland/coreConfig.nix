@@ -16,13 +16,11 @@
     xdg-utils
   ];
   programs = {
-    /*
     hyprland = {
       enable = true;
       package = inputs.hyprland.packages.${pkgs.system}.hyprland;
       portalPackage = pkgs.xdg-desktop-portal-wlr;
     };
-    */
     dconf.enable = true; # better compatiblity for costum setups (gnome apps)
   };
   xdg.portal = {

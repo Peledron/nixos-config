@@ -2,10 +2,12 @@
   config,
   lib,
   pkgs,
-  system,
-  inputs,
+  self,
+  secureBoot,
   ...
 }: {
+  imports = lib.optional secureBoot "${self}/global/modules/system/secureBoot.nix";
+
   boot = {
     # [kernel]
     kernelPackages = pkgs.unstable.linuxKernel.packages.linux_xanmod_latest; #config.boot.zfs.package.latestCompatibleLinuxPackages; # this will use the latest kernel that is patched with zfs module
@@ -31,7 +33,7 @@
     initrd = {
       # modules that are enabled during early load in the initrd (enables the modules in the kernel image that is loaded from the efi partition)
       availableKernelModules = ["nvme" "xhci_pci" "ahci" "usb_storage" "sd_mod"]; # this will load the needed device driver modules ?(if the devices are present) the drivers needed to boot must be present here (so nvme)
-      kernelModules = ["dm-snapshot" "aesni_intel" "cryptd" ]; # kernelModules will allways be loaded, regardless of devices
+      kernelModules = ["dm-snapshot" "aesni_intel" "cryptd"]; # kernelModules will allways be loaded, regardless of devices
       # aesni and cryptd enable the aes accelerated drivers on early boot, so the system boots faster,
       # you can also add  "amdgpu" to make that driver initialize earlier during boot
       systemd = {

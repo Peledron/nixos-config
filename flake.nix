@@ -32,7 +32,7 @@
       inputs.nixpkgs.follows = "nixpkgs"; # sets home-manager to use the nix-package-manager packages instead of its own internal ones
     };
     stylix.url = "github:danth/stylix"; # automatic styling of programs
-    
+
     # hyprland stuff
     hyprland = {
       type = "git";
@@ -43,9 +43,9 @@
       url = "github:shezdy/hyprsplit";
       inputs.hyprland.follows = "hyprland"; # <- make sure this line is present for the plugin to work as intended
     };
-    Hyprspace = {
-      url = "github:KZDKM/Hyprspace";
-      inputs.hyprland.follows = "hyprland";
+    hyprpanel = {
+      url = "github:Jas-SinghFSU/HyprPanel";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     # plasma-manager
