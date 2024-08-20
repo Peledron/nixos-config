@@ -27,14 +27,18 @@ in {
     hostName = "nixos-main";
     isImpermanent = true;
     desktopEnv = "hyprland";
-    moduleConfig.host = {
+    extraModules = {
       hardware = {
         gpu = "amd";
-        keychron = true;
+        keychronKeyboard = true;
+        logitechMouse = true;
         bluetooth = true;
         drawingTablet = true;
       };
-      virt.desktop = true; # full enables both libvirt and podman, installs virt-machine-manager
+      virt = {
+        desktop = true; # enables libvirt, qemu-kvm and installs virt-machine-manager
+        podman = true;
+      };
     };
     extraVar = {
       disks = {
@@ -57,9 +61,6 @@ in {
     desktopEnv = "kde";
     extraImports = [inputs.nixos-hardware.nixosModules.asus-zephyrus-ga402];
     extraVar = {
-      hardware = {
-        gpu = "amd";
-      };
     };
   };
 

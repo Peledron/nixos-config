@@ -127,7 +127,7 @@ in {
     secureBoot ? false,
     mainUser ? "pengolodh",
     desktopEnv ? null,
-    moduleConfig ? {},
+    extraModules ? {},
     extraVar ? {},
     extraImports ? [],
     extraHomeModules ? [],
@@ -138,7 +138,7 @@ in {
       lib.nixosSystem {
         inherit system pkgs;
         specialArgs = {
-          inherit inputs self hostName mainUser extraVar isImpermanent secureBoot; # inherit the variables
+          inherit inputs self hostName mainUser extraModules extraVar isImpermanent secureBoot; # inherit the variables
         };
         modules =
           lib.flatten [
@@ -149,6 +149,7 @@ in {
             (lib.optional (desktopEnv != null) (mkCoreDesktopConfig desktopEnv))
 
             # Import the host-specific configuration
+            "./extraModules"
             "${hostPath}/${hostName}"
           ] # lib.flatten makes sure that there are no nested lists https://noogle.dev/f/lib/lists/flatten
           ++ (mkUserConfig

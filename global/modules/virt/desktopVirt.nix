@@ -33,10 +33,12 @@
     # [cli]
     virt-top # top command but for virtual machine stats
     libguestfs # libguestfs is a tool to access virtual machine disks, idk what the applience does
-    
+
     # [gui]
-    virt-manager
     looking-glass-client # best to use this with the kvmfr module for better performance if passing a dedicated gpu and using an igpu on the host
   ];
-  programs.virt-manager.enable = true;
+  programs.virt-manager = {
+    enable = true;
+    package = pkgs.virt-manager;
+  };
 }
