@@ -1,18 +1,7 @@
-{
-  config,
-  pkgs,
-  lib,
-  ...
-}: {
+{...}: {
   # hardware settings
-  hardware = {
-    bluetooth = {
-      enable = true;
-      settings = {
-        General = {
-          ControllerMode = "bredr";
-        };
-      };
-    };
+  hardware.bluetooth = {
+    enable = true;
+    hsphfpd.enable = true; # prototype hands free implementation, good for
   };
 }
