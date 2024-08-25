@@ -14,6 +14,7 @@
   environment.systemPackages = with pkgs; [
     polkit_gnome
     xdg-utils
+
   ];
   programs = {
     hyprland = {

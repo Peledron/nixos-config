@@ -6,8 +6,6 @@
   self,
   ...
 }: {
-  imports = [(self + "/global/modules/virt/desktop-virt.nix")];
-
   # nice daemon
   services.ananicy = {
     package = pkgs.unstable.ananicy-cpp;

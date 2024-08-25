@@ -8,18 +8,16 @@
 }: {
   # root partition is hosted on tmpfs, it is cleared by default on reboots (since it resides in memory)
 
-  environment.persistence."/persist" = {
+  environment.persistence."/nix/persist" = {
     hideMounts = true; # For added "security" and less clutter in the system
     directories = [
       "/etc/libvirt" # persist the libvirt configuration directory
       "/etc/NetworkManager/system-connections"
-      "/etc/mullvad-vpn"
       "/var/log" # perserve the system logs
       "/var/lib/nixos"
       "/var/lib/systemd/coredump" # perserve the coredump on reboots
       "/var/lib/docker"
       "/var/lib/containers"
-      "/var/lib/gns3"
       "/var/lib/upower"
       "/var/lib/bluetooth"
       "/var/lib/libvirt"
@@ -35,9 +33,6 @@
       "/etc/machine-id"
       "/etc/adjtime"
       # network manager is enabled so we need the following files t`o be persistent for wifi
-      "/var/lib/NetworkManager/secret_key"
-      "/var/lib/NetworkManager/seen-bssids"
-      "/var/lib/NetworkManager/timestamps"
       # locatedb cache
       "/var/cache/locatedb"
       #
@@ -59,11 +54,11 @@
     # sets nix to use/generate the host keys in the given directory
     hostKeys = [
       {
-        path = "/persist/ssh/ssh_host_ed25519_key";
+        path = "/nix/persist/ssh/ssh_host_ed25519_key";
         type = "ed25519";
       }
       {
-        path = "/persist/ssh/ssh_host_rsa_key";
+        path = "/nix/persist/ssh/ssh_host_rsa_key";
         type = "rsa";
         bits = 4096;
       }

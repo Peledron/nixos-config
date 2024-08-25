@@ -149,7 +149,7 @@ in {
             (lib.optional (desktopEnv != null) (mkCoreDesktopConfig desktopEnv))
 
             # Import the host-specific configuration
-            "./extraModules"
+            "${hostPath}/extraModules.nix"
             "${hostPath}/${hostName}"
           ] # lib.flatten makes sure that there are no nested lists https://noogle.dev/f/lib/lists/flatten
           ++ (mkUserConfig

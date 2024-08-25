@@ -5,11 +5,13 @@
   pkgs,
   disko,
   extraVar,
+  isImpermanent,
+  mainUser,
   ...
 }: {
   # we use disko to define the system disks we want nixos to be installed on, this way they will be partitioned automatically when we use a tool like nixos-anywhere
   disko.devices = {
-    disk.nixos-root = {
+    disk.nixosRoot = lib.mkIf isImpermanent {
       device = extraVar.disks.linuxRoot;
       type = "disk";
       content = {
@@ -27,85 +29,25 @@
               mountOptions = ["defaults"];
             };
           };
-          cr_nixos-main = {
-            size = "60G";
+          cr_nixosRoot = {
+            size = "100%";
             content = {
               type = "luks";
-              name = "cr_nixos-main";
+              name = "cr_nixosRoot";
               settings.allowDiscards = true;
-              passwordFile = "/tmp/nixos-main.passwd"; # if you want this to be a password use echo -n "password" > /tmp/nixos-main.key , the -n is very important as it removes the trailing newline, the /tmp is only for the installer, this file is only used when the disk is partitioned by disko
+              passwordFile = "/tmp/nixosRoot.passwd"; # if you want this to be a password use echo -n "password" > /tmp/nixos-main.key , the -n is very important as it removes the trailing newline, the /tmp is only for the installer, this file is only used when the disk is partitioned by disko
               # no keyfile will be specified as there will only be a password for this disk
               content = {
                 type = "filesystem";
-                format = "xfs";
+                format = "ext4";
                 mountpoint = "/nix";
               };
             };
           };
-          cr_swap = {
-            size = "16G";
-            content = {
-              type = "swap";
-              randomEncryption = true;
-            };
-          };
-          cr_nixos-persist = {
-            size = "100%";
-            content = {
-              type = "luks";
-              name = "cr_nixos-persist";
-              passwordFile = "/tmp/nixos-main.passwd"; # the password will be the same as /nix, this will only prompt for 1 password and reuse the given one at boot
-              additionalKeyFiles = ["/tmp/nixos-persist.key"];
-              settings = {
-                allowDiscards = true;
-                #keyFile = "/nix/keys/nixos-persist.key"; # generated using openssl-genrsa -out
-              };
-              content = {
-                type = "filesystem";
-                format = "xfs";
-                mountpoint = "/persist";
-              };
-            };
-          };
         };
       };
     };
-    disk.home = {
-      device = extraVar.disks.linuxHome;
-      type = "disk";
-      content = {
-        type = "gpt";
-        partitions = {
-          cr_home = {
-            size = "100%";
-            content = {
-              type = "luks";
-              name = "cr_home";
-              passwordFile = "/tmp/data-home.passwd";
-              additionalKeyFiles = ["/tmp/data-home.key"];
-              settings = {
-                allowDiscards = true;
-                #keyFile = "/nix/keys/data-home.key"; # path to the disk encryption key (for boot)
-              };
-              initrdUnlock = false; # do not add this drive to the initrd devices mounted during boot, we will do this in stage 2 using systemd crypttab file instead (see below)
-              content = {
-                type = "btrfs";
-                #extraArgs = ["-f"]; # force Override existing partition
-                subvolumes = {
-                  "/home" = {
-                    mountpoint = "/home";
-                    mountOptions = ["compress=zstd" "noatime"];
-                  };
-                  "/home/pengolodh" = {}; # /home is mounted, so home/user does not need to be (it acts as a folder, I assume that the compression will still be applied to the sub-subvolume)
-                };
-              };
-            };
-          };
-        };
-      };
-    };
-
-    nodev."/" = {
+    nodev."/" = lib.mkIf isImpermanent {
       fsType = "tmpfs";
       mountOptions = [
         "size=8G"
@@ -113,41 +55,47 @@
         "mode=755"
       ];
     }; # root will be on a tmpfs, meaning that it is impermament
+
+    # -- make if not impermanent --
+    disk.nixosRoot = lib.mkIf (isImpermanent == false) {
+      device = extraVar.disks.linuxRoot;
+      type = "disk";
+      content = {
+        type = "gpt";
+        partitions = {
+          ESP = {
+            name = "NIXOS_EFI";
+            size = "512M";
+            type = "EF00"; # efi partition type
+            content = {
+              # here we will tell it the filesystem type and mountpoint
+              type = "filesystem";
+              format = "vfat";
+              mountpoint = "/boot";
+              mountOptions = ["defaults"];
+            };
+          };
+          cr_nixosRoot = {
+            size = "100%";
+            content = {
+              type = "luks";
+              name = "cr_nixroot";
+              settings.allowDiscards = true;
+              passwordFile = "/tmp/nixos-root.passwd"; # if you want this to be a password use echo -n "password" > /tmp/nixos-main.key , the -n is very important as it removes the trailing newline, the /tmp is only for the installer, this file is only used when the disk is partitioned by disko
+              # no keyfile will be specified as there will only be a password for this disk
+              content = {
+                type = "filesystem";
+                format = "ext4";
+                mountpoint = "/";
+              };
+            };
+          };
+        };
+      };
+    };
+    # --
   };
   # ---
-
-  # define existing disks here, as well as other options that do not need/are able to be covered by disko
-  fileSystems = {
-    "/".neededForBoot = true;
-    "/nix".neededForBoot = true;
-    "/persist".neededForBoot = true;
-    "/home/pengolodh/Games" = {
-      device = "/dev/mapper/cr_games"; # see below for the crypttab configuration
-      fsType = "ext4";
-      options = ["defaults" "noatime" "nofail"];
-      depends = ["home"];
-    };
-    "/home/pengolodh/Data/Windows/windows-root" = {
-      device = extraVar.disks.windowsRoot;
-      fsType = "ntfs";
-      options = ["defaults" "noatime" "nofail" "uid=1000" "gid=1000" "rw" "user" "exec" "umask=000"];
-      depends = ["/home"];
-    };
-    "/home/pengolodh/Data/Windows/windows-data-main" = {
-      device = extraVar.disks.windowsDataMain;
-      fsType = "ntfs";
-      options = ["defaults" "noatime" "nofail" "uid=1000" "gid=1000" "rw" "user" "exec" "umask=000"];
-      depends = ["/home"];
-    };
-    "/home/pengolodh/Data/Windows/windows-data-mods" = {
-      device = extraVar.disks.windowsDataMods;
-      fsType = "ntfs";
-      options = ["defaults" "noatime" "nofail" "uid=1000" "gid=1000" "rw" "user" "exec" "umask=000"];
-      depends = ["/home"];
-    };
-  };
-  # ---
-
   # using crypttab will allow systemd to auto-mount the devices on stage2 of the boot process (after initrd and nixos mounts are done), this should work...
   environment.etc.crypttab = {
     enable = true;
@@ -156,6 +104,47 @@
       cr_games ${extraVar.disks.linuxDataGames} /nix/keys/data-games.key luks
     '';
   };
+  swapDevices = [
+    {
+      device = "/nix/swapfile";
+      size = 32768; # swapfile will be created automatically witth this size (in MB)
+      priority = 0; #  Priority is a value between 0 and 32767. Higher numbers indicate higher priority. null lets the kernel choose a priority, which will show up as a negative value.
+    }
+  ];
+  # define existing disks here, as well as other options that do not need/are able to be covered by disko
+  fileSystems = {
+    "/".neededForBoot = true;
+    "/nix".neededForBoot = true;
+    "/home" = {
+      device = "/dev/mapper/cr_home";
+      fstype = "btrfs";
+      options = ["compress=zstd" "noatime"];
+    };
+    "/home/pengolodh/Games" = {
+      device = "/dev/mapper/cr_games"; # see below for the crypttab configuration
+      fsType = "ext4";
+      options = ["defaults" "noatime" "nofail"];
+      depends = ["/home"];
+    };
+    "/home/pengolodh/Data/Windows/windows-root" = {
+      device = extraVar.disks.windowsRoot;
+      fsType = "ntfs3";
+      options = ["defaults" "noatime" "nofail" "sys_immutable" "windows_names" "uid=1000" "gid=1000" "user" "umask=027" "discard"];
+      depends = ["/home"];
+    };
+    "/home/pengolodh/Data/Windows/windows-data-main" = {
+      device = extraVar.disks.windowsDataMain;
+      fsType = "ntfs3";
+      options = ["defaults" "noatime" "nofail" "windows_names" "uid=1000" "gid=1000" "user" "umask=027"];
+      depends = ["/home"];
+    };
+    "/home/pengolodh/Data/Windows/windows-data-mods" = {
+      device = extraVar.disks.windowsDataMods;
+      fsType = "ntfs3";
+      options = ["defaults" "noatime" "nofail" "windows_names" "uid=1000" "gid=1000" "user" "umask=027"];
+      depends = ["/home"];
+    };
+  };
   # ---
 
   # we are using btrfs so we can enable the scrub service here, as it is filesystem dependant
@@ -163,5 +152,15 @@
     enable = true;
     interval = "weekly";
     fileSystems = ["/home"]; # does not need to be done on the nested sub-volumes "/nix" "/persist"
+  };
+  services.snapper = {
+    snapshotInterval = "hourly";
+    persistentTimer = true; # continue timer through restarts
+    configs.home = {
+      SUBVOLUME = "/home/${mainUser}";
+      ALLOW_USERS = ["${mainUser}"];
+      TIMELINE_CREATE = true;
+      TIMELINE_CLEANUP = true;
+    }; # note that you should exclude subpaths paths like for example "~/VM" by making them as a subvolume, the snapshot will not include them
   };
 }

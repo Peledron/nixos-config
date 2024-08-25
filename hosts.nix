@@ -5,13 +5,13 @@
   ...
 }: let
   system = "x86_64-linux";
+
   overlay-unstable = final: prev: {
     unstable = import inputs.nixpkgs-unstable {
       inherit system;
       config.allowUnfree = true;
     };
   };
-
   pkgs = import inputs.nixpkgs {
     inherit system;
     config.allowUnfree = true;
@@ -28,6 +28,7 @@ in {
     isImpermanent = true;
     desktopEnv = "hyprland";
     extraModules = {
+      theme = "nord";
       hardware = {
         gpu = "amd";
         keychronKeyboard = true;

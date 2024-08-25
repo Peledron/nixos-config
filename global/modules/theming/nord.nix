@@ -29,7 +29,7 @@ in {
         logoAnimated = true;
       };
       # pre-graphical tty
-      console.enable = true; # theming for the linux kernel console
+      console.enable = false; # theming for the linux kernel console
       kmscon.enable = true; # kmscon is the standard TTY of linux
 
       # nixos-logo theming
@@ -57,6 +57,8 @@ in {
         };
         targets.kitty.enable = false; # I will use one of the themes in kitty itself
         targets.fish.enable = false; # the nord theme is too low contrast with kitty to be readable
+        targets.hyprpaper.enable = false; # I do not want the wallpaper to be set automatically in hyprland using this
+        targets.kde.enable = lib.mkIf plasma6Disabled false;
       };
       home.packages = [
         icon-theme

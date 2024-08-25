@@ -1,11 +1,12 @@
-{
-  pkgs,
-  ...
-}: {
+{pkgs, ...}: {
   home.packages = with pkgs; [
+    # [deps]
+    libsForQt5.qt5.qtwayland
+    kdePackages.qtwayland
     # [applications]
     # -> term
     kitty
+
     # -> filemanager
     # kdePackages.dolphin
     # kdePackages.kdegraphics-thumbnailers # thumbnails, not sure if it needed with dolphin-plugins, doesnt seem to work with hyprland
@@ -49,7 +50,7 @@
 
     # [hypr related]
     # -> bar
-    # waybar 
+    # waybar
     # -> screenshots
     grim
     slurp

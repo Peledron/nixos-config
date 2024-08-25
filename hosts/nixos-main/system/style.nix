@@ -5,5 +5,4 @@
   self,
   ...
 }: {
-  imports = [(self + "/global/modules/theming/nord.nix")];
 }

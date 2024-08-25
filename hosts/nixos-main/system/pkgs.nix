@@ -5,6 +5,4 @@
   self,
   ...
 }: {
-  #imports= [(self + "/global/modules/programs/steam.nix")];
-  #programs.steam.enable = false; # steam and its dependencies take up a very large amount of space
 }

@@ -19,8 +19,8 @@
       package = pkgs.nerdfonts.override {fonts = ["UbuntuMono"];};
     };
     sansSerif = {
-      name = "Ubuntu Nerd Font";
-      package = pkgs.nerdfonts.override {fonts = ["Ubuntu"];};
+      name = "UbuntuSans Nerd Font";
+      package = pkgs.nerdfonts.override {fonts = ["UbuntuSans"];};
     };
     serif = {
       name = "Ubuntu Nerd Font";
