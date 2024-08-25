@@ -5,9 +5,9 @@
   ...
 }: let
   defaultExtraModules = {
-    theme = null;
+    theme = "none";
     hardware = {
-      gpu = null;
+      gpu = "none";
       bluetooth = false;
       drawingTablet = false;
       logitechMouse = false;
