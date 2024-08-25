@@ -19,14 +19,14 @@
 
       # extra drivers:
       extraPackages = with pkgs.unstable; [
-        #rocmPackages.clr
-        #rocmPackages.clr.icd
-        #rocmPackages.rocm-runtime
+        rocmPackages.clr
+        rocmPackages.clr.icd
+        rocmPackages.rocm-runtime
 
-        #amdvlk # amd pro driver -> in env RADV is enabled so this will only be used as fallback I think
+        amdvlk # amd pro driver -> in env RADV is enabled so this will only be used as fallback I think
       ];
       extraPackages32 = with pkgs.unstable; [
-        #driversi686Linux.amdvlk
+        driversi686Linux.amdvlk
       ];
     };
   };
@@ -41,17 +41,17 @@
       RADV_PERFTEST = "rt";
       ## -> these are from # from https://asus-linux.org/blog/updates-2022-04-16/
       # rocm related
-      #ROCR_VISIBLE_DEVICES = extraVar.hardware.rocmgpu;
+      ROCR_VISIBLE_DEVICES = extraVar.hardware.rocmgpu;
     };
     systemPackages = with pkgs.unstable; [
-      #rocmPackages.rocm-smi
-      #rocmPackages.rocminfo
+      rocmPackages.rocm-smi
+      rocmPackages.rocminfo
       clinfo
       nvtopPackages.amd
     ];
   };
   # systemd-rules
   systemd.tmpfiles.rules = [
-    #"L+    /opt/rocm/hip   -    -    -     -    ${pkgs.unstable.rocmPackages.clr}" # Most software has the HIP libraries hard-coded. You can work around it on NixOS by using this
+    "L+    /opt/rocm/hip   -    -    -     -    ${pkgs.unstable.rocmPackages.clr}" # Most software has the HIP libraries hard-coded. You can work around it on NixOS by using this
   ];
 }
