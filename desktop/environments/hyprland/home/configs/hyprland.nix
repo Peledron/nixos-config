@@ -149,7 +149,6 @@ in {
 
         ## performance/dispay
         mouse_move_enables_dpms = true;
-        no_direct_scanout = false; # false enables direct_scanout, should reduce latency on fullscreen windows -> this is set to true  by default
         vfr = true; # vfr limits framerate when nothing is happening on screen, good for performance
         vrr = 2; # vrr 2 means only fullscreen variable refresh rate, 1 means all time, leaving this on 1 causes brightness flickering on my monitors sadly
       };
@@ -166,7 +165,7 @@ in {
         pseudotile = true; # master switch for pseudotiling. Enabling is bound to {mod} + P in the keybinds section below
         preserve_split = false; # if enabled, the split (side/top) will not change regardless of what happens to the container, default is false, this means that if you close a window and repopen it, it will stay in the same split position
         smart_split = true; # this overrides preserve_split, it will split the window at the position of the mouse cursor
-        smart_resizing = true; 
+        smart_resizing = true;
       };
 
       # [look and feel]
@@ -259,9 +258,6 @@ in {
 
         ## set wlogout to be fullscreen
         "fullscreen, title:wlogout"
-
-        ## set chrome to be borderless fullscreen
-        "fakefullscreen, class:^(Google-chrome)$"
 
         ## allow tearing on gamescope/steam windows
         "immediate, class:^(.gamescope-wrapped)$"
