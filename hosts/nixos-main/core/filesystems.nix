@@ -11,7 +11,7 @@
 }: {
   # we use disko to define the system disks we want nixos to be installed on, this way they will be partitioned automatically when we use a tool like nixos-anywhere
   disko.devices = {
-    disk.nixosRoot = lib.mkIf isImpermanent {
+    disk.nixosRoot = {
       device = extraVar.disks.linuxRoot;
       type = "disk";
       content = {
@@ -47,53 +47,14 @@
         };
       };
     };
-    nodev."/" = lib.mkIf isImpermanent {
+    nodev."/" = {
       fsType = "tmpfs";
       mountOptions = [
         "size=8G"
         "defaults"
         "mode=755"
       ];
-    }; # root will be on a tmpfs, meaning that it is impermament
-
-    # -- make if not impermanent --
-    disk.nixosRoot = lib.mkIf (isImpermanent == false) {
-      device = extraVar.disks.linuxRoot;
-      type = "disk";
-      content = {
-        type = "gpt";
-        partitions = {
-          ESP = {
-            name = "NIXOS_EFI";
-            size = "512M";
-            type = "EF00"; # efi partition type
-            content = {
-              # here we will tell it the filesystem type and mountpoint
-              type = "filesystem";
-              format = "vfat";
-              mountpoint = "/boot";
-              mountOptions = ["defaults"];
-            };
-          };
-          cr_nixosRoot = {
-            size = "100%";
-            content = {
-              type = "luks";
-              name = "cr_nixroot";
-              settings.allowDiscards = true;
-              passwordFile = "/tmp/nixos-root.passwd"; # if you want this to be a password use echo -n "password" > /tmp/nixos-main.key , the -n is very important as it removes the trailing newline, the /tmp is only for the installer, this file is only used when the disk is partitioned by disko
-              # no keyfile will be specified as there will only be a password for this disk
-              content = {
-                type = "filesystem";
-                format = "ext4";
-                mountpoint = "/";
-              };
-            };
-          };
-        };
-      };
-    };
-    # --
+    }; # root will be on a tmpfs, meaning that it is imperma
   };
   # ---
   # using crypttab will allow systemd to auto-mount the devices on stage2 of the boot process (after initrd and nixos mounts are done), this should work...
@@ -117,8 +78,8 @@
     "/nix".neededForBoot = true;
     "/home" = {
       device = "/dev/mapper/cr_home";
-      fstype = "btrfs";
-      options = ["compress=zstd" "noatime"];
+      fsType = "btrfs";
+      options = ["subvol=home" "compress=zstd" "noatime"];
     };
     "/home/pengolodh/Games" = {
       device = "/dev/mapper/cr_games"; # see below for the crypttab configuration
