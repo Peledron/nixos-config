@@ -66,7 +66,7 @@
   };
   # tell agenix that keys are stored in persist/ssh
   age.identityPaths = [
-    "/persist/ssh/ssh_host_ed25519_key"
+    "/nix/persist/ssh/ssh_host_ed25519_key"
   ];
 
   /*

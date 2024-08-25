@@ -28,11 +28,11 @@ in {
     isImpermanent = true;
     desktopEnv = "hyprland";
     extraModules = {
+      # see ./hosts/extraModules.nix for all options
       theme = "nord";
       hardware = {
         gpu = "amd";
         keychronKeyboard = true;
-        logitechMouse = true;
         bluetooth = true;
         drawingTablet = true;
       };
