@@ -1,11 +1,4 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}: let
-  #scriptdir = "$HYPRCONF/resources/scripts";
-in {
+{pkgs, ...}: {
   programs.waybar = {
     enable = true;
     package = pkgs.unstable.waybar;
@@ -143,7 +136,7 @@ in {
         # ---
       };
     };
-    style =''
+    style = ''
       * {
           border:        none;
           border-radius: 0;

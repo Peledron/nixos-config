@@ -1,8 +1,4 @@
-{
-  config,
-  lib,
-  ...
-}: {
+{...}: {
   # see https://nixos.wiki/wiki/Git
   programs.git = {
     enable = true; # set git config to be managed by home-manager

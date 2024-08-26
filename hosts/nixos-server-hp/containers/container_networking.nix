@@ -1,12 +1,4 @@
-{
-  config,
-  lib,
-  pkgs,
-  system,
-  inputs,
-  extraVar,
-  ...
-}: let
+{extraVar, ...}: let
   vlan_local_container_name = "vlan${builtins.toString (builtins.elemAt extraVar.vlans 2)}cont";
   br_local_container_name = "br0cont";
 in {

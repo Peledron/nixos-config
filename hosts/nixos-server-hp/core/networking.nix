@@ -1,8 +1,5 @@
 # networking options
 {
-  config,
-  lib,
-  pkgs,
   hostName,
   extraVar,
   ...

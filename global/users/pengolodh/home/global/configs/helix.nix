@@ -1,8 +1,4 @@
-{
-  config,
-  lib,
-  ...
-}: {
+{lib, ...}: {
   programs.helix = {
     enable = lib.mkDefault false;
     settings = {

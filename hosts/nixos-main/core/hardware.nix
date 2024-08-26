@@ -1,9 +1,7 @@
 {
   config,
   lib,
-  pkgs,
   modulesPath,
-  self,
   ...
 }: {
   imports = [(modulesPath + "/installer/scan/not-detected.nix")];

@@ -1,11 +1,4 @@
-{
-  config,
-  lib,
-  pkgs,
-  self,
-  inputs,
-  ...
-}: let
+{...}: let
   br_local_container_name = "br0cont";
   netport = "eth0";
   containername = "adguard-home";

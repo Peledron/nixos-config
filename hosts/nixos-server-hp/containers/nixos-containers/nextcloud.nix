@@ -1,10 +1,7 @@
 {
   config,
-  lib,
-  pkgs,
   self,
   inputs,
-  vlans,
   ...
 }: let
   br_local_container_name = "br0cont";

@@ -1,8 +1,4 @@
-{
-  lib,
-  extraVar,
-  ...
-}: let
+{...}: let
   # this function will import any .nix files in the given directory, it will exclude anything else (like sub-directories)
   importDir = dir: let
     files = builtins.attrNames (builtins.readDir dir);

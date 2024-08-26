@@ -1,8 +1,4 @@
-{
-  config,
-  pkgs,
-  ...
-}: {
+{pkgs, ...}: {
   services.avizo = {
     enable = true;
     package = pkgs.avizo;

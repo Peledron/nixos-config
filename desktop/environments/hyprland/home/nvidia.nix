@@ -3,7 +3,7 @@
   programs.hyprland.nvidiaPatches = true;
 
   # nvidia/wayland specific environment vars:
-  environment.sessionVariables = rec {
+  environment.sessionVariables = {
     # [wlroots specific]
     WLR_DRM_NO_ATOMIC = "1";
     WLR_NO_HARDWARE_CURSORS = "1";

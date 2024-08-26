@@ -1,9 +1,4 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}: {
+{...}: {
   xdg = {
     mime.enable = true;
     # set the default applications for certain filetypes

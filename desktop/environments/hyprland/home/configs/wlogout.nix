@@ -1,9 +1,4 @@
-{
-  config,
-  pkgs,
-  self,
-  ...
-}: let
+{pkgs, ...}: let
   logodir = ./non-nix/wlogout-logos;
 in {
   programs.wlogout = {

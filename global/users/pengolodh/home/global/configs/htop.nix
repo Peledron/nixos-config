@@ -1,8 +1,4 @@
-{
-  config,
-  lib,
-  ...
-}: {
+{...}: {
   # I will define the htop config using the xdg.configfile method, as the home-manager options confuse me
   xdg.configFile."htop/htoprc".text = ''
     # Beware! This file is rewritten by htop when settings are changed in the interface.

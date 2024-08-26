@@ -1,10 +1,5 @@
 # system packages, accessible by all users, sys-packages holds system specific tools
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}: {
+{pkgs, ...}: {
   # see ../users/usr.nix for user specific packages/settings
   # add packages here:
   environment.systemPackages = with pkgs; [

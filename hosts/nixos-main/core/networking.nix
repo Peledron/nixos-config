@@ -1,7 +1,6 @@
 # networking options
 {
   lib,
-  self,
   hostName,
   ...
 }: {

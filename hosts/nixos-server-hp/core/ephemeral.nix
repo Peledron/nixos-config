@@ -1,11 +1,5 @@
 {
-  config,
-  lib,
   pkgs,
-  system,
-  inputs,
-  impermanence,
-  disko,
   extraVar,
   ...
 }: {

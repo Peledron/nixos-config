@@ -1,14 +1,9 @@
-{
-  config,
-  lib,
-  pkgs,
-  system,
-  inputs,
-  ...
-}: {
+{...}: let
+  persistPath = "/nix/persist";
+in {
   # root partition is hosted on tmpfs, it is cleared by default on reboots (since it resides in memory)
 
-  environment.persistence."/nix/persist" = {
+  environment.persistence.${persistPath} = {
     hideMounts = true; # For added "security" and less clutter in the system
     directories = [
       "/etc/libvirt" # persist the libvirt configuration directory
@@ -54,11 +49,11 @@
     # sets nix to use/generate the host keys in the given directory
     hostKeys = [
       {
-        path = "/nix/persist/ssh/ssh_host_ed25519_key";
+        path = "${persistPath}/ssh/ssh_host_ed25519_key";
         type = "ed25519";
       }
       {
-        path = "/nix/persist/ssh/ssh_host_rsa_key";
+        path = "${persistPath}/ssh/ssh_host_rsa_key";
         type = "rsa";
         bits = 4096;
       }
@@ -66,7 +61,7 @@
   };
   # tell agenix that keys are stored in persist/ssh
   age.identityPaths = [
-    "/nix/persist/ssh/ssh_host_ed25519_key"
+    "${persistPath}/ssh/ssh_host_ed25519_key"
   ];
 
   /*

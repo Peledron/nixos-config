@@ -1,12 +1,4 @@
-{
-  config,
-  lib,
-  pkgs,
-  system,
-  inputs,
-  self,
-  ...
-}: let
+{pkgs, ...}: let
   tools-install = with pkgs.unstable; [
     # [wine]
     wineWowPackages.staging

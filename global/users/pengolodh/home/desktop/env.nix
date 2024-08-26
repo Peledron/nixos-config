@@ -1,11 +1,4 @@
-{
-  config,
-  lib,
-  pkgs,
-  system,
-  imputs,
-  ...
-}: {
+{...}: {
   home.sessionVariables = rec {
     # common variables
     EDITOR = "micro";

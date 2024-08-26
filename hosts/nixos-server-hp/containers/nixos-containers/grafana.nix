@@ -1,14 +1,9 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}: let
+{...}: let
   br_local_container_name = "br0cont";
   netport = "eth0";
   containerpath = "/persist/var/lib/containerdata/monitor";
 in {
-   systemd.tmpfiles.rules = [
+  systemd.tmpfiles.rules = [
     "d ${containerpath}/grafana 0750 root root -"
     "d ${containerpath}/prometheus2 0750 root root -"
     "d ${containerpath}/loki 0750 root root -"

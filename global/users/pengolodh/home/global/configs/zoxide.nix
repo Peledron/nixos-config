@@ -1,8 +1,4 @@
-{
-  config,
-  lib,
-  ...
-}: {
+{lib, ...}: {
   programs.zoxide = {
     enable = lib.mkDefault false; # automatically enables the fish integration, other shells are also enabled by default
     options = [

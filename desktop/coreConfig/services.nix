@@ -1,9 +1,7 @@
 # important system services
 {
-  config,
   lib,
   pkgs,
-  self,
   ...
 }: {
   # nice daemon

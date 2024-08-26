@@ -1,10 +1,5 @@
 # timezones, localesettings that are globally true across all hosts
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}: {
+{pkgs, ...}: {
   # Set your time zone.
   time.timeZone = "Europe/Brussels";
   # ---

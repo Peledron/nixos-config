@@ -1,9 +1,4 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}: {
+{...}: {
   programs.fuzzel = {
     enable = true;
     settings = {
@@ -44,7 +39,8 @@
         selection = "666666ff";
         selection-text = "efefefef";
         border = "33eeffee";
-      };*/
+      };
+      */
       border = {
         width = 2;
         radius = 3;

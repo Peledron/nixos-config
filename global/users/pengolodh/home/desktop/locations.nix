@@ -1,11 +1,4 @@
-{
-  config,
-  lib,
-  pkgs,
-  system,
-  imputs,
-  ...
-}: let
+{config, ...}: let
   userdata-basedir = "${config.home.homeDirectory}/Data";
 in {
   # set the default user directory folders

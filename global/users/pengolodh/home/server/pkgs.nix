@@ -1,11 +1,4 @@
-{
-  config,
-  lib,
-  pkgs,
-  system,
-  imputs,
-  ...
-}: {
+{pkgs, ...}: {
   home.packages = with pkgs; [
   ];
 

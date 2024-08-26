@@ -1,9 +1,4 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}: {
+{lib, ...}: {
   programs.micro = lib.mkDefault {
     enable = false;
     settings = {

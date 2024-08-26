@@ -1,9 +1,6 @@
 {
-  config,
   pkgs,
-  self,
   inputs,
-  system,
   ...
 }: let
   wallpaper = ./non-nix/wallpapers/wallpaper.png;

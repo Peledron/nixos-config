@@ -28,6 +28,7 @@
         permit persist keepenv ${mainUser}
       '';
     };
+    /*
     # securty wrappers specify ownership,capabilities, etc... of certain files
     wrappers = {
       "mount.cifs" = {
@@ -38,6 +39,7 @@
         source = "${pkgs.cifs-utils.out}/bin/mount.cifs";
       };
     };
+    */
   };
   environment.systemPackages = with pkgs; [
     doas-sudo-shim # shim that makes it to that sudo and some of its flags are mapped to doas

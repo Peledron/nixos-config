@@ -1,11 +1,6 @@
 # drive config
 {
-  config,
-  lib,
-  pkgs,
-  disko,
   extraVar,
-  isImpermanent,
   mainUser,
   ...
 }: {

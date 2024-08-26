@@ -1,9 +1,4 @@
-{
-  config,
-  pkgs,
-  lib,
-  ...
-}: {
+{pkgs, ...}: {
   # virtualisation
   virtualisation = {
     #  --> libvirt:
@@ -19,7 +14,8 @@
             (OVMFFull.override {
               secureBoot = true;
               tpmSupport = true;
-            }).fd
+            })
+            .fd
           ];
         };
         verbatimConfig = ''

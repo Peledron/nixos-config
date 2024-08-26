@@ -70,10 +70,10 @@ in {
     isImpermanent = true;
 
     extraVar = {
-      disks = [
-        "/dev/disk/by-id/ata-SanDisk_SD8SBAT128G1002_162092404193"
-        "/dev/disk/by-id/ata-SanDisk_SD8SBAT128G1002_162092404193-part1"
-      ];
+      disks = {
+        systemDrive = "/dev/disk/by-id/ata-SanDisk_SD8SBAT128G1002_162092404193";
+        linuxRootPart = "/dev/disk/by-id/ata-SanDisk_SD8SBAT128G1002_162092404193-part1";
+      };
       netport = "eno1";
       vlans = [112 113 114];
     };

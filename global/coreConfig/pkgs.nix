@@ -1,7 +1,5 @@
 # packages that are globally installed by all hosts
 {
-  config,
-  lib,
   pkgs,
   inputs,
   ...
@@ -12,6 +10,7 @@
       # basic tools
       # [system]
       git # needs to be installed for flakes to work at sudo level
+      vi
       pciutils
       usbutils
       lm_sensors
@@ -23,7 +22,7 @@
       gnupg
       # [filesystem]
       fuse
-      cifs-utils
+      #cifs-utils
       s3fs
     ]
     ++ [inputs.agenix.packages."${system}".default];
@@ -39,7 +38,7 @@
       functions.enable = true;
     };
   };
-  documentation.man.generateCaches = true; # NixOS
+  #documentation.man.generateCaches = true; # NixOS
   programs.nix-ld = {
     enable = true;
     #libraries = []; # there is a default set defined, you can add more here

@@ -1,9 +1,4 @@
-{
-  config,
-  pkgs,
-  lib,
-  ...
-}: {
+{...}: {
   services.auto-cpufreq.enable = false;
   services.tlp = {
     enable = true;

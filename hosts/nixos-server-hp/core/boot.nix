@@ -1,9 +1,5 @@
 {
-  config,
-  lib,
   pkgs,
-  system,
-  inputs,
   extraVar,
   ...
 }: {
@@ -20,7 +16,7 @@
     };
     kernelModules = ["kvm-intel"];
     loader = {
-      grub.device = builtins.elemAt extraVar.disks 0;
+      grub.device = extraVar.disks.systemDrive;
     };
   };
   # for secure boot see: https://github.com/nix-community/lanzaboote/blob/master/docs/QUICK_START.md

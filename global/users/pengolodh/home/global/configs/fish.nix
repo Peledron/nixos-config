@@ -1,8 +1,4 @@
-{
-  config,
-  lib,
-  ...
-}: {
+{lib, ...}: {
   # see https://nixos.wiki/wiki/Fish
   programs.fish = {
     enable = lib.mkDefault false; # set fish to be managed by home-manager
