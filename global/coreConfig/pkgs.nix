@@ -10,7 +10,7 @@
       # basic tools
       # [system]
       git # needs to be installed for flakes to work at sudo level
-      vi
+      vim # installed at system level so 
       pciutils
       usbutils
       lm_sensors

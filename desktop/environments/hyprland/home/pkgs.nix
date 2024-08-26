@@ -5,7 +5,7 @@
     kdePackages.qtwayland
     # [applications]
     # -> term
-    kitty
+    # kitty
 
     # -> filemanager
     # kdePackages.dolphin

@@ -41,7 +41,9 @@ in {
       stylix = {
         enable = true;
         autoEnable = true;
-        base16Scheme = "${pkgs.base16-schemes}/share/themes/nord.yaml";
+        base16Scheme = {
+          
+        };
         polarity = "dark";
         cursor = {
           package = pkgs.gnome.adwaita-icon-theme;

@@ -3,6 +3,6 @@
   ...
 }: {
   environment.sessionVariables = lib.mkDefault {
-    EDITOR = "vi";
+    EDITOR = "vim";
   };
 }

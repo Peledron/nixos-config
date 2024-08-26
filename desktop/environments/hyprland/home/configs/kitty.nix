@@ -1,7 +1,11 @@
-{lib, ...}: {
+{
+  lib,
+  pkgs,
+  ...
+}: {
   programs.kitty = {
     enable = true;
-
+    package = pkgs.unstable.kitty;
     font = lib.mkDefault {
       name = "Ubuntu Nerd Font Mono";
       size = 14.0;
@@ -60,8 +64,8 @@
       # If enabled, the window size will be remembered so that new instances of kitty will have the same size as the previous instance.
       # If disabled, the window will initially have size configured by initial_window_width/height, in pixels.
       remember_window_size = "no";
-      initial_window_width = 640;
-      initial_window_height = 400;
+      #initial_window_width = 640;
+      #initial_window_height = 400;
 
       # --> The width (in pts) of window borders.
       # Will be rounded to the nearest number of pixels based on screen resolution.
