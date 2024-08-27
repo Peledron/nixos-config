@@ -5,7 +5,7 @@
   self,
   ...
 }: let
-  theme = "da-one-black";
+  theme = "da-one-gray";
   plasma6Disabled = !config.services.desktopManager.plasma6.enable;
   wallpaper = "${self}/global/modules/theming/wallpapers/painterly-forest-fantasy.png";
   icon-theme = pkgs.papirus-icon-theme;
