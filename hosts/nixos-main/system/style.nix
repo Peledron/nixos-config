@@ -1,5 +1,5 @@
 {self, ...}: let
   themingModulePath = "${self}/global/modules/theming";
 in {
-  imports = ["${themingModulePath}/nord.nix"];
+  imports = ["${themingModulePath}/daOneBlack.nix"];
 }
