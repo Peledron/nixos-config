@@ -29,7 +29,7 @@ in {
     desktopEnv = "hyprland";
     extraModules = {
       # see ./hosts/extraModules.nix for all options
-      theme = "nord";
+      theme = "nord"; # see base16 themes for available options
       hardware = {
         gpu = "amd";
         keychronKeyboard = true;

@@ -22,17 +22,16 @@
     vorta
 
     # [creative]
-    blender-hip # blender with the hip library added to it, does not matter for nvidia machines, seems to crash for some reason...
+    unstable.blender-hip # blender with the hip library added to it, does not matter for nvidia machines, seems to crash for some reason...
     krita
 
     # [gaming]
     #heroic # -> i am using the flatpak
-    prismlauncher
-    glfw-wayland-minecraft
+    unstable.prismlauncher
+    unstable.glfw-wayland-minecraft
 
     # [chat]
-    unstable.armcord
-    unstable.element-desktop-wayland #matrix
+    unstable.vesktop
 
     # [steaming]
     #obs-studio # -> if I enable it here it collides with the unwrapped version provided by programs.obs in ./configs/obs.nix
@@ -62,11 +61,11 @@
     boxbuddy # gui for distrobox (requires /global/modules/virt/podman.nix to be included)
 
     # [programming langs]
-    python3
-    unstable.go
-    openjdk
-    gcc
-    unstable.rustc
+    #python3
+    #unstable.go
+    #openjdk
+    #gcc
+    #unstable.rustc
 
     # [programming tools]
     meld # qt diff tool
@@ -74,10 +73,10 @@
     pipx
 
     # [build tools]
-    gnumake
-    cmake
-    meson
-    pkg-config
+    #gnumake
+    #cmake
+    #meson
+    #pkg-config
 
     # [nix-tools]
     alejandra # .nix auto-formatter
