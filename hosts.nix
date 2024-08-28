@@ -17,14 +17,16 @@
     config.allowUnfree = true;
     overlays = [
       overlay-unstable
+      inputs.hyprpanel.overlay
     ];
   };
 
   mkHostConfigModule = import "${self}/hosts/mkHostConfig.nix" {inherit lib self inputs system pkgs;}; # import the module where host and user configs are dynamically imported
   inherit (mkHostConfigModule) mkHostConfig; # define mkHostConfig as mkHostConfigModule.mkHostConfig (a function in the mkHostConfigModule file)
 in {
-  nixos-main = mkHostConfig {
-    hostName = "nixos-main";
+  manwe = mkHostConfig {
+    # main machine
+    hostName = "manwe";
     isImpermanent = true;
     desktopEnv = "hyprland";
     extraModules = {
@@ -56,17 +58,26 @@ in {
     };
   };
 
-  nixos-laptop-asus = mkHostConfig {
-    hostName = "nixos-laptop-asus";
-    isImpermanent = false;
+  varda = mkHostConfig {
+    hostName = "varda";
+    isImpermanent = true;
     desktopEnv = "kde";
     extraImports = [inputs.nixos-hardware.nixosModules.asus-zephyrus-ga402];
+    extraModules = {
+      # see ./hosts/extraModules.nix for all options
+      theme = "da-one-gray"; # see base16 themes for available options
+      hardware = {
+        gpu = "amd";
+        asusLaptop = true;
+      };
+    };
     extraVar = {
     };
   };
 
-  nixos-server-hp = mkHostConfig {
-    hostName = "nixos-server-hp";
+  alatar = mkHostConfig {
+    # server-hp-home
+    hostName = "alatar";
     isImpermanent = true;
 
     extraVar = {

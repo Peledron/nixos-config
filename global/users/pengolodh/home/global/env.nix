@@ -1,5 +1,5 @@
 {...}: {
-  home.sessionVariables = rec {
+  home.sessionVariables = {
     # custom vars:
     NIXBIN = "/run/current-system/sw/bin";
     NIXLIB = "/run/current-system/sw/lib";

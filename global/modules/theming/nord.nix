@@ -11,7 +11,7 @@
 
   qt-icon-theme-name = "Papirus-Dark";
 in {
-  # nord needs some fixes as the contrast is too low in some places
+  # nord needs some fixes as the contrast is too low in places (like the terminal)
   home-manager.sharedModules = [
     {
       stylix = {

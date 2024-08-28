@@ -8,6 +8,7 @@
     theme = "none";
     hardware = {
       gpu = "none";
+      asusLaptop = false;
       bluetooth = false;
       drawingTablet = false;
       logitechMouse = false;
@@ -39,6 +40,7 @@
   imports = lib.flatten [
     # hardware
     (lib.optional (mergedModules.hardware.gpu == "amd") "${hwModulesPath}/amdGpu.nix")
+    (lib.optional mergedModules.hardware.asusLaptop "${hwModulesPath}/asusLaptop.nix")
     (lib.optional mergedModules.hardware.bluetooth "${hwModulesPath}/bluetooth.nix")
     (lib.optional mergedModules.hardware.drawingTablet "${hwModulesPath}/drawingTablet.nix")
     (lib.optional mergedModules.hardware.logitechMouse "${hwModulesPath}/logitechMouse.nix")

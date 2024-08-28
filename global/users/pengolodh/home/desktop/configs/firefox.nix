@@ -97,10 +97,10 @@
             installation_mode = "force_installed";
           };
           # bypass paywalls clean
-          "magnolia@12.34" = {
+          /*"magnolia@12.34" = {
             install_url = "https://github.com/bpc-clone/bpc_updates/releases/download/latest/bypass_paywalls_clean-latest.xpi";
             installation_mode = "force_installed";
-          };
+          };*/
 
           # [youtube related]
           # sponsorblock:
