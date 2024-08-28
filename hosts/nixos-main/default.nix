@@ -1,5 +1,9 @@
 {...}: {
-  imports =
-    (import ./core)
-    ++ (import ./system);
+  imports = [
+    ./boot.nix
+    ./hardware.nix
+    ./filesystems.nix
+    ./ephemeral.nix
+    ./networking.nix
+  ];
 }
