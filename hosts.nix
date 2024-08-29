@@ -17,7 +17,7 @@
     config.allowUnfree = true;
     overlays = [
       overlay-unstable
-      inputs.hyprpanel.overlay
+      #inputs.hyprpanel.overlay
     ];
   };
 

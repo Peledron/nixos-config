@@ -14,6 +14,11 @@
     };
     # encryption of secrets
     agenix.url = "github:ryantm/agenix";
+    # security hardening
+    nix-mineral = {
+      url = "github:cynicsketch/nix-mineral";
+      flake = false;
+    };
     # impermanent setup
     impermanence.url = "github:nix-community/impermanence";
     persist-retro.url = "github:Geometer1729/persist-retro"; # persist-retro checks if a folder marked by already exists and moves the files to the peristent location
@@ -43,10 +48,6 @@
     hyprsplit = {
       url = "github:shezdy/hyprsplit";
       inputs.hyprland.follows = "hyprland"; # <- make sure this line is present for the plugin to work as intended
-    };
-    hyprpanel = {
-      url = "github:Jas-SinghFSU/HyprPanel";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     # plasma-manager

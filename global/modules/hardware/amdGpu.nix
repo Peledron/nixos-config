@@ -50,6 +50,6 @@
   };
   # systemd-rules
   systemd.tmpfiles.rules = [
-    "L+    /opt/rocm/hip   -    -    -     -    ${pkgs.unstable.rocmPackages.clr}" # Most software has the HIP libraries hard-coded. You can work around it on NixOS by using this
+    "L+    /opt/rocm/hip   -    -    -     -    ${pkgs.rocmPackages.clr}" # Most software has the HIP libraries hard-coded. You can work around it on NixOS by using this
   ];
 }

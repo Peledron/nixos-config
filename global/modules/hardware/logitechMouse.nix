@@ -1,6 +1,10 @@
 {pkgs, ...}: {
   services.ratbagd.enable = true;
-  environment.systemPackages = with pkgs; [
-    piper
+  home-manager.sharedModules = [
+    {
+      home.packages = with pkgs; [
+        piper
+      ];
+    }
   ];
 }

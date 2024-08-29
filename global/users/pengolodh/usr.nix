@@ -2,6 +2,7 @@
 {
   config,
   self,
+  pkgs,
   ...
 }: {
   age.secrets.users_pengolodh_password.file = "${self}/.secrets/users/pengolodh/password.age";
@@ -20,6 +21,13 @@
             ];
           };
         };
+        packages = with pkgs; [
+          pciutils
+          usbutils
+          lm_sensors
+          fuse
+          s3fs
+        ];
       };
     };
   };

@@ -29,6 +29,7 @@
     inputs.disko.nixosModules.disko
     inputs.agenix.nixosModules.default
     globalCoreConf
+    "${inputs.nix-mineral}/nix-mineral.nix"
   ];
   impermanenceImports = [
     inputs.impermanence.nixosModules.impermanence

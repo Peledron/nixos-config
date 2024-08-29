@@ -7,10 +7,22 @@
 }: {
   system = {
     stateVersion = "23.11"; # initial system state
-    autoUpgrade = {};
+    autoUpgrade = {
+      enable = true;
+      flake = self.outPath;
+      persistent = true; # continues timer after reboot
+      # operation = "boot" # might be good so as to minimize downtime untill needed, default is switch
+      dates = "weekly";
+      randomizedDelaySec = "45min";
+      flags = [
+        "--update-input"
+        "nixpkgs"
+        "-L"
+        "--commit-lock-file"
+      ];
+    };
   };
-  #nixpkgs.config.allowunfree = true; # allow propietary software --> not needed when inheriting pkgs with allowfree = true; in flake
-  # nix specific settings:
+
   nix = {
     channel.enable = lib.mkForce true;
     # enable flakes so we can easily update the nixos config from a github repo

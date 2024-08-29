@@ -1,4 +1,8 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  mainUser,
+  ...
+}: {
   # virtualisation
   virtualisation = {
     #  --> libvirt:
@@ -25,7 +29,7 @@
     };
     spiceUSBRedirection.enable = true;
   };
-  environment.systemPackages = with pkgs; [
+  users.users.mainUser.packages = with pkgs; [
     # [cli]
     virt-top # top command but for virtual machine stats
     libguestfs # libguestfs is a tool to access virtual machine disks, idk what the applience does
@@ -33,8 +37,6 @@
     # [gui]
     looking-glass-client # best to use this with the kvmfr module for better performance if passing a dedicated gpu and using an igpu on the host
   ];
-  programs.virt-manager = {
-    enable = true;
-    package = pkgs.virt-manager;
-  };
+  programs.virt-manager.enable = true;
+  nm-overrides.compatibility.ip-forward.enable = true; # ip forwarding s used by virt-manager
 }

@@ -3,7 +3,6 @@
 {
   config,
   lib,
-  pkgs,
   mainUser,
   ...
 }: {
@@ -69,8 +68,8 @@
   };
   services.locate = {
     enable = true;
-    package = pkgs.plocate;
+    #package = pkgs.plocate;
     interval = "daily";
-    localuser = null; # silences a warning that updatedb cannot use any other user than root
+    #localuser = null; # silences a warning that updatedb cannot use any other user than root, only needed for plocate
   };
 }
