@@ -1,6 +1,6 @@
 [
-    ./boot.nix
-    ./hardware.nix
-    ./filesystems.nix
-    ./networking.nix
+  ./boot.nix
+  ./hardware.nix
+  ./filesystems.nix
+  ./networking.nix
 ]

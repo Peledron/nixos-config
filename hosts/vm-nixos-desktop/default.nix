@@ -1,7 +1,12 @@
-{ config, lib, pkgs, inputs, system, ... }:
-{   
-    imports =  
-        (import ./core)
-        ++ (import ./system)
-    ; 
+{
+  config,
+  lib,
+  pkgs,
+  inputs,
+  system,
+  ...
+}: {
+  imports =
+    (import ./core)
+    ++ (import ./system);
 }

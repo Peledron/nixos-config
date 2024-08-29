@@ -36,7 +36,7 @@
 
   preconfigThemes = ["nord"]; #
   preconfigThemeImport = theme: lib.optional (builtins.elem theme preconfigThemes) "${themingModulesPath}/${theme}.nix"; # theme is the input, if that input matches any of the themes in the preconfigthemes list then import that module
-  # --> note that the module name and the base16 theme name must be the same, so da-one-gray 
+  # --> note that the module name and the base16 theme name must be the same, so da-one-gray
   imports = lib.flatten [
     # hardware
     (lib.optional (mergedModules.hardware.gpu == "amd") "${hwModulesPath}/amdGpu.nix")

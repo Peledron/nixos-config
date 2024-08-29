@@ -1,10 +1,13 @@
 # drive config
-
-{ config, lib, pkgs, ... }:
 {
+  config,
+  lib,
+  pkgs,
+  ...
+}: {
   # set encrypted volume to be mounted as nixos-main at boot
   boot.initrd.luks.devices."nixos-main".device = "/dev/disk/by-label/crypted-main-nixos";
-  
+
   # btrfs subvolumes: @, @var, @tmp, @srv, @opt, @nix, @home, @usr-local
   # --> see https://nixos.wiki/wiki/Btrfs for a full guide
   # --> note that the only subvolumes we really need are root (@ in this case), nix (@nix, where the nix store and other nix functions are, arguably more important then @root) and home (@home)
@@ -16,44 +19,43 @@
       device = "/dev/mapper/nixos-main";
       fsType = "btrfs";
 
-      options = [ "subvol=@" "compress=zstd" ];
+      options = ["subvol=@" "compress=zstd"];
     };
     "/usr/local" = {
       device = "/dev/mapper/nixos-main";
       fsType = "btrfs";
 
-      options = [ "subvol=@usr-local" "compress=zstd" ];
+      options = ["subvol=@usr-local" "compress=zstd"];
     };
     "/var" = {
       device = "/dev/mapper/nixos-main";
       fsType = "btrfs";
 
-      options = [ "subvol=@var" "compress=zstd" "noatime" ];
+      options = ["subvol=@var" "compress=zstd" "noatime"];
     };
     "/tmp" = {
       device = "/dev/mapper/nixos-main";
       fsType = "btrfs";
 
-      options = [ "subvol=@tmp" "compress=zstd" "noatime" "commit=120" ];
+      options = ["subvol=@tmp" "compress=zstd" "noatime" "commit=120"];
     };
     "/srv" = {
       device = "/dev/mapper/nixos-main";
       fsType = "btrfs";
 
-      options = [ "subvol=@srv" "compress=zstd" ];
+      options = ["subvol=@srv" "compress=zstd"];
     };
     "/opt" = {
       device = "/dev/mapper/nixos-main";
       fsType = "btrfs";
 
-      options = [ "subvol=@opt" "compress=zstd" "noatime" ];
-     
+      options = ["subvol=@opt" "compress=zstd" "noatime"];
     };
     "/nix" = {
       device = "/dev/mapper/nixos-main";
       fsType = "btrfs";
 
-      options = [ "subvol=@nix" "compress=zstd" "noatime" ];
+      options = ["subvol=@nix" "compress=zstd" "noatime"];
     };
     #==================#
     # home:
@@ -61,7 +63,7 @@
       device = "/dev/mapper/nixos-main";
       fsType = "btrfs";
 
-      options = [ "subvol=@home" "compress=zstd" "noatime" ];
+      options = ["subvol=@home" "compress=zstd" "noatime"];
     };
     #==================#
     # swap:
@@ -70,7 +72,7 @@
       device = "/dev/mapper/nixos-main";
       fsType = "btrfs";
 
-      options = [ "subvol=@swap" ];
+      options = ["subvol=@swap"];
     };
     #==================#
     # boot:
@@ -82,6 +84,6 @@
   # ---
 
   # add swap:
-  swapDevices = [ { device = "/swap/swapfile"; } ];
-  # --- 
+  swapDevices = [{device = "/swap/swapfile";}];
+  # ---
 }

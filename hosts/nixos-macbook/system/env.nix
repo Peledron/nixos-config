@@ -1,6 +1,10 @@
-{ config, lib, pkgs, ... }:
 {
-    environment.variables = {
-        EDITOR="helix";
-    };
+  config,
+  lib,
+  pkgs,
+  ...
+}: {
+  environment.variables = {
+    EDITOR = "helix";
+  };
 }

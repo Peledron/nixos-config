@@ -28,7 +28,7 @@ in {
     # main machine
     hostName = "manwe";
     isImpermanent = true;
-    desktopEnv = "hyprland";
+    desktopEnv = "kde";
     extraModules = {
       # see ./hosts/extraModules.nix for all options
       theme = "da-one-gray"; # see base16 themes for available options

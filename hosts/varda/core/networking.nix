@@ -1,13 +1,16 @@
 # networking options
-
-{ config, lib, pkgs, ... }:
 {
+  config,
+  lib,
+  pkgs,
+  ...
+}: {
   networking = {
     useDHCP = lib.mkDefault true; # set all interfaces to use dhcp by default
     # define hostname and enable networkmanager
-    hostId="1e772256"; # needed for zfs, so it knows which device to mount to, command used: head -c 8 /etc/machine-id
+    hostId = "1e772256"; # needed for zfs, so it knows which device to mount to, command used: head -c 8 /etc/machine-id
     hostName = "nixos-laptop-asus"; # Define your hostname
-    networkmanager.enable = true;  # Easiest to use and most distros use this by default
+    networkmanager.enable = true; # Easiest to use and most distros use this by default
     # ---
 
     # define interface specific settings like ip addresses
@@ -18,9 +21,9 @@
         ip4.addresses [{
           address = "192.168.0.150"; # change to what you want
           prefixLength = 24; # subnetmask
-        }];    
+        }];
       };
-      # ---  
+      # ---
     };
     */
     # ---
@@ -28,14 +31,14 @@
     # set default gateway
     #defaultGateway = "192.168.0.1"; # does not need to be configured if DHCP is enabled
     # ---
-    
-    # set dns servers 
-    nameservers = [ 
+
+    # set dns servers
+    nameservers = [
       "1.1.1.1"
       "8.8.8.8"
     ];
     # ---
-    
+
     # set firewall settings:
 
     firewall = {

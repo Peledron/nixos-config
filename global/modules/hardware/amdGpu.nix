@@ -12,18 +12,18 @@
       # enable vulkan drivers:
       driSupport = true;
       driSupport32Bit = true; # For 32 bit applications
-      package = pkgs.unstable.mesa.drivers;
-      package32 = pkgs.unstable.pkgsi686Linux.mesa.drivers;
+      #package = pkgs.unstable.mesa.drivers;
+      #package32 = pkgs.unstable.pkgsi686Linux.mesa.drivers;
 
       # extra drivers:
-      extraPackages = with pkgs.unstable; [
+      extraPackages = with pkgs; [
         rocmPackages.clr
         rocmPackages.clr.icd
         rocmPackages.rocm-runtime
 
         amdvlk # amd pro driver -> in env RADV is enabled so this will only be used as fallback I think
       ];
-      extraPackages32 = with pkgs.unstable; [
+      extraPackages32 = with pkgs; [
         driversi686Linux.amdvlk
       ];
     };
@@ -41,7 +41,7 @@
       # rocm related
       ROCR_VISIBLE_DEVICES = extraVar.hardware.rocmgpu;
     };
-    systemPackages = with pkgs.unstable; [
+    systemPackages = with pkgs; [
       rocmPackages.rocm-smi
       rocmPackages.rocminfo
       clinfo

@@ -1,5 +1,10 @@
-{ config, lib, pkgs, modulesPath, ... }:
 {
+  config,
+  lib,
+  pkgs,
+  modulesPath,
+  ...
+}: {
   #imports =
   #  [(modulesPath + "/profiles/qemu-guest.nix")]
   #  ++ [(modulesPath + "/virtualisation/qemu-guest-agent.nix")] # guest agent for qemu:
@@ -13,18 +18,19 @@
   # kernel modules:
   #boot.initrd.kernelModules = [ "kvm-amd" ];   # add kernel modules for amdgpu or nvidia_drm, etc..
   boot = {
-    initrd = { # modules that are enabled in the initrd (when the kernel is loaded from the efi partition)
-      availableKernelModules = [ "ata_piix" "mptspi" "uhci_hcd" "ehci_pci" "sd_mod" "sr_mod" ];
-      kernelModules = [ ];
+    initrd = {
+      # modules that are enabled in the initrd (when the kernel is loaded from the efi partition)
+      availableKernelModules = ["ata_piix" "mptspi" "uhci_hcd" "ehci_pci" "sd_mod" "sr_mod"];
+      kernelModules = [];
     };
-    kernelModules = [ ];
-    extraModulePackages = [ ];
+    kernelModules = [];
+    extraModulePackages = [];
   };
   # ---
-  
+
   #enable vmware guest support
   virtualisation.vmware.guest.enable = true;
-  
+
   # power settings:
   powerManagement.cpuFreqGovernor = "performance";
 }

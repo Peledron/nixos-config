@@ -1,7 +1,7 @@
 [
-    ./boot.nix
-    ./hardware.nix
-    ./filesystems.nix
-    ./ephemeral.nix
-    ./networking.nix
+  ./boot.nix
+  ./hardware.nix
+  ./filesystems.nix
+  ./ephemeral.nix
+  ./networking.nix
 ]

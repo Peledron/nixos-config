@@ -1,5 +1,9 @@
-{ config, lib, pkgs, ... }:
 {
-    environment.variables = {
-    };
+  config,
+  lib,
+  pkgs,
+  ...
+}: {
+  environment.variables = {
+  };
 }

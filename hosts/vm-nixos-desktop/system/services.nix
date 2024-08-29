@@ -1,7 +1,10 @@
 # important system services
-
-{ config, lib, pkgs, ... }:
 {
+  config,
+  lib,
+  pkgs,
+  ...
+}: {
   # ssh is enabled globally, you can override  its settings, or disable it here:
   /*
   services.openssh = {
@@ -22,5 +25,4 @@
   services.auto-cpufreq.enable = false;
   powerManagement.enable = false;
   virtualisation.docker.enable = false; # disable docker as I do not need it on a desktop machine
-
 }

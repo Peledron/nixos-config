@@ -14,7 +14,6 @@
   environment.systemPackages = with pkgs; [
     polkit_gnome
     xdg-utils
-
   ];
   programs = {
     hyprland = {
@@ -27,7 +26,7 @@
   xdg.portal = {
     enable = true;
     xdgOpenUsePortal = true;
-    wlr.enable = true; 
+    wlr.enable = true;
     extraPortals = [
       pkgs.xdg-desktop-portal-gtk
     ];
@@ -52,7 +51,7 @@
         };
         initial_session = {
           command = "${pkgs.systemd}/bin/systemd-cat ${inputs.hyprland.packages.${pkgs.system}.hyprland}/bin/Hyprland &> /dev/null";
-          user = "${mainUser}"; 
+          user = "${mainUser}";
         };
       };
     };
