@@ -389,12 +389,12 @@
       "kwinrc"."Xwayland"."Scale" = 1;
       "plasma-localerc"."Formats"."LANG" = "en_US.UTF-8";
       "plasma-localerc"."Formats"."LC_ADDRESS" = "nl_BE.UTF-8";
-      "plasma-localerc"."Formats"."LC_MONETARY" = "en_BE.UTF-8";
+      "plasma-localerc"."Formats"."LC_MONETARY" = "nl_BE.UTF-8";
       "plasma-localerc"."Formats"."LC_NAME" = "nl_BE.UTF-8";
-      "plasma-localerc"."Formats"."LC_NUMERIC" = "en_BE.UTF-8";
-      "plasma-localerc"."Formats"."LC_PAPER" = "en_BE.UTF-8";
+      "plasma-localerc"."Formats"."LC_NUMERIC" = "nl_BE.UTF-8";
+      "plasma-localerc"."Formats"."LC_PAPER" = "nl_BE.UTF-8";
       "plasma-localerc"."Formats"."LC_TELEPHONE" = "nl_BE.UTF-8";
-      "plasma-localerc"."Formats"."LC_TIME" = "en_BE.UTF-8";
+      "plasma-localerc"."Formats"."LC_TIME" = "nl_BE.UTF-8";
       "plasmanotifyrc"."Applications/vesktop"."Seen" = true;
       "plasmarc"."Wallpapers"."usersWallpapers" = "/home/pengolodh/Data/Pictures/wallpapers/ultrawide/nature/NZrct4m.jpg";
     };

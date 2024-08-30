@@ -85,19 +85,19 @@
     "/home/pengolodh/Data/Windows/windows-root" = {
       device = extraVar.disks.windowsRoot;
       fsType = "ntfs3";
-      options = ["defaults" "noatime" "nofail" "sys_immutable" "windows_names" "uid=1000" "gid=1000" "user" "umask=027" "discard"];
+      options = ["defaults" "noatime" "nofail" "sys_immutable" "windows_names" "uid=1000" "gid=100" "user" "umask=077" "discard"];
       depends = ["/home"];
     };
     "/home/pengolodh/Data/Windows/windows-data-main" = {
       device = extraVar.disks.windowsDataMain;
       fsType = "ntfs3";
-      options = ["defaults" "noatime" "nofail" "windows_names" "uid=1000" "gid=1000" "user" "umask=027"];
+      options = ["defaults" "noatime" "nofail" "windows_names" "uid=1000" "gid=100" "user" "umask=077"];
       depends = ["/home"];
     };
     "/home/pengolodh/Data/Windows/windows-data-mods" = {
       device = extraVar.disks.windowsDataMods;
       fsType = "ntfs3";
-      options = ["defaults" "noatime" "nofail" "windows_names" "uid=1000" "gid=1000" "user" "umask=027"];
+      options = ["defaults" "noatime" "nofail" "windows_names" "uid=1000" "gid=100" "user" "umask=077"];
       depends = ["/home"];
     };
   };

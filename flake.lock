@@ -758,6 +758,22 @@
         "type": "github"
       }
     },
+    "nix-mineral": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1722804891,
+        "narHash": "sha256-CGQMSLlqO6D5yDXYNZTfDqv2RqifC4WTP9RxiRBaCX0=",
+        "owner": "cynicsketch",
+        "repo": "nix-mineral",
+        "rev": "477ef3395dc6fd69237d717edcc6f4274364b745",
+        "type": "github"
+      },
+      "original": {
+        "owner": "cynicsketch",
+        "repo": "nix-mineral",
+        "type": "github"
+      }
+    },
     "nixos-hardware": {
       "locked": {
         "lastModified": 1724575805,
@@ -946,6 +962,7 @@
         "lanzaboote": "lanzaboote",
         "nix-alien": "nix-alien",
         "nix-index-database": "nix-index-database_2",
+        "nix-mineral": "nix-mineral",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs_3",
         "nixpkgs-unstable": "nixpkgs-unstable",

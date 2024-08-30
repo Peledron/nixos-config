@@ -19,8 +19,9 @@
   networking.firewall = lib.mkDefault {
     enable = true;
   };
-  security = lib.mkDefault {
+  security = {
     polkit.enable = true;
+    apparmor.packages = [pkgs.apparmor-profiles pkgs.roddhjav-apparmor-rules];
     sudo.enable = false; # disable sudo by default
     doas = {
       enable = true;
@@ -41,5 +42,4 @@
       #'';
     };
   };
-  security.apparmor.packages = [pkgs.apparmor-profiles pkgs.roddhjav-apparmor-rules];
 }

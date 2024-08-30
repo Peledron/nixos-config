@@ -29,7 +29,7 @@
     };
     spiceUSBRedirection.enable = true;
   };
-  users.users.mainUser.packages = with pkgs; [
+  users.users.${mainUser}.packages = with pkgs; [
     # [cli]
     virt-top # top command but for virtual machine stats
     libguestfs # libguestfs is a tool to access virtual machine disks, idk what the applience does
