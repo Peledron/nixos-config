@@ -14,8 +14,8 @@
       package = pkgs.nerdfonts.override {fonts = ["Ubuntu"];};
     };
     monospace = {
-      name = "UbuntuMono Nerd Font";
-      package = pkgs.nerdfonts.override {fonts = ["UbuntuMono"];};
+      name = "UbuntuSansMono Nerd Font Bold";
+      package = pkgs.nerdfonts.override {fonts = ["UbuntuSans"];};
     };
     emoji = {
       name = "Noto Color Emoji";

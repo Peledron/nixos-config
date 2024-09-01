@@ -4,26 +4,26 @@ in {
   programs.plasma = {
     # see all options on https://nix-community.github.io/plasma-manager/options.xhtml
     enable = true;
-    #overrideConfig = true; # makes plasma fully declerative, it destroys most config files each generation so you can lose config if not properly defined here
+    overrideConfig = true; # makes plasma fully declerative, it destroys most config files each generation so you can lose config if not properly defined here
     fonts = {
       general = {
-        family = config.stylix.fonts.serif;
-        pointSize = config.stylix.fonts.sizes.application;
+        family = config.stylix.fonts.sansSerif.name;
+        pointSize = config.stylix.fonts.sizes.applications;
       };
       menu = {
-        family = config.stylix.fonts.serif;
+        family = config.stylix.fonts.sansSerif.name;
         pointSize = config.stylix.fonts.sizes.desktop;
       };
       toolbar = {
-        family = config.stylix.fonts.serif;
+        family = config.stylix.fonts.sansSerif.name;
         pointSize = config.stylix.fonts.sizes.desktop;
       };
       windowTitle = {
-        family = config.stylix.fonts.serif;
+        family = config.stylix.fonts.sansSerif.name;
         pointSize = config.stylix.fonts.sizes.desktop;
       };
       small = {
-        family = config.stylix.fonts.serif;
+        family = config.stylix.fonts.sansSerif.name;
         pointSize = 11;
       };
       fixedWidth = {
@@ -102,6 +102,13 @@ in {
     };
     kwin = {
       effects = {
+        # anim
+        minimization.animation = "squash";
+        desktopSwitching.animation = "fade";
+        windowOpenClose.animation = "fade";
+        #fallApart.enable = true; # makes closed windows fall appart
+        # other
+        dimAdminMode.enable = true;
       };
       virtualDesktops = {
         number = 5;
@@ -224,7 +231,7 @@ in {
       "dolphinrc"."DetailsMode"."PreviewSize" = 16;
       "kcminputrc"."Libinput/1133/49734/Logitech G300s Optical Gaming Mouse"."PointerAccelerationProfile" = 1;
       "kded5rc"."Module-device_automounter"."autoload" = false;
-      "KDE"."AnimationDurationFactor" = 0.35355339059327373;
+      #"KDE"."AnimationDurationFactor" = "0.35355339059327373";
       "kwalletrc"."Wallet"."First Use" = false;
 
       kdeglobals = {
@@ -242,6 +249,7 @@ in {
       };
 
       kwinrc = {
+        "Plugins"."krohnkiteEnabled" = true;
         "Script-krohnkite"."enableBTreeLayout" = true;
         "Script-krohnkite"."maximizeSoleTile" = true;
         "Script-krohnkite"."noTileBorder" = true;

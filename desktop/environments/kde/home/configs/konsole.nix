@@ -1,6 +1,7 @@
 {
   lib,
   pkgs,
+  config,
   ...
 }: {
   programs.konsole = {
@@ -9,7 +10,11 @@
     profiles = {
       fish = {
         command = "${pkgs.fish}/bin/fish";
-        colorScheme = "stylix";
+        colorScheme = "Stylix";
+        font = {
+          name = config.stylix.fonts.monospace.name;
+          size = config.stylix.fonts.sizes.terminal;
+        };
       };
     };
   };
@@ -82,6 +87,7 @@
       Color={{base07-rgb-r}},{{base07-rgb-g}},{{base07-rgb-b}}
       [General]
       Description=Stylix
+      Blur=true
       Opacity=0.75
       Wallpaper=
       "
