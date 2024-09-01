@@ -6,11 +6,11 @@
 
   stylix.fonts = {
     sansSerif = {
-      name = "UbuntuSans Nerd Font";
+      name = "UbuntuSans Nerd Font Med";
       package = pkgs.nerdfonts.override {fonts = ["UbuntuSans"];};
     };
     serif = {
-      name = "Ubuntu Nerd Font";
+      name = "Ubuntu Nerd Font Med";
       package = pkgs.nerdfonts.override {fonts = ["Ubuntu"];};
     };
     monospace = {
@@ -22,10 +22,10 @@
       package = pkgs.noto-fonts-color-emoji;
     };
     sizes = {
-      applications = 12;
-      terminal = 15;
-      desktop = 12;
-      popups = 12;
+      applications = 13;
+      terminal = 14;
+      desktop = 13;
+      popups = 13;
     };
   };
 }

@@ -1,4 +1,8 @@
-{lib, ...}: {
+{
+  lib,
+  pkgs,
+  ...
+}: {
   # see https://nixos.wiki/wiki/Fish
   programs.fish = {
     enable = lib.mkDefault false; # set fish to be managed by home-manager
@@ -22,5 +26,5 @@
       help = ''$argv --help 2>&1 | bat --language=help''; # from https://github.com/wimpysworld/nix-config/blob/main/home-manager/_mixins/configs/help.fish
     };
   };
-  # ---
+  xdg.configFile."fish/completions/nix.fish".source = "${pkgs.nix}/share/fish/vendor_completions.d/nix.fish";
 }

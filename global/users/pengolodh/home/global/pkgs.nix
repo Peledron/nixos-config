@@ -15,7 +15,6 @@
     inetutils # package containing various network tools like traceroute
     bat # cat replacement with syntax highlighting, etc
     eza # colorfull ls, easier to read
-    zoxide # cd replacement, allows for cd-ing into subdirectories, etc..
     du-dust # du replacement, fancier
     ncdu # shows detailed diskusage (df mixed with du ig)
     fzf # fuzzy finder, faster then find
@@ -29,9 +28,6 @@
     stow
     # [git-related]
     git-crypt
-
-    # [hardware management]
-    #pynitrokey # cli interface for nitrokey devices, udev rules are enabled in ${self}/global/core/security.nix, this needs to compile!
   ];
   nix-alien-install = with self.inputs.nix-alien.packages.${system}; [
     nix-alien # program to auto resolve dependencies of non-nix binaries, works in conjunction with nix-index and nix-ld
@@ -45,7 +41,7 @@ in {
   # set programs to be managed by home-manager:
   # --> program configs are within ./configs
   programs = {
-    man.generateCaches = true; # generate man-db
+    #man.generateCaches = true; # generate man-db
     nix-index = {
       enable = true; # setting this to true enables the shell integrations as well as command-not-found, which ironically makes command not found less legible cuz it adds all this fluff like .out, however the nice thing is that it uses the index provided by nix-index
     };

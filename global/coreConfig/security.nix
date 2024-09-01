@@ -4,8 +4,10 @@
   mainUser,
   ...
 }: {
-  nm-overrides = lib.mkDefault {
+  /*
+    nm-overrides = {
     # see https://raw.githubusercontent.com/cynicsketch/nix-mineral/main/nm-overrides.nix for a list of all overrides
+    # note nm seems to be incompatible with the impernamence setup, so I am leaving it out for now
     performance = {
       allow-smt.enable = true;
     };
@@ -14,14 +16,21 @@
       disable-intelme-kmodules.enable = true;
       disable-tcp-window-scaling.enable = true; # unless someone gets on my network ddos protection is not needed
     };
-    desktop.doas-sudo-wrapper.enable = true;
+    desktop = {
+      #hideproc-relaxed.enable = true;
+      doas-sudo-wrapper.enable = true;
+    };
   };
+
+  boot.specialFileSystems = {
+    "/proc".options = lib.mkForce ["nosuid" "nodev" "noexec"]; # skipping the nix mineral proc stuff entirely, the issue seems to be a part of nixos stable
+  };
+  */
   networking.firewall = lib.mkDefault {
     enable = true;
   };
   security = {
     polkit.enable = true;
-    apparmor.packages = [pkgs.apparmor-profiles pkgs.roddhjav-apparmor-rules];
     sudo.enable = false; # disable sudo by default
     doas = {
       enable = true;
@@ -42,4 +51,9 @@
       #'';
     };
   };
+  environment.systemPackages = with pkgs; [
+    doas-sudo-shim
+    #apparmor-profiles
+    #roddhjav-apparmor-rules
+  ];
 }

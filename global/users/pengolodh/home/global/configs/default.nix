@@ -7,4 +7,5 @@
   ./fish.nix
   ./starship.nix
   ./zoxide.nix
+  ./atuin.nix
 ]
