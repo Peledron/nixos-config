@@ -4,6 +4,7 @@ in {
   programs.plasma = {
     # see all options on https://nix-community.github.io/plasma-manager/options.xhtml
     enable = true;
+    #overrideConfig = true; # makes plasma fully declerative, it destroys most config files each generation so you can lose config if not properly defined here
     fonts = {
       general = {
         family = config.stylix.fonts.serif;
@@ -90,7 +91,7 @@ in {
         ];
       }
     ];
-    spectacle.shortcuts.captureRectangularRegion = "Print";
+
     kscreenlocker = {
       appearance = {
         showMediaControls = true;
@@ -99,6 +100,16 @@ in {
       };
       timeout = 25; # time in minutes
     };
+    kwin = {
+      effects = {
+      };
+      virtualDesktops = {
+        number = 5;
+        rows = 5;
+        # as we are using a vertical panel (see above) to save height I need to use a vertical layout of  virtual desktops, otherwise the switcher does not work
+      };
+    };
+    spectacle.shortcuts.captureRectangularRegion = "Print";
     shortcuts = {
       kmix = {
         "increase_volume" = "Volume Up";
@@ -210,51 +221,39 @@ in {
     };
     configFile = {
       "baloofilerc"."General"."exclude folders[$e]" = "$HOME/Data/Downloads/,$HOME/Data/Windows/,$HOME/Games/";
-
       "dolphinrc"."DetailsMode"."PreviewSize" = 16;
-
       "kcminputrc"."Libinput/1133/49734/Logitech G300s Optical Gaming Mouse"."PointerAccelerationProfile" = 1;
-
       "kded5rc"."Module-device_automounter"."autoload" = false;
+      "KDE"."AnimationDurationFactor" = 0.35355339059327373;
+      "kwalletrc"."Wallet"."First Use" = false;
+
       kdeglobals = {
         "General"."XftAntialias" = true;
         "General"."XftHintStyle" = "hintslight";
         "General"."XftSubPixel" = "rgb";
       };
-      "KDE"."AnimationDurationFactor" = 0.35355339059327373;
-
       krunnerrc = {
         "General"."FreeFloating" = true;
         "Plugins"."baloosearchEnabled" = true;
       };
-      "kscreenlockerrc"."Greeter/Wallpaper/org.kde.image/General"."Image" = "/home/pengolodh/Data/Pictures/wallpapers/ultrawide/nature/1g3ynO0.jpg";
-      "kscreenlockerrc"."Greeter/Wallpaper/org.kde.image/General"."PreviewImage" = "/home/pengolodh/Data/Pictures/wallpapers/ultrawide/nature/1g3ynO0.jpg";
-      "ksmserverrc"."General"."confirmLogout" = true;
-      "ksmserverrc"."General"."loginMode" = "emptySession";
-      "kwalletrc"."Wallet"."First Use" = false;
+      ksmserverrc = {
+        "General"."confirmLogout" = true;
+        "General"."loginMode" = "emptySession";
+      };
 
-      "kwinrc"."Desktops"."Number" = 5;
-      "kwinrc"."Desktops"."Rows" = 5;
-      "kwinrc"."Effect-overview"."BorderActivate" = 9;
-      "kwinrc"."Script-krohnkite"."enableBTreeLayout" = true;
-      "kwinrc"."Script-krohnkite"."maximizeSoleTile" = true;
-      "kwinrc"."Script-krohnkite"."noTileBorder" = true;
-      "kwinrc"."Script-krohnkite"."screenGapBottom" = 4;
-      "kwinrc"."Script-krohnkite"."screenGapLeft" = 4;
-      "kwinrc"."Script-krohnkite"."screenGapRight" = 4;
-      "kwinrc"."Script-krohnkite"."screenGapTop" = 4;
-      "kwinrc"."Script-krohnkite"."tileLayoutGap" = 4;
-      "kwinrc"."Tiling"."padding" = 4;
-      "kwinrc"."Xwayland"."Scale" = 1;
-      "plasma-localerc"."Formats"."LANG" = "en_US.UTF-8";
-      "plasma-localerc"."Formats"."LC_ADDRESS" = "nl_BE.UTF-8";
-      "plasma-localerc"."Formats"."LC_MONETARY" = "nl_BE.UTF-8";
-      "plasma-localerc"."Formats"."LC_NAME" = "nl_BE.UTF-8";
-      "plasma-localerc"."Formats"."LC_NUMERIC" = "nl_BE.UTF-8";
-      "plasma-localerc"."Formats"."LC_PAPER" = "nl_BE.UTF-8";
-      "plasma-localerc"."Formats"."LC_TELEPHONE" = "nl_BE.UTF-8";
-      "plasma-localerc"."Formats"."LC_TIME" = "nl_BE.UTF-8";
-      "plasmarc"."Wallpapers"."usersWallpapers" = "/home/pengolodh/Data/Pictures/wallpapers/ultrawide/nature/NZrct4m.jpg";
+      kwinrc = {
+        "Script-krohnkite"."enableBTreeLayout" = true;
+        "Script-krohnkite"."maximizeSoleTile" = true;
+        "Script-krohnkite"."noTileBorder" = true;
+        "Script-krohnkite"."screenGapBottom" = 4;
+        "Script-krohnkite"."screenGapLeft" = 4;
+        "Script-krohnkite"."screenGapRight" = 4;
+        "Script-krohnkite"."screenGapTop" = 4;
+        "Script-krohnkite"."tileLayoutGap" = 4;
+        "Effect-overview"."BorderActivate" = 9;
+        "Tiling"."padding" = 4;
+        "Xwayland"."Scale" = 1;
+      };
     };
   };
 }
