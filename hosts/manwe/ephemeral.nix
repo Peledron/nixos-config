@@ -25,16 +25,11 @@ in {
     ];
     files = [
       # systemd unique machine id and ntp time adjust
-      "/etc/machine-id"
+      #"/etc/machine-id" # -> the nix-mineral module uses a pregenerated machine-id
       "/etc/adjtime"
       # network manager is enabled so we need the following files t`o be persistent for wifi
       # locatedb cache
       "/var/cache/locatedb"
-      #
-      {
-        file = "/var/keys/secret_file";
-        parentDirectory = {mode = "u=rwx,g=,o=";};
-      }
     ];
   };
 

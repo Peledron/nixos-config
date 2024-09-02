@@ -34,7 +34,7 @@ in {
     };
     workspace = {
       clickItemTo = "select";
-      lookAndFeel = "stylix";
+      lookAndFeel = "Stylix";
       soundTheme = "Ocean";
       cursor = {
         theme = config.stylix.cursor.name;
@@ -227,7 +227,7 @@ in {
       "services/systemsettings.desktop"."_launch" = ["Tools" "Meta+Shift+Esc"];
     };
     configFile = {
-      "baloofilerc"."General"."exclude folders[$e]" = "$HOME/Data/Downloads/,$HOME/Data/Windows/,$HOME/Games/";
+      "baloofilerc"."General"."exclude folders" = "$HOME/Data/Downloads/,$HOME/Data/Windows/,$HOME/Games/";
       "dolphinrc"."DetailsMode"."PreviewSize" = 16;
       "kcminputrc"."Libinput/1133/49734/Logitech G300s Optical Gaming Mouse"."PointerAccelerationProfile" = 1;
       "kded5rc"."Module-device_automounter"."autoload" = false;

@@ -1,5 +1,6 @@
 # drive config
 {
+  lib,
   extraVar,
   mainUser,
   ...
@@ -71,15 +72,15 @@
   fileSystems = {
     "/".neededForBoot = true;
     "/nix".neededForBoot = true;
-    "/home" = {
+    "/home" = lib.mkForce {
       device = "/dev/mapper/cr_home";
       fsType = "btrfs";
-      options = ["subvol=home" "compress=zstd" "noatime"];
+      options = ["subvol=home" "compress=zstd" "noatime" "nodev" "nosuid"];
     };
     "/home/pengolodh/Games" = {
       device = "/dev/mapper/cr_games"; # see below for the crypttab configuration
       fsType = "ext4";
-      options = ["defaults" "noatime" "nofail"];
+      options = ["defaults" "noatime" "nofail" "nodev" "nosuid"];
       depends = ["/home"];
     };
     "/home/pengolodh/Data/Windows/windows-root" = {
@@ -102,7 +103,7 @@
     };
   };
   # ---
-
+  boot.tmp.useTmpfs = true; # mount /tmp as a tmpfs filesystem, it will be cleared at each boot
   # we are using btrfs so we can enable the scrub service here, as it is filesystem dependant
   services.btrfs.autoScrub = {
     enable = true;

@@ -3,6 +3,7 @@
   pkgs,
   inputs,
   self,
+  mainUser,
   ...
 }: {
   system = {
@@ -45,7 +46,8 @@
 
       # set users as trusted to run nix commands (@group allows entire group)
       trusted-users = [
-        "@wheel"
+        #"@wheel" # for all of wheel
+        mainUser
       ];
     };
   };

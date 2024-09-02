@@ -22,15 +22,15 @@ in {
   # then create them using systemd tempdirectories that do not auto-refresh, the - means no refresh
   # its "directory (d) foo/bar perms user group ttl"
   systemd.user.tmpfiles.rules = [
-    "d ${userdata-basedir} 0770 pengolodh users -"
-    "d ${userdata-basedir}/Desktop 0750 pengolodh users -"
-    "d ${userdata-basedir}/Downloads 0750 pengolodh users -"
-    "d ${userdata-basedir}/Documents 0750 pengolodh users -"
-    "d ${userdata-basedir}/Pictures 0750 pengolodh users -"
-    "d ${userdata-basedir}/Music 0750 pengolodh users -"
-    "d ${userdata-basedir}/Videos 0750 pengolodh users -"
-    "d ${userdata-basedir}/Templates 0750 pengolodh users -"
-    "d ${userdata-basedir}/Public 0750 pengolodh users -"
-    "d ${userdata-basedir}/Pictures/screenshots/linux 0750 pengolodh users -"
+    "d ${userdata-basedir} 0700 pengolodh users -"
+    "d ${userdata-basedir}/Desktop 0700 pengolodh users -"
+    "d ${userdata-basedir}/Downloads 0700 pengolodh users -"
+    "d ${userdata-basedir}/Documents 0700 pengolodh users -"
+    "d ${userdata-basedir}/Pictures 0700 pengolodh users -"
+    "d ${userdata-basedir}/Music 0700 pengolodh users -"
+    "d ${userdata-basedir}/Videos 0700 pengolodh users -"
+    "d ${userdata-basedir}/Templates 0700 pengolodh users -"
+    "d ${userdata-basedir}/Public 0700 pengolodh users -"
+    "d ${userdata-basedir}/Pictures/screenshots/linux 0700 pengolodh users -"
   ];
 }
