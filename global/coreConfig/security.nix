@@ -51,12 +51,12 @@
     };
   };
   # add a systemd.tmpfiles rule to ignore certain paths that could slow the boot process down
-  systemd.tmpfiles.rules = [
+  systemd.tmpfiles.settings."restricthome" = lib.mkAfter {
     # see https://www.freedesktop.org/software/systemd/man/tmpfiles.d to see what the first letter means
-    "x /home/${mainUser}/.snapshots - - - - -" # x means ignore recursivly
-    "x /home/${mainUser}/.cache - - - - -"
-    "x /home/${mainUser}/Data/Windows/* - - - - -"
-  ];
+    "/home/${mainUser}/.snapshots".x.age = "-"; # x means ignore recursivly
+    "/home/${mainUser}/.cache".x.age = "-";
+    "/home/${mainUser}/Data/Windows".x.age = "-";
+  };
   boot = {
     specialFileSystems = {
       "/proc".options = lib.mkForce ["nosuid" "nodev" "noexec"]; # skipping the nix mineral proc stuff entirely, the issue seems to be a part of nixos stable (24.05) not recognising the nix-mineral gid=proc mount option (a bug prevents the script from filling this with an id)
@@ -66,7 +66,7 @@
     initrd.postDeviceCommands = lib.mkAfter ''
       mkdir -p /mnt-root/home /mnt-root/root /mnt-root/var /mnt-root/srv /mnt-root/etc
     ''; # the mkdir -p option should prevent the command from running when the directory already exists (to avoid conflict with other nixos scripts)
-    */  
+    */
   };
   # since impernamence requires the /var and /etc directories they are mounted before the rest of the initrd is done, this causes conflict
   # therefore I will force them to be tmpfs instead
