@@ -47,6 +47,7 @@ in {
       {
         location = "left";
         height = 28;
+        floating = false;
         widgets = [
           # see ~/.config/plasma-org.kde.plasma.desktop-appletsrc for all configured widgets and their options
           {

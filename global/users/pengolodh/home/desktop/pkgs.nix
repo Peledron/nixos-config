@@ -46,12 +46,13 @@
     #go
     #openjdk
     #gcc
-    #rustc
+    rustc
 
     # [programming tools]
     meld # qt diff tool
     cargo
     pipx
+    rust-analyzer # rust code lsp
 
     # [build tools]
     #gnumake
@@ -62,9 +63,6 @@
     # [nix-tools]
     alejandra # .nix auto-formatter
     nil # nix language server
-
-    # [editors]
-    vscodium-fhs # fhs variant allows for plugins
   ];
   graphics-install = with pkgs; [
     # it is recommened to use the same pkgs version as the graphics driver, aka pkgs.unstable or pkgs (which is based on stable)

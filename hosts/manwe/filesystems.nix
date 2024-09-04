@@ -75,7 +75,7 @@
     "/home" = lib.mkForce {
       device = "/dev/mapper/cr_home";
       fsType = "btrfs";
-      options = ["subvol=home" "compress=zstd" "noatime" "nodev" "nosuid"];
+      options = ["subvol=home" "compress=zstd" "noatime" "nodev" "nosuid"]; # enable compression and some security options
     };
     "/home/pengolodh/Games" = {
       device = "/dev/mapper/cr_games"; # see below for the crypttab configuration
@@ -91,7 +91,7 @@
     };
     "/home/pengolodh/Data/Windows/windows-data-main" = {
       device = extraVar.disks.windowsDataMain;
-      fsType = "ntfs3";
+      fsType = "ntfs";
       options = ["defaults" "noatime" "nofail" "windows_names" "uid=1000" "gid=100" "user" "umask=077"];
       depends = ["/home"];
     };

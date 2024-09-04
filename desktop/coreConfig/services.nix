@@ -6,7 +6,7 @@
 }: {
   # nice daemon
   services.ananicy = {
-    package = pkgs.unstable.ananicy-cpp;
+    package = pkgs.ananicy-cpp;
     enable = true;
     rulesProvider = pkgs.unstable.ananicy-rules-cachyos;
   };
@@ -61,13 +61,13 @@
   };
   # power management
   # -> enables suspend to ram and such (is this needed?)
-  powerManagement = lib.mkDefault {
+  powerManagement = {
     enable = true;
   };
 
   # enable either auto-cpufreq or tlp, tlp has more features like drive suspend, however auto-cpufreq seems to be better for cpu management (cooler and less power to my testing)
   services.auto-cpufreq = lib.mkDefault {
-    enable = false;
+    enable = true;
   };
 
   # You can tell the Linux kernel to use an interpreter (e.g. appimage-run) when executing certain binary files through the use of binfmt_misc, either by filename extension or magic number matching. Below NixOS configuration registers AppImage files (ELF files with magic number "AI" + 0x02) to be run with appimage-run as interpreter.
