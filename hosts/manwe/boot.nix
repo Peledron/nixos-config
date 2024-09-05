@@ -3,11 +3,8 @@
   lib,
   pkgs,
   self,
-  secureBoot,
   ...
 }: {
-  imports = lib.optional secureBoot "${self}/global/modules/system/secureBoot.nix";
-
   boot = {
     # [kernel]
     kernelPackages = pkgs.unstable.linuxKernel.packages.linux_xanmod_latest; #config.boot.zfs.package.latestCompatibleLinuxPackages; # this will use the latest kernel that is patched with zfs module

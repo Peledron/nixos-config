@@ -108,11 +108,9 @@
       "/var/lib/upower"
     ];
     files = [
-      "/var/lib/sops-nix/key" # make sure that the sops key is persistent
       "/etc/machine-id"
       "/etc/adjtime"
-      #"/etc/passwd"
-      #"/etc/shadow"
+
       "/var/lib/NetworkManager/secret_key"
       "/var/lib/NetworkManager/seen-bssids"
       "/var/lib/NetworkManager/timestamps"

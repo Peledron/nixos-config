@@ -24,6 +24,7 @@
       name = "system-icons";
       paths = with pkgs; [
         kdePackages.breeze-icons # for plasma
+        papirus-icon-theme
         adwaita-icon-theme
       ];
       pathsToLink = ["/share/icons"];

@@ -13,7 +13,7 @@
         isNormalUser = true;
         home = "/home/pengolodh"; # you can define a different home, /home/$USER is used by default
         hashedPasswordFile = config.age.secrets.users_pengolodh_password.path; # make sure that the password is hashed in the age file
-        extraGroups = ["wheel" "podman" "docker" "kvm" "libvirtd" "video" "networkmanager"]; # add user to groups for extra permissions like sudo access
+        extraGroups = ["wheel" "video" "networkmanager"]; # add user to groups for extra permissions like sudo access
 
         openssh = {
           authorizedKeys = {

@@ -1,4 +1,10 @@
-{pkgs, ...}: {
+{
+  lib,
+  pkgs,
+  mainUser,
+  ...
+}: {
+  users.groups.podman.members = [mainUser];
   virtualisation = {
     podman = {
       enable = true;
@@ -11,7 +17,7 @@
     };
     oci-containers.backend = "podman";
   };
-  environment.systemPackages = with pkgs; [
+  users.users.${mainUser}.packages = with pkgs; [
     podman-compose
     distrobox
   ];

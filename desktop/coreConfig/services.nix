@@ -6,7 +6,7 @@
 }: {
   # nice daemon
   services.ananicy = {
-    package = pkgs.ananicy-cpp;
+    package = pkgs.unstable.ananicy;
     enable = true;
     rulesProvider = pkgs.unstable.ananicy-rules-cachyos;
   };

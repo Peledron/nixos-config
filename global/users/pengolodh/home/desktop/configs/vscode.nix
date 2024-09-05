@@ -1,7 +1,13 @@
-{...}: {
+{
+  pkgs,
+  config,
+  ...
+}: {
   programs.vscode = {
     enable = true;
-    extentions = with pkgs.vscode-extensions; [
+    package = pkgs.vscodium;
+    mutableExtensionsDir = true; # true is default, allows extentions to be installed
+    extensions = with pkgs.vscode-extensions; [
       # https://search.nixos.org/packages?channel=24.05&from=0&size=50&sort=relevance&type=packages&query=vscode-extensions
       bbenoist.nix
       jnoortheen.nix-ide
@@ -29,5 +35,16 @@
       irongeek.vscode-env
       yzhang.markdown-all-in-one
     ];
+    userSettings = {
+      "explorer.confirmDragAndDrop" = false;
+      #"editor.fontFamily" = config.stylix.fonts.monospace.name; # already set by stylix
+      #"editor.fontSize" = config.stylix.fonts.sizes.terminal;
+
+      "[nix]" = {
+        "enableLanguageServer" = true;
+        "serverPath" = "${pkgs.nil}/bin/nil";
+        "serverSettings" = ''"nil": {"formatting": { "command": ["alejandra", "--"] }}'';
+      };
+    };
   };
 }

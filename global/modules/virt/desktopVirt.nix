@@ -1,8 +1,13 @@
 {
+  lib,
   pkgs,
   mainUser,
   ...
 }: {
+  users.groups = {
+    kvm.members = [mainUser];
+    libvirtd.members = [mainUser];
+  };
   # virtualisation
   virtualisation = {
     #  --> libvirt:

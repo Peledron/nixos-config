@@ -20,6 +20,7 @@
 
   # global base config
   globalCoreConf = mkPath globalPath "coreConfig";
+  globalModulesPath = mkPath globalPath "modules";
 
   # desktop config
   desktopSharedCoreConf = mkPath desktopPath "coreConfig";
@@ -28,15 +29,17 @@
   globalImports = [
     inputs.disko.nixosModules.disko
     inputs.agenix.nixosModules.default
-    globalCoreConf
     "${inputs.nix-mineral}/nix-mineral.nix"
+    globalCoreConf
   ];
   impermanenceImports = [
     inputs.impermanence.nixosModules.impermanence
     inputs.persist-retro.nixosModules.persist-retro
+    "${globalModulesPath}/system/impermanence.nix"
   ];
   secureBootImports = [
     inputs.lanzaboote.nixosModules.lanzaboote
+    "${globalModulesPath}/system/secureBoot.nix"
   ];
   desktopImports = [
     inputs.stylix.nixosModules.stylix
