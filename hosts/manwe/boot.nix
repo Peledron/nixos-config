@@ -7,7 +7,7 @@
 }: {
   boot = {
     # [kernel]
-    kernelPackages = pkgs.unstable.linuxKernel.packages.linux_xanmod_latest; #config.boot.zfs.package.latestCompatibleLinuxPackages; # this will use the latest kernel that is patched with zfs module
+    kernelPackages = pkgs.linuxKernel.packages.linux_xanmod_latest; #config.boot.zfs.package.latestCompatibleLinuxPackages; # this will use the latest kernel that is patched with zfs module
     extraModulePackages = with config.boot.kernelPackages; [
       #kvmfr # This kernel module implements a basic interface to the IVSHMEM device for LookingGlass when using LookingGlass in VM->VM mode Additionally, in VM->host mode, it can be used to generate a shared memory device on the host machine that supports dmabuf, which allows for the IGPU to be better utilized for rendering the looking glass display
       v4l2loopback # for obs virtual camera support
@@ -18,11 +18,9 @@
     ''; # nested virtualization and obs-studio virtual camera support
 
     # [early load]
-    kernelParams = ["quiet" "8250.nr_uarts=0" "amd_pstate=guided" "amdgpu.si_support=1" "amdgpu.ppfeaturemask=0xffffffff"];
+    kernelParams = ["quiet" "8250.nr_uarts=0" "amd_pstate=guided"];
     # kernel parameters used at boot
-    # -> loglevel 3 only shows warnings
     # -> "8250.nr_uarts=0"  disables the serial devices at boot, there seems to be an issue slowing down boot times
-    # -> amdgpu.si_support=1 and amdgpu.ppfeaturemask=0xffffffff is to enable overclocking support
 
     consoleLogLevel = 1; # The kernel console loglevel. All Kernel Messages with a log level smaller than this setting will be printed to the console. severity is 0 as highest and 7 as lowest
     # see https://linuxconfig.org/introduction-to-the-linux-kernel-log-levels
@@ -30,9 +28,8 @@
     initrd = {
       # modules that are enabled during early load in the initrd (enables the modules in the kernel image that is loaded from the efi partition)
       availableKernelModules = ["nvme" "xhci_pci" "ahci" "usb_storage" "sd_mod"]; # this will load the needed device driver modules ?(if the devices are present) the drivers needed to boot must be present here (so nvme)
-      kernelModules = ["dm-snapshot" "aesni_intel" "cryptd"]; # kernelModules will allways be loaded, regardless of devices
+      kernelModules = ["aesni_intel" "cryptd"]; # kernelModules will allways be loaded, regardless of devices
       # aesni and cryptd enable the aes accelerated drivers on early boot, so the system boots faster,
-      # you can also add  "amdgpu" to make that driver initialize earlier during boot
       systemd = {
         enable = false; # -> will startup systemd during stage 1 (allows things like plymouth to load early for password entry)
         network.wait-online.enable = false;

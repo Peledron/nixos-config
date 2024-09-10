@@ -4,6 +4,9 @@
   ...
 }: {
   boot.initrd.kernelModules = ["amdgpu"];
+  boot.kernelParams = ["amdgpu.dpm=1" "amdgpu.ppfeaturemask=0xffffffff"];
+  # -> amdgpu.dpm=1 enables amd dynamic power management,
+  # ->  amdgpu.ppfeaturemask=0xffffffff is to enable overclocking support (powerplay)
   services.xserver.videoDrivers = ["amdgpu"];
   hardware = {
     # vulkan settings

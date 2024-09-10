@@ -16,13 +16,13 @@
     ++ [inputs.agenix.packages."${system}".default];
 
   #documentation.man.generateCaches = true; # slows things down but is needed for fish completions to work I think
-  /*
-    programs.nix-ld = {
+
+  programs.nix-ld = {
     # Run unpatched dynamic binaries on NixOS https://github.com/Mic92/nix-ld, very usefull for running specific software not available otherwise
     enable = true;
     #libraries = []; # there is a default set defined, you can add more here
   };
-  */
+
   programs.nh = {
     enable = true;
     # clean is an alternative to nix-collect-garbage

@@ -14,7 +14,7 @@
     remmina # spice,rdp and vnc client
 
     # [security]
-    eid-mw # belgium eid middleware
+    #eid-mw # belgium eid middleware
 
     # [backup-solution]
     vorta

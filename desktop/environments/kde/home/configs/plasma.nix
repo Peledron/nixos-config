@@ -123,19 +123,26 @@ in {
     };
 
     spectacle.shortcuts.captureRectangularRegion = "Print";
+    # input option is broken because of a missing library function in nixpkgs stable
+    /*
     input = {
       mice = [
         {
           name = "Logitech G300s Optical Gaming Mouse"; # This can be found by looking at the Name attribute in the section in /proc/bus/input/devices belonging to the mouse
           enable = true;
 
-          vendorId = "046d";
-          productId = "c246"; # in lsusb the productId is the second string in the ID section
+
+          #vendorId = "046d";
+          #productId = "c246"; # in lsusb the productId is the second string in the ID section
 
           acceleration = 0;
           accelerationProfile = "none";
         }
       ];
+    };
+    */
+    configFile = {
+      "kcminputrc"."Libinput/1133/49734/Logitech G300s Optical Gaming Mouse"."PointerAccelerationProfile" = 1;
     };
     shortcuts = {
       kmix = {

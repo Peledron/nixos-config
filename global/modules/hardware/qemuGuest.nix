@@ -8,14 +8,7 @@
   imports =
     [(modulesPath + "/installer/scan/not-detected.nix")]
     ++ [(modulesPath + "/profiles/qemu-guest.nix")]
-    ++ [(modulesPath + "/virtualisation/qemu-guest-agent.nix")]
-    # guest agent for qemu:
-    ;
-  #[(modulesPath + "/virtualisation/hyperv-guest.nix")] # guest agent for hyperv
-  # base:
-  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-  hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware; # change to amd if that is used insead
-  # ---
+    ++ [(modulesPath + "/virtualisation/qemu-guest-agent.nix")];
 
   # kernel modules:
   #boot.initrd.kernelModules = [ "kvm-amd" ];   # add kernel modules for amdgpu or nvidia_drm, etc..
@@ -28,17 +21,6 @@
     kernelModules = [];
     extraModulePackages = [];
   };
-  # ---
-
-  # nvidia:
-  /*
-  services.xserver.videoDrivers = [ "nvidia" ];
-  hardware.opengl.enable = true;
-
-  # if you need specific version (ie from unstable for stable branches)
-  # hardware.nvidia.package = config.boot.kernelPackages.nvidiapackages.stable;
-  */
-  # ----
 
   # virtualisation guest tools:
   # guest agent for spice:

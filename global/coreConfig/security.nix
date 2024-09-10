@@ -36,6 +36,10 @@
 
   nm-overrides = {
     # see https://raw.githubusercontent.com/cynicsketch/nix-mineral/main/nm-overrides.nix for a list of all overrides
+    compatibility = {
+      #allow-unsigned-modules.enable = true;
+      #no-lockdown.enable = true;
+    };
     performance = {
       allow-smt.enable = true;
     };
