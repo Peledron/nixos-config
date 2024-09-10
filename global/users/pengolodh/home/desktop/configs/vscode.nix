@@ -40,11 +40,12 @@
       #"editor.fontFamily" = config.stylix.fonts.monospace.name; # already set by stylix
       #"editor.fontSize" = config.stylix.fonts.sizes.terminal;
 
-      "[nix]" = {
+      "nix" = {
         "enableLanguageServer" = true;
         "serverPath" = "${pkgs.nil}/bin/nil";
         "serverSettings" = ''"nil": {"formatting": { "command": ["alejandra", "--"] }}'';
       };
+      "files.autoSave" = "afterDelay";
     };
   };
 }

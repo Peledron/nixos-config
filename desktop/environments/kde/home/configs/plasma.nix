@@ -5,6 +5,7 @@ in {
     # see all options on https://nix-community.github.io/plasma-manager/options.xhtml
     enable = true;
     overrideConfig = true; # makes plasma fully declerative, it destroys most config files each generation so you can lose config if not properly defined here
+
     fonts = {
       general = {
         family = config.stylix.fonts.sansSerif.name;
@@ -32,6 +33,7 @@ in {
         weight = "bold";
       };
     };
+
     workspace = {
       clickItemTo = "select";
       lookAndFeel = "Stylix";
@@ -43,6 +45,7 @@ in {
       iconTheme = config.gtk.iconTheme.name;
       splashScreen.theme = "None"; # None disables the splash screen
     };
+
     panels = [
       {
         location = "left";
@@ -101,6 +104,7 @@ in {
       };
       timeout = 25; # time in minutes
     };
+
     kwin = {
       effects = {
         # anim
@@ -117,7 +121,22 @@ in {
         # as we are using a vertical panel (see above) to save height I need to use a vertical layout of  virtual desktops, otherwise the switcher does not work
       };
     };
+
     spectacle.shortcuts.captureRectangularRegion = "Print";
+    input = {
+      mice = [
+        {
+          name = "Logitech G300s Optical Gaming Mouse"; # This can be found by looking at the Name attribute in the section in /proc/bus/input/devices belonging to the mouse
+          enable = true;
+
+          vendorId = "046d";
+          productId = "c246"; # in lsusb the productId is the second string in the ID section
+
+          acceleration = 0;
+          accelerationProfile = "none";
+        }
+      ];
+    };
     shortcuts = {
       kmix = {
         "increase_volume" = "Volume Up";
@@ -222,6 +241,8 @@ in {
         "show-on-mouse-pos" = "Meta+V";
       };
       "services/firefox.desktop"."new-window" = "Meta+W";
+      "applications/vesktop"."_launch" = "Meta+Q";
+
       "services/org.kde.konsole.desktop"."_launch" = "Meta+C";
       "services/org.kde.krunner.desktop"."_launch" = "Meta+Space";
       "services/org.kde.spectacle.desktop"."_launch" = "Meta+Shift+S";
@@ -230,7 +251,6 @@ in {
     configFile = {
       "baloofilerc"."General"."exclude folders" = "$HOME/Data/Downloads/,$HOME/Data/Windows/,$HOME/Games/";
       "dolphinrc"."DetailsMode"."PreviewSize" = 16;
-      "kcminputrc"."Libinput/1133/49734/Logitech G300s Optical Gaming Mouse"."PointerAccelerationProfile" = 1;
       "kded5rc"."Module-device_automounter"."autoload" = false;
       #"KDE"."AnimationDurationFactor" = "0.35355339059327373";
       "kwalletrc"."Wallet"."First Use" = false;

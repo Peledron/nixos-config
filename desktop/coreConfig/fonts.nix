@@ -13,6 +13,7 @@
     };
   };
   # the following should fix problems with fonts not being seen by flatpak
+
   system.fsPackages = [pkgs.bindfs];
   fileSystems = let
     mkRoSymBind = path: {
@@ -23,9 +24,9 @@
     aggregatedIcons = pkgs.buildEnv {
       name = "system-icons";
       paths = with pkgs; [
-        kdePackages.breeze-icons # for plasma
-        papirus-icon-theme
-        adwaita-icon-theme
+        #kdePackages.breeze-icons # for plasma
+        #papirus-icon-theme
+        #gnome.gnome-themes-extra
       ];
       pathsToLink = ["/share/icons"];
     };

@@ -7,7 +7,7 @@
   # a lot of these options come from: https://discourse.nixos.org/t/declare-firefox-extensions-and-settings/36265
   programs.firefox = {
     enable = true;
-    package = pkgs.unstable.wrapFirefox pkgs.unstable.firefox-unwrapped {
+    package = pkgs.wrapFirefox pkgs.firefox-unwrapped {
       extraPolicies = {
         # Check about:policies#documentation for options.
         CaptivePortal = false;
@@ -101,7 +101,7 @@
             "magnolia@12.34" = {
             install_url = "https://github.com/bpc-clone/bpc_updates/releases/download/latest/bypass_paywalls_clean-latest.xpi";
             installation_mode = "force_installed";
-          };
+          }; # got taken down by DMCA claim
           */
 
           # [youtube related]
@@ -180,29 +180,6 @@
         id = 0;
         name = mainUser;
         isDefault = true;
-
-        # extentions :
-        # --> only usefull if you dont use an existing firefox profile..., also these will be disabled by default so... IDK how to actually enable them
-        # find more at https://nur.nix-community.org/repos/rycee/
-        #extensions = with pkgs.nur.repos.rycee.firefox-addons; [
-        # [privacy]
-        #multi-account-containers # --> seems to break the syncronized containers if this is enabled
-        # privacy-badger
-        # localcdn
-        # # [ad-blocking]
-        # ublock-origin
-        # sponsorblock
-        # # [passwords]
-        # bitwarden
-        # # [QoL]
-        # darkreader
-        # #bypass-paywalls-clean
-        # #fastforward
-        # #firefox-translations # translate webpages does not exist, uses offline translator so this is prob a better choice anyway
-        # return-youtube-dislikes
-        # reddit-enhancement-suite
-        #];
-        # ---
         search = {
           force = true;
           default = "searx";
@@ -220,11 +197,13 @@
                       name = "safesearch";
                       value = "0";
                     }
+                    /*
                     {
                       name = "preferences";
                       # very long string ahead, contains all settings that are configued
                       value = "eJx1WMuS47oN_Zp4oxrXvZlUpbLw6lZufmD2KoiEJYxIQsOHbfXXB9TDIls9i1Y3AT7AA-AAbAURe_aE4dajQw_mYsD1CXq8QYp8MazA4A3dJQ8V28lgxFvP3Bu8kJWJ7eT5Nd9--IQXi3Fgffvff39cAtwxIHg13P64xAEt3gLl5RePIZkYWnatw2cboVsXa6ZWdGwe6G8MMryy7y_rqjbEWQzR4MeLQhfRt2Cod1b-XpeDfoBTqNvt1L_BBLz8SujnllwbKcr6ZSa5OzmKsqfybMwqXFdlo9QKyiwbGVTb7gPHEedw03gHsf6iKUBn5DR0PTnB7z899G0bWBGYxqIm-Mc__wIzibIx5NKrmUCNgldoW4pZ5xyEJh9KD2zbOxkMWTyNjSXv2ZcyQaCRbxMi-3KyA8VOw75lGNt2c6QMOzKUf9r2QRo5LKLYJTVi3FZ0U1etiJr6_th_ucdVKXXVWOyipsnjHT0K3ttGgmQIIhQIFGX5KnvqB4mPiyNmnD4NmyWMMizL700ooSGi_M07JW8IK0thcAPfS5FG_JCwaG0KpJZxiBBJdmGJP58lum_Egdn5xC6Ui1FsJX1MfdJIGiJUBwhy-afns8mFboWpgKvQVbcq5E-EfPBx_upyC5NMl2-20PJPmrJDjll_vgoT7tpzvsLuPLmnjgNEK7lXTvOITeB7fILHRpOXGM_Rvvrx7smNBKpcMM8FML3kEXS711ljh77fhqJDCRe2-5hZewRduGBljmYyMOeADoe5pcayhE0JoZWc9DmzSC2OexvXT6x16fUBOg_5s9kwSNahX3FfBfh6x6zsGq7E25is7g5LyfbJFyeRg8IgcvIncQpfy3ZrflIY-NhT8tGDn5scU4GKy2cFRg8uGLGpDDrDXYh49bv5QrGgJnD7kD8GKufbp-1MKXDT7g43AxxHsp4DllnNEwqdRizszSKPExeWrixGYWcQYYKNOosz38JzohyqPU--WlblyZQ64Z_HdqBHrSmeqNZzjFILWCKFsQi4dUM7B6pxFQJXKYTrNEvJ2tFUoPWcA9gm4Yg9Jyb6NrDBk3zdOudAkz9vqQUXSTVBySrwJSMKIfk45aJZWBJ5nDmyBMqY3boDHTNgsgekanIh3eCJVdg-qZvLBVK-X-C0p4rKMr11zGP4LPyVuMYpCwMnr87SCdWSpb8RH9fOYinqYYGunv3g-RMcTzZ3D1ZK51CZ_Of37_9-HfDopNGVbv5wYKtE4J-I4zkAN3kVYQvfTGQ4Hjs6eGReOTb0qZt7tHsiTog-pq7MoCUWZfmYi94Tu0I1g6runsdn23yS5C13NIJbkJQrZU9-0chOUqIJs2M3Z3o_cMDR15dbRaezVvGpWIWf03V6lsgKLalY2h4efSaFYq-HFJ6lydmwyZ61UmarGydrzXzsK0z4qJmOuoPm1pAbUjxKScUUY3_teWeFC7q6GVs4ZO26sil7e-QlLQurwb_oUcZpJ4miwE4Hf-fVW80t-yrXfx6f8V2klSMWyQnwzLE5OcoarQa8j5w5dUdLOqDcbs11w_MgoRq5VtmIcK53zZD2Gn10GRWPCE5zBT_G2bIT0IpouhtSY1kEZTqV9a3PlLvXTyn_x7FrOS8P2Ar8CahNXkG1yU5gbfIvqHXYzlsOH8VsCGV9RWvnZifwlZ7q-rHOSAH973RSBuPvdHlngeKs_vi21fy61ucmgO-yzEkqhRINcUD_qMLNgnT9mt1vjHurBwiDlIcvZuh3t0AvZTjpw4FSq0bCvVnKsQjSEebON2CsSHzXSTWWqICtg671whWIUfrVvWmddCbIY9Ik76hcbTct5YcchjJ-p5xvhceX8XUx97B6oty6dVCgKn2gEiSk58393R7AYqzN2xUWzNPOB7-ekj0l0ougDsRVdIrZVXwKTw_S_zWdvCVC2ZMGqS2wd0kH03ISuqndIQ2CGlno4G74ebzqUpdcTHubmkFz0gauT8ev2ow0oU_h7VZ5U5OWJt-vIbpDllyQbjsM5csLhppoF0ENyczpU917S95PLyAjbJJjpJj2IJuby6OQCblWO4sgL1mypXyI5eySaLue3FAqT84olZB0bvNLWt9VCxpFX0EqfrCrmMtKibXyRmreHbo-dxp1D-O1o_G4hZBkzO-x7JJP2fkEYwYpha68V4z-Su5TsTzffxWfbr6K69oT_7W_64__XUwmSb0Mtxyar-s2ug7Cc9JLYSu5bmANqC8nhJOGoV3_i_P00m6f1AHNvSV355NGgrOVoqfGdyn_2jYFRiVxAPuzVTmS18F5e7-8AtvkjRhnc4Kd5uTC0Aohi07y6yJdufDZ7f8e-zpu";
                     }
+                    */
                   ];
                 }
               ];

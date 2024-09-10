@@ -142,7 +142,7 @@ in {
       lib.nixosSystem {
         inherit system pkgs;
         specialArgs = {
-          inherit inputs self hostName mainUser extraModules extraVar isImpermanent secureBoot; # inherit the variables
+          inherit inputs self hostName mainUser extraModules extraVar secureBoot; # inherit the variables
         };
         modules =
           lib.flatten [

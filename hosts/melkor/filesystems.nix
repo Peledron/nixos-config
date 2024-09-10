@@ -11,13 +11,8 @@
   #boot.initrd.luks.devices."nixos-main".device = "/dev/disk/by-label/crypted-main-nixos";
   # -> encryption does not really make sense inside the vm, it is best to encrypt the qcow2 image itself or the drive it resides on, maybe for thin-provisioning?
 
-  # btrfs subvolumes: @, @var, @tmp, @srv, @opt, @nix, @home, @usr-local
-  # --> see https://nixos.wiki/wiki/Btrfs for a full guide
-  # --> note that the only subvolumes we really need are root (@ in this case), nix (@nix, where the nix store and other nix functions are, arguably more important then @root) and home (@home)
-  # --> you should keep snapshots of @ and @nix and (depending on preference) @home
-
   # as this is vm we will use disko to format the disk, this would take definition with UUID for a system with multible os's (like nixos-laptop-asus for example)
-  disko.devices = lib.mkForce {
+  disko.devices = {
     disk = {
       root = {
         type = "disk";
@@ -60,22 +55,7 @@
                   };
                   # "home/pengolodh" {}; # Sub(sub)volume doesn't need a mountpoint as its parent is mounted
 
-                  # impermanence
-                  "/persist" = {
-                    mountpoint = "/persist";
-                    mountOptions = ["compress=zstd" "noatime"];
-                  };
-                  "/persist/libvirt" = {
-                    mountpoint = "/var/lib/libvirt"; # im going to do this entire folder, this is put into a different subvol so I can disable compression and set the commit to a higher value, to increase performance
-                    mountOptions = ["noatime" "commit=120"];
-                  };
-                  "/log" = {
-                    mountpoint = "/var/log";
-                    mountOptions = ["compress=zstd" "noatime"];
-                  };
-                  # ---
-
-                  "/swap" = {
+                  "/nix/swap" = {
                     mountpoint = "/.swapvol"; # make it hidden cuz it has no use not being so
                     swap = {
                       swapfile.size = "4G";

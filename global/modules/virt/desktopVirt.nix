@@ -5,6 +5,7 @@
   ...
 }: {
   users.groups = {
+    # add mainuser to kvm and libvirtd group so using virt-manager is more straightforward
     kvm.members = [mainUser];
     libvirtd.members = [mainUser];
   };

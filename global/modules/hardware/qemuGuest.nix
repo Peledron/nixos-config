@@ -23,7 +23,7 @@
     initrd = {
       # modules that are enabled in the initrd (when the kernel is loaded from the efi partition)
       availableKernelModules = ["uhci_hcd" "ehci_pci" "ahci" "virtio_pci" "virtio_scsi" "sd_mod" "sr_mod"];
-      kernelModules = ["kvm-amd"];
+      kernelModules = ["kvm-amd" "aes"];
     };
     kernelModules = [];
     extraModulePackages = [];

@@ -21,7 +21,6 @@
     ports = [22001];
   };
   networking.firewall.allowedTCPPorts = config.services.openssh.ports;
-  # ----
 
   # fail2ban
   services.fail2ban = {
@@ -49,11 +48,9 @@
 
   # irqbalance
   services.irqbalance.enable = true; # distributes interrupts across processors and cores
-  # ---
 
   # zramswap
   zramSwap.enable = true; # will create a compressed swapdevice with half the system ram by default
-  # ---
 
   # oomkiller
   systemd = {
@@ -66,6 +63,7 @@
       enableUserSlices = true;
     };
   };
+
   services.locate = {
     enable = true;
     #package = pkgs.plocate;

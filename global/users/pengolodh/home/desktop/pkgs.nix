@@ -22,7 +22,7 @@
     # [torrenting]
     qbittorrent
     # [chat]
-    unstable.vesktop
+    vesktop
 
     # [steaming]
     easyeffects
@@ -31,7 +31,8 @@
 
     # [mail]
     thunderbird
-
+    # [note-taking]
+    qownnotes
     # [file management]
     #rclone-browser # qt rclone frontend, might not work, repo seems to be dead but author seems to be alive so who knows
     freefilesync # syncronisation software

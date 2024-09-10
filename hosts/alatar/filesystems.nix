@@ -44,10 +44,6 @@
                   "/boot" = {
                     mountpoint = "/boot";
                   };
-                  "/root" = {
-                    mountpoint = "/";
-                    mountOptions = ["compress=zstd" "noatime"];
-                  };
                   "/nix" = {
                     mountpoint = "/nix";
                     mountOptions = ["compress=zstd" "noatime"];
@@ -57,13 +53,12 @@
                     mountOptions = ["compress=zstd" "noatime"];
                   };
                   # "home/pengolodh" {}; # Sub(sub)volume doesn't need a mountpoint as its parent is mounted
-
                   # impermanence
-                  "/persist" = {
-                    mountpoint = "/persist";
+                  "/nix/persist" = {
+                    mountpoint = "/nix/persist";
                     mountOptions = ["compress=zstd" "noatime"];
                   };
-                  "/persist/libvirt" = {
+                  "/nix/persist/libvirt" = {
                     mountpoint = "/var/lib/libvirt"; # im going to do this entire folder, this is put into a different subvol so I can disable compression and set the commit to a higher value, to increase performance
                     mountOptions = ["noatime" "commit=120"];
                   };

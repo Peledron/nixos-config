@@ -1,6 +1,7 @@
 {...}: {
   imports = [
     ./conf.nix
+    ./networking.nix
     ./pkgs.nix
     ./security.nix
     ./locale.nix

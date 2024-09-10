@@ -9,10 +9,10 @@
   users = {
     users = {
       pengolodh = {
-        uid = 1000;
+        uid = 1000; # make this users id allways be 1000
         isNormalUser = true;
         home = "/home/pengolodh"; # you can define a different home, /home/$USER is used by default
-        hashedPasswordFile = config.age.secrets.users_pengolodh_password.path; # make sure that the password is hashed in the age file
+        hashedPasswordFile = config.age.secrets.users_pengolodh_password.path; # make sure that the password is hashed in the age file, also that the host ssh keys are correct
         extraGroups = ["wheel" "video" "networkmanager"]; # add user to groups for extra permissions like sudo access
 
         openssh = {

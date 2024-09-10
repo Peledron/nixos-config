@@ -28,10 +28,11 @@ in {
     # main machine
     hostName = "manwe";
     isImpermanent = true;
+    secureBoot = true;
     desktopEnv = "kde";
     extraModules = {
       # see ./hosts/extraModules.nix for all options
-      theme = "da-one-gray"; # see base16 themes for available options
+      theme = "da-one-gray"; # see base16 themes for available options, the name must be exactly the same
       hardware = {
         gpu = "amd";
         keychronKeyboard = true;
@@ -68,10 +69,12 @@ in {
       theme = "da-one-gray"; # see base16 themes for available options
       hardware = {
         gpu = "amd";
+        bluetooth = true;
         asusLaptop = true;
       };
     };
     extraVar = {
+      disks.linuxRoot = "";
     };
   };
 

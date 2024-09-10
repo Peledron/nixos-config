@@ -11,5 +11,7 @@
     kdePackages.discover # flatpak installer
     kdePackages.okular # pdf
     haruna # video player
+
+    xwaylandvideobridge # allow streaming to xwayland windows
   ];
 }
