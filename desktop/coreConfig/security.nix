@@ -1,14 +1,11 @@
 {lib, ...}: {
-  nm-overrides = {
-    performance.no-pti.enable = true;
+  nix-mineral.overrides = {
+    performance.no-pti = true;
     desktop = {
-      allow-multilib.enable = true; # needed for steam
-      allow-unprivileged-userns.enable = true;
-      usbguard-disable.enable = lib.mkDefault true;
-      yama-relaxed.enable = true;
-      #hideproc-relaxed.enable = true;
-      #home-exec.enable = true;
-      #tmp-exec.enable = true;
+      allow-multilib = true; # needed for steam (allows 32bit)
+      allow-unprivileged-userns = true;
+      disable-usbguard = lib.mkDefault true;
+      yama-relaxed = true;
     };
   };
 }

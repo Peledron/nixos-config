@@ -43,6 +43,7 @@ in {
         desktop = true; # enables libvirt, qemu-kvm and installs virt-machine-manager
         podman = true;
       };
+      #gaming.steam = true; # adds steam, gamescope and gamemode
     };
     extraVar = {
       disks = {

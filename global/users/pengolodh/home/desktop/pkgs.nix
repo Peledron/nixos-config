@@ -43,16 +43,16 @@
     boxbuddy # gui for distrobox (requires /global/modules/virt/podman.nix to be included)
 
     # [programming langs]
-    python3
+    #python3
     #go
     #openjdk
     #gcc
-    rustc
+    #rustc
 
     # [programming tools]
-    meld # qt diff tool
-    cargo
-    pipx
+    #meld # qt diff tool
+    #cargo
+    #pipx
     rust-analyzer # rust code lsp
 
     # [build tools]
@@ -69,6 +69,7 @@
     # it is recommened to use the same pkgs version as the graphics driver, aka pkgs.unstable or pkgs (which is based on stable)
     # [gaming]
     #heroic # -> i am using the flatpak
+    steam
     prismlauncher
     glfw-wayland-minecraft
     # [creative]

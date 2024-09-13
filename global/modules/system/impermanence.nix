@@ -11,7 +11,7 @@ in {
   # if the system uses a btrfs snapshotting or zfs snapshotting ephemeral system that will need to be specified in the host/impermanence.nix file ( as that is host specific)
   # the reason why you wouldnt want tmpfs for / on all systems is that it requires more memory
   # we use disko to define the system disks we want nixos to be installed on, this way they will be partitioned automatically when we use a tool like nixos-anywhere
-  disko.devices = lib.mkDefault {
+  disko.devices = {
     disk.nixosRoot = {
       device = extraVar.disks.linuxRoot;
       type = "disk";
@@ -118,9 +118,9 @@ in {
       ++ lib.optionals config.virtualisation.libvirtd.enable ["/var/lib/libvirt" "/etc/libvirt"];
     files =
       [
-        #"/etc/machine-id" # -> the nix-mineral module uses a pregenerated machine-id
         "/etc/adjtime" # # systemd ntp time adjust
-
+        "/etc/machine-id"
+        #(lib.mkIf (!config.nix-mineral.enable) "/etc/machine-id") # -> the nix-mineral module uses a pregenerated machine-id
         (lib.mkIf config.services.locate.enable "/var/cache/locatedb") # locatedb cache, the service seems to be unable to replace this file for some reason (ownership maybe?)
       ]
       ++ lib.optionals

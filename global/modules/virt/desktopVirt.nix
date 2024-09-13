@@ -44,5 +44,5 @@
     looking-glass-client # best to use this with the kvmfr module for better performance if passing a dedicated gpu and using an igpu on the host
   ];
   programs.virt-manager.enable = true;
-  nm-overrides.compatibility.ip-forward.enable = true; # ip forwarding s used by virt-manager and therefore it needs to be allowed
+  #nix-mineral.overrides.compatibility.allow-ip-forward = true; # ip forwarding s used by virt-manager and therefore it needs to be allowed
 }

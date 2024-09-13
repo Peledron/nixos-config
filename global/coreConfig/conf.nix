@@ -6,6 +6,7 @@
   mainUser,
   ...
 }: {
+  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.enableRedistributableFirmware = true; # enables the linux-firmware package (and others), needed for a lot of hardware
   system = {
     stateVersion = "23.11"; # initial system state

@@ -16,7 +16,8 @@
     agenix.url = "github:ryantm/agenix";
     # security hardeningf
     nix-mineral = {
-      url = "github:cynicsketch/nix-mineral";
+      url = "github:Peledron/nix-mineral";
+      #url = "github:cynicsketch/nix-mineral";
       flake = false;
     };
     # impermanent setup

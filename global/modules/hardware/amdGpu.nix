@@ -7,9 +7,19 @@
   boot.kernelParams = ["amdgpu.dpm=1" "amdgpu.ppfeaturemask=0xffffffff"];
   # -> amdgpu.dpm=1 enables amd dynamic power management,
   # ->  amdgpu.ppfeaturemask=0xffffffff is to enable overclocking support (powerplay)
+
   services.xserver.videoDrivers = ["amdgpu"];
+
   hardware = {
+    /*
+    amdgpu = {
+      initrd.enable = true; # sets boot.initrd.kernelModules = ["amdgpu"];
+      opencl.enable = true; # adds the rocm stack (clr and clr.icd)
+    };
+    */
+    # this is for future nixos
     # vulkan settings
+    # -> renamed to graphics in future nixos
     opengl = {
       enable = true;
       # enable vulkan drivers:
@@ -23,7 +33,7 @@
         rocmPackages.clr
         rocmPackages.clr.icd
         rocmPackages.rocm-runtime
-
+ 
         amdvlk # amd pro driver -> in env RADV is enabled so this will only be used as fallback I think
       ];
       extraPackages32 = with pkgs; [

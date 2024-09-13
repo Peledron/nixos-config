@@ -33,22 +33,20 @@
     doas-sudo-shim # make sudo command work for scripts (and myself)
     vulnix # scan for CVEs on system
   ];
-
-  nm-overrides = {
-    # see https://raw.githubusercontent.com/cynicsketch/nix-mineral/main/nm-overrides.nix for a list of all overrides
-    compatibility = {
-      #allow-unsigned-modules.enable = true;
-      #no-lockdown.enable = true;
+  /*
+  nix-mineral = {
+    enable = true;
+    overrides = {
+      # see https://github.com/cynicsketch/nix-mineral/blob/main/nix-mineral.nix for a list of all overrides
+      performance = {
+        allow-smt = true;
+      };
+      security = {
+        lock-root = true;
+        disable-intelme-kmodules = true;
+        disable-tcp-window-scaling = true; # unless someone gets on my network ddos protection is not needed
+      };
     };
-    performance = {
-      allow-smt.enable = true;
-    };
-    security = {
-      lock-root.enable = true;
-      disable-intelme-kmodules.enable = true;
-      disable-tcp-window-scaling.enable = true; # unless someone gets on my network ddos protection is not needed
-    };
-    # desktop.doas-sudo-wrapper.enable = true; # enableing this breaks nix helper as it needs the doas-sudo-shim to work properly
   };
   # add a systemd.tmpfiles rule to ignore certain paths that could slow the boot process down
   systemd.tmpfiles.settings = {
@@ -96,4 +94,5 @@
       ];
     };
   };
+  */
 }

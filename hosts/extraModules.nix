@@ -19,6 +19,10 @@
       desktop = false;
       podman = false;
     };
+    gaming = {
+      steam = false;
+      vr = false;
+    };
   };
 
   mergedModules =
@@ -27,12 +31,14 @@
     // {
       hardware = defaultExtraModules.hardware // extraModules.hardware;
       virt = defaultExtraModules.virt // extraModules.virt;
+      #gaming = defaultExtraModules.gaming // extraModules.gaming;
     };
 
   modulesPath = "${self}/global/modules";
   hwModulesPath = "${modulesPath}/hardware";
   virtModulesPath = "${modulesPath}/virt";
   themingModulesPath = "${modulesPath}/theming";
+  programModulesPath = "${modulesPath}/programs";
 
   preconfigThemes = ["nord"]; #
   preconfigThemeImport = theme: lib.optional (builtins.elem theme preconfigThemes) "${themingModulesPath}/${theme}.nix"; # theme is the input, if that input matches any of the themes in the preconfigthemes list then import that module
@@ -49,6 +55,9 @@
     # virt
     (lib.optional mergedModules.virt.desktop "${virtModulesPath}/desktopVirt.nix")
     (lib.optional mergedModules.virt.podman "${virtModulesPath}/podman.nix")
+    # gaming
+    #(lib.optional mergedModules.gaming.steam "${programModulesPath}/steam.nix")
+    #(lib.optional mergedModules.gaming.vr "${programModulesPath}/vr.nix")
     # theming
     (lib.optional (mergedModules.theme != "none") "${themingModulesPath}/base16.nix")
     (preconfigThemeImport mergedModules.theme)
